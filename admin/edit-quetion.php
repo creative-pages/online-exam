@@ -2,10 +2,12 @@
 
 <?php
     if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_all_questions'])) {
-        $total_add_questions = $_POST['total_questions'];
+        $total_update_questions = $_POST['total_questions'];
+        $total_new_questions = $_POST['total_new_questions'];
         $exam_id = $_POST['exam_id'];
 
-        for ($i=1; $i <= $total_add_questions; $i++) {
+        for ($i=1; $i <= $total_update_questions; $i++) {
+            $serial = $_POST['serial'.$i];
             $question_id = $_POST['question_id'.$i];
             $question = $_POST['question'.$i];
 
@@ -18,8 +20,27 @@
             $description = $_POST['description'.$i];
 
             
-            $common->update("`questions`", "`question` = '$question', `option_one` = '$option_one', `option_two` = '$option_two', `option_three` = '$option_three', `option_four` = '$option_four', `answer` = '$answer', `description` = '$description'", "`id` = '$question_id'");
+            $common->update("`questions`", "`serial` = '$serial', `question` = '$question', `option_one` = '$option_one', `option_two` = '$option_two', `option_three` = '$option_three', `option_four` = '$option_four', `answer` = '$answer', `description` = '$description'", "`id` = '$question_id'");
         }
+
+        for ($i=1; $i <= $total_new_questions; $i++) {
+            $new_serial = $_POST['new_serial'.$i];
+            $new_question = $_POST['new_question'.$i];
+
+            $new_option_one = $_POST['new_option_one'.$i];
+            $new_option_two = $_POST['new_option_two'.$i];
+            $new_option_three = $_POST['new_option_three'.$i];
+            $new_option_four = $_POST['new_option_four'.$i];
+
+            $new_answer = $_POST['new_answer'.$i];
+            $new_description = $_POST['new_description'.$i];
+
+            
+            $common->insert("`questions`(`serial`, `exam_id`, `question`, `option_one`, `option_two`, `option_three`, `option_four`, `answer`, `description`)", "('$new_serial', '$exam_id', '$new_question', '$new_option_one', '$new_option_two', '$new_option_three', '$new_option_four', '$new_answer', '$new_description')");
+        }
+
+        $final_total_question = $total_update_questions + $total_new_questions;
+        $common->update("`add_exam`", "`tquetion` = '$final_total_question'", "`id` = '$exam_id'");
     }
 
 ?>
@@ -198,6 +219,7 @@
                 </table>
                 <input type="hidden" name="exam_id" value="<?=$xmbyid['id'];?>">
                 <input type="hidden" name="total_questions" value="<?=$xmbyid['tquetion'];?>">
+                <input type="hidden" id="total_new_questions" name="total_new_questions" value="0">
                 <div id="all_update_questions">
                 <?php
                     if($all_question){
@@ -205,10 +227,11 @@
                         while($values = $all_question->fetch_assoc()) {
                     ?>      
                     <input type="hidden" name="question_id<?= $i; ?>" value="<?=$values['id'];?>">
-                    <div class="row mb-3">
+                    <div class="row">
+                        <input type="hidden" name="serial<?= $i; ?>" class="set_serial" value="<?= $i; ?>">
                         <div class="col-12">
                             <div class="input-group mb-2">
-                                <input type="text" name="question<?= $i; ?>" class="form-control" aria-label="Text input with checkbox" value="<?=$values['question'];?>">
+                                <input type="text" name="question<?= $i; ?>" class="form-control" placeholder="Write question" aria-label="Text input with checkbox" value="<?=$values['question'];?>">
                             </div>
                         </div>
                         <div class="col-lg-3">
@@ -272,21 +295,14 @@
                         </div>
 
                     </div>
+                    <button type="button" class="btn btn-info btn-sm mb-4 addMoreQuestion">
+                        <i class="fa fa-plus-square"></i>
+                    </button>
                     <?php
                     $i++;
                      }
                 }
                 ?>
-                </div>
-
-                <br>
-                <div class="row">
-                    <div class="col-6">
-                    <input type="number" class="form-control" id="new_questions_quantity" placeholder="How many new questions?">
-                    </div>
-                    <div class="col-6">
-                    <button type="button" class="btn btn-primary" onclick="newQuestionsAdd();">Add more question</button>
-                    </div>
                 </div>
                 </form>
             </div>
@@ -671,82 +687,31 @@
                 var id = $(this).data('value');
                 $("#description_" + id).toggle();
             });
+            $(document).on('click','.new_description_button_toggle', function(){
+                var id = $(this).data('values');
+                $("#new_description_" + id).toggle();
+            });
         });
     </script>
 
 <script>
     hljs.initHighlightingOnLoad();
 
-    function newQuestionsAdd() {
-        var new_questions = '';
-        var new_questions_quantity = $('#new_questions_quantity').val();
-        for (var i = 0; i < new_questions_quantity; i++) {
-        new_questions += '<div class="row mb-3">
-                        <div class="col-12">
-                            <div class="input-group mb-2">
-                                <input type="text" name="new_question'+ i +'" class="form-control" aria-label="Text input with checkbox" placeholder="Quetion:">
-                            </div>
-                        </div>
-                        <div class="col-lg-3">
-                            <div class="input-group">
-                                <input type="text" class="form-control" name="new_option_one'+ i +'" aria-label="Text input with checkbox" placeholder="Option One">
-                                <div class="input-group-text">
-                                    <div class="form-check">
-                                        <input type="radio" class="form-check-input" id="checkbox4" name="new_answer'+ i +'" value="option_one" required="">
-                                        <label class="form-check-label" for="checkbox4"></label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+    $('.addMoreQuestion').click(function () {
+        var total_new_questions = $('#total_new_questions').val();
+        var i = parseInt(total_new_questions) + parseInt(1);
 
-                        <div class="col-lg-3">
-                            <div class="input-group">
-                                <input type="text" class="form-control" name="new_option_two'+ i +'" aria-label="Text input with checkbox" placeholder="Option Two">
-                                <div class="input-group-text">
-                                    <div class="form-check">
-                                        <input type="radio" class="form-check-input" id="checkbox4" name="new_answer'+ i +'" value="option_two" required="">
-                                        <label class="form-check-label" for="checkbox4"></label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+        $('#total_new_questions').val(i)
 
-                        <div class="col-lg-3">
-                            <div class="input-group">
-                                <input type="text" class="form-control" name="new_option_three'+ i +'" aria-label="Text input with checkbox" placeholder="Option Three">
-                                <div class="input-group-text">
-                                    <div class="form-check">
-                                        <input type="radio" class="form-check-input" id="checkbox4" name="new_answer'+ i +'" value="option_three" required="">
-                                        <label class="form-check-label" for="checkbox4"></label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+        var new_item = '<div class="row mb-4"> <input type="hidden" name="new_serial'+ i +'" class="set_serial"> <div class="col-12"> <div class="input-group mb-2"> <input type="text" name="new_question'+ i +'" class="form-control" placeholder="Write question" aria-label="Text input with checkbox" value=""> </div> </div> <div class="col-lg-3"> <div class="input-group"> <input type="text" class="form-control" name="new_option_one'+ i +'" aria-label="Text input with checkbox" value=""> <div class="input-group-text"> <div class="form-check"> <input type="radio" class="form-check-input" id="checkbox4" name="new_answer'+ i +'" value="option_one" required=""> <label class="form-check-label" for="checkbox4"></label> </div> </div> </div> </div> <div class="col-lg-3"> <div class="input-group"> <input type="text" class="form-control" name="new_option_two'+ i +'" aria-label="Text input with checkbox" value=""> <div class="input-group-text"> <div class="form-check"> <input type="radio" class="form-check-input" id="checkbox4" name="new_answer'+ i +'" value="option_two" required=""> <label class="form-check-label" for="checkbox4"></label> </div> </div> </div> </div> <div class="col-lg-3"> <div class="input-group"> <input type="text" class="form-control" name="new_option_three'+ i +'" aria-label="Text input with checkbox" value=""> <div class="input-group-text"> <div class="form-check"> <input type="radio" class="form-check-input" id="checkbox4" name="new_answer'+ i +'" value="option_three" required=""> <label class="form-check-label" for="checkbox4"></label> </div> </div> </div> </div> <div class="col-lg-3"> <div class="input-group"> <input type="text" class="form-control" name="new_option_four'+ i +'" aria-label="Text input with checkbox" value=""> <div class="input-group-text"> <div class="form-check"> <input type="radio" class="form-check-input" id="checkbox4" name="new_answer'+ i +'" value="option_four" required=""> <label class="form-check-label" for="checkbox4"></label> </div> </div> </div> </div> <div class="col-12"> <button  data-values="'+ i +'" type="button" class="btn btn-info btn-sm my-1 new_description_button_toggle">Add Description</button> </div> <div id="new_description_'+ i +'" class="col-12" style="display: none;"> <div class="input-group mb-2"> <textarea name="new_description'+ i +'" class="form-control" placeholder="Description (optional):"></textarea> </div> </div> </div>';
 
-                        <div class="col-lg-3">
-                            <div class="input-group">
-                                <input type="text" class="form-control" name="new_option_four'+ i +'" aria-label="Text input with checkbox" placeholder="Option Four">
-                                <div class="input-group-text">
-                                    <div class="form-check">
-                                        <input type="radio" class="form-check-input" id="checkbox4" name="new_answer'+ i +'" value="option_four" required="">
-                                        <label class="form-check-label" for="checkbox4"></label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <button  data-value="<?= $i; ?>" type="button" class="btn btn-info btn-sm my-1 description_button_toggle">Add Description</button>
-                        </div>
-                        <div id="description_<?= $i; ?>" class="col-12" style="display: none;">
-                            <div class="input-group mb-2">
-                                <textarea name="new_description'+ i +'" class="form-control" placeholder="Description (optional):"></textarea>
-                            </div>
-                        </div>
 
-                    </div>';
-        }
-        $('#all_update_questions').append(new_questions);
-    }
+        $(this).after(new_item);
+
+        $(".set_serial").each(function(index, el) {
+            $(this).val(index+1);
+        });
+    });
 </script>
 </body>
 
