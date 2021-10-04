@@ -1,8 +1,9 @@
 <?php include('inc/header.php'); ?>
 <?php
-    if(isset($_GET['dltsub'])){
-        $id = $_GET['dltsub'];
-        $dltsub = $all->Dltsub($id);
+    if(isset($_GET['view'])){
+        $id = $_GET['view'];
+       $query = $common->select("`add_exam`","`id`='$id'");
+       $exam = mysqli_fetch_assoc($query);
 
     }
 ?>
@@ -53,57 +54,85 @@
             <!-- Container fluid  -->
             <!-- -------------------------------------------------------------- -->
             <div class="container-fluid">
-                <div class="quetion" style="width: 600px;margin:0px auto;">
+                <div class="quetion" style="width: 700px;margin:0px auto;">
+                    <div class="main bg-white">
+                        <div class="examheader text-center mt-2">
+                            <h3 class= ''style="margin-top:-23px;"><?=$exam['examname'];?></h1>
+                            <h3>Subject:Phy</h3>
+                        </div>
+                        <div class="row mx-1">
+                            <div class="col-4">
+                                <h3 class="text-muted">Time:<?=$exam['duration'];?> minutes</h3>
+                            </div>
+                            <div class="col-4">
+                                <h3 class="text-muted">Quetion:<?=$exam['tquetion'];?></h3>
+                            </div>
+                            <div class="col-4">
+                                <h3 class="text-muted">Date:<?=$exam['exmdate'];?></h3>
+                            </div>
+                        </div>  
+                        
+                    </div>
+                    
+                   <?php
+                   $select = $common->select("`questions`","`exam_id` = '$id'");
+                   if($select){
+                       $i =0;
+                       while($viewquetion = mysqli_fetch_assoc($select)){
+                           $i++;
+
+                   
+                   ?>
                     <div class="quetion mb-2 bg-white">
                         <div class="row mx-2">
                             <div class="col-col-12">
-                                <h4 class="my-2">jgjggkkkglglglglglgllglg</h4>
+                                <h3 class="my-2"><?=$i?>.<?=$viewquetion['question'];?></h3>
                             </div>
                             <div class="col-md-12">
-                                <input type="checkbox" class="material-inputs" id="basic_checkbox_2" class="material-inputs filled-in" checked />
-                                <label for="basic_checkbox_2">Filled In</label>
+                                <?php
+                                    if($viewquetion['answer']=='option_one'){ ?>
+                                         <input type="checkbox" class="material-inputs" id="basic_checkbox_2" class="material-inputs filled-in" checked />
+                                        <label for="basic_checkbox_2">a)<?=$viewquetion['option_one'];?></label>
+
+                                   <?php } else { ?> 
+                                      <nbsp>
+                                    <label for="basic_checkbox_2">a)<?=$viewquetion['option_one'];?></label>
+                                    <?php } ?>
                             </div>
                             <div class="col-md-12">
-                                <input type="checkbox" class="material-inputs" id="basic_checkbox_2" class="material-inputs filled-in" checked />
-                                <label for="basic_checkbox_2">Filled In</label>
+                            <?php
+                                    if($viewquetion['answer']=='option_two'){ ?>
+                                         <input type="checkbox" class="material-inputs" id="basic_checkbox_2" class="material-inputs filled-in" checked />
+                                         <label for="basic_checkbox_2">b)<?=$viewquetion['option_one'];?></label>
+
+                                   <?php } else { ?> 
+                                    <label for="basic_checkbox_2">b)<?=$viewquetion['option_one'];?></label>
+                                    <?php } ?>
                             </div>
                             <div class="col-md-12">
-                                <input type="checkbox" class="material-inputs" id="basic_checkbox_2" class="material-inputs filled-in" checked />
-                                <label for="basic_checkbox_2">Filled In</label>
+                            <?php
+                                    if($viewquetion['answer']=='option_three'){ ?>
+                                         <input type="checkbox" class="material-inputs" id="basic_checkbox_2" class="material-inputs filled-in" checked />
+                                        <label for="basic_checkbox_2">c)<?=$viewquetion['option_one'];?></label>
+
+                                   <?php } else { ?> 
+                                    <label for="basic_checkbox_2">c)<?=$viewquetion['option_one'];?></label>
+                                    <?php } ?>
                             </div>
                             <div class="col-md-12">
-                                <input type="checkbox" class="material-inputs" id="basic_checkbox_2" class="material-inputs filled-in" checked />
-                                <label for="basic_checkbox_2">Filled In</label>
+                            <?php
+                                    if($viewquetion['answer']=='option_four'){ ?>
+                                         <input type="checkbox" class="material-inputs" id="basic_checkbox_2" class="material-inputs filled-in" checked />
+                                        <label for="basic_checkbox_2">d)<?=$viewquetion['option_one'];?></label>
+
+                                   <?php } else { ?> 
+                                    <label for="basic_checkbox_2">d)<?=$viewquetion['option_one'];?></label>
+                                    <?php } ?>
                             </div>
                         </div>
 
                     </div>
-
-                    <div class="quetion mb-2 bg-white">
-                        <div class="row mx-2">
-                            <div class="col-col-12 ">
-                                <h4 class="my-2">jgjggkkkglglglglglgllglg</h4>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="checkbox" class="material-inputs" id="basic_checkbox_2" class="material-inputs filled-in" checked />
-                                <label for="basic_checkbox_2">Filled In</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="checkbox" class="material-inputs" id="basic_checkbox_2" class="material-inputs filled-in" checked />
-                                <label for="basic_checkbox_2">Filled In</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="checkbox" class="material-inputs" id="basic_checkbox_2" class="material-inputs filled-in" checked />
-                                <label for="basic_checkbox_2">Filled In</label>
-                            </div>
-                            <div class="col-md-12">
-                                <input type="checkbox" class="material-inputs" id="basic_checkbox_2" class="material-inputs filled-in" checked />
-                                <label for="basic_checkbox_2">Filled In</label>
-                            </div>
-                        </div>
-
-                    </div>
-                    
+                    <?php }}?>
 
                 </div>
             </div>
