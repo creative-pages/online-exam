@@ -1,21 +1,10 @@
 <?php include('inc/header.php'); ?>
 <?php
-    if ($_SERVER["REQUEST_METHOD"]== "POST" && isset($_POST['save'])) {
-        $addexam=$exam->AddExam($_POST);
-    }
-    if(isset($_GET['editxm'])){
-        $id =$_GET['editxm'];
+    if(isset($_GET['dltsub'])){
+        $id = $_GET['dltsub'];
+        $dltsub = $all->Dltsub($id);
 
-        $exambyid = $exam->ExamById($id);
-        
-            $value = $exambyid->fetch_assoc();
-        
     }
-    if(isset($_GET['dltque'])){
-        $dltid = $_GET['dltque'];
-        $dltXmQue = $exam->DltXmQue($dltid);
-    }
-
 ?>
 
 <body>
@@ -51,117 +40,134 @@
         <!-- -------------------------------------------------------------- -->
         <!-- -------------------------------------------------------------- -->
         <!-- Page wrapper  -->
-        <!-- modal -------------------------------------------------------------- -->
-        <div id="signup-modal" class="modal fade" tabindex="-1" role="dialog"
-        aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <div class="text-center mt-2 mb-4">
-                        <a href="document.html" class="text-success">
-                        <span><img class="me-2" src="material/src/assets/images/logo-icon.png"
-                            alt="" height="18"><img
-                            src="material/src/assets/images/logo-text.png" alt=""
-                            height="18"></span>
-                        </a>
-                    </div>
-                    <form class="ps-3 pe-3 text-start" action="#"method="post">
-                        <div class="mb-3">
-                            <label for="username">Exam Name</label>
-                            <input class="form-control" type="text" id="examname"
-                                required="" placeholder="Enter Exam Name"name="examname">
-                        </div>
-                        <div class="mb-3">
-                            <label for="subjectname">Subject Name</label>
-                            <input class="form-control" type="text" id="emailaddress"
-                                required="" placeholder="Enter Subject Name"name="subjectname">
-                        </div>
-                        <div class="mb-3">
-                            <label for="totalque">Total Quetion</label>
-                            <input class="form-control" type="number" required=""
-                                id="password" placeholder="Enter Number Of Total Quetion"name="tquetion">
-                        </div>
-                        <div class="mb-3">
-                            <label for="duration">Duration</label>
-                            <input class="form-control" type="number" required=""
-                                id="password" placeholder="Set Time"name="duration">
-                        </div>
-                        <div class="mb-3">
-                            <label for="password">Exam Date</label>
-                            <input class="form-control" type="date" required=""
-                                id="password"name="exmdate" >
-                        </div>
-                       
-                        <div class="mb-3 text-center">
-                            <button class="btn btn-primary"name="save" type="submit">Save
-                           </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
-    </div>
-     <!-- /.End Modal -->
+        <!-- -------------------------------------------------------------- -->
         <div class="page-wrapper">
+            <!-- ============================================================== -->
+            <!-- Bread crumb and right sidebar toggle -->
+            <!-- ============================================================== -->
             
+            <!-- ============================================================== -->
+            <!-- End Bread crumb and right sidebar toggle -->
+            <!-- ============================================================== -->
+            <!-- -------------------------------------------------------------- -->
+            <!-- Container fluid  -->
+            <!-- -------------------------------------------------------------- -->
             <div class="container-fluid">
-                <div class="d-flex border-bottom title-part-padding px-0 mb-3 align-items-center">
-                       
-                        <div>
-                            <a href="javascript:void(0)" class="btn btn-success"data-bs-toggle="modal"
-                                data-bs-target="#signup-modal">Add New Exam</a>
+                <div class="quetion" style="width: 600px;margin:0px auto;">
+                    <div class="quetion mb-2 bg-white">
+                        <div class="row mx-2">
+                            <div class="col-col-12">
+                                <h4 class="my-2">jgjggkkkglglglglglgllglg</h4>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="checkbox" class="material-inputs" id="basic_checkbox_2" class="material-inputs filled-in" checked />
+                                <label for="basic_checkbox_2">Filled In</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="checkbox" class="material-inputs" id="basic_checkbox_2" class="material-inputs filled-in" checked />
+                                <label for="basic_checkbox_2">Filled In</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="checkbox" class="material-inputs" id="basic_checkbox_2" class="material-inputs filled-in" checked />
+                                <label for="basic_checkbox_2">Filled In</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="checkbox" class="material-inputs" id="basic_checkbox_2" class="material-inputs filled-in" checked />
+                                <label for="basic_checkbox_2">Filled In</label>
+                            </div>
                         </div>
-                        <?php
-                            if(isset($dltque)){
-                               echo $dltque;
-                            }
-                        ?>
-                        
 
                     </div>
-                    <div class="row">
-                        <?php
-                            $allxm = $exam->AllExamList();
-                            if($allxm){
-                                while($value = $allxm->fetch_assoc()){
-                        ?>
-                             <div class="col-md-4 col-xl-2 d-flex align-items-stretch">
-                                <div class="card w-100">
-                                    <div class="card-header bg-primary">
-                                        <h4 class="mb-0 text-white"><?= $value['examname'];?></h4></div>
-                                    <div class="card-body">
-                                        <h3 class="card-title text-muted py-1"style="border-bottom:1px dotted #EEF5F9;">Subject:<?= $value['subjectname'];?></h3>
-                                        <h3 class="card-title text-muted py-1"style="border-bottom:1px dotted #EEF5F9;">Duration:<?= $value['duration'];?> Minute</h3>
-                                        <h3 class="card-title text-muted py-1"style="border-bottom:1px dotted #EEF5F9;">Total Quetion:<?= $value['tquetion'];?></h3>
-                                        <h3 class="card-title text-muted py-1"style="border-bottom:1px dotted #EEF5F9;">Exam Date:<?= $value['exmdate'];?></h3>
-                                        
-                                        <a href="add-exam.php?editxm=<?= $value['id'];?>" class="btn btn-primary"data-bs-toggle="modal"
-                                            data-bs-target="#examedit-modal">Edit</a>
-                                        <a  href="edit-quetion.php?editque=<?= $value['id'];?>" class="btn btn-success">Quetion Edit</a>
-                                        <a onclick ="return confirm('Do you Want to sure to delete?');" href="?dltque=<?= $value['id'];?>" class="btn btn-danger">Delete</a>
-                                        <a href="?setting=<?= $value['id'];?>" class="btn btn-info my-1"><i class="fa fa-cog" aria-hidden="true"></i>
-                                            </a>
-                                        <a href="view-quetion.php?view=<?= $value['id'];?>" class="btn btn-info my-1"><i class="fa fa-eye" aria-hidden="true"></i>
-                                            </a>    
+
+                    <div class="quetion mb-2 bg-white">
+                        <div class="row mx-2">
+                            <div class="col-col-12 ">
+                                <h4 class="my-2">jgjggkkkglglglglglgllglg</h4>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="checkbox" class="material-inputs" id="basic_checkbox_2" class="material-inputs filled-in" checked />
+                                <label for="basic_checkbox_2">Filled In</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="checkbox" class="material-inputs" id="basic_checkbox_2" class="material-inputs filled-in" checked />
+                                <label for="basic_checkbox_2">Filled In</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="checkbox" class="material-inputs" id="basic_checkbox_2" class="material-inputs filled-in" checked />
+                                <label for="basic_checkbox_2">Filled In</label>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="checkbox" class="material-inputs" id="basic_checkbox_2" class="material-inputs filled-in" checked />
+                                <label for="basic_checkbox_2">Filled In</label>
+                            </div>
+                        </div>
+
+                    </div>
+                    
+
+                </div>
+            </div>
+            <!-- Share Modal -->
+            <div class="modal fade" id="Sharemodel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <form>
+                            <div class="modal-header d-flex align-items-center">
+                                <h5 class="modal-title" id="exampleModalLabel"><i class="mdi mdi-auto-fix me-2"></i>
+                                    Share With</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="input-group mb-3">
+                                    <button type="button" class="btn btn-info"><i
+                                            class="ti-user text-white"></i></button>
+                                    <input type="text" class="form-control" placeholder="Enter Name Here"
+                                        aria-label="Username">
+                                </div>
+                                <div class="row">
+                                    <div class="col-3 text-center">
+                                        <a href="#Whatsapp" class="text-success">
+                                            <i class="display-6 mdi mdi-whatsapp"></i><br><span
+                                                class="text-muted">Whatsapp</span>
+                                        </a>
+                                    </div>
+                                    <div class="col-3 text-center">
+                                        <a href="#Facebook" class="text-info">
+                                            <i class="display-6 mdi mdi-facebook"></i><br><span
+                                                class="text-muted">Facebook</span>
+                                        </a>
+                                    </div>
+                                    <div class="col-3 text-center">
+                                        <a href="#Instagram" class="text-danger">
+                                            <i class="display-6 mdi mdi-instagram"></i><br><span
+                                                class="text-muted">Instagram</span>
+                                        </a>
+                                    </div>
+                                    <div class="col-3 text-center">
+                                        <a href="#Skype" class="text-cyan">
+                                            <i class="display-6 mdi mdi-skype"></i><br><span
+                                                class="text-muted">Skype</span>
+                                        </a>
                                     </div>
                                 </div>
-                           </div>
-                       <?php
-                            }
-                        }
-                       
-                        ?>
-                        
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-success"><i class="fas fa-paper-plane"></i>
+                                    Send</button>
+                            </div>
+                        </form>
                     </div>
+                </div>
             </div>
-            
+            <!-- -------------------------------------------------------------- -->
+            <!-- End Container fluid  -->
+            <!-- -------------------------------------------------------------- -->
+            <!-- -------------------------------------------------------------- -->
             <!-- footer -->
             <!-- -------------------------------------------------------------- -->
-            <footer class="footer text-center">
-                   All Rights Reserved by Materialpro admin.
-            </footer>
+            <?php include('inc/footer.php'); ?>
             <!-- -------------------------------------------------------------- -->
             <!-- End footer -->
             <!-- -------------------------------------------------------------- -->
@@ -291,7 +297,7 @@
                                     class="message-item d-flex align-items-center border-bottom px-3 py-2"
                                     id='chat_user_1' data-user-id='1'>
                                     <span class="user-img position-relative d-inline-block"> <img
-                                            src="assets/images/users/1.jpg" alt="user" class="rounded-circle w-100">
+                                            src="../assets/images/users/1.jpg" alt="user" class="rounded-circle w-100">
                                         <span class="profile-status rounded-circle online"></span> </span>
                                     <div class="w-75 d-inline-block v-middle ps-3">
                                         <h5 class="message-title mb-0 mt-1">Pavan kumar</h5> <span
@@ -305,7 +311,7 @@
                                     class="message-item d-flex align-items-center border-bottom px-3 py-2"
                                     id='chat_user_2' data-user-id='2'>
                                     <span class="user-img position-relative d-inline-block"> <img
-                                            src="assets/images/users/2.jpg" alt="user" class="rounded-circle w-100">
+                                            src="../assets/images/users/2.jpg" alt="user" class="rounded-circle w-100">
                                         <span class="profile-status rounded-circle busy"></span> </span>
                                     <div class="w-75 d-inline-block v-middle ps-3">
                                         <h5 class="message-title mb-0 mt-1">Sonu Nigam</h5> <span
@@ -319,7 +325,7 @@
                                     class="message-item d-flex align-items-center border-bottom px-3 py-2"
                                     id='chat_user_3' data-user-id='3'>
                                     <span class="user-img position-relative d-inline-block"> <img
-                                            src="assets/images/users/3.jpg" alt="user" class="rounded-circle w-100">
+                                            src="../assets/images/users/3.jpg" alt="user" class="rounded-circle w-100">
                                         <span class="profile-status rounded-circle away"></span> </span>
                                     <div class="w-75 d-inline-block v-middle ps-3">
                                         <h5 class="message-title mb-0 mt-1">Arijit Sinh</h5> <span
@@ -333,7 +339,7 @@
                                     class="message-item d-flex align-items-center border-bottom px-3 py-2"
                                     id='chat_user_4' data-user-id='4'>
                                     <span class="user-img position-relative d-inline-block"> <img
-                                            src="assets/images/users/4.jpg" alt="user" class="rounded-circle w-100">
+                                            src="../assets/images/users/4.jpg" alt="user" class="rounded-circle w-100">
                                         <span class="profile-status rounded-circle offline"></span> </span>
                                     <div class="w-75 d-inline-block v-middle ps-3">
                                         <h5 class="message-title mb-0 mt-1">Nirav Joshi</h5> <span
@@ -348,7 +354,7 @@
                                     class="message-item d-flex align-items-center border-bottom px-3 py-2"
                                     id='chat_user_5' data-user-id='5'>
                                     <span class="user-img position-relative d-inline-block"> <img
-                                            src="assets/images/users/5.jpg" alt="user" class="rounded-circle w-100">
+                                            src="../assets/images/users/5.jpg" alt="user" class="rounded-circle w-100">
                                         <span class="profile-status rounded-circle offline"></span> </span>
                                     <div class="w-75 d-inline-block v-middle ps-3">
                                         <h5 class="message-title mb-0 mt-1">Sunil Joshi</h5> <span
@@ -363,7 +369,7 @@
                                     class="message-item d-flex align-items-center border-bottom px-3 py-2"
                                     id='chat_user_6' data-user-id='6'>
                                     <span class="user-img position-relative d-inline-block"> <img
-                                            src="assets/images/users/6.jpg" alt="user" class="rounded-circle w-100">
+                                            src="../assets/images/users/6.jpg" alt="user" class="rounded-circle w-100">
                                         <span class="profile-status rounded-circle offline"></span> </span>
                                     <div class="w-75 d-inline-block v-middle ps-3">
                                         <h5 class="message-title mb-0 mt-1">Akshay Kumar</h5> <span
@@ -378,7 +384,7 @@
                                     class="message-item d-flex align-items-center border-bottom px-3 py-2"
                                     id='chat_user_7' data-user-id='7'>
                                     <span class="user-img position-relative d-inline-block"> <img
-                                            src="assets/images/users/7.jpg" alt="user" class="rounded-circle w-100">
+                                            src="../assets/images/users/7.jpg" alt="user" class="rounded-circle w-100">
                                         <span class="profile-status rounded-circle offline"></span> </span>
                                     <div class="w-75 d-inline-block v-middle ps-3">
                                         <h5 class="message-title mb-0 mt-1">Pavan kumar</h5> <span
@@ -393,7 +399,7 @@
                                     class="message-item d-flex align-items-center border-bottom px-3 py-2"
                                     id='chat_user_8' data-user-id='8'>
                                     <span class="user-img position-relative d-inline-block"> <img
-                                            src="assets/images/users/8.jpg" alt="user" class="rounded-circle w-100">
+                                            src="../assets/images/users/8.jpg" alt="user" class="rounded-circle w-100">
                                         <span class="profile-status rounded-circle offline"></span> </span>
                                     <div class="w-75 d-inline-block v-middle ps-3">
                                         <h5 class="message-title mb-0 mt-1">Varun Dhavan</h5> <span
@@ -432,7 +438,7 @@
                         </div>
                         <div class="sl-item">
                             <div class="sl-left"> <img class="rounded-circle" alt="user"
-                                    src="assets/images/users/2.jpg"> </div>
+                                    src="../assets/images/users/2.jpg"> </div>
                             <div class="sl-right">
                                 <div class="font-weight-medium">Go to the Doctor <span class="sl-date">5 minutes
                                         ago</span>
@@ -442,7 +448,7 @@
                         </div>
                         <div class="sl-item">
                             <div class="sl-left"> <img class="rounded-circle" alt="user"
-                                    src="assets/images/users/1.jpg"> </div>
+                                    src="../assets/images/users/1.jpg"> </div>
                             <div class="sl-right">
                                 <div><a href="javascript:void(0)">Stephen</a> <span class="sl-date">5 minutes ago</span>
                                 </div>
@@ -469,7 +475,7 @@
                         </div>
                         <div class="sl-item">
                             <div class="sl-left"> <img class="rounded-circle" alt="user"
-                                    src="assets/images/users/4.jpg"> </div>
+                                    src="../assets/images/users/4.jpg"> </div>
                             <div class="sl-right">
                                 <div class="font-weight-medium">Go to the Doctor <span class="sl-date">5 minutes
                                         ago</span>
@@ -479,7 +485,7 @@
                         </div>
                         <div class="sl-item">
                             <div class="sl-left"> <img class="rounded-circle" alt="user"
-                                    src="assets/images/users/6.jpg"> </div>
+                                    src="../assets/images/users/6.jpg"> </div>
                             <div class="sl-right">
                                 <div><a href="javascript:void(0)">Stephen</a> <span class="sl-date">5 minutes ago</span>
                                 </div>
@@ -492,67 +498,6 @@
             </div>
         </div>
     </aside>
-
-    <!-- exam-edit modal -------------------------------------------------------------- -->
-    
-    
-    <div id="examedit-modal" class="modal fade" tabindex="-1" role="dialog"
-        aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <div class="text-center mt-2 mb-4">
-                        <a href="document.html" class="text-success">
-                        <span><img class="me-2" src="material/src/assets/images/logo-icon.png"
-                            alt="" height="18"><img
-                            src="material/src/assets/images/logo-text.png" alt=""
-                            height="18"></span>
-                        </a>
-                    </div>
-                        
-                   
-                    <form class="ps-3 pe-3 text-start" action="#"method="post">
-                        <div class="mb-3">
-                            <label for="username">Exam Name</label>
-                            <input class="form-control" type="text" id="examname"
-                                required="" value="<?= $value['examname'];?>"name="examname">
-                        </div>
-                        <div class="mb-3">
-                            <label for="subjectname">Subject Name</label>
-                            <input class="form-control" type="text" id="emailaddress"
-                                required="" placeholder="Enter Subject Name"name="subjectname">
-                        </div>
-                        <div class="mb-3">
-                            <label for="totalque">Total Quetion</label>
-                            <input class="form-control" type="number" required=""
-                                id="password" placeholder="Enter Number Of Total Quetion"name="tquetion">
-                        </div>
-                        <div class="mb-3">
-                            <label for="duration">Duration</label>
-                            <input class="form-control" type="number" required=""
-                                id="password" placeholder="Set Time"name="duration">
-                        </div>
-                        <div class="mb-3">
-                            <label for="password">Exam Date</label>
-                            <input class="form-control" type="date" required=""
-                                id="password"name="exmdate" >
-                        </div>
-                       
-                        <div class="mb-3 text-center">
-                            <button class="btn btn-primary"name="save" type="submit">Save
-                           </button>
-                        </div>
-                    </form>
-                    <?php  ?>
-                </div>
-            </div>
-            <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
-    </div>
-    
-    
-     <!-- /.End Modal -->
     <div class="chat-windows"></div>
     <!-- -------------------------------------------------------------- -->
     <!-- All Jquery -->
@@ -574,10 +519,8 @@
     <!--Custom JavaScript -->
    <script src="dist/js/feather.min.js"></script>
     <script src="dist/js/custom.min.js"></script>
-    <!-- This Page JS -->
-    <script src="assets/extra-libs/prism/prism.js"></script>
-    <script src="material/src/assets/extra-libs/toastr/dist/build/toastr.min.js"></script>
-    <script src="material/src/assets/extra-libs/toastr/toastr-init.js"></script>
+    <!--This page plugins -->
+    <script src="dist/js/pages/contact/contact.js"></script>
 </body>
 
 </html>
