@@ -1,6 +1,20 @@
 <?php include('inc/header.php'); ?>
 
 <?php
+     if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['save'])) {
+        $sname = $_POST['sname'];
+        $sfname = $_POST['sfname'];
+        $smname = $_POST['smname'];
+        $email = $_POST['email'];
+        $contact = $_POST['contact'];
+        $sid = $_POST['sid'];
+        $batch = $_POST['batch'];
+        $batchfee = $_POST['batchfee'];
+        $advancefee = $_POST['advancefee'];
+        $duefee = $_POST['duefee'];
+      
+        $common->insert("`student_table`(`sname`,`sfname`,`smname`,`email`,`contack`,`sid`,`batch`,`batchfee`,`advancefee`,`duefee`)","('$sname', '$sfname', '$smname', '$email','$contact','$sid','$batch','$batchfee','$advancefee','$duefee')");
+     }
 
 ?>
 
@@ -45,77 +59,85 @@
                 <div class="col-12">
                     <div class="card">
                        
-                        <form class="form-horizontal">
+                        <form class="form-horizontal" action="" method="post">
                             <div class="card-body">
                                 <h4 class="card-title">Personal Info</h4>
                                 <div class="mb-3 row">
-                                    <label for="fname" class="col-sm-3 text-end control-label col-form-label">First Name</label>
+                                    <label for="fname" class="col-sm-3 text-end control-label col-form-label">Student Name</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="fname" placeholder="First Name Here">
+                                        <input type="text" class="form-control" id="fname" placeholder="Student Name Here" name="sname">
                                     </div>
                                 </div>
                                 <div class="mb-3 row">
-                                    <label for="lname" class="col-sm-3 text-end control-label col-form-label">Last Name</label>
+                                    <label for="lname" class="col-sm-3 text-end control-label col-form-label">Student Father Name</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="lname" placeholder="Last Name Here">
+                                        <input type="text" class="form-control" id="lname" placeholder="Student Father Name Here" name="sfname">
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <label for="lname" class="col-sm-3 text-end control-label col-form-label">Student Mother Name</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="lname" placeholder="Student Mother Name Here" name="smname">
                                     </div>
                                 </div>
                                 <div class="mb-3 row">
                                     <label for="email1" class="col-sm-3 text-end control-label col-form-label">Email</label>
                                     <div class="col-sm-9">
-                                        <input type="email" class="form-control" id="email1" placeholder="Email Here">
+                                        <input type="email" class="form-control" id="email1" placeholder="Email Here" name="email">
                                     </div>
                                 </div>
                                 <div class="mb-3 row">
                                     <label for="cono1" class="col-sm-3 text-end control-label col-form-label">Contact No</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="cono1" placeholder="Contact No Here">
+                                        <input type="text" class="form-control" id="cono1" placeholder="Contact No Here" name="contact">
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <label for="cono1" class="col-sm-3 text-end control-label col-form-label">Student ID</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="cono1" placeholder="Contact No Here" name="sid"read only="">
                                     </div>
                                 </div>
                             </div>
                             <hr>
                             <div class="card-body">
                                 <h4 class="card-title">Requirements</h4>
+                                
                                 <div class="mb-3 row">
-                                    <label for="com1" class="col-sm-3 text-end control-label col-form-label">Company</label>
+                                    <label class="col-sm-3 text-end control-label col-form-label">Select Batch</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="com1" placeholder="Company Name Here">
-                                    </div>
-                                </div>
-                                <div class="mb-3 row">
-                                    <label class="col-sm-3 text-end control-label col-form-label">Interested In</label>
-                                    <div class="col-sm-9">
-                                        <select class="form-select">
+                                        <select class="form-select" name="batch" id="batch">
                                             <option>Choose Your Option</option>
-                                            <option>Desiging</option>
-                                            <option>Development</option>
-                                            <option>Videography</option>
+                                             <?php
+                                                $query = $common->select("`add_branch` ORDER BY `id` DESC");
+                                                if($query){
+                                                    while($raw = mysqli_fetch_assoc($query)){
+                                                 
+                                             ?>
+                                            <option value = <?= $raw['id'];?>><?= $raw['branch_name'];?></option>
+                                           <?php }}?>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="mb-3 row">
-                                    <label class="col-sm-3 text-end control-label col-form-label">Budget</label>
+                                    <label for="com1" class="col-sm-3 text-end control-label col-form-label">Batch Fee</label>
                                     <div class="col-sm-9">
-                                        <select class="form-select">
-                                            <option>Choose Your Option</option>
-                                            <option>Less then $5000</option>
-                                            <option>$5000 - $10000</option>
-                                            <option>$10000 - $20000</option>
-                                        </select>
+                                        <input type="text" class="form-control" id="com1" placeholder="Input Batch Fee Here" name="batchfee">
                                     </div>
                                 </div>
                                 <div class="mb-3 row">
-                                    <label class="col-sm-3 text-end control-label col-form-label">Select File</label>
+                                    <label for="com1" class="col-sm-3 text-end control-label col-form-label">Advance Fee</label>
                                     <div class="col-sm-9">
-                                        <div class="input-group mb-3">
-                                            <span class="input-group-text">Upload</span>
-
-                                            <div class="custom-file">
-                                                <input type="file" class="form-control" id="inputGroupFile01">
-                                            </div>
-                                        </div>
+                                        <input type="text" class="form-control" id="com1" placeholder="Input Batch Fee Here" name="advancefee">
                                     </div>
                                 </div>
+                                <div class="mb-3 row">
+                                    <label for="com1" class="col-sm-3 text-end control-label col-form-label">Due Fee</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="com1" placeholder="Due Fee Here" name="duefee">
+                                    </div>
+                                </div>
+                                
                                 <div class="mb-3 row">
                                     <label for="abpro" class="col-sm-3 text-end control-label col-form-label">About Project</label>
                                     <div class="col-sm-9">
@@ -125,7 +147,7 @@
                             </div>
                             <div class="p-3 border-top">
                                 <div class="text-end">
-                                    <button type="submit" class="btn btn-info rounded-pill px-4 waves-effect waves-light">Save</button>
+                                    <button type="submit" class="btn btn-info rounded-pill px-4 waves-effect waves-light" name="save">Save</button>
                                     <button type="submit" class="btn btn-dark rounded-pill px-4 waves-effect waves-light">Cancel</button>
                                 </div>
                             </div>

@@ -75,18 +75,18 @@
                     </div>
                     
                    <?php
-                   $select = $common->select("`questions`","`exam_id` = '$id'");
+                   $select = $common->select("`questions`","`exam_id` = '$id' ORDER BY `serial`+0");
                    if($select){
-                       $i =0;
+                      
                        while($viewquetion = mysqli_fetch_assoc($select)){
-                           $i++;
+                        
 
                    
                    ?>
                     <div class="quetion mb-2 bg-white">
                         <div class="row mx-2">
                             <div class="col-col-12">
-                                <h3 class="my-2"><?=$i?>.<?=$viewquetion['question'];?></h3>
+                                <h3 class="my-2"><?=$viewquetion['serial'];?>.<?=$viewquetion['question'];?></h3>
                             </div>
                             <div class="col-md-12">
                                 <?php
