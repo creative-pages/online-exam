@@ -1,7 +1,6 @@
 <?php include('inc/header.php'); ?>
 
 <?php
-
     $add_question = $common->select("`add_exam`", "`status` = '0' ORDER BY `id` DESC LIMIT 1");
     if($add_question) {
         $add_questions = mysqli_fetch_assoc($add_question);
@@ -12,9 +11,10 @@
 
     if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_all_questions'])) {
         $total_add_questions = $_POST['total_questions'];
+        $exam_id = $_POST['exam_id'];
 
         for ($i=1; $i < $total_add_questions; $i++) {
-            $exam_id = $_POST['exam_id'];
+            $new_serial = $_POST['new_serial'.$i];
             $question = $_POST['question'.$i];
 
             $option_one = $_POST['option_one'.$i];
@@ -25,7 +25,7 @@
             $answer = $_POST['answer'.$i];
             $description = $_POST['description'.$i];
 
-            $common->insert("`questions`(`exam_id`, `question`, `option_one`, `option_two`, `option_three`, `option_four`, `answer`, `description`)", "('$exam_id', '$question', '$option_one', '$option_two', '$option_three', '$option_four', '$answer', '$description')");
+            $common->insert("`questions`(`serial`, `exam_id`, `question`, `option_one`, `option_two`, `option_three`, `option_four`, `answer`, `description`)", "('$new_serial', '$exam_id', '$question', '$option_one', '$option_two', '$option_three', '$option_four', '$answer', '$description')");
         }
         $success = $common->update("`add_exam`", "`status` = '1'", "`id` = '$exam_id'");
         if($success){
@@ -144,15 +144,22 @@
 
                     <input type="hidden" name="exam_id" value="<?= $add_questions['id']; ?>">
                     <input type="hidden" name="total_questions" value="<?= $total_questions; ?>">
-                    <div class="row mb-3">
+                    <input type="hidden" name="serial<?= $i; ?>" value="<?= $i; ?>">
+                    <div class="row border-top border-primary pt-4 mb-4">
                         <div class="col-12">
                             <div class="input-group mb-2">
-                                <input type="text" name="question<?= $i; ?>" class="form-control" aria-label="Text input with checkbox" placeholder="Quetion <?= $i; ?>:">
+                                <div class="form-control bg-white">
+                                    <textarea name="question<?= $i; ?>" class="ck_editor">
+                                    </textarea>
+                                </div>
                             </div>
                         </div>
                         <div class="col-lg-3">
                             <div class="input-group">
-                                <input type="text" class="form-control" name="option_one<?= $i; ?>" aria-label="Text input with checkbox" placeholder="Option One">
+                                <div class="form-control bg-white">
+                                    <textarea name="option_one<?= $i; ?>" class="ck_editor">
+                                    </textarea>
+                                </div>
                                 <div class="input-group-text">
                                     <div class="form-check">
                                         <input type="radio" class="form-check-input" id="checkbox4" name="answer<?= $i; ?>" value="option_one" required="">
@@ -164,7 +171,10 @@
 
                         <div class="col-lg-3">
                             <div class="input-group">
-                                <input type="text" class="form-control" name="option_two<?= $i; ?>" aria-label="Text input with checkbox" placeholder="Option Two">
+                                <div class="form-control bg-white">
+                                    <textarea name="option_two<?= $i; ?>" class="ck_editor">
+                                    </textarea>
+                                </div>
                                 <div class="input-group-text">
                                     <div class="form-check">
                                         <input type="radio" class="form-check-input" id="checkbox4" name="answer<?= $i; ?>" value="option_two" required="">
@@ -176,7 +186,10 @@
 
                         <div class="col-lg-3">
                             <div class="input-group">
-                                <input type="text" class="form-control" name="option_three<?= $i; ?>" aria-label="Text input with checkbox" placeholder="Option Three">
+                                <div class="form-control bg-white">
+                                    <textarea name="option_three<?= $i; ?>" class="ck_editor">
+                                    </textarea>
+                                </div>
                                 <div class="input-group-text">
                                     <div class="form-check">
                                         <input type="radio" class="form-check-input" id="checkbox4" name="answer<?= $i; ?>" value="option_three" required="">
@@ -188,7 +201,10 @@
 
                         <div class="col-lg-3">
                             <div class="input-group">
-                                <input type="text" class="form-control" name="option_four<?= $i; ?>" aria-label="Text input with checkbox" placeholder="Option Four">
+                                <div class="form-control bg-white">
+                                    <textarea name="option_four<?= $i; ?>" class="ck_editor">
+                                    </textarea>
+                                </div>
                                 <div class="input-group-text">
                                     <div class="form-check">
                                         <input type="radio" class="form-check-input" id="checkbox4" name="answer<?= $i; ?>" value="option_four" required="">
@@ -201,8 +217,8 @@
                             <button  data-value="<?= $i; ?>" type="button" class="btn btn-info btn-sm my-1 description_button_toggle">Add Description</button>
                         </div>
                         <div id="description_<?= $i; ?>" class="col-12" style="display: none;">
-                            <div class="input-group mb-2">
-                                <textarea name="description<?= $i; ?>" class="form-control" placeholder="Description (optional):"></textarea>
+                            <div class="form-control mb-2 bg-white">
+                                <textarea name="description<?= $i; ?>" class="form-control ck_editor" placeholder="Description (optional):"></textarea>
                             </div>
                         </div>
 
@@ -549,6 +565,7 @@
         </div>
     </aside>
     <div class="chat-windows"></div>
+
     <!-- -------------------------------------------------------------- -->
     <!-- All Jquery -->
     <!-- -------------------------------------------------------------- -->
@@ -574,16 +591,20 @@
 
     <!--This page plugins -->
     <script src="assets/extra-libs/datatables.net/js/jquery.dataTables.min.js"></script>
-    <!-- start - This is for export functionality only -->
-    <!-- <script src="https://cdn.datatables.net/buttons/1.5.1/js/dataTables.buttons.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.flash.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/pdfmake.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/vfs_fonts.js"></script>
-    <script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.html5.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.print.min.js"></script>
-    <script src="dist/js/pages/datatable/datatable-advanced.init.js"></script> -->
+
+    <!-- This Page JS -->
+    <script src="assets/libs/ckeditor/ckeditor.js"></script>
+    <script src="assets/libs/ckeditor/samples/js/sample.js"></script>
     <script>
+        CKEDITOR.plugins.addExternal('ckeditor_wiris', 'https://www.wiris.net/demo/plugins/ckeditor/', 'plugin.js');
+        $(".ck_editor").each(function() {
+            CKEDITOR.inline(this, {
+                extraPlugins: 'ckeditor_wiris',
+                filebrowserUploadUrl: "ajax/question_image.php",
+                filebrowserUploadMethod:"form"
+            });
+        });
+
         $(document).ready(function(){
             $(".description_button_toggle").click(function(){
                 var id = $(this).data('value');

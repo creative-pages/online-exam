@@ -227,19 +227,26 @@
                         while($values = $all_question->fetch_assoc()) {
                     ?>      
                     <input type="hidden" name="question_id<?= $i; ?>" value="<?=$values['id'];?>">
-                    <div class="row">
+                    <div class="row border-top border-primary pt-4">
                         <input type="hidden" name="serial<?= $i; ?>" class="set_serial" value="<?= $i; ?>">
                         <div class="col-12">
                             <div class="input-group mb-2">
-                                <input type="text" name="question<?= $i; ?>" class="form-control" placeholder="Write question" aria-label="Text input with checkbox" value="<?=$values['question'];?>">
+                                <div class="form-control bg-white">
+                                    <textarea name="question<?= $i; ?>" class="ck_editor">
+                                        <?= $values['question']; ?>
+                                    </textarea>
+                                </div>
                             </div>
                         </div>
                         <div class="col-lg-3">
                             <div class="input-group">
-                                <input type="text" class="form-control" name="option_one<?= $i; ?>" aria-label="Text input with checkbox" value="<?=$values['option_one'];?>">
+                                <div class="form-control bg-white">
+                                    <textarea name="option_one<?= $i; ?>" class="ck_editor">
+                                        <?= $values['option_one']; ?>
+                                    </textarea>
+                                </div>
                                 <div class="input-group-text">
                                     <div class="form-check">
-                                       
                                         <input type="radio" class="form-check-input" id="checkbox4" name="answer<?= $i; ?>" value="option_one"<?php echo ($values['answer']== 'option_one') ?  "checked" : "" ;  ?> required="">
                                         <label class="form-check-label" for="checkbox4"></label>
                                     </div>
@@ -249,7 +256,11 @@
 
                         <div class="col-lg-3">
                             <div class="input-group">
-                                <input type="text" class="form-control" name="option_two<?= $i; ?>" aria-label="Text input with checkbox" value="<?=$values['option_two'];?>">
+                                <div class="form-control bg-white">
+                                    <textarea name="option_two<?= $i; ?>" class="ck_editor">
+                                        <?= $values['option_two']; ?>
+                                    </textarea>
+                                </div>
                                 <div class="input-group-text">
                                     <div class="form-check">
                                         
@@ -262,10 +273,13 @@
 
                         <div class="col-lg-3">
                             <div class="input-group">
-                                <input type="text" class="form-control" name="option_three<?= $i; ?>" aria-label="Text input with checkbox" value="<?=$values['option_three'];?>">
+                                <div class="form-control bg-white">
+                                    <textarea name="option_three<?= $i; ?>" class="ck_editor">
+                                        <?= $values['option_three']; ?>
+                                    </textarea>
+                                </div>
                                 <div class="input-group-text">
                                     <div class="form-check">
-                                   
                                         <input type="radio" class="form-check-input" id="checkbox4" name="answer<?= $i; ?>" value="option_three"<?php echo ($values['answer']== 'option_three') ?  "checked" : "" ;  ?> required="">
                                         <label class="form-check-label" for="checkbox4"></label>
                                     </div>
@@ -275,7 +289,11 @@
 
                         <div class="col-lg-3">
                             <div class="input-group">
-                                <input type="text" class="form-control" name="option_four<?= $i; ?>" aria-label="Text input with checkbox" value="<?=$values['option_four'];?>">
+                                <div class="form-control bg-white">
+                                    <textarea name="option_four<?= $i; ?>" class="ck_editor">
+                                        <?= $values['option_four']; ?>
+                                    </textarea>
+                                </div>
                                 <div class="input-group-text">
                                     <div class="form-check">
                                     
@@ -289,8 +307,8 @@
                             <button  data-value="<?= $i; ?>" type="button" class="btn btn-info btn-sm my-1 description_button_toggle">Add Description</button>
                         </div>
                         <div id="description_<?= $i; ?>" class="col-12" style="display: none;">
-                            <div class="input-group mb-2">
-                                <textarea name="description<?= $i; ?>" class="form-control" placeholder="Description (optional):"></textarea>
+                            <div class="form-control mb-2 bg-white">
+                                <textarea name="description<?= $i; ?>" class="form-control ck_editor" placeholder="Description (optional):"></textarea>
                             </div>
                         </div>
 
@@ -672,16 +690,20 @@
     <script src="assets/extra-libs/datatables.net/js/jquery.dataTables.min.js"></script>
     <script src="js/custom.js"></script>
     <script src="highlights/highlight.min.js"></script>
-    <!-- start - This is for export functionality only -->
-    <!-- <script src="https://cdn.datatables.net/buttons/1.5.1/js/dataTables.buttons.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.flash.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/pdfmake.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/vfs_fonts.js"></script>
-    <script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.html5.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.print.min.js"></script>
-    <script src="dist/js/pages/datatable/datatable-advanced.init.js"></script> -->
+
+    <!-- This Page JS -->
+    <script src="assets/libs/ckeditor/ckeditor.js"></script>
+    <script src="assets/libs/ckeditor/samples/js/sample.js"></script>
     <script>
+        CKEDITOR.plugins.addExternal('ckeditor_wiris', 'https://www.wiris.net/demo/plugins/ckeditor/', 'plugin.js');
+        $(".ck_editor").each(function() {
+            CKEDITOR.inline(this, {
+                extraPlugins: 'ckeditor_wiris',
+                filebrowserUploadUrl: "ajax/question_image.php",
+                filebrowserUploadMethod:"form"
+            });
+        });
+
         $(document).ready(function(){
             $(".description_button_toggle").click(function(){
                 var id = $(this).data('value');
@@ -698,18 +720,27 @@
     hljs.initHighlightingOnLoad();
 
     $('.addMoreQuestion').click(function () {
+        
         var total_new_questions = $('#total_new_questions').val();
         var i = parseInt(total_new_questions) + parseInt(1);
 
         $('#total_new_questions').val(i)
 
-        var new_item = '<div class="row mb-4"> <input type="hidden" name="new_serial'+ i +'" class="set_serial"> <div class="col-12"> <div class="input-group mb-2"> <input type="text" name="new_question'+ i +'" class="form-control" placeholder="Write question" aria-label="Text input with checkbox" value=""> </div> </div> <div class="col-lg-3"> <div class="input-group"> <input type="text" class="form-control" name="new_option_one'+ i +'" aria-label="Text input with checkbox" value=""> <div class="input-group-text"> <div class="form-check"> <input type="radio" class="form-check-input" id="checkbox4" name="new_answer'+ i +'" value="option_one" required=""> <label class="form-check-label" for="checkbox4"></label> </div> </div> </div> </div> <div class="col-lg-3"> <div class="input-group"> <input type="text" class="form-control" name="new_option_two'+ i +'" aria-label="Text input with checkbox" value=""> <div class="input-group-text"> <div class="form-check"> <input type="radio" class="form-check-input" id="checkbox4" name="new_answer'+ i +'" value="option_two" required=""> <label class="form-check-label" for="checkbox4"></label> </div> </div> </div> </div> <div class="col-lg-3"> <div class="input-group"> <input type="text" class="form-control" name="new_option_three'+ i +'" aria-label="Text input with checkbox" value=""> <div class="input-group-text"> <div class="form-check"> <input type="radio" class="form-check-input" id="checkbox4" name="new_answer'+ i +'" value="option_three" required=""> <label class="form-check-label" for="checkbox4"></label> </div> </div> </div> </div> <div class="col-lg-3"> <div class="input-group"> <input type="text" class="form-control" name="new_option_four'+ i +'" aria-label="Text input with checkbox" value=""> <div class="input-group-text"> <div class="form-check"> <input type="radio" class="form-check-input" id="checkbox4" name="new_answer'+ i +'" value="option_four" required=""> <label class="form-check-label" for="checkbox4"></label> </div> </div> </div> </div> <div class="col-12"> <button  data-values="'+ i +'" type="button" class="btn btn-info btn-sm my-1 new_description_button_toggle">Add Description</button> </div> <div id="new_description_'+ i +'" class="col-12" style="display: none;"> <div class="input-group mb-2"> <textarea name="new_description'+ i +'" class="form-control" placeholder="Description (optional):"></textarea> </div> </div> </div>';
+        var new_item = '<div class="row border-top border-primary pt-4 mb-4"> <input type="hidden" name="new_serial'+ i +'" class="set_serial"> <div class="col-12"> <div class="input-group mb-2"> <div class="form-control bg-white"> <textarea name="new_question'+ i +'" class="new_ck_editor'+ i +'"></textarea> </div> </div> </div> <div class="col-lg-3"> <div class="input-group"> <div class="form-control bg-white"> <textarea name="new_option_one'+ i +'" class="new_ck_editor'+ i +'"></textarea> </div> <div class="input-group-text"> <div class="form-check"> <input type="radio" class="form-check-input" id="checkbox4" name="new_answer'+ i +'" value="option_one" required=""> <label class="form-check-label" for="checkbox4"></label> </div> </div> </div> </div> <div class="col-lg-3"> <div class="input-group"> <div class="form-control bg-white"> <textarea name="new_option_two'+ i +'" class="new_ck_editor'+ i +'"></textarea> </div> <div class="input-group-text">  <div class="form-check"> <input type="radio" class="form-check-input" id="checkbox4" name="new_answer'+ i +'" value="option_two" required=""> <label class="form-check-label" for="checkbox4"></label> </div> </div> </div> </div> <div class="col-lg-3"> <div class="input-group"> <div class="form-control bg-white"> <textarea name="new_option_three'+ i +'" class="new_ck_editor'+ i +'"></textarea> </div> <div class="input-group-text"> <div class="form-check"> <input type="radio" class="form-check-input" id="checkbox4" name="new_answer'+ i +'" value="option_three" required=""> <label class="form-check-label" for="checkbox4"></label> </div> </div> </div> </div> <div class="col-lg-3"> <div class="input-group"> <div class="form-control bg-white"> <textarea name="new_option_four'+ i +'" class="new_ck_editor'+ i +'"></textarea> </div> <div class="input-group-text"> <div class="form-check"> <input type="radio" class="form-check-input" id="checkbox4" name="new_answer'+ i +'" value="option_four" required=""> <label class="form-check-label" for="checkbox4"></label> </div> </div> </div> </div> <div class="col-12"> <button  data-values="'+ i +'" type="button" class="btn btn-info btn-sm my-1 new_description_button_toggle">Add Description</button> </div> <div id="new_description_'+ i +'" class="col-12" style="display: none;"> <div class="form-control mb-2 bg-white"> <textarea name="new_description'+ i +'" class="form-control new_ck_editor'+ i +'" placeholder="Description (optional):"></textarea> </div> </div> </div>';
 
 
         $(this).after(new_item);
 
         $(".set_serial").each(function(index, el) {
             $(this).val(index+1);
+        });
+
+        $(".new_ck_editor" + i).each(function() {
+            CKEDITOR.inline(this, {
+                extraPlugins: 'ckeditor_wiris',
+                filebrowserUploadUrl: "ajax/question_image.php",
+                filebrowserUploadMethod:"form"
+            });
         });
     });
 </script>
