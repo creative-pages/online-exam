@@ -14,7 +14,7 @@
 						<div class="display-table">
 							<div class="display-table-cell">
 								<div class="container text-center">
-									<h1 class="slider-title" data-animation-in="fadeInLeft" data-animation-out="animate-out">WELCOME TO EDULEARN</h1>
+									<h1 class="slider-title" data-animation-in="fadeInLeft" data-animation-out="animate-out">WELCOME TO ONLINE EXAM</h1>
 									<p data-animation-in="fadeInUp" data-animation-out="animate-out" class="slider-desc">Fusce sem dolor, interdum in efficitur at, faucibus nec lorem.Sed nec molestie justo.<br class="hidden-sm-dow"> Nunc quis sapien in arcu pharetra volutpat.Morbi nec vulputate dolor.</p>  
 									<a href="#" class="sl-readmore-btn mr-30" data-animation-in="lightSpeedIn" data-animation-out="animate-out">READ MORE</a>
 									<a href="#" class="sl-get-started-btn" data-animation-in="lightSpeedIn" data-animation-out="animate-out">GET STARTED NOW</a>

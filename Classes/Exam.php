@@ -46,7 +46,7 @@
         }
 
         public function AllQuestion($id){
-            $query = "SELECT * FROM questions WHERE exam_id = '$id'";
+            $query = "SELECT * FROM questions WHERE exam_id = '$id' ORDER BY `serial` DESC";
             $result = $this->db->select($query);
             return $result;
 
