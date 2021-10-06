@@ -79,13 +79,11 @@
                    if($select){
                       
                        while($viewquetion = mysqli_fetch_assoc($select)){
-                        
-
-                   
+                       
                    ?>
                     <div class="quetion mb-2 bg-white">
                         <div class="row mx-2">
-                            <div class="col-col-12">
+                            <div class="col-12">
                                 <h3 class="my-2"><?=$viewquetion['serial'];?>.<?=$viewquetion['question'];?></h3>
                             </div>
                             <div class="col-md-12">
@@ -94,8 +92,8 @@
                                          <input type="checkbox" class="material-inputs" id="basic_checkbox_2" class="material-inputs filled-in" checked />
                                         <label for="basic_checkbox_2">a)<?=$viewquetion['option_one'];?></label>
 
-                                   <?php } else { ?> 
-                                      <nbsp>
+                                    <?php } else { ?> 
+                                      
                                     <label for="basic_checkbox_2">a)<?=$viewquetion['option_one'];?></label>
                                     <?php } ?>
                             </div>

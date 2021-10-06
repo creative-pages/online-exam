@@ -1,6 +1,7 @@
 <?php include('inc/header.php'); ?>
 
 <?php
+    $rand = rand(1000,1100);
      if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['save'])) {
         $sname = $_POST['sname'];
         $sfname = $_POST['sfname'];
@@ -12,8 +13,17 @@
         $batchfee = $_POST['batchfee'];
         $advancefee = $_POST['advancefee'];
         $duefee = $_POST['duefee'];
-      
-        $common->insert("`student_table`(`sname`,`sfname`,`smname`,`email`,`contack`,`sid`,`batch`,`batchfee`,`advancefee`,`duefee`)","('$sname', '$sfname', '$smname', '$email','$contact','$sid','$batch','$batchfee','$advancefee','$duefee')");
+         $query = $common->select("`student_table`","`contack`='$contact'");
+         if($query != false){
+             $msg = "<span style='color:red'>Contack Already Exists</span>";
+            
+         }
+         else{
+            $common->insert("`student_table`(`sname`,`sfname`,`smname`,`email`,`contack`,`sid`,`batch`,`batchfee`,`advancefee`,`duefee`)","('$sname', '$sfname', '$smname', '$email','$contact','$sid','$batch','$batchfee','$advancefee','$duefee')");
+
+         }
+        
+        
      }
 
 ?>
@@ -62,6 +72,11 @@
                         <form class="form-horizontal" action="" method="post">
                             <div class="card-body">
                                 <h4 class="card-title">Personal Info</h4>
+                                <?php
+                                    if(isset($msg)){
+                                        echo $msg;
+                                    }
+                              ?>
                                 <div class="mb-3 row">
                                     <label for="fname" class="col-sm-3 text-end control-label col-form-label">Student Name</label>
                                     <div class="col-sm-9">
@@ -89,13 +104,13 @@
                                 <div class="mb-3 row">
                                     <label for="cono1" class="col-sm-3 text-end control-label col-form-label">Contact No</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="cono1" placeholder="Contact No Here" name="contact">
+                                        <input type="text" class="form-control" id="contact" onkeyup="ran()" placeholder="Contact No Here" name="contact" pattern=".{11,11}"required title="Please Input Only 11 digit">
                                     </div>
                                 </div>
                                 <div class="mb-3 row">
                                     <label for="cono1" class="col-sm-3 text-end control-label col-form-label">Student ID</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="cono1" placeholder="Contact No Here" name="sid"read only="">
+                                        <input type="text" class="form-control" id="sid"  name="sid"readonly>
                                     </div>
                                 </div>
                             </div>
@@ -122,28 +137,23 @@
                                 <div class="mb-3 row">
                                     <label for="com1" class="col-sm-3 text-end control-label col-form-label">Batch Fee</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="com1" placeholder="Input Batch Fee Here" name="batchfee">
+                                        <input type="text" class="form-control"  placeholder="Input Batch Fee Here" name="batchfee" id="batchfee" onkeyup="feedue()">
                                     </div>
                                 </div>
                                 <div class="mb-3 row">
                                     <label for="com1" class="col-sm-3 text-end control-label col-form-label">Advance Fee</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="com1" placeholder="Input Batch Fee Here" name="advancefee">
+                                        <input type="text" class="form-control" placeholder="Input Batch Fee Here" name="advancefee" id ="advancefee" onkeyup="feedue()">
                                     </div>
                                 </div>
                                 <div class="mb-3 row">
                                     <label for="com1" class="col-sm-3 text-end control-label col-form-label">Due Fee</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="com1" placeholder="Due Fee Here" name="duefee">
+                                        <input type="text" class="form-control"  name="duefee" id="duef">
                                     </div>
                                 </div>
                                 
-                                <div class="mb-3 row">
-                                    <label for="abpro" class="col-sm-3 text-end control-label col-form-label">About Project</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="abpro" placeholder="About Project Here">
-                                    </div>
-                                </div>
+                                
                             </div>
                             <div class="p-3 border-top">
                                 <div class="text-end">
@@ -535,6 +545,27 @@
                 $("#description_" + id).toggle();
             });
         });
+    </script>
+
+    <script> 
+        function feedue() {
+            
+            var batchfee = document.getElementById('batchfee').value;
+            var advancefee = document.getElementById('advancefee').value;
+            var due = batchfee-advancefee;
+           
+                document.getElementById('duef').value=due;
+           
+
+
+        }
+        function ran() {
+             
+            var contact = document.getElementById('contact').value;
+            var sid = contact.substring(Math.floor(3, 6),Math.floor(9, 11));
+            
+            document.getElementById('sid').value=sid;
+        }
     </script>
 </body>
 

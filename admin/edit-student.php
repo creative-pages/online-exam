@@ -1,37 +1,39 @@
 <?php include('inc/header.php'); ?>
+<?php
+    if(isset($_GET['edts'])){
+        $ids = $_GET['edts'];
+        $student = $common->select("`student_table`","`id`='$ids'");
+        $allstudent =mysqli_fetch_assoc($student);
+    }
+
+?>
 
 <?php
-    $add_question = $common->select("`add_exam`", "`status` = '0' ORDER BY `id` DESC LIMIT 1");
-    if($add_question) {
-        $add_questions = mysqli_fetch_assoc($add_question);
-        $total_questions = $add_questions['tquetion'] + 1;
-    } else {
-        header("Location: add-exam.php");
-    }
+    $rand = rand(1000,1100);
+     if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['save'])) {
+        $sname = $_POST['sname'];
+        $sfname = $_POST['sfname'];
+        $smname = $_POST['smname'];
+        $email = $_POST['email'];
+        $contact = $_POST['contact'];
+        $sid = $_POST['sid'];
+        $batch = $_POST['batch'];
+        $batchfee = $_POST['batchfee'];
+        $advancefee = $_POST['advancefee'];
+        $duefee = $_POST['duefee'];
+         $query = $common->select("`student_table`","`contack`='$contact'");
+         if($query != false){
+             $msg = "<span style='color:red'>Contack Already Exists</span>";
+            
+         }
+         else{
+            $common->insert("`student_table`(`sname`,`sfname`,`smname`,`email`,`contack`,`sid`,`batch`,`batchfee`,`advancefee`,`duefee`)","('$sname', '$sfname', '$smname', '$email','$contact','$sid','$batch','$batchfee','$advancefee','$duefee')");
 
-    if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_all_questions'])) {
-        $total_add_questions = $_POST['total_questions'];
-        $exam_id = $_POST['exam_id'];
+         }
+        
+        
+     }
 
-        for ($i=1; $i < $total_add_questions; $i++) {
-            $new_serial = $_POST['serial'.$i];
-            $question = $_POST['question'.$i];
-
-            $option_one = $_POST['option_one'.$i];
-            $option_two = $_POST['option_two'.$i];
-            $option_three = $_POST['option_three'.$i];
-            $option_four = $_POST['option_four'.$i];
-
-            $answer = $_POST['answer'.$i];
-            $description = $_POST['description'.$i];
-
-            $common->insert("`questions`(`serial`, `exam_id`, `question`, `option_one`, `option_two`, `option_three`, `option_four`, `answer`, `description`)", "('$new_serial', '$exam_id', '$question', '$option_one', '$option_two', '$option_three', '$option_four', '$answer', '$description')");
-        }
-        $success = $common->update("`add_exam`", "`status` = '1'", "`id` = '$exam_id'");
-        if($success){
-            header("Location:add-exam.php");
-        }
-    }
 ?>
 
 <body>
@@ -71,162 +73,107 @@
         <div class="page-wrapper">
             
             <div class="container-fluid ">
-                <form action="" method="post">
-                <div class="p-3 border-buttom">
-                    <div class="d-md-flex align-items-center">
-                        <div class="action-form">
-                            <div class="text-center">
-                                <button type="submit" name="add_all_questions" class="btn btn-info rounded-pill px-4 waves-effect waves-light">Save</button>
-                                <button type="reset" class="btn btn-dark rounded-pill px-4 waves-effect waves-light">Cancel</button>
-                            </div>
-                        </div>
-                        <div class="ms-auto">
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-info dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i data-feather="download" class="feather-sm fill-white me-1"></i>
-                                    Import
-                                </button>
-                                <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="javascript:void(0)">Import From CSV file</a>
-                                    <a class="dropdown-item" href="javascript:void(0)">Import From DOC file</a>
-                                   
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                       
+                        <form class="form-horizontal" action="" method="post">
+                            <div class="card-body">
+                                <h4 class="card-title">Personal Info</h4>
+                                <?php
+                                    if(isset($msg)){
+                                        echo $msg;
+                                    }
+                              ?>
+                                <div class="mb-3 row">
+                                    <label for="fname" class="col-sm-3 text-end control-label col-form-label">Student Name</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="fname" value=<?=$allstudent['sname'];?> name="sname">
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <label for="lname" class="col-sm-3 text-end control-label col-form-label">Student Father Name</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="lname" value=<?=$allstudent['sfname'];?> name="sfname">
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <label for="lname" class="col-sm-3 text-end control-label col-form-label">Student Mother Name</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="lname" value=<?=$allstudent['smname'];?> name="smname">
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <label for="email1" class="col-sm-3 text-end control-label col-form-label">Email</label>
+                                    <div class="col-sm-9">
+                                        <input type="email" class="form-control" id="email1" value=<?=$allstudent['email'];?> name="email">
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <label for="cono1" class="col-sm-3 text-end control-label col-form-label">Contact No</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="contact" onkeyup="ran()" value=<?=$allstudent['contack'];?> name="contact" pattern=".{11,11}"required title="Please Input Only 11 digit">
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <label for="cono1" class="col-sm-3 text-end control-label col-form-label">Student ID</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="sid" value=<?=$allstudent['sid'];?>  name="sid"readonly>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i data-feather="log-in" class="feather-sm fill-white me-1"></i>
-                                    Export
-                                </button>
-                                <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="javascript:void(0)">Action</a>
-                                    <a class="dropdown-item" href="javascript:void(0)">Another action</a>
-                                    <a class="dropdown-item" href="javascript:void(0)">Something else here</a>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="javascript:void(0)">Separated link</a>
+                            <hr>
+                            <div class="card-body">
+                                <h4 class="card-title">Requirements</h4>
+                                
+                                <div class="mb-3 row">
+                                    <label class="col-sm-3 text-end control-label col-form-label">Select Batch</label>
+                                    <div class="col-sm-9">
+                                        <select class="form-select" name="batch" id="batch">
+                                            <option>Choose Your Option</option>
+                                             <?php
+                                                $query = $common->select("`add_branch` ORDER BY `id` DESC");
+                                                if($query){
+                                                    while($raw = mysqli_fetch_assoc($query)){
+                                                 
+                                             ?>
+                                            <option value = <?= $raw['id'];?>><?= $raw['branch_name'];?></option>
+                                           <?php }}?>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <label for="com1" class="col-sm-3 text-end control-label col-form-label">Batch Fee</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control"  value=<?=$allstudent['batchfee'];?> name="batchfee" id="batchfee" onkeyup="feedue()">
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <label for="com1" class="col-sm-3 text-end control-label col-form-label">Advance Fee</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" value=<?=$allstudent['advancefee'];?> name="advancefee" id ="advancefee" onkeyup="feedue()">
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <label for="com1" class="col-sm-3 text-end control-label col-form-label">Due Fee</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control"  name="duefee" id="duef" value=<?=$allstudent['duefee'];?>>
+                                    </div>
+                                </div>
+                                
+                                
+                            </div>
+                            <div class="p-3 border-top">
+                                <div class="text-end">
+                                    <button type="submit" class="btn btn-info rounded-pill px-4 waves-effect waves-light" name="save">Save</button>
+                                    <button type="submit" class="btn btn-dark rounded-pill px-4 waves-effect waves-light">Cancel</button>
                                 </div>
                             </div>
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i data-feather="upload" class="feather-sm fill-white me-1"></i>
-                                    Upload
-                                </button>
-                                <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="javascript:void(0)">Action</a>
-                                    <a class="dropdown-item" href="javascript:void(0)">Another action</a>
-                                    <a class="dropdown-item" href="javascript:void(0)">Something else here</a>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="javascript:void(0)">Separated link</a>
-                                </div>
-                            </div>
-                        </div>
+                        </form>
                     </div>
                 </div>
-                <div class="d-flex border-bottom title-part-padding px-0 mb-3 align-items-center">
-                  
                 </div>
-                <table class="table table-bordered">
-                    <tr>
-                        <th>Exam Name</th>
-                        <th>Subject Name</th>
-                        <th>Duration</th>
-                        <th>Question</th>
-                    </tr>
-                    <tr>
-                        <td><?= $add_questions['examname']; ?></td>
-                        <td><?= $add_questions['subjectname']; ?></td>
-                        <td><?= $add_questions['duration']; ?></td>
-                        <td><?= $add_questions['tquetion']; ?></td>
-                    </tr>
-                </table>
-                <?php
-                    for ($i=1; $i < $total_questions; $i++) {
-                    ?>
-
-                    <input type="hidden" name="exam_id" value="<?= $add_questions['id']; ?>">
-                    <input type="hidden" name="total_questions" value="<?= $total_questions; ?>">
-                    <input type="hidden" name="serial<?= $i; ?>" value="<?= $i; ?>">
-                    <div class="row border-top border-primary pt-4 mb-4">
-                        <div class="col-12">
-                            <div class="input-group mb-2">
-                                <div class="form-control bg-white">
-                                    <textarea name="question<?= $i; ?>" class="ck_editor">
-                                    </textarea>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3">
-                            <div class="input-group">
-                                <div class="form-control bg-white">
-                                    <textarea name="option_one<?= $i; ?>" class="ck_editor">
-                                    </textarea>
-                                </div>
-                                <div class="input-group-text">
-                                    <div class="form-check">
-                                        <input type="radio" class="form-check-input" id="checkbox4" name="answer<?= $i; ?>" value="option_one" required="">
-                                        <label class="form-check-label" for="checkbox4"></label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-3">
-                            <div class="input-group">
-                                <div class="form-control bg-white">
-                                    <textarea name="option_two<?= $i; ?>" class="ck_editor">
-                                    </textarea>
-                                </div>
-                                <div class="input-group-text">
-                                    <div class="form-check">
-                                        <input type="radio" class="form-check-input" id="checkbox4" name="answer<?= $i; ?>" value="option_two" required="">
-                                        <label class="form-check-label" for="checkbox4"></label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-3">
-                            <div class="input-group">
-                                <div class="form-control bg-white">
-                                    <textarea name="option_three<?= $i; ?>" class="ck_editor">
-                                    </textarea>
-                                </div>
-                                <div class="input-group-text">
-                                    <div class="form-check">
-                                        <input type="radio" class="form-check-input" id="checkbox4" name="answer<?= $i; ?>" value="option_three" required="">
-                                        <label class="form-check-label" for="checkbox4"></label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-3">
-                            <div class="input-group">
-                                <div class="form-control bg-white">
-                                    <textarea name="option_four<?= $i; ?>" class="ck_editor">
-                                    </textarea>
-                                </div>
-                                <div class="input-group-text">
-                                    <div class="form-check">
-                                        <input type="radio" class="form-check-input" id="checkbox4" name="answer<?= $i; ?>" value="option_four" required="">
-                                        <label class="form-check-label" for="checkbox4"></label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <button  data-value="<?= $i; ?>" type="button" class="btn btn-info btn-sm my-1 description_button_toggle">Add Description</button>
-                        </div>
-                        <div id="description_<?= $i; ?>" class="col-12" style="display: none;">
-                            <div class="form-control mb-2 bg-white">
-                                <textarea name="description<?= $i; ?>" class="form-control ck_editor" placeholder="Description (optional):"></textarea>
-                            </div>
-                        </div>
-
-                    </div>
-                    <?php
-                    }
-                ?>
-                </form>
+                
             </div>
             
             <!-- footer -->
@@ -565,7 +512,6 @@
         </div>
     </aside>
     <div class="chat-windows"></div>
-
     <!-- -------------------------------------------------------------- -->
     <!-- All Jquery -->
     <!-- -------------------------------------------------------------- -->
@@ -591,26 +537,43 @@
 
     <!--This page plugins -->
     <script src="assets/extra-libs/datatables.net/js/jquery.dataTables.min.js"></script>
-
-    <!-- This Page JS -->
-    <script src="assets/libs/ckeditor/ckeditor.js"></script>
-    <script src="assets/libs/ckeditor/samples/js/sample.js"></script>
+    <!-- start - This is for export functionality only -->
+    <!-- <script src="https://cdn.datatables.net/buttons/1.5.1/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.flash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.print.min.js"></script>
+    <script src="dist/js/pages/datatable/datatable-advanced.init.js"></script> -->
     <script>
-        CKEDITOR.plugins.addExternal('ckeditor_wiris', 'https://www.wiris.net/demo/plugins/ckeditor/', 'plugin.js');
-        $(".ck_editor").each(function() {
-            CKEDITOR.inline(this, {
-                extraPlugins: 'ckeditor_wiris',
-                filebrowserUploadUrl: "ajax/question_image.php",
-                filebrowserUploadMethod:"form"
-            });
-        });
-
         $(document).ready(function(){
             $(".description_button_toggle").click(function(){
                 var id = $(this).data('value');
                 $("#description_" + id).toggle();
             });
         });
+    </script>
+
+    <script> 
+        function feedue() {
+            
+            var batchfee = document.getElementById('batchfee').value;
+            var advancefee = document.getElementById('advancefee').value;
+            var due = batchfee-advancefee;
+           
+                document.getElementById('duef').value=due;
+           
+
+
+        }
+        function ran() {
+             
+            var contact = document.getElementById('contact').value;
+            var sid = contact.substring(Math.floor(3, 6),Math.floor(9, 11));
+            
+            document.getElementById('sid').value=sid;
+        }
     </script>
 </body>
 
