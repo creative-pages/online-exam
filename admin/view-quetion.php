@@ -79,17 +79,21 @@
                    if($select){
                       
                        while($viewquetion = mysqli_fetch_assoc($select)){
-                        
-
-                   
+                       
                    ?>
                     <div class="quetion mb-2 bg-white pt-3">
                         <div class="row mx-2">
+<<<<<<< HEAD
                             <div class="col-12 d-flex">
                                 <span><b><?=$viewquetion['serial'];?>. &nbsp;</b></span>
                                 <div><?=$viewquetion['question'];?></div>
+=======
+                            <div class="col-12">
+                                <h3 class="my-2"><?=$viewquetion['serial'];?>.<?=$viewquetion['question'];?></h3>
+>>>>>>> rasel
                             </div>
 
+<<<<<<< HEAD
                             <div class="col-sm-6 col-lg-3 d-flex">
                                 <?php
                                 if($viewquetion['answer'] == 'option_one') {
@@ -100,6 +104,12 @@
                                 ?>
                                 <div>&nbsp; a) &nbsp;</div>
                                 <div><?=$viewquetion['option_one'];?></div>
+=======
+                                    <?php } else { ?> 
+                                      
+                                    <label for="basic_checkbox_2">a)<?=$viewquetion['option_one'];?></label>
+                                    <?php } ?>
+>>>>>>> rasel
                             </div>
 
                             <div class="col-sm-6 col-lg-3 d-flex">

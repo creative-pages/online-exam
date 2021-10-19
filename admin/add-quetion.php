@@ -14,7 +14,11 @@
         $exam_id = $_POST['exam_id'];
 
         for ($i=1; $i < $total_add_questions; $i++) {
+<<<<<<< HEAD
             $serial = $_POST['serial'.$i];
+=======
+            $new_serial = $_POST['serial'.$i];
+>>>>>>> rasel
             $question = $_POST['question'.$i];
 
             $option_one = $_POST['option_one'.$i];

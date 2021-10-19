@@ -41,5 +41,26 @@
             }
            
         }
+        public function StudentLogin($data){
+            $sid = $this->fm->validation($data['id']);
+           
+            $query = "SELECT * FROM student_table WHERE sid='$sid'";
+            $result = $this->db->select($query);
+            if($result){
+                while($value = $result->fetch_assoc()){
+                    $studentid = $value['sid'];
+                    if($studentid==false){
+                        $msg ="<span style='color:red;'>Incorrect Id Number</span>";
+                        return $msg;
+                    }
+                    
+                    else{
+                        header("Location:start-exam.php");
+                    }
+                       
+                }
+                
+            }
+        }
     }
 ?>

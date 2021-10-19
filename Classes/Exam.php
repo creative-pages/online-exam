@@ -114,6 +114,50 @@
             }
         }
 
+        public function ExamProcess($id,$data){
+            $totalquetion = $this->fm->validation($data['totalquetion']);
+            for($i=1;$i<=$totalquetion;$i++){
+                $serial    = $this->fm->validation($data['serial']);
+                $ans = $this->fm->validation($data['ans'.$i]);
+
+                if(!isset($_SESSION['score'])){
+                    $_SESSION['score'] = '0';	
+                }
+                $right = rightAns($serial,$id);
+                if($right == $ans ){
+                    $_SESSION['score']++;
+                }
+            }
+            header("Location: final.php");
+
+        }
+
+        private function rightAns($serial,$id){
+            $query = "SELECT * FROM quetion WHERE exam_id = '$id' AND serial = '$serial'";
+            $result = $this->db->select($query);
+            if($result){
+                while($ans = $result->fetch_assoc() ){
+                    $righta = $ans['answer'];
+                    if($righta=="option_one"){
+                        $rightans = $righta;
+                    }
+                    elseif($righta=="option_two"){
+                        $rightans = $righta; 
+                    }
+                    elseif($righta=="option_three"){
+                        $rightans = $righta; 
+                    }
+                    elseif($righta=="option_four"){
+                        $rightans = $righta; 
+                    }
+                    return $rightans;
+
+                }
+            }
+           
+           
+        }
+
 
     }
 ?>

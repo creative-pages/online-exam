@@ -1,8 +1,17 @@
 <?php include('inc/header.php'); ?>
+<?php
+    if(isset($_GET['edts'])){
+        $ids = $_GET['edts'];
+        $student = $common->select("`student_table`","`id`='$ids'");
+        $allstudent =mysqli_fetch_assoc($student);
+       
+    }
+
+?>
 
 <?php
-    $rand = rand(1000,1100);
-     if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['save'])) {
+  
+     if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update'])) {
         $sname = $_POST['sname'];
         $sfname = $_POST['sfname'];
         $smname = $_POST['smname'];
@@ -13,27 +22,24 @@
         $batchfee = $_POST['batchfee'];
         $advancefee = $_POST['advancefee'];
         $duefee = $_POST['duefee'];
-         $query = $common->select("`student_table`","`contack`='$contact'");
-         if($query != false){
-             $msg = "<span style='color:red'>Contack Already Exists</span>";
-            
-         }
-         else{
-          $success =$common->insert("`student_table`(`sname`,`sfname`,`smname`,`email`,`contack`,`sid`,`batch`,`batchfee`,`advancefee`,`duefee`)","('$sname', '$sfname', '$smname', '$email','$contact','$sid','$batch','$batchfee','$advancefee','$duefee')");
-            if($success){
-                header("Location:add-student.php");
-            }
-         }
+       
+         
+           
+           $success = $common->update("`student_table`","`sname` = '$sname',`sfname` = '$sfname',`smname` = '$smname',`email` = '$email',`contack` = '$contact',`sid` = '$sid',`batch` = '$batch',`batchfee`= '$batchfee',`advancefee` = 'advancefee',`duefee` = 'duefee'","`id`='$ids'");
+
+           if($success){
+               header("Location:add-student.php");
+           }
         
         
      }
 
 ?>
-
 <body>
     <!-- -------------------------------------------------------------- -->
     <!-- Preloader - style you can find in spinners.css -->
     <!-- -------------------------------------------------------------- -->
+    
     <div class="preloader">
         <svg class="tea lds-ripple" width="37" height="48" viewbox="0 0 37 48" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M27.0819 17H3.02508C1.91076 17 1.01376 17.9059 1.0485 19.0197C1.15761 22.5177 1.49703 29.7374 2.5 34C4.07125 40.6778 7.18553 44.8868 8.44856 46.3845C8.79051 46.79 9.29799 47 9.82843 47H20.0218C20.639 47 21.2193 46.7159 21.5659 46.2052C22.6765 44.5687 25.2312 40.4282 27.5 34C28.9757 29.8188 29.084 22.4043 29.0441 18.9156C29.0319 17.8436 28.1539 17 27.0819 17Z" stroke="#1e88e5" stroke-width="2"></path>
@@ -74,45 +80,41 @@
                         <form class="form-horizontal" action="" method="post">
                             <div class="card-body">
                                 <h4 class="card-title">Personal Info</h4>
-                                <?php
-                                    if(isset($msg)){
-                                        echo $msg;
-                                    }
-                              ?>
+                                   
                                 <div class="mb-3 row">
                                     <label for="fname" class="col-sm-3 text-end control-label col-form-label">Student Name</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="fname" placeholder="Student Name Here" name="sname">
+                                        <input type="text" class="form-control"  value="<?=$allstudent['sname'];?>" name="sname">
                                     </div>
                                 </div>
                                 <div class="mb-3 row">
                                     <label for="lname" class="col-sm-3 text-end control-label col-form-label">Student Father Name</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="lname" placeholder="Student Father Name Here" name="sfname">
+                                        <input type="text" class="form-control" id="lname" value="<?=$allstudent['sfname'];?>" name="sfname">
                                     </div>
                                 </div>
                                 <div class="mb-3 row">
                                     <label for="lname" class="col-sm-3 text-end control-label col-form-label">Student Mother Name</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="lname" placeholder="Student Mother Name Here" name="smname">
+                                        <input type="text" class="form-control" id="lname" value="<?=$allstudent['smname'];?>" name="smname">
                                     </div>
                                 </div>
                                 <div class="mb-3 row">
                                     <label for="email1" class="col-sm-3 text-end control-label col-form-label">Email</label>
                                     <div class="col-sm-9">
-                                        <input type="email" class="form-control" id="email1" placeholder="Email Here" name="email">
+                                        <input type="email" class="form-control" id="email1" value="<?=$allstudent['email'];?>" name="email">
                                     </div>
                                 </div>
                                 <div class="mb-3 row">
                                     <label for="cono1" class="col-sm-3 text-end control-label col-form-label">Contact No</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="contact" onkeyup="ran()" placeholder="Contact No Here" name="contact" pattern=".{11,11}"required title="Please Input Only 11 digit">
+                                        <input type="text" class="form-control" id="contact" onkeyup="ran()" value="<?=$allstudent['contack'];?>" name="contact" pattern=".{11,11}"required title="Please Input Only 11 digit">
                                     </div>
                                 </div>
                                 <div class="mb-3 row">
                                     <label for="cono1" class="col-sm-3 text-end control-label col-form-label">Student ID</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="sid"  name="sid"readonly>
+                                        <input type="text" class="form-control" id="sid" value="<?=$allstudent['sid'];?>"  name="sid"readonly>
                                     </div>
                                 </div>
                             </div>
@@ -131,7 +133,7 @@
                                                     while($raw = mysqli_fetch_assoc($query)){
                                                  
                                              ?>
-                                            <option value = <?= $raw['id'];?>><?= $raw['branch_name'];?></option>
+                                            <option  <?php if($allstudent['batch']==$raw['id']){?> selected="selected"<?php } ?> value =" <?= $raw['id'];?>"><?= $raw['branch_name'];?></option>
                                            <?php }}?>
                                         </select>
                                     </div>
@@ -139,19 +141,19 @@
                                 <div class="mb-3 row">
                                     <label for="com1" class="col-sm-3 text-end control-label col-form-label">Batch Fee</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control"  placeholder="Input Batch Fee Here" name="batchfee" id="batchfee" onkeyup="feedue()">
+                                        <input type="text" class="form-control"  value=<?=$allstudent['batchfee'];?> name="batchfee" id="batchfee" onkeyup="feedue()">
                                     </div>
                                 </div>
                                 <div class="mb-3 row">
                                     <label for="com1" class="col-sm-3 text-end control-label col-form-label">Advance Fee</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" placeholder="Input Batch Fee Here" name="advancefee" id ="advancefee" onkeyup="feedue()">
+                                        <input type="text" class="form-control" value=<?=$allstudent['advancefee'];?> name="advancefee" id ="advancefee" onkeyup="feedue()">
                                     </div>
                                 </div>
                                 <div class="mb-3 row">
                                     <label for="com1" class="col-sm-3 text-end control-label col-form-label">Due Fee</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control"  name="duefee" id="duef">
+                                        <input type="text" class="form-control"  name="duefee" id="duef" value=<?=$allstudent['duefee'];?>>
                                     </div>
                                 </div>
                                 
@@ -159,7 +161,7 @@
                             </div>
                             <div class="p-3 border-top">
                                 <div class="text-end">
-                                    <button type="submit" class="btn btn-info rounded-pill px-4 waves-effect waves-light" name="save">Save</button>
+                                    <button type="submit" class="btn btn-info rounded-pill px-4 waves-effect waves-light" name="update">Update</button>
                                     <button type="submit" class="btn btn-dark rounded-pill px-4 waves-effect waves-light">Cancel</button>
                                 </div>
                             </div>
