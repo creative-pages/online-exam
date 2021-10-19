@@ -7,89 +7,96 @@
 <?php
    if(isset($_GET['cls'])){
     $subid = $_GET['cls'];
-  
+    $sub = $common->select("`subject_add`","`batch_id`='$subid'");
 }
+
 ?>
+
 <DOCTYPE html>
   <html>
     <head>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-  
+    <meta charset="utf-8" />
     </head>
     <body>
       <div class="container">
         <img src="image/04.jpg" class="rounded mx-auto d-block"  width="75%">
 
-        <div class="sub mt-3">
+        <ul class="nav nav-pills mb-3 mt-5" id="pills-tab" role="tablist">
           <?php
+            if($sub){
+              $sl = '1';
+              while($raw = mysqli_fetch_assoc($sub)){
+              ?>
+              <li class="nav-item" role="presentation">
+                <button class="nav-link<?= $sl == 1 ? ' active' : ''; ?>" id="pills-s<?= $sl; ?>-tab" data-bs-toggle="pill" data-bs-target="#pills-s<?= $sl; ?>" type="button" role="tab" aria-controls="pills-s<?= $sl; ?>" aria-selected="<?= $sl == 1 ? 'true' : 'false'; ?>"><?=$raw['subject_name'];?></button>
+              </li>
+              <?php
+              $sl++;
+              }
+            }
+          ?>
+        </ul>
+
+        <div class="tab-content" id="pills-tabContent">
+            <?php
             $sub = $common->select("`subject_add`","`batch_id`='$subid'");
             if($sub){
+              $csl = '1';
               while($raw = mysqli_fetch_assoc($sub)){
+              ?>
+              <div class="tab-pane fade<?= $csl == 1 ? ' show active' : ''; ?>" id="pills-s<?= $csl; ?>" role="tabpanel" aria-labelledby="pills-s<?= $csl; ?>-tab">
+              <table class="table table-hover mt-3">
+                <tr class="table-info">
+                  <th class="">অধ্যায়</th>
+                  <th class="">টপিক</th>
+                  <th class="">ক্লাস</th>
+                  <th class="">পরীক্ষা</th>
+                  <th class="">নোট</th>
+                </tr>
+                <?php
               
-          ?>
-          <button type="button" class="btn btn-outline-primary"><?=$raw['subject_name'];?></button>
-         <?php }}?>
+              $tid = $raw['id'];
+              $topics = $common->select("`class_add`","`subject_id`='$tid' ORDER BY `chapter` ASC");
+                  if($topics){
+                    while($rows = mysqli_fetch_assoc($topics)){
+                  
+                ?>
+                <tr>
+                  <td>
+                    <?=$rows['chapter'];?>
+                  </td>
+                  <td>
+                  <?=$rows['topic'];?>
+                  </td>
+                  <td>
+                    <a href="">
+                      <img src="image/lecture.png" height="30px;">
+                    </a>
+                  </td>
+                  <td>
+                    <a href="student-login.php">
+                      <img src="image/exam.png" height="30px;">
+                    </a>
+                  </td>
+                  <td>
+                    <a href="">
+                      <img src="image/note.png" height="30px;">
+                    </a>
+                  </td>
+                </tr>
+                <?php }}?>
+              </table>
+              </div>
+              <?php
+              $csl++;
+              }
+            }
+            ?>
         </div>
-
-        <table class="table table-hover mt-3">
-          <tr class="table-info">
-            <th class="">অধ্যায়</th>
-            <th class="">টপিক</th>
-            <th class="">ক্লাস</th>
-            <th class="">পরীক্ষা</th>
-            <th class="">নোট</th>
-          </tr>
-          <tr>
-            <td>
-              All
-            </td>
-            <td>
-              All is good
-            </td>
-            <td>
-              <a href="">
-                <img src="image/lecture.png" height="30px;">
-              </a>
-            </td>
-            <td>
-              <a href="">
-                <img src="image/exam.png" height="30px;">
-              </a>
-            </td>
-            <td>
-              <a href="">
-                <img src="image/note.png" height="30px;">
-              </a>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              All
-            </td>
-            <td>
-              All is good
-            </td>
-            <td>
-              <a href="">
-                <img src="image/lecture.png" height="30px;">
-              </a>
-            </td>
-            <td>
-              <a href="">
-                <img src="image/exam.png" height="30px;">
-              </a>
-            </td>
-            <td>
-              <a href="">
-                <img src="image/note.png" height="30px;">
-              </a>
-            </td>
-          </tr>
-        </table>
       </div>
       
         <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"   crossorigin="anonymous"></script>
-          <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-          <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     </body>
 </html>
