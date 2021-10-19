@@ -54,21 +54,21 @@
             <!-- Container fluid  -->
             <!-- -------------------------------------------------------------- -->
             <div class="container-fluid">
-                <div class="quetion" style="width: 700px;margin:0px auto;">
-                    <div class="main bg-white">
+                <div class="quetion" style="max-width: 900px; margin:0px auto;">
+                    <div class="main bg-white mb-2 py-2">
                         <div class="examheader text-center mt-2">
-                            <h3 class= ''style="margin-top:-23px;"><?=$exam['examname'];?></h1>
-                            <h3>Subject:Phy</h3>
+                            <h3 class='text-uppercase'><?=$exam['examname'];?></h1>
+                            <h3 class="text-capitalize mb-3">Subject: <?= $exam['subjectname']; ?></h3>
                         </div>
                         <div class="row mx-1">
                             <div class="col-4">
-                                <h3 class="text-muted">Time:<?=$exam['duration'];?> minutes</h3>
+                                <h3 class="text-muted">Time: <?=$exam['duration'];?> minutes</h3>
                             </div>
                             <div class="col-4">
-                                <h3 class="text-muted">Quetion:<?=$exam['tquetion'];?></h3>
+                                <h3 class="text-muted">Quetion: <?=$exam['tquetion'];?></h3>
                             </div>
                             <div class="col-4">
-                                <h3 class="text-muted">Date:<?=$exam['exmdate'];?></h3>
+                                <h3 class="text-muted">Date: <?=$exam['exmdate'];?></h3>
                             </div>
                         </div>  
                         
@@ -83,54 +83,61 @@
 
                    
                    ?>
-                    <div class="quetion mb-2 bg-white">
+                    <div class="quetion mb-2 bg-white pt-3">
                         <div class="row mx-2">
-                            <div class="col-col-12">
-                                <h3 class="my-2"><?=$viewquetion['serial'];?>.<?=$viewquetion['question'];?></h3>
+                            <div class="col-12 d-flex">
+                                <span><b><?=$viewquetion['serial'];?>. &nbsp;</b></span>
+                                <div><?=$viewquetion['question'];?></div>
                             </div>
-                            <div class="col-md-12">
+
+                            <div class="col-sm-6 col-lg-3 d-flex">
                                 <?php
-                                    if($viewquetion['answer']=='option_one'){ ?>
-                                         <input type="checkbox" class="material-inputs" id="basic_checkbox_2" class="material-inputs filled-in" checked />
-                                        <label for="basic_checkbox_2">a)<?=$viewquetion['option_one'];?></label>
-
-                                   <?php } else { ?> 
-                                      <nbsp>
-                                    <label for="basic_checkbox_2">a)<?=$viewquetion['option_one'];?></label>
-                                    <?php } ?>
+                                if($viewquetion['answer'] == 'option_one') {
+                                ?>
+                                <img width="25px" height="25px" src="assets/images/img/iconfinder_check.svg">
+                                <?php
+                                }
+                                ?>
+                                <div>&nbsp; a) &nbsp;</div>
+                                <div><?=$viewquetion['option_one'];?></div>
                             </div>
-                            <div class="col-md-12">
-                            <?php
-                                    if($viewquetion['answer']=='option_two'){ ?>
-                                         <input type="checkbox" class="material-inputs" id="basic_checkbox_2" class="material-inputs filled-in" checked />
-                                         <label for="basic_checkbox_2">b)<?=$viewquetion['option_one'];?></label>
 
-                                   <?php } else { ?> 
-                                    <label for="basic_checkbox_2">b)<?=$viewquetion['option_one'];?></label>
-                                    <?php } ?>
+                            <div class="col-sm-6 col-lg-3 d-flex">
+                                <?php
+                                if($viewquetion['answer'] == 'option_two') {
+                                ?>
+                                <img width="25px" height="25px" src="assets/images/img/iconfinder_check.svg">
+                                <?php
+                                }
+                                ?>
+                                <div>&nbsp; a) &nbsp;</div>
+                                <div><?=$viewquetion['option_two'];?></div>
                             </div>
-                            <div class="col-md-12">
-                            <?php
-                                    if($viewquetion['answer']=='option_three'){ ?>
-                                         <input type="checkbox" class="material-inputs" id="basic_checkbox_2" class="material-inputs filled-in" checked />
-                                        <label for="basic_checkbox_2">c)<?=$viewquetion['option_one'];?></label>
 
-                                   <?php } else { ?> 
-                                    <label for="basic_checkbox_2">c)<?=$viewquetion['option_one'];?></label>
-                                    <?php } ?>
+                            <div class="col-sm-6 col-lg-3 d-flex">
+                                <?php
+                                if($viewquetion['answer'] == 'option_three') {
+                                ?>
+                                <img width="25px" height="25px" src="assets/images/img/iconfinder_check.svg">
+                                <?php
+                                }
+                                ?>
+                                <div>&nbsp; a) &nbsp;</div>
+                                <div><?=$viewquetion['option_three'];?></div>
                             </div>
-                            <div class="col-md-12">
-                            <?php
-                                    if($viewquetion['answer']=='option_four'){ ?>
-                                         <input type="checkbox" class="material-inputs" id="basic_checkbox_2" class="material-inputs filled-in" checked />
-                                        <label for="basic_checkbox_2">d)<?=$viewquetion['option_one'];?></label>
 
-                                   <?php } else { ?> 
-                                    <label for="basic_checkbox_2">d)<?=$viewquetion['option_one'];?></label>
-                                    <?php } ?>
+                            <div class="col-sm-6 col-lg-3 d-flex">
+                                <?php
+                                if($viewquetion['answer'] == 'option_four') {
+                                ?>
+                                <img width="25px" height="25px" src="assets/images/img/iconfinder_check.svg">
+                                <?php
+                                }
+                                ?>
+                                <div>&nbsp; a) &nbsp;</div>
+                                <div><?=$viewquetion['option_four'];?></div>
                             </div>
                         </div>
-
                     </div>
                     <?php }}?>
 

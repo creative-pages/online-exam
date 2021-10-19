@@ -14,7 +14,7 @@
         $exam_id = $_POST['exam_id'];
 
         for ($i=1; $i < $total_add_questions; $i++) {
-            $new_serial = $_POST['new_serial'.$i];
+            $serial = $_POST['serial'.$i];
             $question = $_POST['question'.$i];
 
             $option_one = $_POST['option_one'.$i];
@@ -25,7 +25,7 @@
             $answer = $_POST['answer'.$i];
             $description = $_POST['description'.$i];
 
-            $common->insert("`questions`(`serial`, `exam_id`, `question`, `option_one`, `option_two`, `option_three`, `option_four`, `answer`, `description`)", "('$new_serial', '$exam_id', '$question', '$option_one', '$option_two', '$option_three', '$option_four', '$answer', '$description')");
+            $common->insert("`questions`(`serial`, `exam_id`, `question`, `option_one`, `option_two`, `option_three`, `option_four`, `answer`, `description`)", "('$serial', '$exam_id', '$question', '$option_one', '$option_two', '$option_three', '$option_four', '$answer', '$description')");
         }
         $success = $common->update("`add_exam`", "`status` = '1'", "`id` = '$exam_id'");
         if($success){
