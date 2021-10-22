@@ -137,14 +137,14 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <input type="radio" name="ans<?=$i;?>" value="<?=$viewquetion['id'];?>"/>
+                                    <input type="radio" name="ans<?=$i;?>" value="option_one" />
                                     <?=$viewquetion['option_one'];?><br>
                                     
-                                    <input type="radio" name="ans<?=$i;?>" value="<?=$viewquetion['id'];?>"/>
+                                    <input type="radio" name="ans<?=$i;?>" value="option_two" />
                                     <?=$viewquetion['option_two'];?><br>
-                                    <input type="radio" name="ans<?=$i;?>" value="<?=$viewquetion['id'];?>"/>
+                                    <input type="radio" name="ans<?=$i;?>" value="option_three" />
                                     <?=$viewquetion['option_three'];?><br>
-                                    <input type="radio" name="ans<?=$i;?>" value="<?=$viewquetion['id'];?>"/>
+                                    <input type="radio" name="ans<?=$i;?>" value="option_four" />
                                     <?=$viewquetion['option_four'];?>
                                 </td>
                             </tr>

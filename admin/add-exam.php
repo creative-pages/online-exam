@@ -1,7 +1,7 @@
 <?php include('inc/header.php'); ?>
 <?php
     if ($_SERVER["REQUEST_METHOD"]== "POST" && isset($_POST['save'])) {
-        $addexam=$exam->AddExam($_POST);
+        $addexam = $exam->AddExam($_POST);
     }
     if(isset($_GET['editxm'])){
         $id =$_GET['editxm'];
@@ -75,11 +75,6 @@
                             <label for="subjectname">Subject Name</label>
                             <input class="form-control" type="text" id="emailaddress"
                                 required="" placeholder="Enter Subject Name"name="subjectname">
-                        </div>
-                        <div class="mb-3">
-                            <label for="totalque">Total Quetion</label>
-                            <input class="form-control" type="number" required=""
-                                id="password" placeholder="Enter Number Of Total Quetion"name="tquetion">
                         </div>
                         <div class="mb-3">
                             <label for="duration">Duration</label>

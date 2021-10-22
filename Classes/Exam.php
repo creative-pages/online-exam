@@ -14,11 +14,10 @@
         public function AddExam($data){
             $examname    = $this->fm->validation($data['examname']);
             $subjectname = $this->fm->validation($data['subjectname']);
-            $tquetion    = $this->fm->validation($data['tquetion']);
             $duration    = $this->fm->validation($data['duration']);
             $exmdate     = $this->fm->validation($data['exmdate']);
 
-            $query = "insert into add_exam(examname,subjectname,duration ,tquetion,exmdate ) values('$examname','$subjectname','$duration','$tquetion','$exmdate')";
+            $query = "insert into add_exam(examname,subjectname,duration,exmdate ) values('$examname','$subjectname','$duration','$exmdate')";
             $insert_row = $this->db->insert($query);
             if($insert_row){
                 echo "<script> window.location.assign('add-quetion.php'); </script>";

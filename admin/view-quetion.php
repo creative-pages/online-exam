@@ -4,7 +4,6 @@
         $id = $_GET['view'];
        $query = $common->select("`add_exam`","`id`='$id'");
        $exam = mysqli_fetch_assoc($query);
-
     }
 ?>
 
@@ -96,7 +95,7 @@
                                 <?php
                                 }
                                 ?>
-                                <div>&nbsp; a) &nbsp;</div>
+                                <div class="px-1">a)</div>
                                 <div><?=$viewquetion['option_one'];?></div>
                             </div>
 
@@ -108,7 +107,7 @@
                                 <?php
                                 }
                                 ?>
-                                <div>&nbsp; a) &nbsp;</div>
+                                <div class="px-1">b)</div>
                                 <div><?=$viewquetion['option_two'];?></div>
                             </div>
 
@@ -120,7 +119,7 @@
                                 <?php
                                 }
                                 ?>
-                                <div>&nbsp; a) &nbsp;</div>
+                                <div class="px-1">c)</div>
                                 <div><?=$viewquetion['option_three'];?></div>
                             </div>
 
@@ -132,7 +131,7 @@
                                 <?php
                                 }
                                 ?>
-                                <div>&nbsp; a) &nbsp;</div>
+                                <div class="px-1">d)</div>
                                 <div><?=$viewquetion['option_four'];?></div>
                             </div>
                         </div>

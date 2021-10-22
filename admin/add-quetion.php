@@ -13,12 +13,9 @@
         $total_add_questions = $_POST['total_questions'];
         $exam_id = $_POST['exam_id'];
 
-        for ($i=1; $i < $total_add_questions; $i++) {
-<<<<<<< HEAD
+        for ($i = 1; $i < $total_add_questions + 1; $i++) {
             $serial = $_POST['serial'.$i];
-=======
             $new_serial = $_POST['serial'.$i];
->>>>>>> rasel
             $question = $_POST['question'.$i];
 
             $option_one = $_POST['option_one'.$i];
@@ -31,11 +28,108 @@
 
             $common->insert("`questions`(`serial`, `exam_id`, `question`, `option_one`, `option_two`, `option_three`, `option_four`, `answer`, `description`)", "('$serial', '$exam_id', '$question', '$option_one', '$option_two', '$option_three', '$option_four', '$answer', '$description')");
         }
-        $success = $common->update("`add_exam`", "`status` = '1'", "`id` = '$exam_id'");
+        $success = $common->update("`add_exam`", "`tquetion` = '$total_add_questions', `status` = '1'", "`id` = '$exam_id'");
         if($success){
             header("Location:add-exam.php");
         }
     }
+?>
+
+<?php
+if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['csv_file_import'])) {
+  // (B) READ UPLOADED CSV
+  $fh = fopen($_FILES["upcsv"]["tmp_name"], "r");
+  if ($fh === false) { exit("Failed to open uploaded CSV file"); }
+
+  // (C) IMPORT ROW BY ROW
+  $new_import_test = '';
+  $ser = 1;
+
+  $end_code = 0;
+
+  $option_ser = 1;
+  while (($row = fgetcsv($fh)) !== false) {
+    if ($row[0] != 'HTML') {
+        if ($row[0] == '*' || $row[0] == '') {
+            $end_code++;
+            if($end_code == 1) {
+                $dynamic_options = 'option_one';
+            } elseif ($end_code == 2) {
+                $dynamic_options = 'option_two';
+            } elseif ($end_code == 3) {
+                $dynamic_options = 'option_three';
+            } elseif ($end_code == 4) {
+                $dynamic_options = 'option_four';
+            }
+
+            if ($row[0] == '*') {
+                $new_import_test .= '<div class="col-lg-3">
+                            <div class="input-group">
+                                <div class="form-control bg-white">
+                                    <textarea name="'.$dynamic_options.$option_ser.'" class="ck_editor">
+                                    '.$row[1].'
+                                    </textarea>
+                                </div>
+                                <div class="input-group-text">
+                                    <div class="form-check">
+                                        <input type="radio" class="form-check-input" id="checkbox4" name="answer'.$option_ser.'" value="'.$dynamic_options.'" checked required="">
+                                        <label class="form-check-label" for="checkbox4"></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>';
+            } else {
+                $new_import_test .= '<div class="col-lg-3">
+                            <div class="input-group">
+                                <div class="form-control bg-white">
+                                    <textarea name="'.$dynamic_options.$option_ser.'" class="ck_editor">
+                                    '.$row[1].'
+                                    </textarea>
+                                </div>
+                                <div class="input-group-text">
+                                    <div class="form-check">
+                                        <input type="radio" class="form-check-input" id="checkbox4" name="answer'.$option_ser.'" value="'.$dynamic_options.'" required="">
+                                        <label class="form-check-label" for="checkbox4"></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>';
+            }
+
+            if($end_code == 4) {
+                $option_ser++;
+
+                $end_code = 0;
+                $new_import_test .= '<div class="col-12">
+                            <button  data-value="'.$ser.'" type="button" class="btn btn-info btn-sm my-1 description_button_toggle">Add Description</button>
+                        </div>
+                        <div id="description_'.$ser.'" class="col-12" style="display: none;">
+                            <div class="form-control mb-2 bg-white">
+                                <textarea name="description'.$ser.'" class="form-control ck_editor" placeholder="Description (optional):"></textarea>
+                            </div>
+                        </div>
+
+                    </div>';
+            }
+
+        } else {
+            $new_import_test .= '<input type="hidden" name="serial'.$ser.'" value="'.$ser.'">
+                    <div class="row border-top border-primary pt-4 mb-4">
+                        <div class="col-12">
+                            <div class="input-group mb-2">
+                                <div class="form-control bg-white">
+                                    <textarea name="question'.$ser.'" class="ck_editor">
+                                    '.$row[0].'
+                                    </textarea>
+                                </div>
+                            </div>
+                        </div>';
+            $ser++;
+        }
+    }
+  }
+  fclose($fh);
+}
 ?>
 
 <body>
@@ -85,50 +179,29 @@
                             </div>
                         </div>
                         <div class="ms-auto">
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-info dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i data-feather="download" class="feather-sm fill-white me-1"></i>
-                                    Import
-                                </button>
-                                <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="javascript:void(0)">Import From CSV file</a>
-                                    <a class="dropdown-item" href="javascript:void(0)">Import From DOC file</a>
-                                   
-                                </div>
-                            </div>
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i data-feather="log-in" class="feather-sm fill-white me-1"></i>
-                                    Export
-                                </button>
-                                <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="javascript:void(0)">Action</a>
-                                    <a class="dropdown-item" href="javascript:void(0)">Another action</a>
-                                    <a class="dropdown-item" href="javascript:void(0)">Something else here</a>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="javascript:void(0)">Separated link</a>
-                                </div>
-                            </div>
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i data-feather="upload" class="feather-sm fill-white me-1"></i>
-                                    Upload
-                                </button>
-                                <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="javascript:void(0)">Action</a>
-                                    <a class="dropdown-item" href="javascript:void(0)">Another action</a>
-                                    <a class="dropdown-item" href="javascript:void(0)">Something else here</a>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="javascript:void(0)">Separated link</a>
-                                </div>
-                            </div>
+                            <?php
+                            if ($_SERVER['REQUEST_METHOD'] != "POST" && !isset($_POST['csv_file_import'])) {
+                            ?>
+                            <!-- Button trigger modal -->
+                            <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#copy_other_button">
+                              <i data-feather="download" class="feather-sm fill-white me-1"></i>
+                                Copy Form Other Exam
+                            </button>
+                            <!-- Button trigger modal -->
+                            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#import_csv_button">
+                              <i data-feather="download" class="feather-sm fill-white me-1"></i>
+                                Import CSV
+                            </button>
+                            <?php
+                            }
+                            ?>
                         </div>
                     </div>
                 </div>
                 <div class="d-flex border-bottom title-part-padding px-0 mb-3 align-items-center">
                   
                 </div>
-                <table class="table table-bordered">
+                <table class="table table-bordered border-success">
                     <tr>
                         <th>Exam Name</th>
                         <th>Subject Name</th>
@@ -139,97 +212,18 @@
                         <td><?= $add_questions['examname']; ?></td>
                         <td><?= $add_questions['subjectname']; ?></td>
                         <td><?= $add_questions['duration']; ?></td>
-                        <td><?= $add_questions['tquetion']; ?></td>
+                        <td><?= isset($ser) ? $ser - 1 : 0; ?></td>
                     </tr>
                 </table>
+                <input type="hidden" name="exam_id" value="<?= $add_questions['id']; ?>">
+                <input type="hidden" name="total_questions" value="<?= isset($ser) ? $ser -1 : 0; ?>">
+
                 <?php
-                    for ($i=1; $i < $total_questions; $i++) {
-                    ?>
-
-                    <input type="hidden" name="exam_id" value="<?= $add_questions['id']; ?>">
-                    <input type="hidden" name="total_questions" value="<?= $total_questions; ?>">
-                    <input type="hidden" name="serial<?= $i; ?>" value="<?= $i; ?>">
-                    <div class="row border-top border-primary pt-4 mb-4">
-                        <div class="col-12">
-                            <div class="input-group mb-2">
-                                <div class="form-control bg-white">
-                                    <textarea name="question<?= $i; ?>" class="ck_editor">
-                                    </textarea>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3">
-                            <div class="input-group">
-                                <div class="form-control bg-white">
-                                    <textarea name="option_one<?= $i; ?>" class="ck_editor">
-                                    </textarea>
-                                </div>
-                                <div class="input-group-text">
-                                    <div class="form-check">
-                                        <input type="radio" class="form-check-input" id="checkbox4" name="answer<?= $i; ?>" value="option_one" required="">
-                                        <label class="form-check-label" for="checkbox4"></label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-3">
-                            <div class="input-group">
-                                <div class="form-control bg-white">
-                                    <textarea name="option_two<?= $i; ?>" class="ck_editor">
-                                    </textarea>
-                                </div>
-                                <div class="input-group-text">
-                                    <div class="form-check">
-                                        <input type="radio" class="form-check-input" id="checkbox4" name="answer<?= $i; ?>" value="option_two" required="">
-                                        <label class="form-check-label" for="checkbox4"></label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-3">
-                            <div class="input-group">
-                                <div class="form-control bg-white">
-                                    <textarea name="option_three<?= $i; ?>" class="ck_editor">
-                                    </textarea>
-                                </div>
-                                <div class="input-group-text">
-                                    <div class="form-check">
-                                        <input type="radio" class="form-check-input" id="checkbox4" name="answer<?= $i; ?>" value="option_three" required="">
-                                        <label class="form-check-label" for="checkbox4"></label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-3">
-                            <div class="input-group">
-                                <div class="form-control bg-white">
-                                    <textarea name="option_four<?= $i; ?>" class="ck_editor">
-                                    </textarea>
-                                </div>
-                                <div class="input-group-text">
-                                    <div class="form-check">
-                                        <input type="radio" class="form-check-input" id="checkbox4" name="answer<?= $i; ?>" value="option_four" required="">
-                                        <label class="form-check-label" for="checkbox4"></label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <button  data-value="<?= $i; ?>" type="button" class="btn btn-info btn-sm my-1 description_button_toggle">Add Description</button>
-                        </div>
-                        <div id="description_<?= $i; ?>" class="col-12" style="display: none;">
-                            <div class="form-control mb-2 bg-white">
-                                <textarea name="description<?= $i; ?>" class="form-control ck_editor" placeholder="Description (optional):"></textarea>
-                            </div>
-                        </div>
-
-                    </div>
-                    <?php
+                    if (isset($new_import_test)) {
+                        echo $new_import_test;
                     }
                 ?>
+                <div id="exams_copy_result"></div>
                 </form>
             </div>
             
@@ -570,6 +564,73 @@
     </aside>
     <div class="chat-windows"></div>
 
+    <!-- modals start -->
+    <!-- Modal -->
+    <div class="modal fade" id="import_csv_button" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="staticBackdropLabel">Choose CSV File Only</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form action="" id="csv_file_import" method="POST" enctype="multipart/form-data">
+                <div class="mb-3">
+                  <input class="form-control" type="file" name="upcsv" accept=".csv" required="">
+                </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" name="csv_file_import" form="csv_file_import" class="btn btn-primary">Set Question</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="copy_other_button" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+        <div class="modal-content">
+          <div class="modal-header flex-column">
+            <div class="d-flex align-items-center w-100 border-bottom pb-1">
+                <h4 class="modal-title text-primary" id="staticBackdropLabel">Copy From Other Exam</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="input-group my-3">
+                <label class="input-group-text mb-0" for="exams_select">Exams</label>
+                <select class="form-select" id="exams_select">
+                    <option selected="">Choose...</option>
+                    <?php
+                    $all_exam = $common->select("`add_exam`", "`status` = '1'");
+                    if ($all_exam) {
+                        while ($all_exams = mysqli_fetch_assoc($all_exam)) {
+                        ?>
+                        <option value="<?= $all_exams['id']; ?>"><?= $all_exams['examname'] . ' - ' . $all_exams['subjectname']; ?></option>
+                        <?php
+                        }
+                    }
+                    ?>
+                </select>
+            </div>
+          </div>
+          <div class="modal-body border-top border-bottom">
+            <form id="exams_copy_form">
+                <input type="hidden" name="copy_question" value="copy_question">
+                <div id="exams_select_result">
+                    <h4 class="text-center text-danger mb-0">Select Exam First!</h4>
+                </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" onclick="exams_copies();" id="exams_copy" form="exams_copy_form" class="btn btn-primary" disabled="">Copy</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- modals end -->
+
     <!-- -------------------------------------------------------------- -->
     <!-- All Jquery -->
     <!-- -------------------------------------------------------------- -->
@@ -615,6 +676,39 @@
                 $("#description_" + id).toggle();
             });
         });
+        $('#exams_select').on('change', function() {
+            var id = $(this).val();
+
+            if (id !== 'Choose...') {
+                $.ajax({
+                    url: 'ajax/question_image.php',
+                    type: 'POST',
+                    data: {id:id, read_exam:'read_exam'},
+                    success:function(data) {
+                        $('#exams_select_result').html(data);
+                        $('#exams_copy').attr("disabled",false);
+                    }
+                });
+            } else {
+                $('#exams_select_result').html('<h4 class="text-center text-danger mb-0">Select Exam First!</h4>');
+                $('#exams_copy').attr("disabled","disabled");
+            }
+        });
+
+        function exams_copies() {
+           $.ajax({
+                url: 'ajax/question_image.php',
+                type: 'POST',
+                data: $("#exams_copy_form").serialize(),
+                success:function(data) {
+                    $('#exams_copy_result').html(data);
+                    $('#exams_select_result').html('<h4 class="text-center text-danger mb-0">Select Exam First!</h4>');
+                }
+            });
+
+            $("#copy_other_button").modal('hide');
+            $('#exams_copy').attr("disabled","disabled");
+        }
     </script>
 </body>
 

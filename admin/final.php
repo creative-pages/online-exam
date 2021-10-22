@@ -1,8 +1,205 @@
 <?php include('inc/header.php'); ?>
 <?php
   
-?>
+if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['save'])) {
+    $right_answer = 0;
+    $wrong_answer = 0;
+    $not_answered = 0;
 
+    $preview_answer = '';
+
+    $totalquetion = $_POST['totalquetion'];
+
+    for($i = 1; $i <= $totalquetion; $i++){
+        $serial = $_POST['serial'.$i];
+
+        $que_info = $common->select("questions", "`id` = '$serial'");
+        $que_infos = mysqli_fetch_assoc($que_info);
+        if ($que_infos["answer"] == 'option_one') {
+            $correct_option1 = '<img width="25px" height="25px" src="assets/images/img/iconfinder_check.svg">';
+            $correct_option2 = '';
+            $correct_option3 = '';
+            $correct_option4 = '';
+        } elseif ($que_infos["answer"] == 'option_two') {
+            $correct_option1 = '';
+            $correct_option2 = '<img width="25px" height="25px" src="assets/images/img/iconfinder_check.svg">';
+            $correct_option3 = '';
+            $correct_option4 = '';
+        } elseif ($que_infos["answer"] == 'option_three') {
+            $correct_option1 = '';
+            $correct_option2 = '';
+            $correct_option3 = '<img width="25px" height="25px" src="assets/images/img/iconfinder_check.svg">';
+            $correct_option4 = '';
+        } elseif ($que_infos["answer"] == 'option_four') {
+            $correct_option1 = '';
+            $correct_option2 = '';
+            $correct_option3 = '';
+            $correct_option4 = '<img width="25px" height="25px" src="assets/images/img/iconfinder_check.svg">';
+        }
+
+        if(isset($_POST['ans'.$i])) {
+            $ans = $_POST['ans'.$i];
+
+            $result_check = $common->select("questions", "`id` = '$serial' && `answer` = '$ans'");
+
+            if($result_check) {
+                $right_answer++;
+            $preview_answer .= '<div class="quetion mb-2 bg-white py-2 border border-success" style="border-width: 3px!important;">
+                    <div class="row mx-2">
+                        <div class="col-12 d-flex">
+                            <span><b>'.$i.'. &nbsp;</b></span>
+                            <div>'.$que_infos["question"].'</div>
+                        </div>
+
+                        <div class="col-sm-6 col-lg-3 d-flex">
+                            
+                                '.$correct_option1.'
+                            
+                            <div>&nbsp; a) &nbsp;</div>
+                            <div>'.$que_infos["option_one"].'</div>
+                        </div>
+
+                        <div class="col-sm-6 col-lg-3 d-flex">
+                            
+                                '.$correct_option2.'
+                          
+                            <div>&nbsp; a) &nbsp;</div>
+                            <div>'.$que_infos["option_two"].'</div>
+                        </div>
+
+                        <div class="col-sm-6 col-lg-3 d-flex">
+                            
+                                '.$correct_option3.'
+                            
+                            <div>&nbsp; a) &nbsp;</div>
+                            <div>'.$que_infos["option_three"].'</div>
+                        </div>
+
+                        <div class="col-sm-6 col-lg-3 d-flex">
+                            
+                                '.$correct_option4.'
+                           
+                            <div>&nbsp; a) &nbsp;</div>
+                            <div>'.$que_infos["option_four"].'</div>
+                        </div>
+                    </div>
+                </div>';
+            } else {
+                $wrong_answer++;
+
+                if ($ans == 'option_one') {
+                    $wrong_option1 = '<img width="25px" height="25px" src="assets/images/iconfinder_wrong.jpg">';
+                    $wrong_option2 = '';
+                    $wrong_option3 = '';
+                    $wrong_option4 = '';
+                } elseif ($ans == 'option_two') {
+                    $wrong_option1 = '';
+                    $wrong_option2 = '<img width="25px" height="25px" src="assets/images/iconfinder_wrong.jpg">';
+                    $wrong_option3 = '';
+                    $wrong_option4 = '';
+                } elseif ($ans == 'option_three') {
+                    $wrong_option1 = '';
+                    $wrong_option2 = '';
+                    $wrong_option3 = '<img width="25px" height="25px" src="assets/images/iconfinder_wrong.jpg">';
+                    $wrong_option4 = '';
+                } elseif ($ans == 'option_four') {
+                    $wrong_option1 = '';
+                    $wrong_option2 = '';
+                    $wrong_option3 = '';
+                    $wrong_option4 = '<img width="25px" height="25px" src="assets/images/iconfinder_wrong.jpg">';
+                }
+            $preview_answer .= '<div class="quetion mb-2 bg-white py-2 border border-danger" style="border-width: 3px!important;">
+                        <div class="row mx-2">
+                            <div class="col-12 d-flex">
+                                <span><b>'.$i.'. &nbsp;</b></span>
+                                <div>'.$que_infos["question"].'</div>
+                            </div>
+
+                            <div class="col-sm-6 col-lg-3 d-flex">
+                            
+                                '.$correct_option1.'
+                                '.$wrong_option1.'
+                                
+                                <div>&nbsp; a) &nbsp;</div>
+                                <div>'.$que_infos["option_one"].'</div>
+                            </div>
+
+                            <div class="col-sm-6 col-lg-3 d-flex">
+                            
+                                '.$correct_option2.'
+                                '.$wrong_option2.'
+                              
+                                <div>&nbsp; a) &nbsp;</div>
+                                <div>'.$que_infos["option_two"].'</div>
+                            </div>
+
+                            <div class="col-sm-6 col-lg-3 d-flex">
+                            
+                                '.$correct_option3.'
+                                '.$wrong_option3.'
+
+                                <div>&nbsp; a) &nbsp;</div>
+                                <div>'.$que_infos["option_three"].'</div>
+                            </div>
+
+                            <div class="col-sm-6 col-lg-3 d-flex">
+                            
+                                '.$correct_option4.'
+                                '.$wrong_option4.'
+                               
+                                <div>&nbsp; a) &nbsp;</div>
+                                <div>'.$que_infos["option_four"].'</div>
+                            </div>
+                        </div>
+                    </div>';
+            }
+        } else {
+            $not_answered++;
+        $preview_answer .= '<div class="quetion mb-2 bg-white py-2 border border-dark" style="border-width: 3px!important;">
+                    <div class="row mx-2">
+                        <div class="col-12 d-flex">
+                            <span><b>'.$i.'. &nbsp;</b></span>
+                            <div>'.$que_infos["question"].'</div>
+                        </div>
+
+                        <div class="col-sm-6 col-lg-3 d-flex">
+                            
+                            '.$correct_option1.'
+                            
+                            <div>&nbsp; a) &nbsp;</div>
+                            <div>'.$que_infos["option_one"].'</div>
+                        </div>
+
+                        <div class="col-sm-6 col-lg-3 d-flex">
+
+                            '.$correct_option2.'
+                          
+                            <div>&nbsp; a) &nbsp;</div>
+                            <div>'.$que_infos["option_two"].'</div>
+                        </div>
+
+                        <div class="col-sm-6 col-lg-3 d-flex">
+
+                            '.$correct_option3.'
+                            
+                            <div>&nbsp; a) &nbsp;</div>
+                            <div>'.$que_infos["option_three"].'</div>
+                        </div>
+
+                        <div class="col-sm-6 col-lg-3 d-flex">
+
+                            '.$correct_option4.'
+                           
+                            <div>&nbsp; a) &nbsp;</div>
+                            <div>'.$que_infos["option_four"].'</div>
+                        </div>
+                    </div>
+                </div>';
+        }
+    }
+}
+
+?>       
 <body>
     <!-- -------------------------------------------------------------- -->
     <!-- Preloader - style you can find in spinners.css -->
@@ -57,10 +254,10 @@
                         </div>
                         <div class="row mx-1">
                             <div class="col-4">
-                                <h3 class="text-muted">Your Score:5/8</h3>
+                                <h3 class="text-muted">Your Score: <?= $right_answer; ?>/<?= $totalquetion; ?></h3>
                             </div>
                             <div class="col-4">
-                                <h3 class="text-muted">Not Answer:2</h3>
+                                <h3 class="text-muted">Not Answer: <?= $not_answered; ?></h3>
                             </div>
                             <div class="col-4">
                                 <h3 class="text-muted">Date:22-10-21</h3>
@@ -70,74 +267,8 @@
                     </div>
                     
                    
-                    <div class="quetion mb-2 bg-white pt-3">
-                        <div class="row mx-2">
-                            <div class="col-12 d-flex">
-                                <span><b>1. &nbsp;</b></span>
-                                <div>Text Question</div>
-                            </div>
-
-                            <div class="col-sm-6 col-lg-3 d-flex">
-                                
-                                <img width="25px" height="25px" src="assets/images/img/iconfinder_check.svg">
-                                
-                                <div>&nbsp; a) &nbsp;</div>
-                                <div>Option One</div>
-                            </div>
-
-							<div class="col-sm-6 col-lg-3 d-flex">
-                              
-                                <div>&nbsp; a) &nbsp;</div>
-                                <div>Option Two</div>
-                            </div>
-
-							<div class="col-sm-6 col-lg-3 d-flex">
-                                
-                                <div>&nbsp; a) &nbsp;</div>
-                                <div>Option Three</div>
-                            </div>
-
-							<div class="col-sm-6 col-lg-3 d-flex">
-                               
-                                <div>&nbsp; a) &nbsp;</div>
-                                <div>Option Four</div>
-                            </div>
-                        </div>
-                    </div>
-
-					<div class="quetion mb-2 bg-white pt-3">
-                        <div class="row mx-2">
-                            <div class="col-12 d-flex">
-                                <span><b>1. &nbsp;</b></span>
-                                <div>Text Question</div>
-                            </div>
-
-                            <div class="col-sm-6 col-lg-3 d-flex">
-                                
-                                <img width="25px" height="25px" src="assets/images/img/cross1.png">
-                                
-                                <div>&nbsp; a) &nbsp;</div>
-                                <div>Option One</div>
-                            </div>
-
-							<div class="col-sm-6 col-lg-3 d-flex">
-                              
-                                <div>&nbsp; a) &nbsp;</div>
-                                <div>Option Two</div>
-                            </div>
-
-							<div class="col-sm-6 col-lg-3 d-flex">
-								<img width="25px" height="25px" src="assets/images/img/iconfinder_check.svg">
-                                <div>&nbsp; a) &nbsp;</div>
-                                <div>Option Three</div>
-                            </div>
-
-							<div class="col-sm-6 col-lg-3 d-flex">
-                               
-                                <div>&nbsp; a) &nbsp;</div>
-                                <div>Option Four</div>
-                            </div>
-                        </div>
+                    <div>
+                        <?= $preview_answer; ?>
                     </div>
                   
 
