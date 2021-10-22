@@ -1,17 +1,11 @@
 <?php include('inc/header.php'); ?>
-<?php
-    if(isset($_GET['setting'])){
-        $id = $_GET['setting'];
-       $query = $common->select("`add_exam`","`id`='$id'");
-       $exam = mysqli_fetch_assoc($query);
 
-    }
-  ?>
-  <?php
-    if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['publish'])) {
-        $publish = $all->PublishExam($_POST);
-    }
-  ?>
+<?php
+    $pub = $common->select("`publish_exam` ORDER BY `id` DESC");
+    
+?>
+
+
 
 <body>
     <!-- -------------------------------------------------------------- -->
@@ -59,394 +53,95 @@
             <!-- Container fluid  -->
             <!-- -------------------------------------------------------------- -->
             <div class="container-fluid">
-                <form action="" method="post">
-                    <div class="card w-100">
-                        
-                        
-                            <div class="card-body border-top">
-                                <h4 class="card-title">Basic Settings</h4>
-                                
-                                <div class="row">
-                                    <div class="col-12">
-                                        <div class="mb-3">
-                                            <label for="inputcom" class="control-label col-form-label">Exam Name</label>
-                                            <input type="text" class="form-control" name="exam_name" value="<?=$exam['examname']?>">
-                                            <input type="hidden" class="form-control" id="inputcom" name="exam_id" value="<?=$exam['id'];?>">
-                                            <input type="hidden" class="form-control" id="inputcom" name="link" value="student-login.php?exmid=<?=$exam['id'];?>">
-                                        </div>
-                                    </div>
-                                
-                                    <div class="col-12">
-                                        <div class="mb-3">
-                                            <label class="control-label col-form-label">Introduction</label>
-                                            <textarea class="form-control ck_editor" name="intro" ></textarea>
-                                        </div>
-                                    </div>
+                <!-- -------------------------------------------------------------- -->
+                <!-- Start Page Content -->
+                <!-- -------------------------------------------------------------- -->
+                <div class="widget-content searchable-container list">
+                    <div class="card card-body">
+                        <div class="row">
+                                <div class="col-md-4 col-xl-2">
+                                    <form>
+                                        <input type="text" class="form-control product-search" id="input-search" placeholder="Search Contacts...">
+                                    </form>
                                 </div>
-                            </div>
-
-                        
-                            <div class="card-body border-top">
-                                <h4 class="card-title">Color Scheema</h4>
                                 
-                                <div class="row">
-                                    <div class="col-3">
-                                        <div class="mb-3">
-                                            
-                                            <input type="radio" id="inputcom" name="color" value="blue">
-                                            Blue
-                                        </div>
-                                    </div>
-                                
-                                    <div class="col-3">
-                                        <div class="mb-3">
-                                        
-                                            <input type="radio"id="inputcom" name="color" value="red">
-                                            Red
-                                        </div>
-                                    </div>
-                                    <div class="col-3">
-                                        <div class="mb-3">
-                                        
-                                            <input type="radio"id="inputcom" name="color" value="green">
-                                            Green
-                                        </div>
-                                    </div>
-                                    <div class="col-3">
-                                        <div class="mb-3">
-                                        
-                                            <input type="radio" id="inputcom" name="color" name="white">
-                                            White
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="card-body border-top">
-                                <h4 class="card-title">Quetion Setting</h4>
-                                <h5 class="card-title">Pagination</h5>
-                                <div class="row">
-                                    <div class="col-12">
-                                        <div class="mb-1">
-                                            
-                                            <input type="radio" id="inputcom" name="pg" value="allQuetion">
-                                            Show All Quetion on one Page
-                                        </div>
-                                    </div>
-                                
-                                    <div class="col-12">
-                                        <div class="mb-3">
-                                        
-                                            <input type="radio"id="pg" name="pg" value="oneQuetion">
-                                            Show One Quetion Per Page
-                                        </div>
-                                    </div>
-                            </div>
-                            <div class="pagi mx-2 "style="display:none;">
-                                <h4 class="card-title"><strong>Navigation Setting</strong></h4>
-                                <div class="row">
-                                        <div class="col-12">
-                                            <div class="mb-1">
-                                                
-                                                <input type="radio" id="inputcom" name="nav">
-                                                Allow The Student 
+                        </div>
+                       
+                    </div>
+                   
+                   
+                    <div class="card card-body">
+                        <div class="table-responsive">
+                            <table class="table search-table v-middle">
+                                <thead class="header-item">
+                                    <th>
+                                        <div class="n-chk align-self-center text-center">
+                                            <div class="form-check">
+                                                <input type="checkbox" class="form-check-input secondary" id="contact-check-all">
+                                                <label class="form-check-label" for="contact-check-all"></label>
+                                                <span class="new-control-indicator"></span>
                                             </div>
                                         </div>
+                                    </th>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Link</th>
+                                    <th>Action</th>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                        if($pub){
+                                            while($raw = mysqli_fetch_assoc($pub)){
+                                          
+                                    ?>
                                     
-                                        <div class="col-12">
-                                            <div class="mb-3">
-                                            
-                                                <input type="radio"id="inputcom" name="nav">
-                                                Only Allow
+                                    <tr class="search-items">
+                                        <td>
+                                            <div class="n-chk align-self-center text-center">
+                                                <div class="form-check">
+                                                    <input type="checkbox" class="form-check-input contact-chkbox primary" id="checkbox2">
+                                                    <label class="form-check-label" for="checkbox2"></label>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                    <h4 class="card-title">After Each Quetion is Answered:</h4>
-                                    <div class="row">
-                                        <div class="col-12">
-                                            <div class="mb-1">
-                                                
-                                                <input type="checkbox" id="inputcom" name="pg">
-                                                Indicate the correct answer 
+                                        </td>
+                                        <td>
+                                             <span class="usr-email-addr"><?=$raw['exam_id'];?></span>
+                                        </td>
+                                        <td>
+                                            <span class="usr-email-addr" ><?=$raw['exam_name'];?></span>
+                                        </td>
+                                        <td>
+                                            <span class="usr-location" ><?=$raw['link'];?></span>
+                                        </td>
+                                       
+                                        <td>
+                                            <div class="action-btn">
+                                                <a href="edit-student.php" class="text-info edit">
+                                                    <i data-feather="eye" class="feather-sm fill-white"></i>
+                                                </a>
+                                                <a onclick="return confirm('Are you sure you want to Delete');" href="">
+                                                    <i data-feather="trash-2" class="feather-sm fill-white"></i>
+                                                </a>
                                             </div>
-                                        </div>
+                                        </td>
+                                    </tr>
+                                    <?php }}?>
+                                   
+                                    <!-- /.row -->
+                                    <!-- row -->
                                     
-                                        <div class="col-12">
-                                            <div class="mb-1">
-                                            
-                                                <input type="checkbox"id="inputcom" name="color">
-                                                Dispaly the correct answer
-                                            </div>
-                                        </div>
-                                        <div class="col-12">
-                                            <div class="mb-3">
-                                            
-                                                <input type="checkbox"id="inputcom" name="color">
-                                                Show The Explation
-                                            </div>
-                                        </div>
-                                    </div>
-                            </div>
-
-                            <h5 class="card-title"><strong>Other Setting </strong></h5>
-                                <div class="row">
-                                    <div class="col-12">
-                                        <div class="mb-1">
-                                            
-                                            <input type="checkbox"id="inputcom" name="color">
-                                                Randomize the other of the quetion duering the test.
-                                        </div>
-                                    </div>
-                                
-                                    <div class="col-12">
-                                        <div class="mb-1">
-                                        
-                                        <input type="checkbox"id="inputcom" name="color">
-                                                Allow Student to submit blank/emty page
-                                        </div>
-                                    </div>
-
-                                    <div class="col-12">
-                                        <div class="mb-1">
-                                        
-                                        <input type="checkbox"id="inputcom" name="color">
-                                                Penalize incorrect answer(Negative marking)
-                                        </div>
-                                    </div>
-                            </div>
-
-
-                            
-                            </div>
-                        
-                    </div>
-                    
-                    <div class="card w-100">
-                        <div class="card-body border-top">
-                            <h2><strong>Review Setting</strong></h2>
-                            <p>This setting control what happen after the text</p>
-                            <div class="row">
-                                <div class="col-12">
-                                    <div class="mb-3">
-                                        <label class="control-label col-form-label">Concloson text</label>
-                                        <textarea class="form-control ck_editor" aria-label="With textarea"></textarea>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="mb-2">
-                                        
-                                        <input type="checkbox"id="inputcom" name="color">
-                                            Show a custom message if the student pass or fail
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="mb-1">
-                                        <strong>At the end of text,display user:</strong>    
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="mb-1">
-                                        <input type="checkbox"id="inputcom" name="color">
-                                            Score
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="mb-1">
-                                        <input type="checkbox"id="inputcom" name="color">
-                                            Text OutLine[?]
-                                    </div>
-                                </div>
-                            </div>
+                                    <!-- /.row -->
+                                </tbody>
+                            </table>
                         </div>
-
-                    </div>
-
-                    <div class="card w-100">
-                        <div class="card-body border-top">
-                            <h2><strong>Access Control</strong></h2>
-                            <div class="row">
-                                <div class="col-6">
-                                    <h4>Who Can Text Your Text</h4>
-                                    <div class="mb-2 bg-light"style="padding:10px;">
-                                        <input type="checkbox"id="inputcom" name="color" >
-                                            Anyone
-                                    </div>
-                                    <div class="mb-2 bg-light"style="padding:10px;">
-                                        <input type="checkbox"id="inputcom" name="color" >
-                                            Anyone who enters a passcode of my choosing
-                                    </div>
-                                    <div class="mb-2 bg-light"style="padding:10px;">
-                                        <input type="checkbox"id="inputcom" name="color" >
-                                        Anyone who enters a uniq identifier
-                                    </div>
-                                </div>
-                                <div class="col-6">
-                                    <h4>How much time to test have to compeleted the test?</h4>
-                                    <p>The timer start the moment and continues even if they close out of test</p>
-                                    <div class="col-12">
-                                        <div class="mb-1">
-                                            <input type="radio"id="inputcom" name="time" value="unlimited" >
-                                            Unlimited
-                                        </div>
-
-                                    </div>
-                                    <div class="col-12">
-                                        <div class="mb-3">
-                                            <input type="radio"id="inputcom" name="time" value="limited" >
-                                            <span><input type="text" name="minute" style="width: 64px;"></span> <span>minutes</span>
-                                        </div>
-                                    </div>
-                                    <h4>How many time someone can take test?</h4>
-                                    <div class="col-12">
-                                        <div class="mb-1">
-                                            <input type="radio"id="inputcom" name="time" >
-                                            Unlimited
-                                        </div>
-
-                                    </div>
-                                    <div class="col-12">
-                                        <div class="mb-3">
-                                            <input type="radio"id="inputcom" name="time" >
-                                            <span><input type="text" name="minute" style="width: 64px;"></span> <span>times</span>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-
-                        
-                        </div>
-
-                    </div>
-
-                    <div class="card w-100">
-                        <div class="card-body border-top">
-                            <h2><strong>Browser functionality</strong></h2>
-                            <div class="row">
-                                <div class="col-12">
-                                    <div class="mb-1">
-                                        <input type="checkbox"id="inputcom" name="browser" >
-                                        Disable Right content Menu
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="mb-1">
-                                        <input type="checkbox"id="inputcom" name="browser" >
-                                        Disable Copy/paste
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="mb-1">
-                                        <input type="checkbox"id="inputcom" name="browser" >
-                                        Disable Translate
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="mb-1">
-                                        <input type="checkbox"id="inputcom" name="browser" >
-                                        Disable autocompeleted
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="mb-1">
-                                        <input type="checkbox"id="inputcom" name="browser" >
-                                        Disable Spellcheck
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-
-                    <div class="card w-100">
-                        <div class="card-body border-top">
-                            <h2><strong>Notification</strong></h2>
-                            <h4>Do you want to receive an email whenever someone finishe the test</h4>
-                            <div class="row">
-                                <div class="col-12">
-                                    <div class="mb-1">
-                                        <input type="radio"id="inputcom" name="noti" >
-                                        Use My Acaunt to Control This
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="mb-1">
-                                    <input type="radio"id="inputcom" name="noti" >
-                                        yes
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="mb-1">
-                                    <input type="radio"id="inputcom" name="noti" >
-                                        no
-                                    </div>
-                                </div>
-                            
-                            </div>
-
-                        </div>
-                    </div>
-                    <div class="text-center">
-                        <button type="submit" class="btn btn-success" name="publish">Save</button>
-                    </div>
-                </form>
-
-            </div>       
-        
-            <!-- Share Modal -->
-            <div class="modal fade" id="Sharemodel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-                aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <form>
-                            <div class="modal-header d-flex align-items-center">
-                                <h5 class="modal-title" id="exampleModalLabel"><i class="mdi mdi-auto-fix me-2"></i>
-                                    Share With</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="input-group mb-3">
-                                    <button type="button" class="btn btn-info"><i
-                                            class="ti-user text-white"></i></button>
-                                    <input type="text" class="form-control" placeholder="Enter Name Here"
-                                        aria-label="Username">
-                                </div>
-                                <div class="row">
-                                    <div class="col-3 text-center">
-                                        <a href="#Whatsapp" class="text-success">
-                                            <i class="display-6 mdi mdi-whatsapp"></i><br><span
-                                                class="text-muted">Whatsapp</span>
-                                        </a>
-                                    </div>
-                                    <div class="col-3 text-center">
-                                        <a href="#Facebook" class="text-info">
-                                            <i class="display-6 mdi mdi-facebook"></i><br><span
-                                                class="text-muted">Facebook</span>
-                                        </a>
-                                    </div>
-                                    <div class="col-3 text-center">
-                                        <a href="#Instagram" class="text-danger">
-                                            <i class="display-6 mdi mdi-instagram"></i><br><span
-                                                class="text-muted">Instagram</span>
-                                        </a>
-                                    </div>
-                                    <div class="col-3 text-center">
-                                        <a href="#Skype" class="text-cyan">
-                                            <i class="display-6 mdi mdi-skype"></i><br><span
-                                                class="text-muted">Skype</span>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-success"><i class="fas fa-paper-plane"></i>
-                                    Send</button>
-                            </div>
-                        </form>
                     </div>
                 </div>
+                <!-- -------------------------------------------------------------- -->
+                <!-- End PAge Content -->
+                <!-- -------------------------------------------------------------- -->
             </div>
+            <!-- Share Modal -->
+            
             <!-- -------------------------------------------------------------- -->
             <!-- End Container fluid  -->
             <!-- -------------------------------------------------------------- -->
@@ -807,16 +502,6 @@
     <script src="dist/js/custom.min.js"></script>
     <!--This page plugins -->
     <script src="dist/js/pages/contact/contact.js"></script>
-    <script src="assets/libs/ckeditor/ckeditor.js"></script>
-    <script src="assets/libs/ckeditor/samples/js/sample.js"></script>
-    <script>
-        $(document).ready(function(){
-            $("#pg").click(function(){
-               $(".pagi").slideToggle();
-            });
-
-        });
-    </script>
 </body>
 
 </html>

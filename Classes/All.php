@@ -62,5 +62,23 @@
                 
             }
         }
+
+        public function PublishExam($data){
+            $exam_id = $this->fm->validation($data['exam_id']);
+            $exam_name = $this->fm->validation($data['exam_name']);
+            $link = $this->fm->validation($data['link']);
+            $intro = $this->fm->validation($data['intro']);
+            $color = $this->fm->validation($data['color']);
+            $pagination = $this->fm->validation($data['pg']);
+            $howtime = $this->fm->validation($data['time']);
+            $totaltime = $this->fm->validation($data['minute']);
+
+            $query = "INSERT INTO  publish_exam(exam_id,exam_name,link,intro,color,pagination,howtime,totaltime) VALUES('$exam_id','$exam_name','$link','$intro','$color','$pagination','$howtime','$totaltime') ";
+            $result = $this->db->insert($query);
+            if($result){
+                header("Location:publish-exam.php");
+            }
+
+        }
     }
 ?>

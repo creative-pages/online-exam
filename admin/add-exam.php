@@ -141,7 +141,7 @@
                                             data-bs-target="#examedit-modal">Edit</a>
                                         <a  href="edit-quetion.php?editque=<?= $value['id'];?>" class="btn btn-success">Quetion Edit</a>
                                         <a onclick ="return confirm('Do you Want to sure to delete?');" href="?dltque=<?= $value['id'];?>" class="btn btn-danger">Delete</a>
-                                        <a href="setting.php" class="btn btn-info my-1"><i class="fa fa-cog" aria-hidden="true"></i>
+                                        <a href="setting.php?setting=<?=$value['id'];?>" class="btn btn-info my-1"><i class="fa fa-cog" aria-hidden="true"></i>
                                             </a>
                                         <a href="view-quetion.php?view=<?= $value['id'];?>" class="btn btn-info my-1"><i class="fa fa-eye" aria-hidden="true"></i>
                                             </a>
