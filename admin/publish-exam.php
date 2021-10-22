@@ -1,38 +1,11 @@
 <?php include('inc/header.php'); ?>
 
 <?php
-    $rand = rand(1000,1100);
-     if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['save'])) {
-        $sname = $_POST['sname'];
-        $sfname = $_POST['sfname'];
-        $smname = $_POST['smname'];
-        $email = $_POST['email'];
-        $contact = $_POST['contact'];
-        $sid = $_POST['sid'];
-        $batch = $_POST['batch'];
-        $ssc = $_POST['ssc'];
-        $hsc = $_POST['hsc'];
-        $ms = $_POST['ms'];
-        $st = $_POST['st'];
-        $batchfee = $_POST['batchfee'];
-        $advancefee = $_POST['advancefee'];
-        $duefee = $_POST['duefee'];
-        $query = $common->select("`student_table`","`contack`='$contact'");
-        if($query != false){
-            $msg = "<span style='color:red'>Contack Already Exists</span>";
-        
-        }
-        else{
-        $success =$common->insert("`student_table`(`sname`,`sfname`,`smname`,`email`,`contack`,`sid`,`batch`,`ssc`,`hsc`,`ms`,`st`,`batchfee`,`advancefee`,`duefee`)","('$sname', '$sfname', '$smname', '$email','$contact','$sid','$batch','$ssc','$hsc','$ms','$st','$batchfee','$advancefee','$duefee')");
-        if($success){
-            header("Location:add-student.php");
-        }
-        }
-        
-        
-     }
-
+    $pub = $common->select("`publish_exam` ORDER BY `id` DESC");
+    
 ?>
+
+
 
 <body>
     <!-- -------------------------------------------------------------- -->
@@ -67,167 +40,115 @@
         <!-- -------------------------------------------------------------- -->
         <!-- -------------------------------------------------------------- -->
         <!-- Page wrapper  -->
-        
+        <!-- -------------------------------------------------------------- -->
         <div class="page-wrapper">
+            <!-- ============================================================== -->
+            <!-- Bread crumb and right sidebar toggle -->
+            <!-- ============================================================== -->
             
-            <div class="container-fluid ">
-            <div class="row">
-                <div class="col-12">
-                    <div class="card">
+            <!-- ============================================================== -->
+            <!-- End Bread crumb and right sidebar toggle -->
+            <!-- ============================================================== -->
+            <!-- -------------------------------------------------------------- -->
+            <!-- Container fluid  -->
+            <!-- -------------------------------------------------------------- -->
+            <div class="container-fluid">
+                <!-- -------------------------------------------------------------- -->
+                <!-- Start Page Content -->
+                <!-- -------------------------------------------------------------- -->
+                <div class="widget-content searchable-container list">
+                    <div class="card card-body">
+                        <div class="row">
+                                <div class="col-md-4 col-xl-2">
+                                    <form>
+                                        <input type="text" class="form-control product-search" id="input-search" placeholder="Search Contacts...">
+                                    </form>
+                                </div>
+                                
+                        </div>
                        
-                        <form class="form-horizontal" action="" method="post">
-                            <div class="card-body">
-                                <h4 class="card-title">Personal Info</h4>
-                                <?php
-                                    if(isset($msg)){
-                                        echo $msg;
-                                    }
-                              ?>
-                                <div class="mb-3 row">
-                                    <label for="fname" class="col-sm-3 text-end control-label col-form-label">Student Name</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="fname" placeholder="Student Name Here" name="sname">
-                                    </div>
-                                </div>
-                                <div class="mb-3 row">
-                                    <label for="lname" class="col-sm-3 text-end control-label col-form-label">Student Father Name</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="lname" placeholder="Student Father Name Here" name="sfname">
-                                    </div>
-                                </div>
-                                <div class="mb-3 row">
-                                    <label for="lname" class="col-sm-3 text-end control-label col-form-label">Student Mother Name</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="lname" placeholder="Student Mother Name Here" name="smname">
-                                    </div>
-                                </div>
-                                <div class="mb-3 row">
-                                    <label for="email1" class="col-sm-3 text-end control-label col-form-label">Email</label>
-                                    <div class="col-sm-9">
-                                        <input type="email" class="form-control" id="email1" placeholder="Email Here" name="email">
-                                    </div>
-                                </div>
-                                <div class="mb-3 row">
-                                    <label for="cono1" class="col-sm-3 text-end control-label col-form-label">Contact No</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="contact" onkeyup="ran()" placeholder="Contact No Here" name="contact" pattern=".{11,11}"required title="Please Input Only 11 digit">
-                                    </div>
-                                </div>
-                                <div class="mb-3 row">
-                                    <label for="cono1" class="col-sm-3 text-end control-label col-form-label">Student ID</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="sid"  name="sid"readonly>
-                                    </div>
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="card-body">
-                                <h4 class="card-title">Requirements</h4>
-                                
-                                <div class="mb-3 row">
-                                    <label class="col-sm-3 text-end control-label col-form-label">Select Batch</label>
-                                    <div class="col-sm-9">
-                                        <select class="form-select" name="batch" id="batch">
-                                            <option>Choose Your Option</option>
-                                             <?php
-                                                $query = $common->select("`add_branch` ORDER BY `id` DESC");
-                                                if($query){
-                                                    while($raw = mysqli_fetch_assoc($query)){
-                                                 
-                                             ?>
-                                            <option value = <?= $raw['id'];?>><?= $raw['branch_name'];?></option>
-                                           <?php }}?>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="mb-3 row">
-                                    <label for="lname" class="col-sm-3 text-end control-label col-form-label">SSC RESULT</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="lname" placeholder="Enter SSC Result" name="ssc">
-                                    </div>
-                                </div>
-                                <div class="mb-3 row">
-                                    <label for="lname" class="col-sm-3 text-end control-label col-form-label">HSC RESULT</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="lname" placeholder="Enter HSC Result" name="hsc">
-                                    </div>
-                                </div>
-                                <div class="mb-3 row">
-                                    <label for="com1" class="col-sm-3 text-end control-label col-form-label">Medical Student?</label>
-                                    <div class="col-sm-9">
-                                        <div class="form-check form-check-inline">
-                                            <div class="custom-control custom-radio">
-                                                <input type="radio" class="custom-control-input" id="customControlValidation2" name="ms" value="yes">
-                                                <label class="custom-control-label" for="customControlValidation2">yes</label>
+                    </div>
+                   
+                   
+                    <div class="card card-body">
+                        <div class="table-responsive">
+                            <table class="table search-table v-middle">
+                                <thead class="header-item">
+                                    <th>
+                                        <div class="n-chk align-self-center text-center">
+                                            <div class="form-check">
+                                                <input type="checkbox" class="form-check-input secondary" id="contact-check-all">
+                                                <label class="form-check-label" for="contact-check-all"></label>
+                                                <span class="new-control-indicator"></span>
                                             </div>
                                         </div>
-
-                                        <div class="form-check form-check-inline">
-                                            <div class="custom-control custom-radio">
-                                                <input type="radio" class="custom-control-input" id="customControlValidation3" name="ms" value="no">
-                                                <label class="custom-control-label" for="customControlValidation3">No</label>
+                                    </th>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Link</th>
+                                    <th>Action</th>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                        if($pub){
+                                            while($raw = mysqli_fetch_assoc($pub)){
+                                          
+                                    ?>
+                                    
+                                    <tr class="search-items">
+                                        <td>
+                                            <div class="n-chk align-self-center text-center">
+                                                <div class="form-check">
+                                                    <input type="checkbox" class="form-check-input contact-chkbox primary" id="checkbox2">
+                                                    <label class="form-check-label" for="checkbox2"></label>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="mb-3 row">
-                                    <label for="com1" class="col-sm-3 text-end control-label col-form-label">Second Timer?</label>
-                                    <div class="col-sm-9">
-                                        <div class="form-check form-check-inline">
-                                            <div class="custom-control custom-radio">
-                                                <input type="radio" class="custom-control-input" id="customControlValidation2" name="st" value="yes">
-                                                <label class="custom-control-label" for="customControlValidation2">yes</label>
+                                        </td>
+                                        <td>
+                                             <span class="usr-email-addr"><?=$raw['exam_id'];?></span>
+                                        </td>
+                                        <td>
+                                            <span class="usr-email-addr" ><?=$raw['exam_name'];?></span>
+                                        </td>
+                                        <td>
+                                            <span class="usr-location" ><?=$raw['link'];?></span>
+                                        </td>
+                                       
+                                        <td>
+                                            <div class="action-btn">
+                                                <a href="edit-student.php" class="text-info edit">
+                                                    <i data-feather="eye" class="feather-sm fill-white"></i>
+                                                </a>
+                                                <a onclick="return confirm('Are you sure you want to Delete');" href="">
+                                                    <i data-feather="trash-2" class="feather-sm fill-white"></i>
+                                                </a>
                                             </div>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <div class="custom-control custom-radio">
-                                                <input type="radio" class="custom-control-input" id="customControlValidation3" name="st" value="no">
-                                                <label class="custom-control-label" for="customControlValidation3">No</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="mb-3 row">
-                                    <label for="com1" class="col-sm-3 text-end control-label col-form-label">Batch Fee</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control"  placeholder="Input Batch Fee Here" name="batchfee" id="batchfee" onkeyup="feedue()">
-                                    </div>
-                                </div>
-                                <div class="mb-3 row">
-                                    <label for="com1" class="col-sm-3 text-end control-label col-form-label">Advance Fee</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" placeholder="Input Batch Fee Here" name="advancefee" id ="advancefee" onkeyup="feedue()">
-                                    </div>
-                                </div>
-                                <div class="mb-3 row">
-                                    <label for="com1" class="col-sm-3 text-end control-label col-form-label">Due Fee</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control"  name="duefee" id="duef">
-                                    </div>
-                                </div>
-                                
-                                
-                            </div>
-                            <div class="p-3 border-top">
-                                <div class="text-end">
-                                    <button type="submit" class="btn btn-info rounded-pill px-4 waves-effect waves-light" name="save">Save</button>
-                                    <button type="submit" class="btn btn-dark rounded-pill px-4 waves-effect waves-light">Cancel</button>
-                                </div>
-                            </div>
-                        </form>
+                                        </td>
+                                    </tr>
+                                    <?php }}?>
+                                   
+                                    <!-- /.row -->
+                                    <!-- row -->
+                                    
+                                    <!-- /.row -->
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
-                </div>
-                
+                <!-- -------------------------------------------------------------- -->
+                <!-- End PAge Content -->
+                <!-- -------------------------------------------------------------- -->
             </div>
+            <!-- Share Modal -->
             
+            <!-- -------------------------------------------------------------- -->
+            <!-- End Container fluid  -->
+            <!-- -------------------------------------------------------------- -->
+            <!-- -------------------------------------------------------------- -->
             <!-- footer -->
             <!-- -------------------------------------------------------------- -->
-            <footer class="footer text-center">
-                   All Rights Reserved by Materialpro admin.
-            </footer>
+            <?php include('inc/footer.php'); ?>
             <!-- -------------------------------------------------------------- -->
             <!-- End footer -->
             <!-- -------------------------------------------------------------- -->
@@ -357,7 +278,7 @@
                                     class="message-item d-flex align-items-center border-bottom px-3 py-2"
                                     id='chat_user_1' data-user-id='1'>
                                     <span class="user-img position-relative d-inline-block"> <img
-                                            src="assets/images/users/1.jpg" alt="user" class="rounded-circle w-100">
+                                            src="../assets/images/users/1.jpg" alt="user" class="rounded-circle w-100">
                                         <span class="profile-status rounded-circle online"></span> </span>
                                     <div class="w-75 d-inline-block v-middle ps-3">
                                         <h5 class="message-title mb-0 mt-1">Pavan kumar</h5> <span
@@ -371,7 +292,7 @@
                                     class="message-item d-flex align-items-center border-bottom px-3 py-2"
                                     id='chat_user_2' data-user-id='2'>
                                     <span class="user-img position-relative d-inline-block"> <img
-                                            src="assets/images/users/2.jpg" alt="user" class="rounded-circle w-100">
+                                            src="../assets/images/users/2.jpg" alt="user" class="rounded-circle w-100">
                                         <span class="profile-status rounded-circle busy"></span> </span>
                                     <div class="w-75 d-inline-block v-middle ps-3">
                                         <h5 class="message-title mb-0 mt-1">Sonu Nigam</h5> <span
@@ -385,7 +306,7 @@
                                     class="message-item d-flex align-items-center border-bottom px-3 py-2"
                                     id='chat_user_3' data-user-id='3'>
                                     <span class="user-img position-relative d-inline-block"> <img
-                                            src="assets/images/users/3.jpg" alt="user" class="rounded-circle w-100">
+                                            src="../assets/images/users/3.jpg" alt="user" class="rounded-circle w-100">
                                         <span class="profile-status rounded-circle away"></span> </span>
                                     <div class="w-75 d-inline-block v-middle ps-3">
                                         <h5 class="message-title mb-0 mt-1">Arijit Sinh</h5> <span
@@ -399,7 +320,7 @@
                                     class="message-item d-flex align-items-center border-bottom px-3 py-2"
                                     id='chat_user_4' data-user-id='4'>
                                     <span class="user-img position-relative d-inline-block"> <img
-                                            src="assets/images/users/4.jpg" alt="user" class="rounded-circle w-100">
+                                            src="../assets/images/users/4.jpg" alt="user" class="rounded-circle w-100">
                                         <span class="profile-status rounded-circle offline"></span> </span>
                                     <div class="w-75 d-inline-block v-middle ps-3">
                                         <h5 class="message-title mb-0 mt-1">Nirav Joshi</h5> <span
@@ -414,7 +335,7 @@
                                     class="message-item d-flex align-items-center border-bottom px-3 py-2"
                                     id='chat_user_5' data-user-id='5'>
                                     <span class="user-img position-relative d-inline-block"> <img
-                                            src="assets/images/users/5.jpg" alt="user" class="rounded-circle w-100">
+                                            src="../assets/images/users/5.jpg" alt="user" class="rounded-circle w-100">
                                         <span class="profile-status rounded-circle offline"></span> </span>
                                     <div class="w-75 d-inline-block v-middle ps-3">
                                         <h5 class="message-title mb-0 mt-1">Sunil Joshi</h5> <span
@@ -429,7 +350,7 @@
                                     class="message-item d-flex align-items-center border-bottom px-3 py-2"
                                     id='chat_user_6' data-user-id='6'>
                                     <span class="user-img position-relative d-inline-block"> <img
-                                            src="assets/images/users/6.jpg" alt="user" class="rounded-circle w-100">
+                                            src="../assets/images/users/6.jpg" alt="user" class="rounded-circle w-100">
                                         <span class="profile-status rounded-circle offline"></span> </span>
                                     <div class="w-75 d-inline-block v-middle ps-3">
                                         <h5 class="message-title mb-0 mt-1">Akshay Kumar</h5> <span
@@ -444,7 +365,7 @@
                                     class="message-item d-flex align-items-center border-bottom px-3 py-2"
                                     id='chat_user_7' data-user-id='7'>
                                     <span class="user-img position-relative d-inline-block"> <img
-                                            src="assets/images/users/7.jpg" alt="user" class="rounded-circle w-100">
+                                            src="../assets/images/users/7.jpg" alt="user" class="rounded-circle w-100">
                                         <span class="profile-status rounded-circle offline"></span> </span>
                                     <div class="w-75 d-inline-block v-middle ps-3">
                                         <h5 class="message-title mb-0 mt-1">Pavan kumar</h5> <span
@@ -459,7 +380,7 @@
                                     class="message-item d-flex align-items-center border-bottom px-3 py-2"
                                     id='chat_user_8' data-user-id='8'>
                                     <span class="user-img position-relative d-inline-block"> <img
-                                            src="assets/images/users/8.jpg" alt="user" class="rounded-circle w-100">
+                                            src="../assets/images/users/8.jpg" alt="user" class="rounded-circle w-100">
                                         <span class="profile-status rounded-circle offline"></span> </span>
                                     <div class="w-75 d-inline-block v-middle ps-3">
                                         <h5 class="message-title mb-0 mt-1">Varun Dhavan</h5> <span
@@ -498,7 +419,7 @@
                         </div>
                         <div class="sl-item">
                             <div class="sl-left"> <img class="rounded-circle" alt="user"
-                                    src="assets/images/users/2.jpg"> </div>
+                                    src="../assets/images/users/2.jpg"> </div>
                             <div class="sl-right">
                                 <div class="font-weight-medium">Go to the Doctor <span class="sl-date">5 minutes
                                         ago</span>
@@ -508,7 +429,7 @@
                         </div>
                         <div class="sl-item">
                             <div class="sl-left"> <img class="rounded-circle" alt="user"
-                                    src="assets/images/users/1.jpg"> </div>
+                                    src="../assets/images/users/1.jpg"> </div>
                             <div class="sl-right">
                                 <div><a href="javascript:void(0)">Stephen</a> <span class="sl-date">5 minutes ago</span>
                                 </div>
@@ -535,7 +456,7 @@
                         </div>
                         <div class="sl-item">
                             <div class="sl-left"> <img class="rounded-circle" alt="user"
-                                    src="assets/images/users/4.jpg"> </div>
+                                    src="../assets/images/users/4.jpg"> </div>
                             <div class="sl-right">
                                 <div class="font-weight-medium">Go to the Doctor <span class="sl-date">5 minutes
                                         ago</span>
@@ -545,7 +466,7 @@
                         </div>
                         <div class="sl-item">
                             <div class="sl-left"> <img class="rounded-circle" alt="user"
-                                    src="assets/images/users/6.jpg"> </div>
+                                    src="../assets/images/users/6.jpg"> </div>
                             <div class="sl-right">
                                 <div><a href="javascript:void(0)">Stephen</a> <span class="sl-date">5 minutes ago</span>
                                 </div>
@@ -579,49 +500,8 @@
     <!--Custom JavaScript -->
    <script src="dist/js/feather.min.js"></script>
     <script src="dist/js/custom.min.js"></script>
-    <!-- This Page JS -->
-    <script src="assets/extra-libs/prism/prism.js"></script>
-
     <!--This page plugins -->
-    <script src="assets/extra-libs/datatables.net/js/jquery.dataTables.min.js"></script>
-    <!-- start - This is for export functionality only -->
-    <!-- <script src="https://cdn.datatables.net/buttons/1.5.1/js/dataTables.buttons.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.flash.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/pdfmake.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/vfs_fonts.js"></script>
-    <script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.html5.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.print.min.js"></script>
-    <script src="dist/js/pages/datatable/datatable-advanced.init.js"></script> -->
-    <script>
-        $(document).ready(function(){
-            $(".description_button_toggle").click(function(){
-                var id = $(this).data('value');
-                $("#description_" + id).toggle();
-            });
-        });
-    </script>
-
-    <script> 
-        function feedue() {
-            
-            var batchfee = document.getElementById('batchfee').value;
-            var advancefee = document.getElementById('advancefee').value;
-            var due = batchfee-advancefee;
-           
-                document.getElementById('duef').value=due;
-           
-
-
-        }
-        function ran() {
-             
-            var contact = document.getElementById('contact').value;
-            var sid = contact.substring(Math.floor(3, 6),Math.floor(9, 11));
-            
-            document.getElementById('sid').value=sid;
-        }
-    </script>
+    <script src="dist/js/pages/contact/contact.js"></script>
 </body>
 
 </html>
