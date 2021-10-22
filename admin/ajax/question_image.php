@@ -21,14 +21,128 @@ if(isset($_FILES['upload']['name'])) {
  }
 }
 
-if (isset($_POST['copy_question'])) {
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['copy_question'])) {
     $total_quetion = $_POST['total_quetion'];
 
+    $question_rows = '';
+    $ser = 0;
     for ($i=0; $i < $total_quetion + 1; $i++) {
         if (isset($_POST['sfw_id'.$i])) {
-            echo $sfw_id = $_POST['sfw_id'.$i] . '<br>';
+            $ser++;
+
+            $sfw_id = $_POST['sfw_id'.$i];
+            $copy_que = $common->select("`questions`", "`id` = '$sfw_id'");
+            $copy_ques = mysqli_fetch_assoc($copy_que);
+
+            if($copy_ques['answer'] == 'option_one') {
+                $answer_checked1 = 'checked';
+                $answer_checked2 = '';
+                $answer_checked3 = '';
+                $answer_checked4 = '';
+            } elseif ($copy_ques['answer'] == 'option_two') {
+                $answer_checked1 = '';
+                $answer_checked2 = 'checked';
+                $answer_checked3 = '';
+                $answer_checked4 = '';
+            } elseif ($copy_ques['answer'] == 'option_three') {
+                $answer_checked1 = '';
+                $answer_checked2 = '';
+                $answer_checked3 = 'checked';
+                $answer_checked4 = '';
+            } elseif ($copy_ques['answer'] == 'option_four') {
+                $answer_checked1 = '';
+                $answer_checked2 = '';
+                $answer_checked3 = '';
+                $answer_checked4 = 'checked';
+            }
+
+            $question_rows .= '<input type="hidden" name="serial'.$ser.'" value="'.$ser.'">
+                    <div class="row border-top border-primary pt-4 mb-4">
+                        <div class="col-12">
+                            <div class="input-group mb-2">
+                                <div class="form-control bg-white">
+                                    <textarea name="question'.$ser.'" class="ck_editor">
+                                    '.$copy_ques['question'].'
+                                    </textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="input-group">
+                                <div class="form-control bg-white">
+                                    <textarea name="option_one'.$ser.'" class="ck_editor">
+                                    '.$copy_ques['option_one'].'
+                                    </textarea>
+                                </div>
+                                <div class="input-group-text">
+                                    <div class="form-check">
+                                        <input type="radio" class="form-check-input" id="checkbox4" name="answer'.$ser.'" value="option_one" '.$answer_checked1.' required="">
+                                        <label class="form-check-label" for="checkbox4"></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3">
+                            <div class="input-group">
+                                <div class="form-control bg-white">
+                                    <textarea name="option_two'.$ser.'" class="ck_editor">
+                                    '.$copy_ques['option_two'].'
+                                    </textarea>
+                                </div>
+                                <div class="input-group-text">
+                                    <div class="form-check">
+                                        <input type="radio" class="form-check-input" id="checkbox4" name="answer'.$ser.'" value="option_two" '.$answer_checked2.' required="">
+                                        <label class="form-check-label" for="checkbox4"></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3">
+                            <div class="input-group">
+                                <div class="form-control bg-white">
+                                    <textarea name="option_three'.$ser.'" class="ck_editor">
+                                    '.$copy_ques['option_three'].'
+                                    </textarea>
+                                </div>
+                                <div class="input-group-text">
+                                    <div class="form-check">
+                                        <input type="radio" class="form-check-input" id="checkbox4" name="answer'.$ser.'" value="option_three" '.$answer_checked3.' required="">
+                                        <label class="form-check-label" for="checkbox4"></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3">
+                            <div class="input-group">
+                                <div class="form-control bg-white">
+                                    <textarea name="option_four'.$ser.'" class="ck_editor">
+                                    '.$copy_ques['option_four'].'
+                                    </textarea>
+                                </div>
+                                <div class="input-group-text">
+                                    <div class="form-check">
+                                        <input type="radio" class="form-check-input" id="checkbox4" name="answer'.$ser.'" value="option_four" '.$answer_checked4.' required="">
+                                        <label class="form-check-label" for="checkbox4"></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <button  data-values="'.$ser.'" type="button" class="btn btn-info btn-sm my-1 copy_description_button_toggle">Add Description</button>
+                        </div>
+                        <div id="copy_description_'.$ser.'" class="col-12" style="display: none;">
+                            <div class="form-control mb-2 bg-white">
+                                <textarea name="description'.$ser.'" class="form-control ck_editor" placeholder="Description (optional):">'.$copy_ques['description'].'</textarea>
+                            </div>
+                        </div>
+
+                    </div>';
         }
     }
+    echo $question_rows;
 }
 
 if (isset($_POST['read_exam'])) {

@@ -675,6 +675,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['csv_file_import'])) {
                 var id = $(this).data('value');
                 $("#description_" + id).toggle();
             });
+            $(document).on('click','.copy_description_button_toggle', function(){
+                var id = $(this).data('values');
+                $("#copy_description_" + id).toggle();
+            });
         });
         $('#exams_select').on('change', function() {
             var id = $(this).val();
@@ -695,6 +699,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['csv_file_import'])) {
             }
         });
 
+
         function exams_copies() {
            $.ajax({
                 url: 'ajax/question_image.php',
@@ -703,9 +708,15 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['csv_file_import'])) {
                 success:function(data) {
                     $('#exams_copy_result').html(data);
                     $('#exams_select_result').html('<h4 class="text-center text-danger mb-0">Select Exam First!</h4>');
+                    $(".ck_editor").each(function() {
+                        CKEDITOR.inline(this, {
+                            extraPlugins: 'ckeditor_wiris',
+                            filebrowserUploadUrl: "ajax/question_image.php",
+                            filebrowserUploadMethod:"form"
+                        });
+                    });
                 }
             });
-
             $("#copy_other_button").modal('hide');
             $('#exams_copy').attr("disabled","disabled");
         }
