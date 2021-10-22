@@ -54,333 +54,335 @@
             <!-- Container fluid  -->
             <!-- -------------------------------------------------------------- -->
             <div class="container-fluid">
-                <div class="card w-100">
-                    <form>
-                       
-                        <div class="card-body border-top">
-                            <h4 class="card-title">Basic Settings</h4>
-                            
-                            <div class="row">
-                                <div class="col-12">
-                                    <div class="mb-3">
-                                        <label for="inputcom" class="control-label col-form-label">Exam Name</label>
-                                        <input type="text" class="form-control" id="inputcom" placeholder="Company Here">
-                                    </div>
-                                </div>
-                               
-                                <div class="col-12">
-                                    <div class="mb-3">
-                                        <label class="control-label col-form-label">Introduction</label>
-                                        <textarea class="form-control" aria-label="With textarea" placeholder="About Project Here"></textarea>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                       
-                        <div class="card-body border-top">
-                            <h4 class="card-title">Color Scheema</h4>
-                            
-                            <div class="row">
-                                <div class="col-3">
-                                    <div class="mb-3">
-                                        
-                                        <input type="radio" id="inputcom" name="color">
-                                        Blue
-                                    </div>
-                                </div>
-                               
-                                <div class="col-3">
-                                    <div class="mb-3">
-                                      
-                                        <input type="radio"id="inputcom" name="color">
-                                        Red
-                                    </div>
-                                </div>
-                                <div class="col-3">
-                                    <div class="mb-3">
-                                      
-                                        <input type="radio"id="inputcom" name="color">
-                                        Green
-                                    </div>
-                                </div>
-                                <div class="col-3">
-                                    <div class="mb-3">
-                                      
-                                        <input type="radio" id="inputcom" name="color">
-                                        White
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="card-body border-top">
-                            <h4 class="card-title">Quetion Setting</h4>
-                            <h5 class="card-title">Pagination</h5>
-                            <div class="row">
-                                <div class="col-12">
-                                    <div class="mb-1">
-                                        
-                                        <input type="radio" id="inputcom" name="pg">
-                                        Show All Quetion on one Page
-                                    </div>
-                                </div>
-                               
-                                <div class="col-12">
-                                    <div class="mb-3">
-                                      
-                                        <input type="radio"id="pg" name="pg">
-                                        Show One Quetion Per Page
-                                    </div>
-                                </div>
-                           </div>
-                           <div class="pagi mx-2 "style="display:none;">
-                             <h4 class="card-title"><strong>Navigation Setting</strong></h4>
-                             <div class="row">
+                <form>
+                    <div class="card w-100">
+                        
+                        
+                            <div class="card-body border-top">
+                                <h4 class="card-title">Basic Settings</h4>
+                                
+                                <div class="row">
                                     <div class="col-12">
-                                        <div class="mb-1">
-                                            
-                                            <input type="radio" id="inputcom" name="nav">
-                                            Allow The Student 
+                                        <div class="mb-3">
+                                            <label for="inputcom" class="control-label col-form-label">Exam Name</label>
+                                            <input type="text" class="form-control" id="inputcom" placeholder="Company Here">
                                         </div>
                                     </div>
                                 
                                     <div class="col-12">
                                         <div class="mb-3">
-                                        
-                                            <input type="radio"id="inputcom" name="nav">
-                                            Only Allow
+                                            <label class="control-label col-form-label">Introduction</label>
+                                            <textarea class="form-control" aria-label="With textarea" placeholder="About Project Here"></textarea>
                                         </div>
                                     </div>
                                 </div>
-                                <h4 class="card-title">After Each Quetion is Answered:</h4>
+                            </div>
+
+                        
+                            <div class="card-body border-top">
+                                <h4 class="card-title">Color Scheema</h4>
+                                
+                                <div class="row">
+                                    <div class="col-3">
+                                        <div class="mb-3">
+                                            
+                                            <input type="radio" id="inputcom" name="color">
+                                            Blue
+                                        </div>
+                                    </div>
+                                
+                                    <div class="col-3">
+                                        <div class="mb-3">
+                                        
+                                            <input type="radio"id="inputcom" name="color">
+                                            Red
+                                        </div>
+                                    </div>
+                                    <div class="col-3">
+                                        <div class="mb-3">
+                                        
+                                            <input type="radio"id="inputcom" name="color">
+                                            Green
+                                        </div>
+                                    </div>
+                                    <div class="col-3">
+                                        <div class="mb-3">
+                                        
+                                            <input type="radio" id="inputcom" name="color">
+                                            White
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card-body border-top">
+                                <h4 class="card-title">Quetion Setting</h4>
+                                <h5 class="card-title">Pagination</h5>
                                 <div class="row">
                                     <div class="col-12">
                                         <div class="mb-1">
                                             
-                                            <input type="checkbox" id="inputcom" name="pg">
-                                            Indicate the correct answer 
+                                            <input type="radio" id="inputcom" name="pg">
+                                            Show All Quetion on one Page
+                                        </div>
+                                    </div>
+                                
+                                    <div class="col-12">
+                                        <div class="mb-3">
+                                        
+                                            <input type="radio"id="pg" name="pg">
+                                            Show One Quetion Per Page
+                                        </div>
+                                    </div>
+                            </div>
+                            <div class="pagi mx-2 "style="display:none;">
+                                <h4 class="card-title"><strong>Navigation Setting</strong></h4>
+                                <div class="row">
+                                        <div class="col-12">
+                                            <div class="mb-1">
+                                                
+                                                <input type="radio" id="inputcom" name="nav">
+                                                Allow The Student 
+                                            </div>
+                                        </div>
+                                    
+                                        <div class="col-12">
+                                            <div class="mb-3">
+                                            
+                                                <input type="radio"id="inputcom" name="nav">
+                                                Only Allow
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <h4 class="card-title">After Each Quetion is Answered:</h4>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="mb-1">
+                                                
+                                                <input type="checkbox" id="inputcom" name="pg">
+                                                Indicate the correct answer 
+                                            </div>
+                                        </div>
+                                    
+                                        <div class="col-12">
+                                            <div class="mb-1">
+                                            
+                                                <input type="checkbox"id="inputcom" name="color">
+                                                Dispaly the correct answer
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="mb-3">
+                                            
+                                                <input type="checkbox"id="inputcom" name="color">
+                                                Show The Explation
+                                            </div>
+                                        </div>
+                                    </div>
+                            </div>
+
+                            <h5 class="card-title"><strong>Other </strong></h5>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="mb-1">
+                                            
+                                            <input type="checkbox"id="inputcom" name="color">
+                                                Show The Explation
                                         </div>
                                     </div>
                                 
                                     <div class="col-12">
                                         <div class="mb-1">
                                         
-                                            <input type="checkbox"id="inputcom" name="color">
-                                            Dispaly the correct answer
+                                        <input type="checkbox"id="inputcom" name="color">
+                                                Show The Explation
                                         </div>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <div class="mb-1">
+                                        
+                                        <input type="checkbox"id="inputcom" name="color">
+                                                Show The Explation
+                                        </div>
+                                    </div>
+                            </div>
+
+
+                            
+                            </div>
+                        
+                    </div>
+                    
+                    <div class="card w-100">
+                        <div class="card-body border-top">
+                            <h2><strong>Review Setting</strong></h2>
+                            <p>This setting control what happen after the text</p>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="mb-3">
+                                        <label class="control-label col-form-label">Concloson text</label>
+                                        <textarea class="form-control ck_editor" aria-label="With textarea"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="mb-2">
+                                        
+                                        <input type="checkbox"id="inputcom" name="color">
+                                            Show a custom message if the student pass or fail
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="mb-1">
+                                        <strong>At the end of text,display user:</strong>    
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="mb-1">
+                                        <input type="checkbox"id="inputcom" name="color">
+                                            Score
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="mb-1">
+                                        <input type="checkbox"id="inputcom" name="color">
+                                            Text OutLine[?]
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="card w-100">
+                        <div class="card-body border-top">
+                            <h2><strong>Access Control</strong></h2>
+                            <div class="row">
+                                <div class="col-6">
+                                    <h4>Who Can Text Your Text</h4>
+                                    <div class="mb-2 bg-light"style="padding:10px;">
+                                        <input type="checkbox"id="inputcom" name="color" >
+                                            Anyone
+                                    </div>
+                                    <div class="mb-2 bg-light"style="padding:10px;">
+                                        <input type="checkbox"id="inputcom" name="color" >
+                                            Anyone who enters a passcode of my choosing
+                                    </div>
+                                    <div class="mb-2 bg-light"style="padding:10px;">
+                                        <input type="checkbox"id="inputcom" name="color" >
+                                        Anyone who enters a uniq identifier
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <h4>How much time to test have to compeleted the test?</h4>
+                                    <p>The timer start the moment and continues even if they close out of test</p>
+                                    <div class="col-12">
+                                        <div class="mb-1">
+                                            <input type="radio"id="inputcom" name="time" >
+                                            Unlimited
+                                        </div>
+
                                     </div>
                                     <div class="col-12">
                                         <div class="mb-3">
-                                        
-                                            <input type="checkbox"id="inputcom" name="color">
-                                            Show The Explation
+                                            <input type="radio"id="inputcom" name="time" >
+                                            <span><input type="text" name="minute" style="width: 64px;"></span> <span>minutes</span>
                                         </div>
                                     </div>
-                                </div>
-                           </div>
+                                    <h4>How many time someone can take test?</h4>
+                                    <div class="col-12">
+                                        <div class="mb-1">
+                                            <input type="radio"id="inputcom" name="time" >
+                                            Unlimited
+                                        </div>
 
-                           <h5 class="card-title"><strong>Other </strong></h5>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="mb-3">
+                                            <input type="radio"id="inputcom" name="time" >
+                                            <span><input type="text" name="minute" style="width: 64px;"></span> <span>times</span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        
+                        </div>
+
+                    </div>
+
+                    <div class="card w-100">
+                        <div class="card-body border-top">
+                            <h2><strong>Browser functionality</strong></h2>
                             <div class="row">
                                 <div class="col-12">
                                     <div class="mb-1">
-                                        
-                                        <input type="checkbox"id="inputcom" name="color">
-                                            Show The Explation
+                                        <input type="checkbox"id="inputcom" name="browser" >
+                                        Disable Right content Menu
                                     </div>
                                 </div>
-                               
                                 <div class="col-12">
                                     <div class="mb-1">
-                                      
-                                     <input type="checkbox"id="inputcom" name="color">
-                                            Show The Explation
+                                        <input type="checkbox"id="inputcom" name="browser" >
+                                        Disable Copy/paste
                                     </div>
                                 </div>
-
                                 <div class="col-12">
                                     <div class="mb-1">
-                                      
-                                    <input type="checkbox"id="inputcom" name="color">
-                                            Show The Explation
+                                        <input type="checkbox"id="inputcom" name="browser" >
+                                        Disable Translate
                                     </div>
                                 </div>
-                           </div>
+                                <div class="col-12">
+                                    <div class="mb-1">
+                                        <input type="checkbox"id="inputcom" name="browser" >
+                                        Disable autocompeleted
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="mb-1">
+                                        <input type="checkbox"id="inputcom" name="browser" >
+                                        Disable Spellcheck
+                                    </div>
+                                </div>
+                            </div>
 
-
-                          
-                        </div>
-                    </form>
-                </div>
-                
-                <div class="card w-100">
-                    <div class="card-body border-top">
-                        <h2><strong>Review Setting</strong></h2>
-                        <p>This setting control what happen after the text</p>
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="mb-3">
-                                    <label class="control-label col-form-label">Concloson text</label>
-                                    <textarea class="form-control ck_editor" aria-label="With textarea"></textarea>
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="mb-2">
-                                    
-                                    <input type="checkbox"id="inputcom" name="color">
-                                        Show a custom message if the student pass or fail
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="mb-1">
-                                    <strong>At the end of text,display user:</strong>    
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="mb-1">
-                                    <input type="checkbox"id="inputcom" name="color">
-                                        Score
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="mb-1">
-                                    <input type="checkbox"id="inputcom" name="color">
-                                        Text OutLine[?]
-                                </div>
-                            </div>
                         </div>
                     </div>
 
-                </div>
-
-                <div class="card w-100">
-                    <div class="card-body border-top">
-                        <h2><strong>Access Control</strong></h2>
-                        <div class="row">
-                            <div class="col-6">
-                                <h4>Who Can Text Your Text</h4>
-                                <div class="mb-2 bg-light"style="padding:10px;">
-                                    <input type="checkbox"id="inputcom" name="color" >
-                                        Anyone
-                                </div>
-                                <div class="mb-2 bg-light"style="padding:10px;">
-                                    <input type="checkbox"id="inputcom" name="color" >
-                                        Anyone who enters a passcode of my choosing
-                                </div>
-                                <div class="mb-2 bg-light"style="padding:10px;">
-                                    <input type="checkbox"id="inputcom" name="color" >
-                                     Anyone who enters a uniq identifier
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <h4>How much time to test have to compeleted the test?</h4>
-                                <p>The timer start the moment and continues even if they close out of test</p>
+                    <div class="card w-100">
+                        <div class="card-body border-top">
+                            <h2><strong>Notification</strong></h2>
+                            <h4>Do you want to receive an email whenever someone finishe the test</h4>
+                            <div class="row">
                                 <div class="col-12">
                                     <div class="mb-1">
-                                        <input type="radio"id="inputcom" name="time" >
-                                        Unlimited
-                                    </div>
-
-                                </div>
-                                <div class="col-12">
-                                    <div class="mb-3">
-                                        <input type="radio"id="inputcom" name="time" >
-                                        <span><input type="text" name="minute" style="width: 64px;"></span> <span>minutes</span>
+                                        <input type="radio"id="inputcom" name="noti" >
+                                        Use My Acaunt to Control This
                                     </div>
                                 </div>
-                                <h4>How many time someone can take test?</h4>
                                 <div class="col-12">
                                     <div class="mb-1">
-                                        <input type="radio"id="inputcom" name="time" >
-                                        Unlimited
-                                    </div>
-
-                                </div>
-                                <div class="col-12">
-                                    <div class="mb-3">
-                                        <input type="radio"id="inputcom" name="time" >
-                                        <span><input type="text" name="minute" style="width: 64px;"></span> <span>times</span>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-
-                       
-                    </div>
-
-                </div>
-
-                <div class="card w-100">
-                    <div class="card-body border-top">
-                        <h2><strong>Browser functionality</strong></h2>
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="mb-1">
-                                    <input type="checkbox"id="inputcom" name="browser" >
-                                    Disable Right content Menu
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="mb-1">
-                                    <input type="checkbox"id="inputcom" name="browser" >
-                                    Disable Copy/paste
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="mb-1">
-                                    <input type="checkbox"id="inputcom" name="browser" >
-                                    Disable Translate
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="mb-1">
-                                    <input type="checkbox"id="inputcom" name="browser" >
-                                    Disable autocompeleted
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="mb-1">
-                                    <input type="checkbox"id="inputcom" name="browser" >
-                                    Disable Spellcheck
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-
-                <div class="card w-100">
-                    <div class="card-body border-top">
-                        <h2><strong>Notification</strong></h2>
-                        <h4>Do you want to receive an email whenever someone finishe the test</h4>
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="mb-1">
                                     <input type="radio"id="inputcom" name="noti" >
-                                    Use My Acaunt to Control This
+                                        yes
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="mb-1">
-                                <input type="radio"id="inputcom" name="noti" >
-                                    yes
+                                <div class="col-12">
+                                    <div class="mb-1">
+                                    <input type="radio"id="inputcom" name="noti" >
+                                        no
+                                    </div>
                                 </div>
+                            
                             </div>
-                            <div class="col-12">
-                                <div class="mb-1">
-                                <input type="radio"id="inputcom" name="noti" >
-                                    no
-                                </div>
-                            </div>
-                           
-                        </div>
 
+                        </div>
                     </div>
-                </div>
-                <div class="text-center">
-                    <button type="submit" class="btn btn-success">Save</button>
-                </div>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-success">Save</button>
+                    </div>
+                </form>
 
             </div>       
         
