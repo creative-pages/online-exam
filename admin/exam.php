@@ -17,8 +17,8 @@
             if(!isset($_SESSION['score'])){
                 $_SESSION['score'] = '0';	
             }
-            $right =$exam->rightAns($serial,$id);
-            if($right == $ans ){
+            $right = $exam->rightAns($serial,$id);
+            if($right == $ans){
                 $_SESSION['score']++;
             }
         }
@@ -28,7 +28,6 @@
     }
 
      function rightAns($serial,$id){
-        $common = new Common();
         $query = $common->select("`questions`","`serial`='$serial'");
         if($query){
             while($ans = mysqli_fetch_assoc($query)){
@@ -119,23 +118,21 @@
                         </div>  
                         
                     </div>
-                <form action="" method="post">
+                <form action="final.php" method="post">
+                    <input type="hidden" name="totalquetion" value="<?=$exam['tquetion'];?>"/>
                     <?php
                    $select = $common->select("`questions`","`exam_id` = '$id' ORDER BY `serial`+0");
                    if($select){
-                      $i=1;
+                      $i = 1;
                        while($viewquetion = mysqli_fetch_assoc($select)){
-                       
                    ?>
                   
                     <div class="exam bg-white mt-2">
                         <table>
-                        <input type="hidden" name="totalquetion" value="<?=$exam['tquetion'];?>>"/>
-
                             <tr>
                                 <td colspan="2">
-                                    <input type="hidden" name="serial<?=$i;?>" value="<?=$viewquetion['serial'];?>>"/>
-                                    <h3><?=$viewquetion['serial'];?>:<?=$viewquetion['question'];?></h3>
+                                    <input type="hidden" name="serial<?=$i;?>" value="<?=$viewquetion['id'];?>>"/>
+                                    <h3><?=$viewquetion['serial'];?>: <?=$viewquetion['question'];?></h3>
                                 </td>    
                             </tr>
                             <tr>
