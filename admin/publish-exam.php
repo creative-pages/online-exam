@@ -110,8 +110,8 @@
                                         <td>
                                             <span class="usr-email-addr" ><?=$raw['exam_name'];?></span>
                                         </td>
-                                        <td>
-                                            <span class="usr-location" ><?=$raw['link'];?></span>
+                                        <td id="text">
+                                            <span class="usr-location" ><?=$raw['link'];?></span> <span><button onclick="copyToClipboard('#text')"><img src="assets/images/img/copy.webp" style="height: 20px;"></button></span>
                                         </td>
                                        
                                         <td>
@@ -502,6 +502,15 @@
     <script src="dist/js/custom.min.js"></script>
     <!--This page plugins -->
     <script src="dist/js/pages/contact/contact.js"></script>
+    <script>
+        function copyToClipboard(element) {
+            var $temp = $("<input>");
+            $("body").append($temp);
+            $temp.val($(element).text()).select();
+            document.execCommand("copy");
+            
+        }
+    </script>
 </body>
 
 </html>

@@ -5,8 +5,14 @@
     $common = new Common();
 ?>
 <?php
+    if(isset($_GET['exmid'])){
+        $exmid = $_GET['exmid'];
+       
+    }
+?>
+<?php
     if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['login'])){
-        $stdlogin=$all->StudentLogin($_POST);
+        $stdlogin=$all->StudentLogin($_POST,$exmid);
 
     }
 
