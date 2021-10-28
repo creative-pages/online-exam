@@ -14,11 +14,8 @@
         $exam_id = $_POST['exam_id'];
         for ($i = 1; $i < $total_add_questions + 1; $i++) {
             $serial = $_POST['serial'.$i];
-            $new_serial = $_POST['serial'.$i];
-        for ($i=1; $i < $total_add_questions; $i++) {
-            $serial = $_POST['serial'.$i];
             $question = $_POST['question'.$i];
-
+            
             $option_one = $_POST['option_one'.$i];
             $option_two = $_POST['option_two'.$i];
             $option_three = $_POST['option_three'.$i];
@@ -184,12 +181,17 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['csv_file_import'])) {
                             if ($_SERVER['REQUEST_METHOD'] != "POST" && !isset($_POST['csv_file_import'])) {
                             ?>
                             <!-- Button trigger modal -->
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#enter_input_question">
+                              <i data-feather="download" class="feather-sm fill-white me-1"></i>
+                                Enter input question
+                            </button>
+                            <!-- Button trigger modal -->
                             <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#copy_other_button">
                               <i data-feather="download" class="feather-sm fill-white me-1"></i>
                                 Copy Form Other Exam
                             </button>
                             <!-- Button trigger modal -->
-                            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#import_csv_button">
+                            <button id="after_copy_dnone" type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#import_csv_button">
                               <i data-feather="download" class="feather-sm fill-white me-1"></i>
                                 Import CSV
                             </button>
@@ -213,7 +215,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['csv_file_import'])) {
                         <td><?= $add_questions['examname']; ?></td>
                         <td><?= $add_questions['subjectname']; ?></td>
                         <td><?= $add_questions['duration']; ?></td>
-                        <td><?= isset($ser) ? $ser - 1 : 0; ?></td>
+                        <td id="total_questions"><?= isset($ser) ? $ser - 1 : 0; ?></td>
                     </tr>
                 </table>
                 <input type="hidden" name="exam_id" value="<?= $add_questions['id']; ?>">
@@ -595,7 +597,13 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['csv_file_import'])) {
         <div class="modal-content">
           <div class="modal-header flex-column">
             <div class="d-flex align-items-center w-100 border-bottom pb-1">
-                <h4 class="modal-title text-primary" id="staticBackdropLabel">Copy From Other Exam</h4>
+                <h4 class="modal-title text-primary" id="staticBackdropLabel">
+                    Copy From Other Exam
+                </h4>
+                <div>
+                    &nbsp;&nbsp;&nbsp;
+                    Total Selected - <span id="selected_question">0</span>
+                </div>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="input-group my-3">
@@ -618,6 +626,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['csv_file_import'])) {
           <div class="modal-body border-top border-bottom">
             <form id="exams_copy_form">
                 <input type="hidden" name="copy_question" value="copy_question">
+                <input type="hidden" id="serial_set_copy" name="serial_set_copy" value="0">
+                <input type="hidden" id="copy_input_step" name="copy_input_step" value="0">
                 <div id="exams_select_result">
                     <h4 class="text-center text-danger mb-0">Select Exam First!</h4>
                 </div>
@@ -626,6 +636,26 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['csv_file_import'])) {
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             <button type="button" onclick="exams_copies();" id="exams_copy" form="exams_copy_form" class="btn btn-primary" disabled="">Copy</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="enter_input_question" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="staticBackdropLabel">Enter input question</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body border-top border-bottom">
+            <!-- <input type="hidden" name="copy_question" value="copy_question"> -->
+            <input type="number" class="form-control" id="input_question_number" placeholder="Enter total question">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" onclick="input_question();" class="btn btn-primary">Submit</button>
           </div>
         </div>
       </div>
@@ -707,19 +737,86 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['csv_file_import'])) {
                 type: 'POST',
                 data: $("#exams_copy_form").serialize(),
                 success:function(data) {
-                    $('#exams_copy_result').html(data);
+                    $('#exams_copy_result').append(data);
                     $('#exams_select_result').html('<h4 class="text-center text-danger mb-0">Select Exam First!</h4>');
-                    $(".ck_editor").each(function() {
+
+                    var copy_input_step = $('#copy_input_step').val();
+                    $(".ck_editor" + copy_input_step).each(function() {
                         CKEDITOR.inline(this, {
                             extraPlugins: 'ckeditor_wiris',
                             filebrowserUploadUrl: "ajax/question_image.php",
                             filebrowserUploadMethod:"form"
                         });
                     });
+                    $('#copy_input_step').val(parseInt(copy_input_step) + parseInt(1));
+
+                    var i = 1;
+                    while ($("[name='serial"+i+"']").length) {
+                        i++;
+                    }
+                    $("[name='total_questions']").val(i - parseInt(1));
+                    $("#total_questions").text(i - parseInt(1));
+                    $('#serial_set_copy').val(i - parseInt(1));
+
+                    $('#after_copy_dnone').hide();
+
+                    $("#copy_other_button").modal('hide');
+                    $('#exams_copy').attr("disabled","disabled");
                 }
             });
-            $("#copy_other_button").modal('hide');
-            $('#exams_copy').attr("disabled","disabled");
+        }
+        function input_question() {
+            if($('#input_question_number').val()) {
+                var input_question_number = $('#input_question_number').val();
+                var serial_set_copy = $('#serial_set_copy').val();
+                var copy_input_step = $('#copy_input_step').val();
+
+               $.ajax({
+                    url: 'ajax/question_image.php',
+                    type: 'POST',
+                    data: {serial_set_copy:serial_set_copy, copy_input_step:copy_input_step, input_question_number:input_question_number, input_question:'input_question'},
+                    success:function(data) {
+                        $('#exams_copy_result').append(data);
+                        $('#input_question_number').val('')
+
+                        var copy_input_step = $('#copy_input_step').val();
+                        $(".ck_editor" + copy_input_step).each(function() {
+                            CKEDITOR.inline(this, {
+                                extraPlugins: 'ckeditor_wiris',
+                                filebrowserUploadUrl: "ajax/question_image.php",
+                                filebrowserUploadMethod:"form"
+                            });
+                        });
+                        $('#copy_input_step').val(parseInt(copy_input_step) + parseInt(1));
+
+                        var i = 1;
+                        while ($("[name='serial"+i+"']").length) {
+                            i++;
+                        }
+                        $("[name='total_questions']").val(i - parseInt(1));
+                        $("#total_questions").text(i - parseInt(1));
+                        $('#serial_set_copy').val(i - parseInt(1));
+
+                        $('#after_copy_dnone').hide();
+
+                        $("#enter_input_question").modal('hide');
+                    }
+                });
+            } else {
+                alert('Field is required!');
+            }
+        }
+
+        function copyCount() {
+            var i = 1;
+            var ti = 1;
+            while ($("[name='sfw_id"+i+"']").length) {
+                if ($("[name='sfw_id"+i+"']:checked").length) {
+                    $("#selected_question").text(ti);
+                    ti++;
+                }
+                i++;
+            }
         }
     </script>
 </body>

@@ -21,11 +21,104 @@ if(isset($_FILES['upload']['name'])) {
  }
 }
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['copy_question'])) {
-    $total_quetion = $_POST['total_quetion'];
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['input_question'])) {
+    $total_quetion = $_POST['input_question_number'];
+    $copy_input_step = $_POST['copy_input_step'];
+    
 
     $question_rows = '';
-    $ser = 0;
+    $ser = $_POST['serial_set_copy'];
+    for ($i=0; $i < $total_quetion; $i++) {
+        $ser++;
+        $question_rows .= '<input type="hidden" name="serial'.$ser.'" value="'.$ser.'">
+                    <div class="row border-top border-primary pt-4 mb-4">
+                        <div class="col-12">
+                            <div class="input-group mb-2">
+                                <div class="form-control bg-white">
+                                    <textarea name="question'.$ser.'" class="ck_editor'.$copy_input_step.'">
+                                    </textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="input-group">
+                                <div class="form-control bg-white">
+                                    <textarea name="option_one'.$ser.'" class="ck_editor'.$copy_input_step.'">
+                                    </textarea>
+                                </div>
+                                <div class="input-group-text">
+                                    <div class="form-check">
+                                        <input type="radio" class="form-check-input" id="checkbox4" name="answer'.$ser.'" value="option_one" required="">
+                                        <label class="form-check-label" for="checkbox4"></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3">
+                            <div class="input-group">
+                                <div class="form-control bg-white">
+                                    <textarea name="option_two'.$ser.'" class="ck_editor'.$copy_input_step.'">
+                                    </textarea>
+                                </div>
+                                <div class="input-group-text">
+                                    <div class="form-check">
+                                        <input type="radio" class="form-check-input" id="checkbox4" name="answer'.$ser.'" value="option_two" required="">
+                                        <label class="form-check-label" for="checkbox4"></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3">
+                            <div class="input-group">
+                                <div class="form-control bg-white">
+                                    <textarea name="option_three'.$ser.'" class="ck_editor'.$copy_input_step.'">
+                                    </textarea>
+                                </div>
+                                <div class="input-group-text">
+                                    <div class="form-check">
+                                        <input type="radio" class="form-check-input" id="checkbox4" name="answer'.$ser.'" value="option_three" required="">
+                                        <label class="form-check-label" for="checkbox4"></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3">
+                            <div class="input-group">
+                                <div class="form-control bg-white">
+                                    <textarea name="option_four'.$ser.'" class="ck_editor'.$copy_input_step.'">
+                                    </textarea>
+                                </div>
+                                <div class="input-group-text">
+                                    <div class="form-check">
+                                        <input type="radio" class="form-check-input" id="checkbox4" name="answer'.$ser.'" value="option_four" required="">
+                                        <label class="form-check-label" for="checkbox4"></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <button  data-values="'.$ser.'" type="button" class="btn btn-info btn-sm my-1 copy_description_button_toggle">Add Description</button>
+                        </div>
+                        <div id="copy_description_'.$ser.'" class="col-12" style="display: none;">
+                            <div class="form-control mb-2 bg-white">
+                                <textarea name="description'.$ser.'" class="form-control ck_editor'.$copy_input_step.'" placeholder="Description (optional):"></textarea>
+                            </div>
+                        </div>
+
+                    </div>';
+    }
+    echo $question_rows;
+}
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['copy_question'])) {
+    $total_quetion = $_POST['total_quetion'];
+    $copy_input_step = $_POST['copy_input_step'];
+    
+
+    $question_rows = '';
+    $ser = $_POST['serial_set_copy'];
     for ($i=0; $i < $total_quetion + 1; $i++) {
         if (isset($_POST['sfw_id'.$i])) {
             $ser++;
@@ -61,7 +154,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['copy_question'])) {
                         <div class="col-12">
                             <div class="input-group mb-2">
                                 <div class="form-control bg-white">
-                                    <textarea name="question'.$ser.'" class="ck_editor">
+                                    <textarea name="question'.$ser.'" class="ck_editor'.$copy_input_step.'">
                                     '.$copy_ques['question'].'
                                     </textarea>
                                 </div>
@@ -70,7 +163,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['copy_question'])) {
                         <div class="col-lg-3">
                             <div class="input-group">
                                 <div class="form-control bg-white">
-                                    <textarea name="option_one'.$ser.'" class="ck_editor">
+                                    <textarea name="option_one'.$ser.'" class="ck_editor'.$copy_input_step.'">
                                     '.$copy_ques['option_one'].'
                                     </textarea>
                                 </div>
@@ -86,7 +179,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['copy_question'])) {
                         <div class="col-lg-3">
                             <div class="input-group">
                                 <div class="form-control bg-white">
-                                    <textarea name="option_two'.$ser.'" class="ck_editor">
+                                    <textarea name="option_two'.$ser.'" class="ck_editor'.$copy_input_step.'">
                                     '.$copy_ques['option_two'].'
                                     </textarea>
                                 </div>
@@ -102,7 +195,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['copy_question'])) {
                         <div class="col-lg-3">
                             <div class="input-group">
                                 <div class="form-control bg-white">
-                                    <textarea name="option_three'.$ser.'" class="ck_editor">
+                                    <textarea name="option_three'.$ser.'" class="ck_editor'.$copy_input_step.'">
                                     '.$copy_ques['option_three'].'
                                     </textarea>
                                 </div>
@@ -118,7 +211,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['copy_question'])) {
                         <div class="col-lg-3">
                             <div class="input-group">
                                 <div class="form-control bg-white">
-                                    <textarea name="option_four'.$ser.'" class="ck_editor">
+                                    <textarea name="option_four'.$ser.'" class="ck_editor'.$copy_input_step.'">
                                     '.$copy_ques['option_four'].'
                                     </textarea>
                                 </div>
@@ -135,7 +228,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['copy_question'])) {
                         </div>
                         <div id="copy_description_'.$ser.'" class="col-12" style="display: none;">
                             <div class="form-control mb-2 bg-white">
-                                <textarea name="description'.$ser.'" class="form-control ck_editor" placeholder="Description (optional):">'.$copy_ques['description'].'</textarea>
+                                <textarea name="description'.$ser.'" class="form-control ck_editor'.$copy_input_step.'" placeholder="Description (optional):">'.$copy_ques['description'].'</textarea>
                             </div>
                         </div>
 
@@ -183,7 +276,7 @@ if (isset($_POST['read_exam'])) {
                         <div class="row mx-2">
                             <div class="col-12 d-flex px-0">
                                 <div>
-                                    <input type="checkbox" name="sfw_id' . $row['serial'] . '" value="' . $row['id'] . '" id="md_checkbox_25' . $row['serial'] . '" class="material-inputs filled-in chk-col-indigo">
+                                    <input type="checkbox" name="sfw_id' . $row['serial'] . '" value="' . $row['id'] . '" onclick="copyCount()" id="md_checkbox_25' . $row['serial'] . '" class="material-inputs filled-in chk-col-indigo">
                                     <label for="md_checkbox_25' . $row['serial'] . '"></label>
                                 </div>
                                 <span><b>' . $row['serial'] . '. &nbsp;</b></span>
