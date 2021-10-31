@@ -7,8 +7,15 @@
 <?php
     if(isset($_GET['vi'])){
         $id = $_GET['vi'];
-       $query = $common->select("`add_exam`","`id`='$id'");
-       $exam = mysqli_fetch_assoc($query);
+        $query = $common->select("`add_exam`","`id`='$id'");
+        $exam = mysqli_fetch_assoc($query);
+
+
+        $exam_id = Session::get('exmid');
+        $publish_setting = $common->select("`publish_exam`","`exam_id`='$exam_id' && `other` LIKE '%blank%'");
+        if ($publish_setting) {
+            $publish_settings = mysqli_fetch_assoc($publish_setting);
+        }
 
     }
 ?>
@@ -29,31 +36,6 @@
         }
        // print_r($_SESSION);
           header("Location: final.php");
-       
-    }
-
-     function rightAns($serial,$id){
-        $query = $common->select("`questions`","`serial`='$serial'");
-        if($query){
-            while($ans = mysqli_fetch_assoc($query)){
-                $righta = $ans['answer'];
-                if($righta=="option_one"){
-                    $rightans = $righta;
-                }
-                elseif($righta=="option_two"){
-                    $rightans = $righta; 
-                }
-                elseif($righta=="option_three"){
-                    $rightans = $righta; 
-                }
-                elseif($righta=="option_four"){
-                    $rightans = $righta; 
-                }
-                return $rightans;
-
-            }
-        }
-        
        
     }
 ?>
@@ -110,14 +92,14 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <input type="radio" name="ans<?=$i;?>" value="option_one" />
+                                    <input type="radio" name="ans<?=$i;?>" value="option_one" <?= $publish_setting != NULL ? '' : 'required'; ?> />
                                     <?=$viewquetion['option_one'];?><br>
                                     
-                                    <input type="radio" name="ans<?=$i;?>" value="option_two" />
+                                    <input type="radio" name="ans<?=$i;?>" value="option_two" <?= $publish_setting != NULL ? '' : 'required'; ?> />
                                     <?=$viewquetion['option_two'];?><br>
-                                    <input type="radio" name="ans<?=$i;?>" value="option_three" />
+                                    <input type="radio" name="ans<?=$i;?>" value="option_three" <?= $publish_setting != NULL ? '' : 'required'; ?> />
                                     <?=$viewquetion['option_three'];?><br>
-                                    <input type="radio" name="ans<?=$i;?>" value="option_four" />
+                                    <input type="radio" name="ans<?=$i;?>" value="option_four" <?= $publish_setting != NULL ? '' : 'required'; ?> />
                                     <?=$viewquetion['option_four'];?>
                                 </td>
                             </tr>
