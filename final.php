@@ -202,6 +202,13 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['save'])) {
                 </div>';
         }
     }
+
+    $exam_id = Session::get('exmid');
+    $nagetive_mark = $common->select("`publish_exam`","`exam_id`='$exam_id' && `other` LIKE '%negative%'");
+    if ($nagetive_mark) {
+        $nagetive_marks = mysqli_fetch_assoc($nagetive_mark);
+    }
+
 } else {
     header("Location: http://localhost/batbio/exam.php?vi=".Session::get('exmid'));
 }
@@ -229,14 +236,27 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['save'])) {
                             <h3 class="text-capitalize mb-3">Subject:Bangla</h3>
                         </div>
                         <div class="row mx-1">
-                            <div class="col-4">
+                            <div class="col-3">
                                 <h3 class="text-muted">Your Score: <?= $right_answer; ?>/<?= $totalquetion; ?></h3>
                             </div>
-                            <div class="col-4">
+                            <div class="col-3">
                                 <h3 class="text-muted">Not Answer: <?= $not_answered; ?></h3>
                             </div>
-                            <div class="col-4">
+                            <div class="col-3">
                                 <h3 class="text-muted">Date:22-10-21</h3>
+                            </div>
+                            <div class="col-3">
+                                <h3 class="text-muted">Total Marks:  
+                                    <?php
+                                    if ($nagetive_mark) {
+                                        $wrong_ans = $totalquetion - $right_answer;
+                                        $negative_percent =  $nagetive_marks['negative_mark'] * 0.01;
+                                        echo $right_answer - ($wrong_ans * $negative_percent);
+                                    } else {
+                                        echo $right_answer;
+                                    }
+                                    ?>
+                                </h3>
                             </div>
                         </div>  
                         
