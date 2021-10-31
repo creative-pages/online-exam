@@ -115,7 +115,7 @@
                                     <div class="col-3">
                                         <div class="mb-3">
                                         
-                                            <input type="radio" id="inputcom" name="color" name="white">
+                                            <input type="radio" id="inputcom" name="color" value="white">
                                             White
                                         </div>
                                     </div>
@@ -129,16 +129,16 @@
                                     <div class="col-12">
                                         <div class="mb-1">
                                             
-                                            <input type="radio" id="inputcom" name="pg" value="allQuetion">
-                                            Show All Quetion on one Page
+                                            <input type="radio" id="all" name="pg" value="allQuetion">
+                                            Show <strong>All</strong> Quetion on one Page
                                         </div>
                                     </div>
                                 
                                     <div class="col-12">
                                         <div class="mb-3">
                                         
-                                            <input type="radio"id="pg" name="pg" value="oneQuetion">
-                                            Show One Quetion Per Page
+                                            <input type="radio"id="one" name="pg" value="oneQuetion">
+                                            Show <strong>One</strong> Quetion Per Page
                                         </div>
                                     </div>
                             </div>
@@ -148,16 +148,16 @@
                                         <div class="col-12">
                                             <div class="mb-1">
                                                 
-                                                <input type="radio" id="inputcom" name="nav">
-                                                Allow The Student 
+                                                <input type="radio" id="inputcom" name="nav" value="jump around">
+                                                Allow The Student to jump around of different Quetion in the test
                                             </div>
                                         </div>
                                     
                                         <div class="col-12">
                                             <div class="mb-3">
                                             
-                                                <input type="radio"id="inputcom" name="nav">
-                                                Only Allow
+                                                <input type="radio"id="inputcom" name="nav" value="jump after answering">
+                                                Only Allow the student to move forward after answering a question.
                                             </div>
                                         </div>
                                     </div>
@@ -166,7 +166,7 @@
                                         <div class="col-12">
                                             <div class="mb-1">
                                                 
-                                                <input type="checkbox" id="inputcom" name="pg">
+                                                <input type="checkbox" id="inputcom" name="after_answer[]" value="Indicate the correct answer ">
                                                 Indicate the correct answer 
                                             </div>
                                         </div>
@@ -174,14 +174,14 @@
                                         <div class="col-12">
                                             <div class="mb-1">
                                             
-                                                <input type="checkbox"id="inputcom" name="color">
+                                                <input type="checkbox"id="inputcom" name="after_answer[]" value="Dispaly the correct answer">
                                                 Dispaly the correct answer
                                             </div>
                                         </div>
                                         <div class="col-12">
                                             <div class="mb-3">
                                             
-                                                <input type="checkbox"id="inputcom" name="color">
+                                                <input type="checkbox"id="inputcom" name="after_answer[]" value="Show The Explation">
                                                 Show The Explation
                                             </div>
                                         </div>
@@ -193,7 +193,7 @@
                                     <div class="col-12">
                                         <div class="mb-1">
                                             
-                                            <input type="checkbox"id="inputcom" name="color">
+                                            <input type="checkbox"id="inputcom"  name="other[]" value="randomize">
                                                 Randomize the other of the quetion duering the test.
                                         </div>
                                     </div>
@@ -201,7 +201,7 @@
                                     <div class="col-12">
                                         <div class="mb-1">
                                         
-                                        <input type="checkbox"id="inputcom" name="color">
+                                        <input type="checkbox"id="inputcom" name="other[]" value="blank">
                                                 Allow Student to submit blank/emty page
                                         </div>
                                     </div>
@@ -209,9 +209,13 @@
                                     <div class="col-12">
                                         <div class="mb-1">
                                         
-                                        <input type="checkbox"id="inputcom" name="color">
+                                        <input type="checkbox"id="mark" name="other[]" value="negative marking">
                                                 Penalize incorrect answer(Negative marking)
                                         </div>
+                                    </div>
+                                    <div class="marking mx-2" style="display:none">
+                                        <span>Penalty</span> <span><input type="text" name="negative_mark" style="width:60px;"></span> <span>%</span>
+                                        <p class="mt-2">(As a percentage Each quetion of value)</p>
                                     </div>
                             </div>
 
@@ -268,15 +272,15 @@
                                 <div class="col-6">
                                     <h4>Who Can Text Your Text</h4>
                                     <div class="mb-2 bg-light"style="padding:10px;">
-                                        <input type="checkbox"id="inputcom" name="color" >
+                                        <input type="checkbox"id="inputcom" name="access[]" value="anyone" >
                                             Anyone
                                     </div>
                                     <div class="mb-2 bg-light"style="padding:10px;">
-                                        <input type="checkbox"id="inputcom" name="color" >
+                                        <input type="checkbox"id="inputcom" name="access[]" value="passcode" >
                                             Anyone who enters a passcode of my choosing
                                     </div>
                                     <div class="mb-2 bg-light"style="padding:10px;">
-                                        <input type="checkbox"id="inputcom" name="color" >
+                                        <input type="checkbox"id="inputcom" name="access[]" value="uniq identifier" >
                                         Anyone who enters a uniq identifier
                                     </div>
                                 </div>
@@ -299,15 +303,15 @@
                                     <h4>How many time someone can take test?</h4>
                                     <div class="col-12">
                                         <div class="mb-1">
-                                            <input type="radio"id="inputcom" name="time" >
+                                            <input type="radio"id="inputcom" name="can_take_test" >
                                             Unlimited
                                         </div>
 
                                     </div>
                                     <div class="col-12">
                                         <div class="mb-3">
-                                            <input type="radio"id="inputcom" name="time" >
-                                            <span><input type="text" name="minute" style="width: 64px;"></span> <span>times</span>
+                                            <input type="radio"id="inputcom" name="can_take_test"value="limited">
+                                            <span><input type="text" name="take_time" style="width: 64px;"></span> <span>times</span>
                                         </div>
                                     </div>
 
@@ -325,31 +329,31 @@
                             <div class="row">
                                 <div class="col-12">
                                     <div class="mb-1">
-                                        <input type="checkbox"id="inputcom" name="browser" >
+                                        <input type="checkbox"id="inputcom" name="browser[]" value="disable right content">
                                         Disable Right content Menu
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <div class="mb-1">
-                                        <input type="checkbox"id="inputcom" name="browser" >
+                                        <input type="checkbox"id="inputcom" name="browser[]"value="disable copy paste">
                                         Disable Copy/paste
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <div class="mb-1">
-                                        <input type="checkbox"id="inputcom" name="browser" >
+                                        <input type="checkbox"id="inputcom" name="browser[]" value="disable translate">
                                         Disable Translate
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <div class="mb-1">
-                                        <input type="checkbox"id="inputcom" name="browser" >
+                                        <input type="checkbox"id="inputcom" name="browser[]" value="disable autocompeleted" >
                                         Disable autocompeleted
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <div class="mb-1">
-                                        <input type="checkbox"id="inputcom" name="browser" >
+                                        <input type="checkbox"id="inputcom" name="browser[]" value="disable spellcheck" >
                                         Disable Spellcheck
                                     </div>
                                 </div>
@@ -811,8 +815,16 @@
     <script src="assets/libs/ckeditor/samples/js/sample.js"></script>
     <script>
         $(document).ready(function(){
-            $("#pg").click(function(){
-               $(".pagi").slideToggle();
+            $("#one").click(function(){
+               $(".pagi").slideDown();
+            });
+
+            $("#all").click(function(){
+               $(".pagi").slideUp();
+            });
+
+            $("#mark").click(function(){
+               $(".marking").slideToggle();
             });
 
         });

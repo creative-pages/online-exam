@@ -12,7 +12,13 @@
     if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_all_questions'])) {
         $total_add_questions = $_POST['total_questions'];
         $exam_id = $_POST['exam_id'];
+<<<<<<< HEAD
         for ($i = 1; $i < $total_add_questions + 1; $i++) {
+=======
+        
+            
+        for ($i=1; $i < $total_add_questions; $i++) {
+>>>>>>> rasel
             $serial = $_POST['serial'.$i];
             $question = $_POST['question'.$i];
             

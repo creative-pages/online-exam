@@ -32,10 +32,10 @@ class Admin
 			Session::set("id",$value['id']);
 			echo "<script> window.location.assign('dashboard.php'); </script>";
 			//header("Location:admin-dashboard.php");
-		}else{
+			}else{
 			$msg="<span style='color:red'>Email And Password Does Not Match</span>";
-           return $msg;
-		}
+           	return $msg;
+			}
 		
 	}
 	public function privacyPolicy()

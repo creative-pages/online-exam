@@ -75,7 +75,7 @@
                     </a>
                   </td>
                   <td>
-                    <a href="student-login.php">
+                    <a href="<?=$rows['exm_link'];?>">
                       <img src="image/exam.png" height="30px;">
                     </a>
                   </td>

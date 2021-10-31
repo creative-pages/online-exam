@@ -64,7 +64,7 @@
                                         class="hide-menu">Add Exam</span></a></li>
 
                                 <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
-                                href="add-exam.php" aria-expanded="false"><i class="mdi mdi-account-box"></i><span
+                                href="publish-exam.php" aria-expanded="false"><i class="mdi mdi-account-box"></i><span
                                     class="hide-menu">Publish Exam</span></a></li> 
                                     
                                 <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
