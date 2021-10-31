@@ -63,7 +63,7 @@
                             <a class="btn btn-success" href="singleexam-blank.php?q=<?=$qu['serial']?>">
                                 Start Test ...
                             </a>
-                           
+                            <?php }?>
                         </div>
                     </div>
                 </div>
