@@ -14,18 +14,9 @@
     $cmn = $common->select("`publish_exam`","`exam_id`='$xmid'");
     $result = mysqli_fetch_assoc($cmn);
     $pagination = $result['pagination'];
-    $cmn = $common->select("`questions`","`exam_id`='$xmid'");
+    $cmn = $common->select("`questions`","`exam_id`='$xmid' ORDER BY `serial` ASC");
     $qu = mysqli_fetch_assoc($cmn);
 }
-?>
-<?php
-   
-
-?>
-<?php
-   
-   
-
 ?>
 
 
@@ -69,8 +60,8 @@
                     <div class="col-12">
                         <div class="mb-1 mx-2">
                             <?php if($pagination="oneQuetion"){?>
-                            <a href="singleexam-blank.php?q=<?=$qu['serial']?>">
-                            <button class = "btn btn-success">Start Test ...</button>
+                            <a class="btn btn-success" href="singleexam-blank.php?q=<?=$qu['serial']?>">
+                                Start Test ...
                             </a>
                             <?php }?>
                         </div>
