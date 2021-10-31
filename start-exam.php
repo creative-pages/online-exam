@@ -59,14 +59,14 @@
                     </div>
                     <div class="col-12">
                         <div class="mb-1 mx-2">
-                            <?php if($pagination="oneQuetion"){?>
+                            <?php if($pagination=="oneQuetion"){?>
                             <a class="btn btn-success" href="singleexam-blank.php?q=<?=$qu['serial']?>">
                                 Start Test ...
                             </a>
                             <?php
                             } else {
                             ?>
-                            <a class="btn btn-success" href="singleexam-blank.php?q=<?=$qu['serial']?>">
+                            <a class="btn btn-success" href="exam.php?vi=<?= Session::get('exmid'); ?>">
                                 Start Test ...
                             </a>
                             <?php
