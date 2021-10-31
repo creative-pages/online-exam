@@ -5,13 +5,15 @@
     $common = new Common();
 ?>
 <?php
+<<<<<<< HEAD
   
    $sub = $common->select("`add_exam`","`id`='9'");
+=======
+   $exam = Session::get('exmid');
+   $sub = $common->select("`add_exam`","`id`='$exam'");
+>>>>>>> d04e511cd72fe4f2680d688227a41f99f3987167
    
    $raw = mysqli_fetch_assoc($sub);
-    
-
-
 ?>
 
 <DOCTYPE html>

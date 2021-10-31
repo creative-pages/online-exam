@@ -134,6 +134,15 @@
                                 <div class="px-1">d)</div>
                                 <div><?=$viewquetion['option_four'];?></div>
                             </div>
+                            <?php
+                            if($viewquetion['description'] != '') {
+                            ?>
+                            <div class="col-12 border border-info mb-3 p-1">
+                            <?= $viewquetion['description']; ?>
+                            </div>
+                            <?php
+                            }
+                            ?>
                         </div>
                     </div>
                     <?php }}?>
