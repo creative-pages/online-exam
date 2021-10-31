@@ -5,8 +5,8 @@
     $common = new Common();
 ?>
 <?php
-   $exam = Session::get('xmid');
-   $sub = $common->select("`add_exam`","`id`='$exam'");
+  
+   $sub = $common->select("`add_exam`","`id`='9'");
    
    $raw = mysqli_fetch_assoc($sub);
     

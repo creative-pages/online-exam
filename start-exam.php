@@ -6,17 +6,17 @@
 ?>
 <?php
    if(isset($_GET['xmid'])){
-    $xmid = $_GET['xmid'];
-    $sub = $common->select("`add_exam`","`id`='$xmid'");
- 
-    $raw = mysqli_fetch_assoc($sub);
- 
-    $cmn = $common->select("`publish_exam`","`exam_id`='$xmid'");
-    $result = mysqli_fetch_assoc($cmn);
-    $pagination = $result['pagination'];
-    $cmn = $common->select("`questions`","`exam_id`='$xmid'");
-    $qu = mysqli_fetch_assoc($cmn);
-}
+        $xmid = $_GET['xmid'];
+        $sub = $common->select("`add_exam`","`id`='9'");
+    
+        $raw = mysqli_fetch_assoc($sub);
+    
+        $cmn = $common->select("`questions`","`exam_id`=9");
+    
+        $qu = mysqli_fetch_assoc($cmn);
+   
+    } 
+
 ?>
 <?php
    
@@ -48,31 +48,31 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="mb-1 mx-2">
-                            <h3 class="text-muted" style = "font-family: Georgia, serif;">Exam Name:<?=$raw['examname']?></h3>
+                            <h3 class="text-muted" style = "font-family: Georgia, serif;">Exam Name:</h3>
                         </div>
                     </div>
                     <div class="col-12">
                         <div class="mb-1 mx-2">
-                        <h3 class="text-muted" style = "font-family: Georgia, serif;">Subject Name:<?=$raw['subjectname']?></h3>
+                        <h3 class="text-muted" style = "font-family: Georgia, serif;">Subject Name:</h3>
                         </div>
                     </div>
                     <div class="col-12">
                         <div class="mb-1 mx-2">
-                        <h3 class="text-muted" style = "font-family: Georgia, serif;">Total Quetion:<?=$raw['tquetion']?></h3>
+                        <h3 class="text-muted" style = "font-family: Georgia, serif;">Total Quetion:</h3>
                         </div>
                     </div>
                     <div class="col-12">
                         <div class="mb-1 mx-2">
-                        <h3 class="text-muted" style = "font-family: Georgia, serif;">Duration:<?=$raw['duration']?></h3>
+                        <h3 class="text-muted" style = "font-family: Georgia, serif;">Duration:</h3>
                         </div>
                     </div>
                     <div class="col-12">
                         <div class="mb-1 mx-2">
-                            <?php if($pagination="oneQuetion"){?>
+                           
                             <a href="singleexam-blank.php?q=<?=$qu['serial']?>">
                             <button class = "btn btn-success">Start Test ...</button>
                             </a>
-                            <?php }?>
+                           
                         </div>
                     </div>
                 </div>
