@@ -72,8 +72,8 @@
                             </div>
                         </div>
                         <div class="mt-1">
-                            <a href="">
-                                <button class="btn btn-success">Next Quetion</button>
+                            <a class="btn btn-success" href="singleexam-blank.php?q=<?= $_GET['q'] + 1; ?>">
+                                Next Quetion
                             </a>
 
                         </div>
