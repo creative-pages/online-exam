@@ -6,19 +6,6 @@
 ?>
 <?php
    if(isset($_GET['xmid'])){
-<<<<<<< HEAD
-        $xmid = $_GET['xmid'];
-        $sub = $common->select("`add_exam`","`id`='9'");
-    
-        $raw = mysqli_fetch_assoc($sub);
-    
-        $cmn = $common->select("`questions`","`exam_id`=9");
-    
-        $qu = mysqli_fetch_assoc($cmn);
-   
-    } 
-
-=======
     $xmid = $_GET['xmid'];
     $sub = $common->select("`add_exam`","`id`='$xmid'");
  
@@ -30,7 +17,6 @@
     $cmn = $common->select("`questions`","`exam_id`='$xmid' ORDER BY `serial` ASC");
     $qu = mysqli_fetch_assoc($cmn);
 }
->>>>>>> d04e511cd72fe4f2680d688227a41f99f3987167
 ?>
 
 
@@ -73,15 +59,9 @@
                     </div>
                     <div class="col-12">
                         <div class="mb-1 mx-2">
-<<<<<<< HEAD
-                           
-                            <a href="singleexam-blank.php?q=<?=$qu['serial']?>">
-                            <button class = "btn btn-success">Start Test ...</button>
-=======
                             <?php if($pagination="oneQuetion"){?>
                             <a class="btn btn-success" href="singleexam-blank.php?q=<?=$qu['serial']?>">
                                 Start Test ...
->>>>>>> d04e511cd72fe4f2680d688227a41f99f3987167
                             </a>
                            
                         </div>
