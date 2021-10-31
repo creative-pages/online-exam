@@ -39,22 +39,22 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="mb-1 mx-2">
-                            <h3 class="text-muted" style = "font-family: Georgia, serif;">Exam Name:</h3>
+                            <h3 class="text-muted" style = "font-family: Georgia, serif;">Exam Name:<?=$raw['examname']?></h3>
                         </div>
                     </div>
                     <div class="col-12">
                         <div class="mb-1 mx-2">
-                        <h3 class="text-muted" style = "font-family: Georgia, serif;">Subject Name:</h3>
+                        <h3 class="text-muted" style = "font-family: Georgia, serif;">Subject Name:<?=$raw['subjectname']?></h3>
                         </div>
                     </div>
                     <div class="col-12">
                         <div class="mb-1 mx-2">
-                        <h3 class="text-muted" style = "font-family: Georgia, serif;">Total Quetion:</h3>
+                        <h3 class="text-muted" style = "font-family: Georgia, serif;">Total Quetion:<?=$raw['tquetion']?></h3>
                         </div>
                     </div>
                     <div class="col-12">
                         <div class="mb-1 mx-2">
-                        <h3 class="text-muted" style = "font-family: Georgia, serif;">Duration:</h3>
+                        <h3 class="text-muted" style = "font-family: Georgia, serif;">Duration:<?=$raw['duration']?></h3>
                         </div>
                     </div>
                     <div class="col-12">
