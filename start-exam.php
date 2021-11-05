@@ -16,6 +16,9 @@
     $pagination = $result['pagination'];
     $cmn = $common->select("`questions`","`exam_id`='$xmid' ORDER BY `serial` ASC");
     $qu = mysqli_fetch_assoc($cmn);
+
+    unset($_SESSION["exam_sheet"]);
+    unset($_SESSION["score"]);
 }
 ?>
 

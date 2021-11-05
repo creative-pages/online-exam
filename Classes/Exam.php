@@ -117,23 +117,28 @@
            $query = "SELECT * FROM add_exam WHERE id = '$exam_id'";
             $result = $this->db->select($query)->fetch_assoc();
             $total = $result['tquetion'];
-            $serial    = $this->fm->validation($data['serial']);
+            $serial = $this->fm->validation($data['serial']);
+            $q_id = $this->fm->validation($data['q_id']);
             $ans = $this->fm->validation($data['ans']);
-            $next = $serial+1;
 
             if(!isset($_SESSION['score'])){
-                $_SESSION['score'] = '0';	
+                $_SESSION['score'] = '0';
+
+                $_SESSION['exam_sheet'] = array();
             }
+
+            $_SESSION['exam_sheet'][$q_id] = $ans;
+
             $right =$this->rightAns($serial,$exam_id);
             if($right == $ans ){
                 $_SESSION['score']++;
             }
-            if($next == $total){
+            if($serial == $total){
                 $xm = Session::get('exmid');
                 header("Location:final-result.php?xmid=$xm");
                 exit();
-            }
-            else{
+            } else{
+                $next = $serial+1;
                 header("Location:singleexam-blank.php?q=".$next);
             }
        }

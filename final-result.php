@@ -9,7 +9,6 @@
         $id = $_GET['xmid'];
         $query = $common->select("`add_exam`","`id`='$id'");
         $exam = mysqli_fetch_assoc($query);
-
     }
 ?>
 
@@ -52,6 +51,207 @@
                             </div>
                         </div>  
                         
+                    </div>
+
+                    <div class="bg-white p-3 mt-3">
+                    <?php
+                    $all_question = $common->select("`questions`", "`exam_id` = '$id' ORDER BY `serial` ASC");
+
+                    while ($all_questions = mysqli_fetch_assoc($all_question)) {
+                        if ($_SESSION['exam_sheet'][$all_questions['id']] != '') {
+                            if ($all_questions['answer'] == $_SESSION['exam_sheet'][$all_questions['id']]) {
+                                ?>
+                                <div class="quetion mb-2 bg-white py-2 border border-success" style="border-width: 3px!important;">
+                                    <div class="row mx-2">
+                                        <div class="col-12 d-flex">
+                                            <span><b><?= $all_questions['serial'] ?>. &nbsp;</b></span>
+                                            <div><?= $all_questions['serial'] ?></div>
+                                        </div>
+
+                                        <div class="col-sm-6 col-lg-3 d-flex">
+                                            
+                                            <?php
+                                            if ($all_questions['answer'] == 'option_one') {
+                                                echo '<img width="25px" height="25px" src="admin/assets/images/img/iconfinder_check.svg">';
+                                            }
+                                            ?>
+                                            
+                                            <div>&nbsp; a) &nbsp;</div>
+                                            <div><?= $all_questions['option_one'] ?></div>
+                                        </div>
+
+                                        <div class="col-sm-6 col-lg-3 d-flex">
+
+                                            <?php
+                                            if ($all_questions['answer'] == 'option_two') {
+                                                echo '<img width="25px" height="25px" src="admin/assets/images/img/iconfinder_check.svg">';
+                                            }
+                                            ?>
+                                          
+                                            <div>&nbsp; a) &nbsp;</div>
+                                            <div><?= $all_questions['option_two'] ?></div>
+                                        </div>
+
+                                        <div class="col-sm-6 col-lg-3 d-flex">
+
+                                            <?php
+                                            if ($all_questions['answer'] == 'option_three') {
+                                                echo '<img width="25px" height="25px" src="admin/assets/images/img/iconfinder_check.svg">';
+                                            }
+                                            ?>
+                                            
+                                            <div>&nbsp; a) &nbsp;</div>
+                                            <div><?= $all_questions['option_three'] ?></div>
+                                        </div>
+
+                                        <div class="col-sm-6 col-lg-3 d-flex">
+
+                                            <?php
+                                            if ($all_questions['answer'] == 'option_four') {
+                                                echo '<img width="25px" height="25px" src="admin/assets/images/img/iconfinder_check.svg">';
+                                            }
+                                            ?>
+                                           
+                                            <div>&nbsp; a) &nbsp;</div>
+                                            <div><?= $all_questions['option_four'] ?></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <?php
+                            } else {
+                                ?>
+                                <div class="quetion mb-2 bg-white py-2 border border-danger" style="border-width: 3px!important;">
+                                    <div class="row mx-2">
+                                        <div class="col-12 d-flex">
+                                            <span><b><?= $all_questions['serial'] ?>. &nbsp;</b></span>
+                                            <div><?= $all_questions['serial'] ?></div>
+                                        </div>
+
+                                        <div class="col-sm-6 col-lg-3 d-flex">
+                                            
+                                            <?php
+                                            if ($all_questions['answer'] == 'option_one') {
+                                                echo '<img width="25px" height="25px" src="admin/assets/images/img/iconfinder_check.svg">';
+                                            }
+                                            if ($_SESSION['exam_sheet'][$all_questions['id']] == 'option_one') {
+                                                echo '<img width="25px" height="25px" src="admin/assets/images/iconfinder_wrong.jpg">';
+                                            }
+                                            ?>
+                                            
+                                            <div>&nbsp; a) &nbsp;</div>
+                                            <div><?= $all_questions['option_one'] ?></div>
+                                        </div>
+
+                                        <div class="col-sm-6 col-lg-3 d-flex">
+
+                                            <?php
+                                            if ($all_questions['answer'] == 'option_two') {
+                                                echo '<img width="25px" height="25px" src="admin/assets/images/img/iconfinder_check.svg">';
+                                            }
+                                            if ($_SESSION['exam_sheet'][$all_questions['id']] == 'option_two') {
+                                                echo '<img width="25px" height="25px" src="admin/assets/images/iconfinder_wrong.jpg">';
+                                            }
+                                            ?>
+                                          
+                                            <div>&nbsp; a) &nbsp;</div>
+                                            <div><?= $all_questions['option_two'] ?></div>
+                                        </div>
+
+                                        <div class="col-sm-6 col-lg-3 d-flex">
+
+                                            <?php
+                                            if ($all_questions['answer'] == 'option_three') {
+                                                echo '<img width="25px" height="25px" src="admin/assets/images/img/iconfinder_check.svg">';
+                                            }
+                                            if ($_SESSION['exam_sheet'][$all_questions['id']] == 'option_three') {
+                                                echo '<img width="25px" height="25px" src="admin/assets/images/iconfinder_wrong.jpg">';
+                                            }
+                                            ?>
+                                            
+                                            <div>&nbsp; a) &nbsp;</div>
+                                            <div><?= $all_questions['option_three'] ?></div>
+                                        </div>
+
+                                        <div class="col-sm-6 col-lg-3 d-flex">
+
+                                            <?php
+                                            if ($all_questions['answer'] == 'option_four') {
+                                                echo '<img width="25px" height="25px" src="admin/assets/images/img/iconfinder_check.svg">';
+                                            }
+                                            if ($_SESSION['exam_sheet'][$all_questions['id']] == 'option_four') {
+                                                echo '<img width="25px" height="25px" src="admin/assets/images/iconfinder_wrong.jpg">';
+                                            }
+                                            ?>
+                                           
+                                            <div>&nbsp; a) &nbsp;</div>
+                                            <div><?= $all_questions['option_four'] ?></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <?php
+                            }
+                        } else {
+                        ?>
+                        <div class="quetion mb-2 bg-white py-2 border border-dark" style="border-width: 3px!important;">
+                            <div class="row mx-2">
+                                <div class="col-12 d-flex">
+                                    <span><b><?= $all_questions['serial'] ?>. &nbsp;</b></span>
+                                    <div><?= $all_questions['serial'] ?></div>
+                                </div>
+
+                                <div class="col-sm-6 col-lg-3 d-flex">
+                                    
+                                    <?php
+                                    if ($all_questions['answer'] == 'option_one') {
+                                        echo '<img width="25px" height="25px" src="admin/assets/images/img/iconfinder_check.svg">';
+                                    }
+                                    ?>
+                                    
+                                    <div>&nbsp; a) &nbsp;</div>
+                                    <div><?= $all_questions['option_one'] ?></div>
+                                </div>
+
+                                <div class="col-sm-6 col-lg-3 d-flex">
+
+                                    <?php
+                                    if ($all_questions['answer'] == 'option_two') {
+                                        echo '<img width="25px" height="25px" src="admin/assets/images/img/iconfinder_check.svg">';
+                                    }
+                                    ?>
+                                  
+                                    <div>&nbsp; a) &nbsp;</div>
+                                    <div><?= $all_questions['option_two'] ?></div>
+                                </div>
+
+                                <div class="col-sm-6 col-lg-3 d-flex">
+
+                                    <?php
+                                    if ($all_questions['answer'] == 'option_three') {
+                                        echo '<img width="25px" height="25px" src="admin/assets/images/img/iconfinder_check.svg">';
+                                    }
+                                    ?>
+                                    
+                                    <div>&nbsp; a) &nbsp;</div>
+                                    <div><?= $all_questions['option_three'] ?></div>
+                                </div>
+
+                                <div class="col-sm-6 col-lg-3 d-flex">
+
+                                    <?php
+                                    if ($all_questions['answer'] == 'option_four') {
+                                        echo '<img width="25px" height="25px" src="admin/assets/images/img/iconfinder_check.svg">';
+                                    }
+                                    ?>
+                                   
+                                    <div>&nbsp; a) &nbsp;</div>
+                                    <div><?= $all_questions['option_four'] ?></div>
+                                </div>
+                            </div>
+                        </div>
+                        <?php
+                        }
+                    }
+                    ?>
                     </div>
                 
                 </div>

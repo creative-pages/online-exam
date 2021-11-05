@@ -9,18 +9,21 @@
    $sub = $common->select("`add_exam`","`id`='$exam_id'");
    
    $raw = mysqli_fetch_assoc($sub);
-?>
-<?php
+
     if(isset($_GET['q'])){
         $sid = $_GET['q'];
         $serial = $common->select("`questions`","`exam_id` = '$exam_id' && `serial` = '$sid'");
         $result = mysqli_fetch_assoc($serial);
     }
-?>
-<?php
+
     if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])){
         $process=$exam->ExamProcess($_POST,$exam_id);
-
+    }
+    
+    if(isset($_SESSION['exam_sheet'])) {
+        foreach ($_SESSION['exam_sheet'] as $key => $value) {
+            echo $key . ' = ' . $value . '<br>';
+        }
     }
 
 ?>
@@ -94,6 +97,8 @@
                             <div class="mt-1">
                                 <input type = "submit" class="btn btn-success" name = "submit" value = "Next Quetion" />
                                 <input type = "hidden" value = "<?php echo $sid ;?>" name = "serial" id = "serial"/>
+
+                                <input type="hidden" value="<?= $result['id']; ?>" name="q_id"/>
                                 
                                 <input type = "hidden" value = "<?php echo $exam_id  ;?>" name = "" id = "xmid"/>
 
