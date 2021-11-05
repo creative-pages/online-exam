@@ -29,7 +29,7 @@
     </head>
     <style>
         body{
-        background:url(image/start.jpg) repeat fixed 0 0 #000;position: relative;
+        background:url(image/get-strat.webp) repeat fixed 0 0 #000;position: relative;
         }
     </style>
     <body>
