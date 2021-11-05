@@ -65,7 +65,7 @@
                                     <div class="row mx-2">
                                         <div class="col-12 d-flex">
                                             <span><b><?= $all_questions['serial'] ?>. &nbsp;</b></span>
-                                            <div><?= $all_questions['serial'] ?></div>
+                                            <div><?= $all_questions['question'] ?></div>
                                         </div>
 
                                         <div class="col-sm-6 col-lg-3 d-flex">
@@ -124,7 +124,7 @@
                                     <div class="row mx-2">
                                         <div class="col-12 d-flex">
                                             <span><b><?= $all_questions['serial'] ?>. &nbsp;</b></span>
-                                            <div><?= $all_questions['serial'] ?></div>
+                                            <div><?= $all_questions['question'] ?></div>
                                         </div>
 
                                         <div class="col-sm-6 col-lg-3 d-flex">
@@ -196,7 +196,7 @@
                             <div class="row mx-2">
                                 <div class="col-12 d-flex">
                                     <span><b><?= $all_questions['serial'] ?>. &nbsp;</b></span>
-                                    <div><?= $all_questions['serial'] ?></div>
+                                    <div><?= $all_questions['question'] ?></div>
                                 </div>
 
                                 <div class="col-sm-6 col-lg-3 d-flex">
