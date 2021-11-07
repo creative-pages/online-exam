@@ -44,7 +44,14 @@
 								</h3>
                             </div>
                             <div class="col-4">
-                                <h3 class="text-muted">Wrong Score:</h3>
+                                <h3 class="text-muted">Wrong Score:
+                                <?php
+									if(isset($_SESSION['wrong'])){
+										echo $_SESSION['wrong'];
+										unset($_SESSION['wrong']);
+									}
+								?>
+                                </h3>
                             </div>
                             <div class="col-4">
                                 <h3 class="text-muted">Date:<?=$exam['exmdate'];?></h3>
