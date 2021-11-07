@@ -65,16 +65,9 @@
                             <div class="col-4">
                                 <h3 class="text-muted">Wrong Score:
                                 <?php
-<<<<<<< HEAD
                                     echo $_SESSION['wrong'];
                                 ?>
-=======
-									if(isset($_SESSION['wrong'])){
-										echo $_SESSION['wrong'];
-										unset($_SESSION['wrong']);
-									}
-								?>
->>>>>>> rasel
+
                                 </h3>
                             </div>
                             <div class="col-4">

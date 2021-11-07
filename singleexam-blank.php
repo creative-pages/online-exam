@@ -66,28 +66,30 @@
                             </div>
                             <div class="col-12">
                                 <div class="mb-1">
-                                <input type="radio" id="ans" name="ans" value="option_one"/>
+                                <input type="radio" id="ans1" name="ans" value="option_one"/>
                                     <?=$result['option_one']?>
                                 </div>
                             </div>
                             <div class="col-12">
                                 <div class="mb-1">
-                                <input type="radio" id="ans" name="ans" value="option_two"/>
+                                <input type="radio" id="ans2" name="ans" value="option_two"/>
                                     <?=$result['option_two']?>
                                 </div>
                             </div>
                             <div class="col-12">
                                 <div class="mb-1">
-                                <input type="radio" id="ans" name="ans" value="option_three"/>
+                                <input type="radio" id="ans3" name="ans" value="option_three"/>
                                     <?=$result['option_three']?>
                                 </div>
                             </div>
                             <div class="col-12">
                                 <div class="mb-1">
-                                <input type="radio" id="ans" name="ans"  value="option_four"/>
+                                <input type="radio" id="ans4" name="ans"  value="option_four"/>
                                     <?=$result['option_four']?>
                                 </div>  
                             </div>
+                            <div id="result_check" class="mb-3"></div>
+
                             <div class="mt-1">
                                 <input type = "submit" class="btn btn-success" name = "submit" value = "Next Quetion" />
                                 <input type = "hidden" value = "<?php echo $sid ;?>" name = "serial" id = "serial"/>
@@ -117,23 +119,20 @@
     <script src="admin/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
         <script>
             $(document).ready(function (){
-                $("#submit").click(function(){
-                    var ans     = $("#ans").val();
-                    var serial = $("#serial").val();
-                    var xmid = $("#xmid").val();
-                   
-                    var dataString ='ans='+ans+'&serial='+serial+'&xmid='+xmid;
+                $('[name="ans"]').click(function() {
+                    var q_id = '<?= $result['id']; ?>';
+                    var ans = $(this).val();
+                    
                     $.ajax({
                         type:"POST",
                         url:"admin/ajax/exam-process.php",
-                        data:"dataString",
+                        data:{q_id:q_id, ans:ans, single_page_result_check:'single_page_result_check'},
                         success:function(data){
+                            $('#result_check').html(data);
                         }
                       
                     });
-                    return false;
                 });
-
 
             });
         </script>
