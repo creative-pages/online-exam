@@ -74,7 +74,7 @@
                     </div>
                     
                    <?php
-                   $select = $common->select("`questions`","`exam_id` = '$id' ORDER BY `serial`+0");
+                   $select = $common->select("`questions`","`exam_id` = '$id' ORDER BY `serial`");
                    if($select){
                       
                        while($viewquetion = mysqli_fetch_assoc($select)){

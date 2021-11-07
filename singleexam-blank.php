@@ -19,12 +19,6 @@
     if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])){
         $process=$exam->ExamProcess($_POST,$exam_id);
     }
-    
-    if(isset($_SESSION['exam_sheet'])) {
-        foreach ($_SESSION['exam_sheet'] as $key => $value) {
-            echo $key . ' = ' . $value . '<br>';
-        }
-    }
 
 ?>
 

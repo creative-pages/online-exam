@@ -10,6 +10,28 @@
         $query = $common->select("`add_exam`","`id`='$id'");
         $exam = mysqli_fetch_assoc($query);
     }
+
+
+    $exam_id = Session::get('exmid');
+    $nagetive_mark = $common->select("`publish_exam`","`exam_id` = '$exam_id' && `other` LIKE '%negative%'");
+
+    // negative marking
+    if ($nagetive_mark) {
+        $nagetive_marks = mysqli_fetch_assoc($nagetive_mark);
+
+        $negative_percent =  $nagetive_marks['negative_mark'] * 0.01;
+        $right_answer_final = $_SESSION['score'] - ($_SESSION['wrong'] * $negative_percent);
+    } else {
+        $right_answer_final;
+    }
+
+    $student_id = Session::get('student_id');
+    $how_time_count = $common->select("`results`", "`exam_id` = '$exam_id'");
+    if ($how_time_count) {
+        $how_time = mysqli_num_rows($how_time_count);
+    } else {
+        $how_time = '1';
+    }
 ?>
 
 <DOCTYPE html>
@@ -35,16 +57,17 @@
                         <div class="row mx-1">
                             <div class="col-4">
                                 <h3 class="text-muted">Your Score:<?=$exam['tquetion'];?>/
-								<?php
-									if(isset($_SESSION['score'])){
-										echo $_SESSION['score'];
-										unset($_SESSION['score']);
-									}
-								?>
-								</h3>
+                                <?php
+                                    echo $right_answer_final;
+                                ?>
+                                </h3>
                             </div>
                             <div class="col-4">
-                                <h3 class="text-muted">Wrong Score:</h3>
+                                <h3 class="text-muted">Wrong Score:
+                                <?php
+                                    echo $_SESSION['wrong'];
+                                ?>
+                                </h3>
                             </div>
                             <div class="col-4">
                                 <h3 class="text-muted">Date:<?=$exam['exmdate'];?></h3>
@@ -55,6 +78,9 @@
 
                     <div class="bg-white p-3 mt-3">
                     <?php
+                    $question_ans = '';
+                    $not_answered = 0;
+
                     $all_question = $common->select("`questions`", "`exam_id` = '$id' ORDER BY `serial` ASC");
 
                     while ($all_questions = mysqli_fetch_assoc($all_question)) {
@@ -191,6 +217,7 @@
                                 <?php
                             }
                         } else {
+                            $not_answered++;
                         ?>
                         <div class="quetion mb-2 bg-white py-2 border border-dark" style="border-width: 3px!important;">
                             <div class="row mx-2">
@@ -250,7 +277,14 @@
                         </div>
                         <?php
                         }
+                        $question_ans .= $all_questions['id'] . '=' . $_SESSION['exam_sheet'][$all_questions['id']] . ',';
                     }
+
+                    $question_ans = rtrim($question_ans,",");
+                    $wrong_answer = $_SESSION['wrong'];
+                    $right_answer = $_SESSION['score'];
+
+                    $submit_result = $common->insert("`results`(`exam_id`, `student_id`, `how_time`, `score`, `wrongans`, `rightans`, `blankans`, `question_ans`)", "('$exam_id', '$student_id', '$how_time', '$right_answer_final', '$wrong_answer', '$right_answer', '$not_answered', '$question_ans')");
                     ?>
                     </div>
                 

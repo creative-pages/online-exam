@@ -62,6 +62,7 @@
                         $exam_id = $result['exam_id'];
                       
                         Session::set("exmid",$exam_id);
+                        Session::set("student_id",$studentid);
                         header("Location:start-exam.php?xmid=$exam_id");
                     }
                    

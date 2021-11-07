@@ -7,6 +7,7 @@
 <?php
   
 if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['save'])) {
+    $question_ans = '';
     $right_answer = 0;
     $wrong_answer = 0;
     $not_answered = 0;
@@ -201,13 +202,36 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['save'])) {
                     </div>
                 </div>';
         }
+
+        $question_ans .= $serial . '=' . $ans . ',';
     }
 
     $exam_id = Session::get('exmid');
-    $nagetive_mark = $common->select("`publish_exam`","`exam_id`='$exam_id' && `other` LIKE '%negative%'");
+    $nagetive_mark = $common->select("`publish_exam`","`exam_id` = '$exam_id' && `other` LIKE '%negative%'");
+
+    // negative marking
     if ($nagetive_mark) {
         $nagetive_marks = mysqli_fetch_assoc($nagetive_mark);
+
+        $wrong_ans = $totalquetion - $right_answer;
+        $negative_percent =  $nagetive_marks['negative_mark'] * 0.01;
+        $right_answer_final = $right_answer - ($wrong_ans * $negative_percent);
+    } else {
+        $right_answer_final;
     }
+
+    $student_id = Session::get('student_id');
+    $how_time_count = $common->select("`results`", "`exam_id` = '$exam_id'");
+    if ($how_time_count) {
+        $how_time = mysqli_num_rows($how_time_count);
+    } else {
+        $how_time = '1';
+    }
+    $question_ans = rtrim($question_ans,",");
+
+    $submit_result = $common->insert("`results`(`exam_id`, `student_id`, `how_time`, `score`, `wrongans`, `rightans`, `blankans`, `question_ans`)", "('$exam_id', '$student_id', '$how_time', '$right_answer_final', '$wrong_answer', '$right_answer', '$not_answered', '$question_ans')");
+
+
 
 } else {
     header("Location: http://localhost/batbio/exam.php?vi=".Session::get('exmid'));
@@ -248,13 +272,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['save'])) {
                             <div class="col-3">
                                 <h3 class="text-muted">Total Marks:  
                                     <?php
-                                    if ($nagetive_mark) {
-                                        $wrong_ans = $totalquetion - $right_answer;
-                                        $negative_percent =  $nagetive_marks['negative_mark'] * 0.01;
-                                        echo $right_answer - ($wrong_ans * $negative_percent);
-                                    } else {
-                                        echo $right_answer;
-                                    }
+                                        echo $right_answer_final;
                                     ?>
                                 </h3>
                             </div>

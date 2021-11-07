@@ -5,7 +5,7 @@
     class Exam
     {
         private $db;
-	    private $fm;
+        private $fm;
         public function __construct()
         {
             $this->db= new Database;
@@ -123,6 +123,7 @@
 
             if(!isset($_SESSION['score'])){
                 $_SESSION['score'] = '0';
+                $_SESSION['wrong'] = '0';
 
                 $_SESSION['exam_sheet'] = array();
             }
@@ -132,6 +133,9 @@
             $right =$this->rightAns($serial,$exam_id);
             if($right == $ans ){
                 $_SESSION['score']++;
+            }
+            else{
+                $_SESSION['wrong']++;
             }
             if($serial == $total){
                 $xm = Session::get('exmid');

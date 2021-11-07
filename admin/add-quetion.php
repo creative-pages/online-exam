@@ -14,7 +14,7 @@
         $exam_id = $_POST['exam_id'];
         
             
-        for ($i=1; $i < $total_add_questions; $i++) {
+        for ($i=1; $i < $total_add_questions + 1; $i++) {
             $serial = $_POST['serial'.$i];
             $question = $_POST['question'.$i];
             
