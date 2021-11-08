@@ -9,6 +9,7 @@
         $q_id = $_POST['q_id'];
         $ans = $_POST['ans'];
 
+
         $result_check = $common->select('`questions`', "`id` = '$q_id'");
         $result_checks = mysqli_fetch_assoc($result_check);
 

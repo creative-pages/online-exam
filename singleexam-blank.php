@@ -118,12 +118,12 @@
     <!-- Bootstrap tether Core JavaScript -->
     <script src="admin/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
         <script>
+            
             $(document).ready(function (){
                 $('[name="ans"]').click(function() {
                     var q_id = '<?= $result['id']; ?>';
                     var ans = $(this).val();
-                    
-                    $.ajax({
+                     $.ajax({
                         type:"POST",
                         url:"admin/ajax/exam-process.php",
                         data:{q_id:q_id, ans:ans, single_page_result_check:'single_page_result_check'},
