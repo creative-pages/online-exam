@@ -9,6 +9,13 @@
         $q_id = $_POST['q_id'];
         $ans = $_POST['ans'];
 
+        // storing id and ans for reloading problem
+        if(!isset($_SESSION['reload_session_result'])){
+            $_SESSION['reload_session_result'] = array();
+        }
+
+        $_SESSION['reload_session_result'][$q_id] = $ans;
+
         $result_check = $common->select('`questions`', "`id` = '$q_id'");
         $result_checks = mysqli_fetch_assoc($result_check);
 

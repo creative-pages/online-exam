@@ -18,6 +18,7 @@
     $qu = mysqli_fetch_assoc($cmn);
 
     unset($_SESSION["exam_sheet"]);
+    unset($_SESSION["reload_session_result"]);
     unset($_SESSION["score"]);
 }
 ?>
