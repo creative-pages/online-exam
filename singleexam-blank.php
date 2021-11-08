@@ -14,6 +14,16 @@
         $sid = $_GET['q'];
         $serial = $common->select("`questions`","`exam_id` = '$exam_id' && `serial` = '$sid'");
         $result = mysqli_fetch_assoc($serial);
+
+        // for reloading problem solve
+        if (isset($_SESSION['reload_session_result'])) {
+            $reload_sid = $sid - 1;
+
+            if (array_key_exists($result['id'], $_SESSION['reload_session_result'])) {
+                $already_answered = 'ok';
+            }
+        }
+        // for reloading problem solve
     }
 
     if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])){
@@ -66,29 +76,71 @@
                             </div>
                             <div class="col-12">
                                 <div class="mb-1">
-                                <input type="radio" id="ans1" name="ans" value="option_one"/>
+                                <input type="radio" id="ans1" name="ans" value="option_one" <?php 
+                                if (isset($already_answered)) {
+                                    if ($_SESSION['reload_session_result'][$result['id']] != 'option_one') {
+                                        echo 'disabled';
+                                    } else {
+                                        echo 'checked';
+                                    }
+                                }
+                                ?> />
                                     <?=$result['option_one']?>
                                 </div>
                             </div>
                             <div class="col-12">
                                 <div class="mb-1">
-                                <input type="radio" id="ans2" name="ans" value="option_two"/>
+                                <input type="radio" id="ans2" name="ans" value="option_two" <?php 
+                                if (isset($already_answered)) {
+                                    if ($_SESSION['reload_session_result'][$result['id']] != 'option_two') {
+                                        echo 'disabled';
+                                    } else {
+                                        echo 'checked';
+                                    }
+                                }
+                                ?> />
                                     <?=$result['option_two']?>
                                 </div>
                             </div>
                             <div class="col-12">
                                 <div class="mb-1">
-                                <input type="radio" id="ans3" name="ans" value="option_three"/>
+                                <input type="radio" id="ans3" name="ans" value="option_three" <?php 
+                                if (isset($already_answered)) {
+                                    if ($_SESSION['reload_session_result'][$result['id']] != 'option_three') {
+                                        echo 'disabled';
+                                    } else {
+                                        echo 'checked';
+                                    }
+                                }
+                                ?> />
                                     <?=$result['option_three']?>
                                 </div>
                             </div>
                             <div class="col-12">
                                 <div class="mb-1">
-                                <input type="radio" id="ans4" name="ans"  value="option_four"/>
+                                <input type="radio" id="ans4" name="ans"  value="option_four" <?php 
+                                if (isset($already_answered)) {
+                                    if ($_SESSION['reload_session_result'][$result['id']] != 'option_four') {
+                                        echo 'disabled';
+                                    } else {
+                                        echo 'checked';
+                                    }
+                                }
+                                ?> />
                                     <?=$result['option_four']?>
                                 </div>  
                             </div>
-                            <div id="result_check" class="mb-3"></div>
+                            <div id="result_check" class="mb-3">
+                                <?php
+                                if (isset($already_answered)) {
+                                    if ($_SESSION['reload_session_result'][$result['id']] == $result['answer']) {
+                                        echo '<img width="25px" height="25px" src="admin/assets/images/img/iconfinder_check.svg"> Right';
+                                    } else {
+                                        echo '<img width="25px" height="25px" src="admin/assets/images/iconfinder_wrong.jpg"> Wrong <br> <div class="d-flex mt-2"><img width="25px" height="25px" src="admin/assets/images/img/iconfinder_check.svg">&nbsp; ' . $result[$result['answer']] . '</div>';
+                                    }
+                                }
+                                ?>
+                            </div>
 
                             <div class="mt-1">
                                 <input type = "submit" class="btn btn-success" name = "submit" value = "Next Quetion" />
@@ -129,6 +181,18 @@
                         data:{q_id:q_id, ans:ans, single_page_result_check:'single_page_result_check'},
                         success:function(data){
                             $('#result_check').html(data);
+
+                            $('[name="ans"]').attr("disabled", true);
+
+                            if (ans == $('#ans1').val()) {
+                                $('#ans1').removeAttr('disabled');
+                            } else if(ans == $('#ans2').val()) {
+                                $('#ans2').removeAttr('disabled');
+                            } else if(ans == $('#ans3').val()) {
+                                $('#ans3').removeAttr('disabled');
+                            } else if(ans == $('#ans4').val()) {
+                                $('#ans4').removeAttr('disabled');
+                            }
                         }
                       
                     });
