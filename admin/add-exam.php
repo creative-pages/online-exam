@@ -140,8 +140,6 @@
                                             </a>
                                         <a href="view-quetion.php?view=<?= $value['id'];?>" class="btn btn-info my-1"><i class="fa fa-eye" aria-hidden="true"></i>
                                             </a>
-                                        <a href="exam.php?vi=<?= $value['id'];?>" class="btn btn-info my-1"><i class="fa fa-eye" aria-hidden="true"></i>
-                                        </a>    
                                     </div>
                                 </div>
                            </div>

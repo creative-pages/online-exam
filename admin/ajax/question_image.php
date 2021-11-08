@@ -276,7 +276,7 @@ if (isset($_POST['read_exam'])) {
                         <div class="row mx-2">
                             <div class="col-12 d-flex px-0">
                                 <div>
-                                    <input type="checkbox" name="sfw_id' . $row['serial'] . '" value="' . $row['id'] . '" onclick="copyCount()" id="md_checkbox_25' . $row['serial'] . '" class="material-inputs filled-in chk-col-indigo">
+                                    <input type="checkbox" name="sfw_id' . $row['serial'] . '" value="' . $row['id'] . '" onclick="copyCount()" id="md_checkbox_25' . $row['serial'] . '" class="select_all_question material-inputs filled-in chk-col-indigo">
                                     <label for="md_checkbox_25' . $row['serial'] . '"></label>
                                 </div>
                                 <span><b>' . $row['serial'] . '. &nbsp;</b></span>
@@ -310,9 +310,11 @@ if (isset($_POST['read_exam'])) {
                     </div>';
             $total_quetion++;
         }
-        echo '<input type="hidden" name="total_quetion" value="'.$total_quetion.'">'. $exams_select_result;
+        echo '<input type="checkbox" id="select_all_question" class="material-inputs filled-in chk-col-indigo">
+            <label class="mb-4" for="select_all_question">Select All</label>
+             <input type="hidden" name="total_quetion" value="'.$total_quetion.'">'. $exams_select_result;
     } else {
-        echo '<h4 class="text-center text-danger mb-0">No question found!</h4>';
+        echo '<h4 class="text-center text-danger my-5">No question found!</h4>';
     }
 }
 

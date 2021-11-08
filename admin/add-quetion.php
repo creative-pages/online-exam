@@ -594,7 +594,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['csv_file_import'])) {
     </div>
 
     <!-- Modal -->
-    <div class="modal fade" id="copy_other_button" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal fade" id="copy_other_button" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="staticBackdropLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
         <div class="modal-content">
           <div class="modal-header flex-column">
@@ -608,22 +608,20 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['csv_file_import'])) {
                 </div>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="input-group my-3">
-                <label class="input-group-text mb-0" for="exams_select">Exams</label>
-                <select class="form-select" id="exams_select">
-                    <option selected="">Choose...</option>
-                    <?php
-                    $all_exam = $common->select("`add_exam`", "`status` = '1'");
-                    if ($all_exam) {
-                        while ($all_exams = mysqli_fetch_assoc($all_exam)) {
-                        ?>
-                        <option value="<?= $all_exams['id']; ?>"><?= $all_exams['examname'] . ' - ' . $all_exams['subjectname']; ?></option>
-                        <?php
-                        }
-                    }
+            <br>
+            <select id="exams_select" style="width: 100%;">
+                <option selected="">Choose...</option>
+                <?php
+                $all_exam = $common->select("`add_exam`", "`status` = '1'");
+                if ($all_exam) {
+                    while ($all_exams = mysqli_fetch_assoc($all_exam)) {
                     ?>
-                </select>
-            </div>
+                    <option value="<?= $all_exams['id']; ?>"><?= $all_exams['examname'] . ' - ' . $all_exams['subjectname']; ?></option>
+                    <?php
+                    }
+                }
+                ?>
+            </select>
           </div>
           <div class="modal-body border-top border-bottom">
             <form id="exams_copy_form">
@@ -631,7 +629,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['csv_file_import'])) {
                 <input type="hidden" id="serial_set_copy" name="serial_set_copy" value="0">
                 <input type="hidden" id="copy_input_step" name="copy_input_step" value="0">
                 <div id="exams_select_result">
-                    <h4 class="text-center text-danger mb-0">Select Exam First!</h4>
+                    <h4 class="text-center text-danger my-5">Select Exam First!</h4>
                 </div>
             </form>
           </div>
@@ -693,7 +691,13 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['csv_file_import'])) {
     <!-- This Page JS -->
     <script src="assets/libs/ckeditor/ckeditor.js"></script>
     <script src="assets/libs/ckeditor/samples/js/sample.js"></script>
+
+    <!-- search option in select option start -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js" integrity="sha512-2ImtlRlf2VVmiGZsjm9bEyhjGW4dU7B6TNwh/hx/iSByxNENtj3WVE6o/9Lj4TJeVXPi4bnOIMXFIJJAeufa0A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!-- search option in select option end -->
+
     <script>
+        $('#exams_select').select2();
         CKEDITOR.plugins.addExternal('ckeditor_wiris', 'https://www.wiris.net/demo/plugins/ckeditor/', 'plugin.js');
         $(".ck_editor").each(function() {
             CKEDITOR.inline(this, {
@@ -727,11 +731,21 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['csv_file_import'])) {
                     }
                 });
             } else {
-                $('#exams_select_result').html('<h4 class="text-center text-danger mb-0">Select Exam First!</h4>');
+                $('#exams_select_result').html('<h4 class="text-center text-danger my-5">Select Exam First!</h4>');
                 $('#exams_copy').attr("disabled","disabled");
+                $('#selected_question').text('0');
             }
         });
-
+        
+        $(document).on('change','#select_all_question', function(){
+            if($(this).prop("checked") == true){
+                $('.select_all_question').prop("checked", true);
+                $('#selected_question').text($('.select_all_question').length);
+            } else if($(this).prop("checked") == false){
+                $('.select_all_question').prop("checked", false);
+                $('#selected_question').text('0');
+            }
+        });
 
         function exams_copies() {
            $.ajax({
