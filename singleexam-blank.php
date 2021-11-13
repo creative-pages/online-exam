@@ -30,6 +30,11 @@
         $process=$exam->ExamProcess($_POST,$exam_id);
     }
 
+    // exam start time storing in session
+    if ($_GET['q'] == '1' && !isset($_SESSION['start_exam_time'])) {
+        $_SESSION['start_exam_time'] = date("Y-m-d h:i:s");
+    }
+
 ?>
 
 <DOCTYPE html>
