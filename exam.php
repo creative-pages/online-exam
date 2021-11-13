@@ -18,6 +18,11 @@
         }
 
     }
+
+    // exam start time storing in session
+    if (!isset($_SESSION['start_exam_time'])) {
+        $_SESSION['start_exam_time'] = date("Y-m-d h:i:s");
+    }
 ?>
 <?php
     if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['save'])) {

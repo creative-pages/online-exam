@@ -229,7 +229,14 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['save'])) {
     }
     $question_ans = rtrim($question_ans,",");
 
-    $submit_result = $common->insert("`results`(`exam_id`, `student_id`, `how_time`, `score`, `wrongans`, `rightans`, `blankans`, `question_ans`)", "('$exam_id', '$student_id', '$how_time', '$right_answer_final', '$wrong_answer', '$right_answer', '$not_answered', '$question_ans')");
+    $start_time = $_SESSION['start_exam_time'];
+    $end_time = date("Y-m-d h:i:s");
+        $to_time = strtotime($end_time);
+        $from_time = strtotime($start_time);
+    $total_time = round(abs($to_time - $from_time) / 60,2). " Minutes";
+
+    $submit_result = $common->insert("`results`(`exam_id`, `student_id`, `how_time`, `score`, `wrongans`, `rightans`, `blankans`, `question_ans`, `start_time`, `end_time`, `total_time`)", "('$exam_id', '$student_id', '$how_time', '$right_answer_final', '$wrong_answer', '$right_answer', '$not_answered', '$question_ans', '$start_time', '$end_time', '$total_time')");
+    unset($_SESSION['start_exam_time']);
 
 
 
