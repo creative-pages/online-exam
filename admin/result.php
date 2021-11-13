@@ -169,7 +169,7 @@ if (isset($_GET['exam_id'])) {
                                                     $all_qestion = $common->select("`questions`", "`exam_id` = '$exam_id' ORDER BY `serial` ASC");
                                                     while ($all_qestions = mysqli_fetch_assoc($all_qestion)) {
                                                     ?>
-                                                        <th><?= $all_qestions['serial']; ?></th>
+                                                        <th class="text-center"><?= $all_qestions['serial']; ?></th>
                                                     <?php
                                                     }
                                                     ?>
@@ -179,12 +179,11 @@ if (isset($_GET['exam_id'])) {
                                                     $all_qestion = $common->select("`questions`", "`exam_id` = '$exam_id' ORDER BY `serial` ASC");
                                                     while ($all_qestions = mysqli_fetch_assoc($all_qestion)) {
                                                     ?>
-                                                        <th>
+                                                        <th class="px-1">
                                                         <?php
                                                         $question_id = $all_qestions['id'];
                                                         $question_ans = $all_qestions['answer'];
-                                                        
-                                                        if (strpos($all_results['question_ans'],$question_id.'='.$question_ans)) {
+                                                        if (is_numeric(strpos($all_results['question_ans'],$question_id.'='.$question_ans))) {
                                                             echo '<img width="25px" height="25px" src="assets/images/img/iconfinder_check.svg">';
                                                         } else {
                                                             echo '<img width="25px" height="25px" src="assets/images/img/cross1.png">';
