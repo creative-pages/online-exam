@@ -1,22 +1,4 @@
 <?php include('inc/header.php'); ?>
-<?php
-    if ($_SERVER["REQUEST_METHOD"]== "POST" && isset($_POST['save'])) {
-        $addexam = $exam->AddExam($_POST);
-    }
-    if(isset($_GET['editxm'])){
-        $id =$_GET['editxm'];
-
-        $exambyid = $exam->ExamById($id);
-        
-            $value = $exambyid->fetch_assoc();
-        
-    }
-    if(isset($_GET['dltque'])){
-        $dltid = $_GET['dltque'];
-        $dltXmQue = $exam->DltXmQue($dltid);
-    }
-
-?>
 
 <body>
     <!-- -------------------------------------------------------------- -->
@@ -51,114 +33,161 @@
         <!-- -------------------------------------------------------------- -->
         <!-- -------------------------------------------------------------- -->
         <!-- Page wrapper  -->
-        <!-- modal -------------------------------------------------------------- -->
-        <div id="signup-modal" class="modal fade" tabindex="-1" role="dialog"
-        aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <div class="text-center mt-2 mb-4">
-                        <a href="document.html" class="text-success">
-                        <span><img class="me-2" src="material/src/assets/images/logo-icon.png"
-                            alt="" height="18"><img
-                            src="material/src/assets/images/logo-text.png" alt=""
-                            height="18"></span>
-                        </a>
-                    </div>
-                    <form class="ps-3 pe-3 text-start" action="#"method="post">
-                        <div class="mb-3">
-                            <label for="username">Exam Name</label>
-                            <input class="form-control" type="text" id="examname"
-                                required="" placeholder="Enter Exam Name"name="examname">
-                        </div>
-                        <div class="mb-3">
-                            <label for="subjectname">Subject Name</label>
-                            <input class="form-control" type="text" id="emailaddress"
-                                required="" placeholder="Enter Subject Name"name="subjectname">
-                        </div>
-                        <div class="mb-3">
-                            <label for="duration">Duration</label>
-                            <input class="form-control" type="number" required=""
-                                id="password" placeholder="Set Time"name="duration">
-                        </div>
-                        <div class="mb-3">
-                            <label for="password">Exam Date</label>
-                            <input class="form-control" type="date" required=""
-                                id="password"name="exmdate" >
-                        </div>
-                       
-                        <div class="mb-3 text-center">
-                            <button class="btn btn-primary"name="save" type="submit">Save
-                           </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
-    </div>
-     <!-- /.End Modal -->
+        <!-- -------------------------------------------------------------- -->
         <div class="page-wrapper">
+            <!-- ============================================================== -->
+            <!-- Bread crumb and right sidebar toggle -->
+            <!-- ============================================================== -->
             
+            <!-- ============================================================== -->
+            <!-- End Bread crumb and right sidebar toggle -->
+            <!-- ============================================================== -->
+            <!-- -------------------------------------------------------------- -->
+            <!-- Container fluid  -->
+            <!-- -------------------------------------------------------------- -->
             <div class="container-fluid">
-                <div class="d-flex border-bottom title-part-padding px-0 mb-3 align-items-center">
-                       
-                        <div>
-                            <a href="javascript:void(0)" class="btn btn-success"data-bs-toggle="modal"
-                                data-bs-target="#signup-modal">Add New Exam</a>
+                <!-- -------------------------------------------------------------- -->
+                <!-- Start Page Content -->
+                <!-- -------------------------------------------------------------- -->
+                <div class="widget-content searchable-container list">
+                    <div class = "card card-body">
+                        <div class="row">
+                            <div class="col-3">
+                                <strong>Average Score</strong>
+                                <p class="mx-2" style="margin-bottom: 1px;">90%</p>
+                                <p class="mx-2">90%</p>
+                            </div>
+                            <div class="col-3">
+                                <strong>Average Time</strong>
+                                <p class="mx-2" style="margin-bottom: 1px;">90%</p>
+                                <p class="mx-2">90%</p>
+                            </div>
+                            <div class="col-3">
+                                <strong>Response</strong>
+                                <p class="mx-2">9</p>
+                            </div>
+                            <div class="col-3">
+                                <strong>Score Histogram</strong>
+                               
+                            </div>
                         </div>
-                        <?php
-                            if(isset($dltque)){
-                               echo $dltque;
-                            }
-                        ?>
-                        
-
                     </div>
-                    <div class="row">
-                        <?php
-                            $allxm = $exam->AllExamList();
-                            if($allxm){
-                                while($value = $allxm->fetch_assoc()){
-                        ?>
-                             <div class="col-md-4 col-xl-2 d-flex align-items-stretch">
-                                <div class="card w-100">
-                                    <div class="card-header bg-primary">
-                                        <h4 class="mb-0 text-white"><?= $value['examname'];?></h4></div>
-                                    <div class="card-body">
-                                        <h3 class="card-title text-muted py-1"style="border-bottom:1px dotted #EEF5F9;">Subject:<?= $value['subjectname'];?></h3>
-                                        <h3 class="card-title text-muted py-1"style="border-bottom:1px dotted #EEF5F9;">Duration:<?= $value['duration'];?> Minute</h3>
-                                        <h3 class="card-title text-muted py-1"style="border-bottom:1px dotted #EEF5F9;">Total Quetion:<?= $value['tquetion'];?></h3>
-                                        <h3 class="card-title text-muted py-1"style="border-bottom:1px dotted #EEF5F9;">Exam Date:<?= $value['exmdate'];?></h3>
-                                        
-                                        <a href="add-exam.php?editxm=<?= $value['id'];?>" class="btn btn-primary"data-bs-toggle="modal"
-                                            data-bs-target="#examedit-modal">Edit</a>
-                                        <a  href="edit-quetion.php?editque=<?= $value['id'];?>" class="btn btn-success">Quetion Edit</a>
-                                        <a onclick ="return confirm('Do you Want to sure to delete?');" href="?dltque=<?= $value['id'];?>" class="btn btn-danger">Delete</a>
-                                        <a href="setting.php?setting=<?=$value['id'];?>" class="btn btn-info my-1"><i class="fa fa-cog" aria-hidden="true"></i>
-                                            </a>
-                                        <a href="view-quetion.php?view=<?= $value['id'];?>" class="btn btn-info my-1"><i class="fa fa-eye" aria-hidden="true"></i>
-                                            </a>
-                                        <a href="result.php" class="btn btn-info my-1"><i class="fa fa-poll" aria-hidden="true"></i>
-                                        </a>
+                    <div class="card card-body">
+                        <div class="row">
+                            <div class="col-md-4 col-xl-2">
+                                <form>
+                                    <input type="text" class="form-control product-search" id="input-search" placeholder="Search Result...">
+                                </form>
+                            </div>
+                            <div class="col-md-8 col-xl-10 text-end d-flex justify-content-md-end justify-content-center mt-3 mt-md-0">
+                                    <div class="action-btn show-btn" style="display: none">
+                                        <a href="javascript:void(0)" class="delete-multiple btn-light-danger btn me-2 text-danger d-flex align-items-center font-weight-medium" >
+                                            <i data-feather="trash-2" class="feather-sm fill-white me-1"></i>
+                                            Delete All Row</a>
                                     </div>
-                                </div>
-                           </div>
-                       <?php
-                            }
-                        }
-                       
-                        ?>
+                                    <a href="add-contack.php" id="" class="btn btn-info">
+                                       
+                                        Export Result</a>
+                            </div>
+                        </div>
                         
                     </div>
+                    <!-- Modal -->
+                    
+                    <div class="card card-body">
+                        <div class="table-responsive">
+                            <table class="table search-table v-middle">
+                                <thead class="header-item">
+                                    <th>
+                                        <div class="n-chk align-self-center text-center">
+                                            <div class="form-check">
+                                                <input type="checkbox" class="form-check-input secondary" id="contact-check-all">
+                                                <label class="form-check-label" for="contact-check-all"></label>
+                                                <span class="new-control-indicator"></span>
+                                            </div>
+                                        </div>
+                                    </th>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Started On</th>
+                                    <th>Finished On</th>
+                                    <th>Time</th>
+                                    <th width="5px">1</th>
+                                    <th width="5px">2</th>
+                                    <th width="5px">3</th>
+                                    <th width="5px">4</th>
+                                    <th width="5px">5</th>
+                                </thead>
+                                <tbody>
+                                    <!-- row -->
+                                    
+                                    <!-- /.row -->
+                                    <!-- row -->
+                                    
+                                    <tr class="search-items">
+                                        <td>
+                                            <div class="n-chk align-self-center text-center">
+                                                <div class="form-check">
+                                                    <input type="checkbox" class="form-check-input contact-chkbox primary" id="checkbox2">
+                                                    <label class="form-check-label" for="checkbox2"></label>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                             <span class="usr-email-addr"></span>
+                                        </td>
+                                        <td>
+                                            <span class="usr-email-addr" data-email="allen@mail.com">111</span>
+                                        </td>
+                                        <td>
+                                            <span class="usr-location" data-location="Sydney, Australia">rasel</span>
+                                        </td>
+                                        <td>
+                                            <span class="usr-ph-no" data-phone="+91 (125) 450-1500">11-11-21</span>
+                                        </td>
+                                        <td>
+                                           hhhh
+                                        </td>
+                                        <td>
+                                        <img width="25px" height="25px" src="assets/images/img/iconfinder_check.svg">
+                                        </td>
+                                        <td>
+                                        <img width="25px" height="25px" src="assets/images/img/iconfinder_check.svg">
+                                        </td>
+                                        <td>
+                                        <img width="25px" height="25px" src="assets/images/img/iconfinder_check.svg">
+                                        </td>
+                                        <td>
+                                        <img width="25px" height="25px" src="assets/images/img/iconfinder_check.svg">
+                                        </td>
+                                        <td>
+                                        <img width="25px" height="25px" src="assets/images/img/cross1.png">
+                                        </td>
+                                        
+                                    </tr>
+                                    
+                                    <!-- /.row -->
+                                    <!-- row -->
+                                    
+                                    <!-- /.row -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- -------------------------------------------------------------- -->
+                <!-- End PAge Content -->
+                <!-- -------------------------------------------------------------- -->
             </div>
-            
+            <!-- Share Modal -->
+           
+            <!-- -------------------------------------------------------------- -->
+            <!-- End Container fluid  -->
+            <!-- -------------------------------------------------------------- -->
+            <!-- -------------------------------------------------------------- -->
             <!-- footer -->
             <!-- -------------------------------------------------------------- -->
-            <footer class="footer text-center">
-                   All Rights Reserved by Materialpro admin.
-            </footer>
+            <?php include('inc/footer.php'); ?>
             <!-- -------------------------------------------------------------- -->
             <!-- End footer -->
             <!-- -------------------------------------------------------------- -->
@@ -288,7 +317,7 @@
                                     class="message-item d-flex align-items-center border-bottom px-3 py-2"
                                     id='chat_user_1' data-user-id='1'>
                                     <span class="user-img position-relative d-inline-block"> <img
-                                            src="assets/images/users/1.jpg" alt="user" class="rounded-circle w-100">
+                                            src="../assets/images/users/1.jpg" alt="user" class="rounded-circle w-100">
                                         <span class="profile-status rounded-circle online"></span> </span>
                                     <div class="w-75 d-inline-block v-middle ps-3">
                                         <h5 class="message-title mb-0 mt-1">Pavan kumar</h5> <span
@@ -302,7 +331,7 @@
                                     class="message-item d-flex align-items-center border-bottom px-3 py-2"
                                     id='chat_user_2' data-user-id='2'>
                                     <span class="user-img position-relative d-inline-block"> <img
-                                            src="assets/images/users/2.jpg" alt="user" class="rounded-circle w-100">
+                                            src="../assets/images/users/2.jpg" alt="user" class="rounded-circle w-100">
                                         <span class="profile-status rounded-circle busy"></span> </span>
                                     <div class="w-75 d-inline-block v-middle ps-3">
                                         <h5 class="message-title mb-0 mt-1">Sonu Nigam</h5> <span
@@ -316,7 +345,7 @@
                                     class="message-item d-flex align-items-center border-bottom px-3 py-2"
                                     id='chat_user_3' data-user-id='3'>
                                     <span class="user-img position-relative d-inline-block"> <img
-                                            src="assets/images/users/3.jpg" alt="user" class="rounded-circle w-100">
+                                            src="../assets/images/users/3.jpg" alt="user" class="rounded-circle w-100">
                                         <span class="profile-status rounded-circle away"></span> </span>
                                     <div class="w-75 d-inline-block v-middle ps-3">
                                         <h5 class="message-title mb-0 mt-1">Arijit Sinh</h5> <span
@@ -330,7 +359,7 @@
                                     class="message-item d-flex align-items-center border-bottom px-3 py-2"
                                     id='chat_user_4' data-user-id='4'>
                                     <span class="user-img position-relative d-inline-block"> <img
-                                            src="assets/images/users/4.jpg" alt="user" class="rounded-circle w-100">
+                                            src="../assets/images/users/4.jpg" alt="user" class="rounded-circle w-100">
                                         <span class="profile-status rounded-circle offline"></span> </span>
                                     <div class="w-75 d-inline-block v-middle ps-3">
                                         <h5 class="message-title mb-0 mt-1">Nirav Joshi</h5> <span
@@ -345,7 +374,7 @@
                                     class="message-item d-flex align-items-center border-bottom px-3 py-2"
                                     id='chat_user_5' data-user-id='5'>
                                     <span class="user-img position-relative d-inline-block"> <img
-                                            src="assets/images/users/5.jpg" alt="user" class="rounded-circle w-100">
+                                            src="../assets/images/users/5.jpg" alt="user" class="rounded-circle w-100">
                                         <span class="profile-status rounded-circle offline"></span> </span>
                                     <div class="w-75 d-inline-block v-middle ps-3">
                                         <h5 class="message-title mb-0 mt-1">Sunil Joshi</h5> <span
@@ -360,7 +389,7 @@
                                     class="message-item d-flex align-items-center border-bottom px-3 py-2"
                                     id='chat_user_6' data-user-id='6'>
                                     <span class="user-img position-relative d-inline-block"> <img
-                                            src="assets/images/users/6.jpg" alt="user" class="rounded-circle w-100">
+                                            src="../assets/images/users/6.jpg" alt="user" class="rounded-circle w-100">
                                         <span class="profile-status rounded-circle offline"></span> </span>
                                     <div class="w-75 d-inline-block v-middle ps-3">
                                         <h5 class="message-title mb-0 mt-1">Akshay Kumar</h5> <span
@@ -375,7 +404,7 @@
                                     class="message-item d-flex align-items-center border-bottom px-3 py-2"
                                     id='chat_user_7' data-user-id='7'>
                                     <span class="user-img position-relative d-inline-block"> <img
-                                            src="assets/images/users/7.jpg" alt="user" class="rounded-circle w-100">
+                                            src="../assets/images/users/7.jpg" alt="user" class="rounded-circle w-100">
                                         <span class="profile-status rounded-circle offline"></span> </span>
                                     <div class="w-75 d-inline-block v-middle ps-3">
                                         <h5 class="message-title mb-0 mt-1">Pavan kumar</h5> <span
@@ -390,7 +419,7 @@
                                     class="message-item d-flex align-items-center border-bottom px-3 py-2"
                                     id='chat_user_8' data-user-id='8'>
                                     <span class="user-img position-relative d-inline-block"> <img
-                                            src="assets/images/users/8.jpg" alt="user" class="rounded-circle w-100">
+                                            src="../assets/images/users/8.jpg" alt="user" class="rounded-circle w-100">
                                         <span class="profile-status rounded-circle offline"></span> </span>
                                     <div class="w-75 d-inline-block v-middle ps-3">
                                         <h5 class="message-title mb-0 mt-1">Varun Dhavan</h5> <span
@@ -429,7 +458,7 @@
                         </div>
                         <div class="sl-item">
                             <div class="sl-left"> <img class="rounded-circle" alt="user"
-                                    src="assets/images/users/2.jpg"> </div>
+                                    src="../assets/images/users/2.jpg"> </div>
                             <div class="sl-right">
                                 <div class="font-weight-medium">Go to the Doctor <span class="sl-date">5 minutes
                                         ago</span>
@@ -439,7 +468,7 @@
                         </div>
                         <div class="sl-item">
                             <div class="sl-left"> <img class="rounded-circle" alt="user"
-                                    src="assets/images/users/1.jpg"> </div>
+                                    src="../assets/images/users/1.jpg"> </div>
                             <div class="sl-right">
                                 <div><a href="javascript:void(0)">Stephen</a> <span class="sl-date">5 minutes ago</span>
                                 </div>
@@ -466,7 +495,7 @@
                         </div>
                         <div class="sl-item">
                             <div class="sl-left"> <img class="rounded-circle" alt="user"
-                                    src="assets/images/users/4.jpg"> </div>
+                                    src="../assets/images/users/4.jpg"> </div>
                             <div class="sl-right">
                                 <div class="font-weight-medium">Go to the Doctor <span class="sl-date">5 minutes
                                         ago</span>
@@ -476,7 +505,7 @@
                         </div>
                         <div class="sl-item">
                             <div class="sl-left"> <img class="rounded-circle" alt="user"
-                                    src="assets/images/users/6.jpg"> </div>
+                                    src="../assets/images/users/6.jpg"> </div>
                             <div class="sl-right">
                                 <div><a href="javascript:void(0)">Stephen</a> <span class="sl-date">5 minutes ago</span>
                                 </div>
@@ -489,67 +518,6 @@
             </div>
         </div>
     </aside>
-
-    <!-- exam-edit modal -------------------------------------------------------------- -->
-    
-    
-    <div id="examedit-modal" class="modal fade" tabindex="-1" role="dialog"
-        aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <div class="text-center mt-2 mb-4">
-                        <a href="document.html" class="text-success">
-                        <span><img class="me-2" src="material/src/assets/images/logo-icon.png"
-                            alt="" height="18"><img
-                            src="material/src/assets/images/logo-text.png" alt=""
-                            height="18"></span>
-                        </a>
-                    </div>
-                        
-                   
-                    <form class="ps-3 pe-3 text-start" action="#"method="post">
-                        <div class="mb-3">
-                            <label for="username">Exam Name</label>
-                            <input class="form-control" type="text" id="examname"
-                                required="" value="<?= $value['examname'];?>"name="examname">
-                        </div>
-                        <div class="mb-3">
-                            <label for="subjectname">Subject Name</label>
-                            <input class="form-control" type="text" id="emailaddress"
-                                required="" placeholder="Enter Subject Name"name="subjectname">
-                        </div>
-                        <div class="mb-3">
-                            <label for="totalque">Total Quetion</label>
-                            <input class="form-control" type="number" required=""
-                                id="password" placeholder="Enter Number Of Total Quetion"name="tquetion">
-                        </div>
-                        <div class="mb-3">
-                            <label for="duration">Duration</label>
-                            <input class="form-control" type="number" required=""
-                                id="password" placeholder="Set Time"name="duration">
-                        </div>
-                        <div class="mb-3">
-                            <label for="password">Exam Date</label>
-                            <input class="form-control" type="date" required=""
-                                id="password"name="exmdate" >
-                        </div>
-                       
-                        <div class="mb-3 text-center">
-                            <button class="btn btn-primary"name="save" type="submit">Save
-                           </button>
-                        </div>
-                    </form>
-                    <?php  ?>
-                </div>
-            </div>
-            <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
-    </div>
-    
-    
-     <!-- /.End Modal -->
     <div class="chat-windows"></div>
     <!-- -------------------------------------------------------------- -->
     <!-- All Jquery -->
@@ -571,10 +539,8 @@
     <!--Custom JavaScript -->
    <script src="dist/js/feather.min.js"></script>
     <script src="dist/js/custom.min.js"></script>
-    <!-- This Page JS -->
-    <script src="assets/extra-libs/prism/prism.js"></script>
-    <script src="material/src/assets/extra-libs/toastr/dist/build/toastr.min.js"></script>
-    <script src="material/src/assets/extra-libs/toastr/toastr-init.js"></script>
+    <!--This page plugins -->
+    <script src="dist/js/pages/contact/contact.js"></script>
 </body>
 
 </html>
