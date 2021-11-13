@@ -1,4 +1,14 @@
 <?php include('inc/header.php'); ?>
+<?php
+if (isset($_GET['exam_id'])) {
+    $exam_id = $_GET['exam_id'];
+    $exam_detail = $common->select("`add_exam`", "`id` = '$exam_id'");
+    $exam_details = mysqli_fetch_assoc($exam_detail);
+
+} else {
+    header("Location: add-exam.php");
+}
+?>
 
 <body>
     <!-- -------------------------------------------------------------- -->
@@ -52,6 +62,9 @@
                 <div class="widget-content searchable-container list">
                     <div class = "card card-body">
                         <div class="row">
+                            <div class="col-12">
+                                <h2><?= $exam_details['examname']; ?></h2>
+                            </div>
                             <div class="col-3">
                                 <strong>Average Score</strong>
                                 <p class="mx-2" style="margin-bottom: 1px;">90%</p>
@@ -107,69 +120,98 @@
                                             </div>
                                         </div>
                                     </th>
-                                    <th>ID</th>
-                                    <th>Name</th>
+                                    <th>Serial</th>
+                                    <th>ID-Name</th>
                                     <th>Started On</th>
                                     <th>Finished On</th>
                                     <th>Time</th>
-                                    <th width="5px">1</th>
-                                    <th width="5px">2</th>
-                                    <th width="5px">3</th>
-                                    <th width="5px">4</th>
-                                    <th width="5px">5</th>
+                                    <th>Answers</th>
                                 </thead>
                                 <tbody>
-                                    <!-- row -->
-                                    
-                                    <!-- /.row -->
-                                    <!-- row -->
-                                    
-                                    <tr class="search-items">
-                                        <td>
-                                            <div class="n-chk align-self-center text-center">
-                                                <div class="form-check">
-                                                    <input type="checkbox" class="form-check-input contact-chkbox primary" id="checkbox2">
-                                                    <label class="form-check-label" for="checkbox2"></label>
+                                    <?php
+                                    $exam_id = $_GET['exam_id'];
+                                    $all_result = $common->select("`results`", "`exam_id` = '$exam_id'");
+                                    if ($all_result) {
+                                        $ser = 1;
+                                        while ($all_results = mysqli_fetch_assoc($all_result)) {
+                                            $student_id = $all_results['student_id'];
+                                            $student_detail = $common->select("`student_table`", "`sid` = '$student_id'");
+                                            $student_details = mysqli_fetch_assoc($student_detail);
+                                        ?>
+                                        <tr class="search-items">
+                                            <td>
+                                                <div class="n-chk align-self-center text-center">
+                                                    <div class="form-check">
+                                                        <input type="checkbox" class="form-check-input contact-chkbox primary" id="checkbox2">
+                                                        <label class="form-check-label" for="checkbox2"></label>
+                                                    </div>
                                                 </div>
-                                            </div>
+                                            </td>
+                                            <td>
+                                                 <span class="usr-email-addr"><?= $ser . $all_results['id']; ?></span>
+                                            </td>
+                                            <td>
+                                                <span class="usr-email-addr" data-email="allen@mail.com"><?= $student_details['sname']; ?></span>
+                                            </td>
+                                            <td>
+                                                <span class="usr-location" data-location="Sydney, Australia"><?= $all_results['start_time']; ?></span>
+                                            </td>
+                                            <td>
+                                                <span class="usr-ph-no" data-phone="+91 (125) 450-1500"><?= $all_results['end_time']; ?></span>
+                                            </td>
+                                            <td>
+                                               <?= $all_results['total_time']; ?>
+                                            </td>
+                                            <td>
+                                                <table>
+                                                    <tr>
+                                                    <?php
+                                                    $all_qestion = $common->select("`questions`", "`exam_id` = '$exam_id' ORDER BY `serial` ASC");
+                                                    while ($all_qestions = mysqli_fetch_assoc($all_qestion)) {
+                                                    ?>
+                                                        <th><?= $all_qestions['serial']; ?></th>
+                                                    <?php
+                                                    }
+                                                    ?>
+                                                    </tr>
+                                                    <tr>
+                                                    <?php
+                                                    $all_qestion = $common->select("`questions`", "`exam_id` = '$exam_id' ORDER BY `serial` ASC");
+                                                    while ($all_qestions = mysqli_fetch_assoc($all_qestion)) {
+                                                    ?>
+                                                        <th>
+                                                        <?php
+                                                        $question_id = $all_qestions['id'];
+                                                        $question_ans = $all_qestions['answer'];
+                                                        
+                                                        if (strpos($all_results['question_ans'],$question_id.'='.$question_ans)) {
+                                                            echo '<img width="25px" height="25px" src="assets/images/img/iconfinder_check.svg">';
+                                                        } else {
+                                                            echo '<img width="25px" height="25px" src="assets/images/img/cross1.png">';
+                                                        }
+                                                        ?>
+                                                        </th>
+                                                    <?php
+                                                    }
+                                                    ?>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                            
+                                        </tr>
+                                        <?php
+                                        $ser++;
+                                        }
+                                    } else {
+                                    ?>
+                                    <tr>
+                                        <td colspan="6"> 
+                                            <h4 class="text-center text-warning">No results found!</h4>
                                         </td>
-                                        <td>
-                                             <span class="usr-email-addr"></span>
-                                        </td>
-                                        <td>
-                                            <span class="usr-email-addr" data-email="allen@mail.com">111</span>
-                                        </td>
-                                        <td>
-                                            <span class="usr-location" data-location="Sydney, Australia">rasel</span>
-                                        </td>
-                                        <td>
-                                            <span class="usr-ph-no" data-phone="+91 (125) 450-1500">11-11-21</span>
-                                        </td>
-                                        <td>
-                                           hhhh
-                                        </td>
-                                        <td>
-                                        <img width="25px" height="25px" src="assets/images/img/iconfinder_check.svg">
-                                        </td>
-                                        <td>
-                                        <img width="25px" height="25px" src="assets/images/img/iconfinder_check.svg">
-                                        </td>
-                                        <td>
-                                        <img width="25px" height="25px" src="assets/images/img/iconfinder_check.svg">
-                                        </td>
-                                        <td>
-                                        <img width="25px" height="25px" src="assets/images/img/iconfinder_check.svg">
-                                        </td>
-                                        <td>
-                                        <img width="25px" height="25px" src="assets/images/img/cross1.png">
-                                        </td>
-                                        
                                     </tr>
-                                    
-                                    <!-- /.row -->
-                                    <!-- row -->
-                                    
-                                    <!-- /.row -->
+                                    <?php
+                                    }
+                                    ?>
                                 </tbody>
                             </table>
                         </div>
