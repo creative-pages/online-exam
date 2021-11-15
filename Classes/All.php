@@ -80,6 +80,7 @@
             $pagination = $this->fm->validation($data['pg']);
             $navigation = $this->fm->validation($data['nav']);
             $negative_mark = $this->fm->validation($data['negative_mark']);
+            $acces = $this->fm->validation($data['access']);
             $howtime = $this->fm->validation($data['time']);
             $totaltime = $this->fm->validation($data['minute']);
             $can_take_test = $this->fm->validation($data['can_take_test']);
@@ -98,13 +99,7 @@
                     $others .= $value . ",";  
                 }
             }
-            if (isset($data['access'])) { $access= $data['access']; } else { $access = ''; }
-		        if ($access) {
-                $acces = "";
-                foreach($access as $value) {  
-                    $acces .= $value . ",";  
-                }
-            }
+            
             if (isset($data['browser'])) { $browser= $data['browser']; } else { $browser = ''; }
 		        if ($browser) {
                 $browsers = "";

@@ -57,13 +57,15 @@
         background:url(image/start.jpg) repeat fixed 0 0 #000;position: relative;
         }
     </style>
-    <body>
+    <body onload="starttime()">
             <div class="container-fluid">
                 <div class="quetion" style="width: 700px;margin:0px auto;">
                     <div class="main bg-white">
                         <div class="examheader text-center mt-2">
                             <h3 class= ''style="margin-top:-23px;"><?=$exam['examname'];?></h3>
                             <h3>Subject:Phy</h3>
+                            <h3 id ="starttime"></h3>
+                            <div id="showtime" ></div>
                         </div>
                         <div class="row mx-1">
                             <div class="col-4">
@@ -78,6 +80,7 @@
                         </div>  
                         
                     </div>
+       
                 <form action="final.php" method="post">
                     <input type="hidden" name="totalquetion" value="<?=$exam['tquetion'];?>"/>
                     <?php
@@ -117,10 +120,60 @@
                 }}?>
                     <button type="submit" class="btn btn-success my-3"name="save">Save</button>
                 </form>
+               
                 </div>
             </div>
 
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"   crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+        <?php
+            $query = $common->select("`publish_exam`","`exam_id`='$exam_id'");
+           
+            $result = mysqli_fetch_assoc($query);
+            $duration = $result['howtime'];
+
+            if($duration == "limited"){
+        ?>
+        <script>
+
+        var tim;
+        
+        var min = '<?=$result['totaltime'];?>';
+        var sec = 00;
+        var f = new Date();
+        function starttime() {
+            showtime();
+            document.getElementById("starttime").innerHTML = "<h4>You started your Exam at " + f.getHours() + ":" + f.getMinutes()+"</h4>"; 
+        }
+        function showtime() {
+            if (parseInt(sec) > 0) {
+                sec = parseInt(sec) - 1;
+                document.getElementById("showtime").innerHTML = "Your Left Time is :"+min+" Minutes :" + sec+" Seconds";
+                tim = setTimeout("showtime()", 1000);
+            }
+            else {
+                if (parseInt(sec) == 0) {
+                    min = parseInt(min) - 1;
+            document.getElementById("showtime").innerHTML = "Your Left Time is :"+min+" Minutes :" + sec+" Seconds";
+                    if (parseInt(min) == 0) {
+                        clearTimeout(tim);
+            alert("Time Up");
+
+                        window.location.href = "final.php";
+                    }
+                    else {
+                        sec = 60;
+                        document.getElementById("showtime").innerHTML = "Your Left Time is :" + min + " Minutes :" + sec + " Seconds";
+                        tim = setTimeout("showtime()", 1000);
+                    }
+                }
+
+            }
+        }
+        
+  </script>
+ <?php } ?>
+           
+        
     </body>
 </html>

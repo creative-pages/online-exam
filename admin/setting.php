@@ -272,15 +272,15 @@
                                 <div class="col-6">
                                     <h4>Who Can Text Your Text</h4>
                                     <div class="mb-2 bg-light"style="padding:10px;">
-                                        <input type="checkbox"id="inputcom" name="access[]" value="anyone" >
+                                        <input type="radio"id="inputcom" name="access" value="anyone" >
                                             Anyone
                                     </div>
                                     <div class="mb-2 bg-light"style="padding:10px;">
-                                        <input type="checkbox"id="inputcom" name="access[]" value="passcode" >
+                                        <input type="radio"id="inputcom" name="access" value="passcode" >
                                             Anyone who enters a passcode of my choosing
                                     </div>
                                     <div class="mb-2 bg-light"style="padding:10px;">
-                                        <input type="checkbox"id="inputcom" name="access[]" value="uniq identifier" >
+                                        <input type="radio"id="inputcom" name="access" value="uniq identifier" >
                                         Anyone who enters a uniq identifier
                                     </div>
                                 </div>
