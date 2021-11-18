@@ -160,6 +160,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['save'])) {
                     </div>';
             }
         } else {
+            $ans = '';
             $not_answered++;
         $preview_answer .= '<div class="quetion mb-2 bg-white py-2 border border-dark" style="border-width: 3px!important;">
                     <div class="row mx-2">

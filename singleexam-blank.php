@@ -50,7 +50,7 @@
     </style>
     <body>
       <div class="container">
-          <div class="main mx-auto mb-1 shadow-sm p-3 mb-5 bg-light rounded" style= "width:800px; margin-top: 35;">
+          <div class="main mx-auto shadow-sm p-3 my-3 bg-light rounded" style= "width:800px; margin-top: 35;">
                 <div class="exam_head my-1">
                     <div class="text-center">
                         <h4 class="text-muted"><strong><?=$raw['examname']?></strong></h4>
@@ -75,26 +75,27 @@
                     <div class="row">
                         <form action = "" method = "post">
                             <div class="col-12">
-                                <div class="mb-1  p-1 ">
-                                    <h3><?=$result['question']?></h3>
+                                <div class="d-flex mb-2">
+                                    <div><?= $result['serial']; ?>. &nbsp;</div>
+                                    <?= $result['question']; ?>
                                 </div>
                             </div>
                             <div class="col-12">
-                                <div class="mb-1">
-                                <input type="radio" id="ans1" name="ans" value="option_one" <?php 
-                                if (isset($already_answered)) {
-                                    if ($_SESSION['reload_session_result'][$result['id']] != 'option_one') {
-                                        echo 'disabled';
-                                    } else {
-                                        echo 'checked';
+                                <div class="d-flex mb-2">
+                                    <input type="radio" id="ans1" name="ans" value="option_one" <?php 
+                                    if (isset($already_answered)) {
+                                        if ($_SESSION['reload_session_result'][$result['id']] != 'option_one') {
+                                            echo 'disabled';
+                                        } else {
+                                            echo 'checked';
+                                        }
                                     }
-                                }
-                                ?> />
-                                    <?=$result['option_one']?>
+                                    ?> style="margin-top: 4px; margin-right: 8px;" />
+                                    <?= $result['option_one']; ?>
                                 </div>
                             </div>
                             <div class="col-12">
-                                <div class="mb-1">
+                                <div class="d-flex mb-2">
                                 <input type="radio" id="ans2" name="ans" value="option_two" <?php 
                                 if (isset($already_answered)) {
                                     if ($_SESSION['reload_session_result'][$result['id']] != 'option_two') {
@@ -103,12 +104,12 @@
                                         echo 'checked';
                                     }
                                 }
-                                ?> />
+                                ?> style="margin-top: 4px; margin-right: 8px;" />
                                     <?=$result['option_two']?>
                                 </div>
                             </div>
                             <div class="col-12">
-                                <div class="mb-1">
+                                <div class="d-flex mb-2">
                                 <input type="radio" id="ans3" name="ans" value="option_three" <?php 
                                 if (isset($already_answered)) {
                                     if ($_SESSION['reload_session_result'][$result['id']] != 'option_three') {
@@ -117,12 +118,12 @@
                                         echo 'checked';
                                     }
                                 }
-                                ?> />
+                                ?> style="margin-top: 4px; margin-right: 8px;" />
                                     <?=$result['option_three']?>
                                 </div>
                             </div>
                             <div class="col-12">
-                                <div class="mb-1">
+                                <div class="d-flex mb-2">
                                 <input type="radio" id="ans4" name="ans"  value="option_four" <?php 
                                 if (isset($already_answered)) {
                                     if ($_SESSION['reload_session_result'][$result['id']] != 'option_four') {
@@ -131,7 +132,7 @@
                                         echo 'checked';
                                     }
                                 }
-                                ?> />
+                                ?> style="margin-top: 4px; margin-right: 8px;" />
                                     <?=$result['option_four']?>
                                 </div>  
                             </div>

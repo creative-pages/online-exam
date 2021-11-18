@@ -60,9 +60,9 @@
     <body onload="starttime()">
             <div class="container-fluid">
                 <div class="quetion" style="width: 700px;margin:0px auto;">
-                    <div class="main bg-white">
+                    <div class="main bg-white py-3">
                         <div class="examheader text-center mt-2">
-                            <h3 class= ''style="margin-top:-23px;"><?=$exam['examname'];?></h3>
+                            <h3 class=''><?=$exam['examname'];?></h3>
                             <h3>Subject:Phy</h3>
                             <h3 id ="starttime"></h3>
                             <div id="showtime" ></div>
@@ -90,29 +90,30 @@
                        while($viewquetion = mysqli_fetch_assoc($select)){
                    ?>
                   
-                    <div class="exam bg-white mt-2">
-                        <table>
-                            <tr>
-                                <td colspan="2">
-                                    <input type="hidden" name="serial<?=$i;?>" value="<?=$viewquetion['id'];?>>"/>
-                                    <h3><?=$viewquetion['serial'];?>: <?=$viewquetion['question'];?></h3>
-                                </td>    
-                            </tr>
-                            <tr>
-                                <td>
-                                    <input type="radio" name="ans<?=$i;?>" value="option_one" <?= $publish_setting != NULL ? '' : 'required'; ?> />
-                                    <?=$viewquetion['option_one'];?><br>
-                                    
-                                    <input type="radio" name="ans<?=$i;?>" value="option_two" <?= $publish_setting != NULL ? '' : 'required'; ?> />
-                                    <?=$viewquetion['option_two'];?><br>
-                                    <input type="radio" name="ans<?=$i;?>" value="option_three" <?= $publish_setting != NULL ? '' : 'required'; ?> />
-                                    <?=$viewquetion['option_three'];?><br>
-                                    <input type="radio" name="ans<?=$i;?>" value="option_four" <?= $publish_setting != NULL ? '' : 'required'; ?> />
-                                    <?=$viewquetion['option_four'];?>
-                                </td>
-                            </tr>
-
-                        </table>
+                    <div class="exam bg-white px-3 py-2 border">
+                        <div class="row mx-n3">
+                            <div class="col-12 d-flex mb-2" style="font-size: 18px;">
+                                <input type="hidden" name="serial<?= $i; ?>" value="<?= $viewquetion['id']; ?> "/>
+                                <span><b><?= $viewquetion['serial']; ?>. &nbsp;</b></span>
+                                <div><?= $viewquetion['question']; ?></div>
+                            </div>
+                            <div class="col-12 d-flex mb-2">
+                                <input type="radio" name="ans<?= $i; ?>" value="option_one" <?= $publish_setting != NULL ? '' : 'required'; ?> style="margin-top: 4px; margin-right: 8px;" />
+                                <?= $viewquetion['option_one']; ?>
+                            </div>
+                            <div class="col-12 d-flex mb-2">
+                                <input type="radio" name="ans<?= $i; ?>" value="option_two" <?= $publish_setting != NULL ? '' : 'required'; ?> style="margin-top: 4px; margin-right: 8px;" />
+                                <?= $viewquetion['option_two']; ?>
+                            </div>
+                            <div class="col-12 d-flex mb-2">
+                                <input type="radio" name="ans<?= $i; ?>" value="option_two" <?= $publish_setting != NULL ? '' : 'required'; ?> style="margin-top: 4px; margin-right: 8px;" />
+                                <?= $viewquetion['option_two']; ?>
+                            </div>
+                            <div class="col-12 d-flex mb-2">
+                                <input type="radio" name="ans<?= $i; ?>" value="option_four" <?= $publish_setting != NULL ? '' : 'required'; ?> style="margin-top: 4px; margin-right: 8px;" />
+                                <?= $viewquetion['option_four']; ?>
+                            </div>
+                        </div>
                     </div>
                        
                     <?php 
