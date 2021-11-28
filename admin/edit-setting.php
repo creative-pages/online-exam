@@ -8,8 +8,8 @@
     }
   ?>
   <?php
-    if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['publish'])) {
-        $publish = $all->PublishExam($_POST);
+    if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['editsetting'])) {
+        $publish = $all->EditSetting($_POST,$id);
     }
   ?>
 
@@ -467,7 +467,7 @@
                         </div>
                     </div>
                     <div class="text-center">
-                        <button type="submit" class="btn btn-success" name="publish">Save</button>
+                        <button type="submit" class="btn btn-success" name="editsetting">Save</button>
                     </div>
                 </form>
 

@@ -118,5 +118,71 @@
             }
 
         }
+
+        public function EditSetting($data,$id){
+            $exam_id = $this->fm->validation($data['exam_id']);
+            $exam_name = $this->fm->validation($data['exam_name']);
+            $link = $this->fm->validation($data['link']);
+            $intro = $this->fm->validation($data['intro']);
+            $color = $this->fm->validation($data['color']);
+            $pagination = $this->fm->validation($data['pg']);
+            $navigation = $this->fm->validation($data['nav']);
+            $negative_mark = $this->fm->validation($data['negative_mark']);
+            $acces = $this->fm->validation($data['access']);
+            $howtime = $this->fm->validation($data['time']);
+            $totaltime = $this->fm->validation($data['minute']);
+            $can_take_test = $this->fm->validation($data['can_take_test']);
+            $take_time = $this->fm->validation($data['take_time']);
+
+            if (isset($data['after_answer'])) { $after= $data['after_answer']; } else { $after = ''; }
+		        if ($after) {
+                $afters = "";
+                foreach($after as $soft_type) {  
+                    $afters .= $soft_type . ",";  
+                }
+            }
+            if (isset($data['other'])) { $other= $data['other']; } else { $other = ''; }
+		        if ($other) {
+                $others = "";
+                foreach($other as $value) {  
+                    $others .= $value . ",";  
+                }
+            }
+            
+            if (isset($data['browser'])) { $browser= $data['browser']; } else { $browser = ''; }
+		        if ($browser) {
+                $browsers = "";
+                foreach($browser as $value) {  
+                    $browsers .= $value . ",";  
+                }
+            }
+
+            $query = "UPDATE publish_exam 
+            set 
+            exam_name = '$exam_name',
+            intro= '$intro',
+            color = '$color',
+            pagination= '$pagination',
+            navigation = '$navigation',
+            after_answer = '$afters',
+            other = '$others',
+            negative_mark = '$negative_mark',
+            negative_mark = '$negative_mark',
+            access = '$acces',
+            howtime = '$howtime',
+            totaltime = '$totaltime',
+            can_take_test = '$can_take_test',
+            take_time = '$take_time', 
+            browser = '$browsers'             
+            ";
+            $result = $this->db->update($query);
+            if($result){
+                header("Location:publish-exam.php");
+            }
+            else{
+                echo "Something went wrong";
+            }
+
+        }
     }
 ?>
