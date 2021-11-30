@@ -104,10 +104,11 @@
                                             $batchid = $value['batch_id'];
                                             $subjectid = $value['subject_id'];
                                             $allbatch = $common->select("`add_branch`", "`id` = '$batchid' ");
-                                            $batch = mysqli_fetch_assoc($allbatch);
+                                           
                                             $allsub = $common->select("`subject_add`", "`id` = '$subjectid' ");
-                                           // $subject = mysqli_fetch_assoc($allsub);
-                                       
+                                            $batch = mysqli_fetch_assoc($allbatch);
+                                            $subject = mysqli_fetch_assoc($allsub);
+                                          echo $subject;
                                     ?>
 
                                     <tr class="search-items">
@@ -123,7 +124,7 @@
                                             <span class="usr-email-addr" data-email="adams@mail.com"><?=$batch['branch_name'];?></span>
                                         </td>
                                         <td>
-                                            <span class="usr-email-addr" data-email="adams@mail.com"></span>
+                                            <span class="usr-email-addr" data-email="adams@mail.com"><?=$subject['subject_name'];?></span>
                                         </td>
                                         <td>
                                             <span class="usr-location" data-location="Boston, USA"><?=$value['chapter'];?></span>

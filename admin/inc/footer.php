@@ -1,3 +1,3 @@
 <footer class="footer">
-    All Rights Reserved by Materialpro admin.
+    All Rights Reserved by MediExam.
 </footer>

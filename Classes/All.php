@@ -100,15 +100,9 @@
                 }
             }
             
-            if (isset($data['browser'])) { $browser= $data['browser']; } else { $browser = ''; }
-		        if ($browser) {
-                $browsers = "";
-                foreach($browser as $value) {  
-                    $browsers .= $value . ",";  
-                }
-            }
+            
           
-            $query = "INSERT INTO  publish_exam(exam_id,exam_name,link,intro,color,pagination,navigation,after_answer,other,negative_mark,access,howtime,totaltime,can_take_test,take_time,browser) VALUES('$exam_id','$exam_name','$link','$intro','$color','$pagination','$navigation','$afters','$others','$negative_mark','$acces','$howtime','$totaltime','$can_take_test','$take_time','$browsers') ";
+            $query = "INSERT INTO  publish_exam(exam_id,exam_name,link,intro,color,pagination,navigation,after_answer,other,negative_mark,access,howtime,totaltime,can_take_test,take_time,browser) VALUES('$exam_id','$exam_name','$link','$intro','$color','$pagination','$navigation','$afters','$others','$negative_mark','$acces','$howtime','$totaltime','$can_take_test','$take_time','') ";
             $result = $this->db->insert($query);
             if($result){
                 header("Location:publish-exam.php");
@@ -148,15 +142,7 @@
                     $others .= $value . ",";  
                 }
             }
-            
-            if (isset($data['browser'])) { $browser= $data['browser']; } else { $browser = ''; }
-		        if ($browser) {
-                $browsers = "";
-                foreach($browser as $value) {  
-                    $browsers .= $value . ",";  
-                }
-            }
-
+           
             $query = "UPDATE publish_exam 
             set 
             exam_name = '$exam_name',
@@ -173,7 +159,7 @@
             totaltime = '$totaltime',
             can_take_test = '$can_take_test',
             take_time = '$take_time', 
-            browser = '$browsers'             
+            browser = ''             
             ";
             $result = $this->db->update($query);
             if($result){

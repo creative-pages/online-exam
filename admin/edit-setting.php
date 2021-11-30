@@ -26,38 +26,15 @@
           <path id="steamR" d="M21 6C21 6 21 8.22727 19 9.5C17 10.7727 17 13 17 13" stroke="#1e88e5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
         </svg>
     </div>
-    <!-- -------------------------------------------------------------- -->
-    <!-- Main wrapper - style you can find in pages.scss -->
-    <!-- -------------------------------------------------------------- -->
+    
     <div id="main-wrapper">
-        <!-- -------------------------------------------------------------- -->
-        <!-- Topbar header - style you can find in pages.scss -->
-        <!-- -------------------------------------------------------------- -->
+      
         <?php include('inc/topbar.php'); ?>
-        <!-- -------------------------------------------------------------- -->
-        <!-- End Topbar header -->
-        <!-- -------------------------------------------------------------- -->
-        <!-- -------------------------------------------------------------- -->
-        <!-- Left Sidebar - style you can find in sidebar.scss  -->
-        <!-- -------------------------------------------------------------- -->
+       
         <?php include('inc/left-sidebar.php'); ?>
-        <!-- -------------------------------------------------------------- -->
-        <!-- End Left Sidebar - style you can find in sidebar.scss  -->
-        <!-- -------------------------------------------------------------- -->
-        <!-- -------------------------------------------------------------- -->
-        <!-- Page wrapper  -->
-        <!-- -------------------------------------------------------------- -->
+        
         <div class="page-wrapper">
-            <!-- ============================================================== -->
-            <!-- Bread crumb and right sidebar toggle -->
-            <!-- ============================================================== -->
-            
-            <!-- ============================================================== -->
-            <!-- End Bread crumb and right sidebar toggle -->
-            <!-- ============================================================== -->
-            <!-- -------------------------------------------------------------- -->
-            <!-- Container fluid  -->
-            <!-- -------------------------------------------------------------- -->
+          
             <div class="container-fluid">
                 <form action="" method="post">
                     <div class="card w-100">
@@ -362,80 +339,6 @@
                         
                         </div>
 
-                    </div>
-
-                    <div class="card w-100">
-                        <div class="card-body border-top">
-                            <h2><strong>Browser functionality</strong></h2>
-                            <div class="row">
-                                <div class="col-12">
-                                    <div class="mb-1">
-                                        <input type="checkbox"id="inputcom" name="browser[]" value="disable right content"
-                                        <?php
-                                            $browser = $exam['browser'];
-                                            if(is_numeric(strpos($browser,'disable right content'))) {
-                                            echo " checked";
-                                            }
-                                        ?>
-                                        >
-                                        Disable Right content Menu
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="mb-1">
-                                        <input type="checkbox"id="inputcom" name="browser[]"value="disable copy paste"
-                                        <?php
-                                            $browser = $exam['browser'];
-                                            if(is_numeric(strpos($browser,'disable copy paste'))) {
-                                            echo " checked";
-                                            }
-                                        ?>
-                                        >
-                                        Disable Copy/paste
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="mb-1">
-                                        <input type="checkbox"id="inputcom" name="browser[]" value="disable translate"
-                                        <?php
-                                            $browser = $exam['browser'];
-                                            if(is_numeric(strpos($browser,'disable translate'))) {
-                                            echo " checked";
-                                            }
-                                        ?>
-                                        >
-                                        Disable Translate
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="mb-1">
-                                        <input type="checkbox"id="inputcom" name="browser[]" value="disable autocompeleted"
-                                        <?php
-                                            $browser = $exam['browser'];
-                                            if(is_numeric(strpos($browser,'disable autocompeleted'))) {
-                                            echo " checked";
-                                            }
-                                        ?>
-                                        >
-                                        Disable autocompeleted
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="mb-1">
-                                        <input type="checkbox"id="inputcom" name="browser[]" value="disable spellcheck"
-                                        <?php
-                                            $browser = $exam['browser'];
-                                            if(is_numeric(strpos($browser,'disable spellcheck'))) {
-                                            echo " checked";
-                                            }
-                                        ?>
-                                        >
-                                        Disable Spellcheck
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
                     </div>
 
                     <div class="card w-100">
