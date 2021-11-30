@@ -1,4 +1,17 @@
 <?php include('inc/header.php'); ?>
+<?php
+    if(isset($_GET['es'])){
+        $id = $_GET['es'];
+       $query = $common->select("`publish_exam`","`id`='$id'");
+       $exam = mysqli_fetch_assoc($query);
+
+    }
+  ?>
+  <?php
+    if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['editsetting'])) {
+        $publish = $all->EditSetting($_POST,$id);
+    }
+  ?>
 
 <body>
     <!-- -------------------------------------------------------------- -->
@@ -13,155 +26,356 @@
           <path id="steamR" d="M21 6C21 6 21 8.22727 19 9.5C17 10.7727 17 13 17 13" stroke="#1e88e5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
         </svg>
     </div>
-    <!-- -------------------------------------------------------------- -->
-    <!-- Main wrapper - style you can find in pages.scss -->
-    <!-- -------------------------------------------------------------- -->
+    
     <div id="main-wrapper">
-        <!-- -------------------------------------------------------------- -->
-        <!-- Topbar header - style you can find in pages.scss -->
-        <!-- -------------------------------------------------------------- -->
+      
         <?php include('inc/topbar.php'); ?>
-        <!-- -------------------------------------------------------------- -->
-        <!-- End Topbar header -->
-        <!-- -------------------------------------------------------------- -->
-        <!-- -------------------------------------------------------------- -->
-        <!-- Left Sidebar - style you can find in sidebar.scss  -->
-        <!-- -------------------------------------------------------------- -->
+       
         <?php include('inc/left-sidebar.php'); ?>
-        <!-- -------------------------------------------------------------- -->
-        <!-- End Left Sidebar - style you can find in sidebar.scss  -->
-        <!-- -------------------------------------------------------------- -->
-        <!-- -------------------------------------------------------------- -->
-        <!-- Page wrapper  -->
-        <!-- -------------------------------------------------------------- -->
+        
         <div class="page-wrapper">
-            <!-- ============================================================== -->
-            <!-- Bread crumb and right sidebar toggle -->
-            <!-- ============================================================== -->
-            
-            <!-- ============================================================== -->
-            <!-- End Bread crumb and right sidebar toggle -->
-            <!-- ============================================================== -->
-            <!-- -------------------------------------------------------------- -->
-            <!-- Container fluid  -->
-            <!-- -------------------------------------------------------------- -->
+          
             <div class="container-fluid">
-                <!-- -------------------------------------------------------------- -->
-                <!-- Start Page Content -->
-                <!-- -------------------------------------------------------------- -->
-                <div class="widget-content searchable-container list">
-                    <div class="card card-body">
-                        <div class="row">
-                                <div class="col-md-4 col-xl-2">
-                                    <form>
-                                        <input type="text" class="form-control product-search" id="input-search" placeholder="Search Contacts...">
-                                    </form>
-                                </div>
-                                <div class="col-md-8 col-xl-10 text-end d-flex justify-content-md-end justify-content-center mt-3 mt-md-0">
-                                     <div class="action-btn show-btn" style="display: none">
-                                            <a href="javascript:void(0)" class="delete-multiple btn-light-danger btn me-2 text-danger d-flex align-items-center font-weight-medium" >
-                                                <i data-feather="trash-2" class="feather-sm fill-white me-1"></i>
-                                             Delete All Row</a>
+                <form action="" method="post">
+                    <div class="card w-100">
+                        
+                        
+                            <div class="card-body border-top">
+                                <h4 class="card-title">Basic Settings</h4>
+                                
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="mb-3">
+                                            <label for="inputcom" class="control-label col-form-label">Exam Name</label>
+                                            <input type="text" class="form-control" name="exam_name" value="<?=$exam['exam_name'];?>">
+                                            <input type="hidden" class="form-control" id="inputcom" name="exam_id" value="<?=$exam['exam_id'];?>">
+                                            <input type="hidden" class="form-control" id="inputcom" name="link" value="student-login.php?exmid=<?=$exam['id'];?>">
                                         </div>
-                                        <a href="class.php" id="" class="btn btn-info">
-                                            <i data-feather="users" class="feather-sm fill-white me-1"> </i>
-                                         Add New Class</a>
-                                </div>
-                        </div>
-                    </div>
-                    <!-- Modal -->
-                   
-                    <div class="card card-body">
-                        <div class="table-responsive">
-                            <table class="table search-table v-middle">
-                                <thead class="header-item">
-                                    <th>
-                                        <div class="n-chk align-self-center text-center">
-                                            <div class="form-check">
-                                                <input type="checkbox" class="form-check-input secondary" id="contact-check-all">
-                                                <label class="form-check-label" for="contact-check-all"></label>
-                                                <span class="new-control-indicator"></span>
-                                            </div>
+                                    </div>
+                                
+                                    <div class="col-12">
+                                        <div class="mb-3">
+                                            <label class="control-label col-form-label">Introduction</label>
+                                            <textarea class="form-control ck_editor" name="intro" >
+                                                <?=$exam['intro'];?>
+                                            </textarea>
                                         </div>
-                                    </th>
-                                    <th>Batch Name</th>
-                                    <th>Subject Name</th>
-                                    <th>Chapter No</th>
-                                    <th>Class Topic</th>
-                                    <th>Exam Link</th>
-                                    <th>Note Link</th>
-                                    <th>Class Link</th>
-                                    <th>Action</th>
-                                </thead>
-                                <tbody>
-                                    <!-- row -->
-                                    
-                                    <?php
-                                        
-                                        $allclass = $all->AllClass();
-                                        if($allclass){
-                                           while($value =mysqli_fetch_assoc($allclass)){
-                                            $batchid = $value['batch_id'];
-                                            $subjectid = $value['subject_id'];
-                                            $allbatch = $common->select("`add_branch`", "`id` = '$batchid' ");
-                                           
-                                            $allsub = $common->select("`subject_add`", "`id` = '$subjectid' ");
-                                            $batch = mysqli_fetch_assoc($allbatch);
-                                            $subject = mysqli_fetch_assoc($allsub);
-                                          echo $subject;
-                                    ?>
+                                    </div>
+                                </div>
+                            </div>
 
-                                    <tr class="search-items">
-                                        <td>
-                                            <div class="n-chk align-self-center text-center">
-                                                <div class="form-check">
-                                                    <input type="checkbox" class="form-check-input contact-chkbox primary" id="checkbox1">
-                                                    <label class="form-check-label" for="checkbox1"></label>
-                                                </div>
+                        
+                            <div class="card-body border-top">
+                                <h4 class="card-title">Color Scheema</h4>
+                                
+                                <div class="row">
+                                    <div class="col-3">
+                                        <div class="mb-3">
+                                            
+                                            <input type="radio" id="inputcom" name="color" value="blue" <?php echo ($exam['color']== 'blue') ?  "checked" : "" ;  ?>>
+                                            Blue
+                                        </div>
+                                    </div>
+                                
+                                    <div class="col-3">
+                                        <div class="mb-3">
+                                        
+                                            <input type="radio"id="inputcom" name="color" value="red" <?php echo ($exam['color']== 'red') ?  "checked" : "" ;  ?>>
+                                            Red
+                                        </div>
+                                    </div>
+                                    <div class="col-3">
+                                        <div class="mb-3">
+                                        
+                                            <input type="radio"id="inputcom" name="color" value="green" <?php echo ($exam['color']== 'green') ?  "checked" : "" ;  ?>>
+                                            Green
+                                        </div>
+                                    </div>
+                                    <div class="col-3">
+                                        <div class="mb-3">
+                                        
+                                            <input type="radio" id="inputcom" name="color" value="white" <?php echo ($exam['color']== 'white') ?  "checked" : "" ;  ?>>
+                                            White
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card-body border-top">
+                                <h4 class="card-title">Quetion Setting</h4>
+                                <h5 class="card-title">Pagination</h5>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="mb-1">
+                                            
+                                            <input type="radio" id="all" name="pg" value="allQuetion" <?php echo ($exam['pagination']== 'allQuetion') ?  "checked" : "" ;  ?>>
+                                            Show <strong>All</strong> Quetion on one Page
+                                        </div>
+                                    </div>
+                                
+                                    <div class="col-12">
+                                        <div class="mb-3">
+                                        
+                                            <input type="radio"id="one" name="pg" value="oneQuetion"  <?php echo ($exam['pagination']== 'oneQuetion') ?  "checked" : "" ;  ?>>
+                                            Show <strong>One</strong> Quetion Per Page
+                                        </div>
+                                    </div>
+                            </div>
+                            <div class="pagi mx-2" style="<?= $exam['pagination']== 'oneQuetion' ? '' : 'display:none;'; ?>">
+                                <h4 class="card-title"><strong>Navigation Setting</strong></h4>
+                                <div class="row">
+                                        <div class="col-12">
+                                            <div class="mb-1">
+                                                
+                                                <input type="radio" id="inputcom" name="nav" value="jump around"  <?php echo ($exam['navigation']== 'jump around') ?  "checked" : "" ;  ?>>
+                                                Allow The Student to jump around of different Quetion in the test
                                             </div>
-                                        </td>
-                                        <td>
-                                            <span class="usr-email-addr" data-email="adams@mail.com"><?=$batch['branch_name'];?></span>
-                                        </td>
-                                        <td>
-                                            <span class="usr-email-addr" data-email="adams@mail.com"><?=$subject['subject_name'];?></span>
-                                        </td>
-                                        <td>
-                                            <span class="usr-location" data-location="Boston, USA"><?=$value['chapter'];?></span>
-                                        </td>
-                                        <td>
-                                            <span class="usr-ph-no" data-phone="+1 (070) 123-4567"><?=$value['topic'];?>/span>
-                                        </td>
-                                        <td>
-                                            <span class="usr-ph-no" data-phone="+1 (070) 123-4567"><?=$value['exm_link'];?></span>
-                                        </td>
-                                        <td>
-                                            <span class="usr-ph-no" data-phone="+1 (070) 123-4567"><?=$value['note_link'];?></span>
-                                        </td>
-                                        <td>
-                                            <span class="usr-ph-no" data-phone="+1 (070) 123-4567"><?=$value['c_link'];?></span>
-                                        </td>
-                                        <td>
-                                            <div class="action-btn">
-                                                <a href="edit-class.php?editc=<?=$value['id'];?>" class="text-info edit"><i data-feather="eye" class="feather-sm fill-white"></i></a>
-                                                <a href="?dltc=<?=$value['id'];?>" class="text-dark delete ms-2"><i data-feather="trash-2" class="feather-sm fill-white"></i></a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <?php }}?>
-                                    <!-- /.row -->
-                                    <!-- row -->
+                                        </div>
                                     
-                                    <!-- /.row -->
-                                </tbody>
-                            </table>
+                                        <div class="col-12">
+                                            <div class="mb-3">
+                                            
+                                                <input type="radio"id="inputcom" name="nav" value="jump after answering"  <?php echo ($exam['navigation']== 'jump after answering') ?  "checked" : "" ;?>>
+                                                Only Allow the student to move forward after answering a question.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <h4 class="card-title">After Each Quetion is Answered:</h4>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="mb-1">
+                                                
+                                                <input type="checkbox" id="inputcom" name="after_answer[]" value="Indicate the correct answer"<?php
+                                                $after = $exam['after_answer'];
+                                                if(is_numeric(strpos($after,'Indicate the correct answer'))) {
+                                                echo " checked";
+                                                }
+                                                ?>>
+                                                Indicate the correct answer 
+                                            </div>
+                                        </div>
+                                    
+                                        <div class="col-12">
+                                            <div class="mb-1">
+                                            
+                                                <input type="checkbox"id="inputcom" name="after_answer[]" value="Dispaly the correct answer"<?php
+                                                $after = $exam['after_answer'];
+                                                if(is_numeric(strpos($after,'Dispaly the correct answer'))) {
+                                                echo " checked";
+                                                }
+                                                ?>>
+                                                Dispaly the correct answer
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="mb-3">
+                                            
+                                                <input type="checkbox"id="inputcom" name="after_answer[]" value="Show The Explation"<?php
+                                                $after = $exam['after_answer'];
+                                                if(is_numeric(strpos($after,'Show The Explation'))) {
+                                                echo " checked";
+                                                }
+                                                ?>>
+                                                Show The Explation
+                                            </div>
+                                        </div>
+                                    </div>
+                            </div>
+
+                            <h5 class="card-title"><strong>Other Setting </strong></h5>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="mb-1">
+                                            
+                                            <input type="checkbox"id="inputcom"  name="other[]" value="randomize" <?php
+                                                $after = $exam['other'];
+                                                if(is_numeric(strpos($after,'randomize'))) {
+                                                echo " checked";
+                                                }
+                                                ?>>
+                                                Randomize the other of the quetion duering the test.
+                                        </div>
+                                    </div>
+                                
+                                    <div class="col-12">
+                                        <div class="mb-1">
+                                        
+                                        <input type="checkbox"id="inputcom" name="other[]" value="blank" <?php
+                                                $after = $exam['other'];
+                                                if(is_numeric(strpos($after,'blank'))) {
+                                                echo " checked";
+                                                }
+                                                ?>>
+                                                Allow Student to submit blank/emty page
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <div class="mb-1">
+                                        
+                                        <input type="checkbox"id="mark" name="other[]" value="negative marking" <?php
+                                                $after = $exam['other'];
+                                                if(is_numeric(strpos($after,'negative marking'))) {
+                                                echo " checked";
+                                                }
+                                                ?>>
+                                                Penalize incorrect answer(Negative marking)
+                                        </div>
+                                    </div>
+                                    <div class="marking mx-2" style="
+                                        <?php
+                                        $negative = $exam['other'];
+                                        if(is_numeric(strpos($after,'negative marking'))) { ?>
+                                       
+                                        <?php } else { ?>
+                                        
+                                        display:none;
+                                        <?php }?>
+                                        ">
+                                        <span>Penalty</span> <span><input type="text" name="negative_mark" value="<?=$exam['negative_mark'];?>" style="width:60px;"></span> <span>%</span>
+                                        <p class="mt-2">(As a percentage Each quetion of value)</p>
+                                    </div>
+                            </div>
+
+
+                            
+                            </div>
+                        
+                    </div>
+                    
+                    <div class="card w-100">
+                        <div class="card-body border-top">
+                            <h2><strong>Review Setting</strong></h2>
+                            <p>This setting control what happen after the text</p>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="mb-3">
+                                        <label class="control-label col-form-label">Concloson text</label>
+                                        <textarea class="form-control ck_editor" aria-label="With textarea"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="mb-2">
+                                        
+                                        <input type="checkbox"id="inputcom" name="color">
+                                            Show a custom message if the student pass or fail
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="mb-1">
+                                        <strong>At the end of text,display user:</strong>    
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="mb-1">
+                                        <input type="checkbox"id="inputcom" name="color">
+                                            Score
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="mb-1">
+                                        <input type="checkbox"id="inputcom" name="color">
+                                            Text OutLine[?]
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="card w-100">
+                        <div class="card-body border-top">
+                            <h2><strong>Access Control</strong></h2>
+                            <div class="row">
+                                <div class="col-6">
+                                    <h4>Who Can Text Your Text</h4>
+                                    <div class="mb-2 bg-light"style="padding:10px;">
+                                        <input type="radio"id="inputcom" name="access" value="anyone" <?php echo ($exam['access']== 'anyone') ?  "checked" : "" ;  ?> >
+                                            Anyone
+                                    </div>
+                                    <div class="mb-2 bg-light"style="padding:10px;">
+                                        <input type="radio"id="inputcom" name="access" value="passcode" <?php echo ($exam['access']== 'passcode') ?  "checked" : "" ;  ?> >
+                                            Anyone who enters a passcode of my choosing
+                                    </div>
+                                    <div class="mb-2 bg-light"style="padding:10px;">
+                                        <input type="radio"id="inputcom" name="access" value="uniq identifier" <?php echo ($exam['access']== 'uniq identifier') ?  "checked" : "" ;  ?> >
+                                        Anyone who enters a uniq identifier
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <h4>How much time to test have to compeleted the test?</h4>
+                                    <p>The timer start the moment and continues even if they close out of test</p>
+                                    <div class="col-12">
+                                        <div class="mb-1">
+                                            <input type="radio"id="inputcom" name="time" value="unlimited" <?php echo ($exam['howtime']== 'unlimited') ?  "checked" : "" ;  ?> >
+                                            Unlimited
+                                        </div>
+
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="mb-3">
+                                            <input type="radio"id="inputcom" name="time" value="limited" <?php echo ($exam['howtime']== 'limited') ?  "checked" : "" ;  ?> >
+                                            <span><input type="text" name="minute" value="<?=$exam['totaltime'];?>" style="width: 64px;"></span> <span>minutes</span>
+                                        </div>
+                                    </div>
+                                    <h4>How many time someone can take test?</h4>
+                                    <div class="col-12">
+                                        <div class="mb-1">
+                                            <input type="radio"id="inputcom" name="can_take_test" value="unlimited" <?php echo ($exam['can_take_test']== 'unlimited') ?  "checked" : "" ;  ?> >
+                                            Unlimited
+                                        </div>
+
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="mb-3">
+                                            <input type="radio"id="inputcom" name="can_take_test"value="limited" <?php echo ($exam['can_take_test']== 'limited') ?  "checked" : "" ;  ?>>
+                                            <span><input type="text" name="take_time" style="width: 64px;"></span> <span>times</span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        
+                        </div>
+
+                    </div>
+
+                    <div class="card w-100">
+                        <div class="card-body border-top">
+                            <h2><strong>Notification</strong></h2>
+                            <h4>Do you want to receive an email whenever someone finishe the test</h4>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="mb-1">
+                                        <input type="radio"id="inputcom" name="noti" >
+                                        Use My Acaunt to Control This
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="mb-1">
+                                    <input type="radio"id="inputcom" name="noti" >
+                                        yes
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="mb-1">
+                                    <input type="radio"id="inputcom" name="noti" >
+                                        no
+                                    </div>
+                                </div>
+                            
+                            </div>
+
                         </div>
                     </div>
-                </div>
-                <!-- -------------------------------------------------------------- -->
-                <!-- End PAge Content -->
-                <!-- -------------------------------------------------------------- -->
-            </div>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-success" name="editsetting">Save</button>
+                    </div>
+                </form>
+
+            </div>       
+        
             <!-- Share Modal -->
             <div class="modal fade" id="Sharemodel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
                 aria-hidden="true">
@@ -576,6 +790,24 @@
     <script src="dist/js/custom.min.js"></script>
     <!--This page plugins -->
     <script src="dist/js/pages/contact/contact.js"></script>
+    <script src="assets/libs/ckeditor/ckeditor.js"></script>
+    <script src="assets/libs/ckeditor/samples/js/sample.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("#one").click(function(){
+               $(".pagi").slideDown();
+            });
+
+            $("#all").click(function(){
+               $(".pagi").slideUp();
+            });
+
+            $("#mark").click(function(){
+               $(".marking").slideToggle();
+            });
+
+        });
+    </script>
 </body>
 
 </html>

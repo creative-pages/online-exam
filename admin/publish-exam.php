@@ -116,8 +116,8 @@
                                        
                                         <td>
                                             <div class="action-btn">
-                                                <a href="edit-student.php" class="text-info edit">
-                                                    <i data-feather="eye" class="feather-sm fill-white"></i>
+                                                <a href="edit-setting.php?es=<?=$raw['id'];?>" class="text-info edit">
+                                                <i class="fa fa-cog" aria-hidden="true"></i>
                                                 </a>
                                                 <a onclick="return confirm('Are you sure you want to Delete');" href="">
                                                     <i data-feather="trash-2" class="feather-sm fill-white"></i>

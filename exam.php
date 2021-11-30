@@ -160,7 +160,7 @@
                         clearTimeout(tim);
             alert("Time Up");
 
-                        window.location.href = "final.php";
+                      
                     }
                     else {
                         sec = 60;

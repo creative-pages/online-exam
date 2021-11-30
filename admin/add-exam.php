@@ -19,9 +19,7 @@
 ?>
 
 <body>
-    <!-- -------------------------------------------------------------- -->
-    <!-- Preloader - style you can find in spinners.css -->
-    <!-- -------------------------------------------------------------- -->
+   
     <div class="preloader">
         <svg class="tea lds-ripple" width="37" height="48" viewbox="0 0 37 48" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M27.0819 17H3.02508C1.91076 17 1.01376 17.9059 1.0485 19.0197C1.15761 22.5177 1.49703 29.7374 2.5 34C4.07125 40.6778 7.18553 44.8868 8.44856 46.3845C8.79051 46.79 9.29799 47 9.82843 47H20.0218C20.639 47 21.2193 46.7159 21.5659 46.2052C22.6765 44.5687 25.2312 40.4282 27.5 34C28.9757 29.8188 29.084 22.4043 29.0441 18.9156C29.0319 17.8436 28.1539 17 27.0819 17Z" stroke="#1e88e5" stroke-width="2"></path>
@@ -31,27 +29,13 @@
           <path id="steamR" d="M21 6C21 6 21 8.22727 19 9.5C17 10.7727 17 13 17 13" stroke="#1e88e5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
         </svg>
     </div>
-    <!-- -------------------------------------------------------------- -->
-    <!-- Main wrapper - style you can find in pages.scss -->
-    <!-- -------------------------------------------------------------- -->
+   
     <div id="main-wrapper">
-        <!-- -------------------------------------------------------------- -->
-        <!-- Topbar header - style you can find in pages.scss -->
-        <!-- -------------------------------------------------------------- -->
+       
         <?php include('inc/topbar.php'); ?>
-        <!-- -------------------------------------------------------------- -->
-        <!-- End Topbar header -->
-        <!-- -------------------------------------------------------------- -->
-        <!-- -------------------------------------------------------------- -->
-        <!-- Left Sidebar - style you can find in sidebar.scss  -->
-        <!-- -------------------------------------------------------------- -->
+       
         <?php include('inc/left-sidebar.php'); ?>
-        <!-- -------------------------------------------------------------- -->
-        <!-- End Left Sidebar - style you can find in sidebar.scss  -->
-        <!-- -------------------------------------------------------------- -->
-        <!-- -------------------------------------------------------------- -->
-        <!-- Page wrapper  -->
-        <!-- modal -------------------------------------------------------------- -->
+       
         <div id="signup-modal" class="modal fade" tabindex="-1" role="dialog"
         aria-hidden="true">
         <div class="modal-dialog">
@@ -136,8 +120,19 @@
                                             data-bs-target="#examedit-modal">Edit</a>
                                         <a  href="edit-quetion.php?editque=<?= $value['id'];?>" class="btn btn-success">Quetion Edit</a>
                                         <a onclick ="return confirm('Do you Want to sure to delete?');" href="?dltque=<?= $value['id'];?>" class="btn btn-danger">Delete</a>
-                                        <a href="setting.php?setting=<?=$value['id'];?>" class="btn btn-info my-1"><i class="fa fa-cog" aria-hidden="true"></i>
+                                        <?php
+                                         $idexm = $value['id'];
+                                         $pub = $common->select("`publish_exam`","`exam_id` = '$idexm'");
+                                         
+                                         if($pub ){
+                                            $result = mysqli_fetch_assoc($pub);
+                                        ?>
+                                         <a href="edit-setting.php?es=<?=$result['id'];?>" class="btn btn-info my-1"><i class="fa fa-cog" aria-hidden="true"></i>
                                             </a>
+                                         <?php } else { ?> 
+                                            <a href="setting.php?setting=<?=$value['id'];?>" class="btn btn-info my-1"><i class="fa fa-cog" aria-hidden="true"></i>
+                                            </a>
+                                            <?php } ?>   
                                         <a href="view-quetion.php?view=<?= $value['id'];?>" class="btn btn-info my-1"><i class="fa fa-eye" aria-hidden="true"></i>
                                             </a>
                                         <a href="result.php?exam_id=<?= $value['id']; ?>" class="btn btn-info my-1">

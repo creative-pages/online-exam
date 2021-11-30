@@ -53,109 +53,111 @@
             <!-- Container fluid  -->
             <!-- -------------------------------------------------------------- -->
             <div class="container-fluid">
-                <div class="quetion" style="max-width: 900px; margin:0px auto;">
-                    <div class="main bg-white mb-2 py-2">
-                        <div class="examheader text-center mt-2">
-                            <h3 class="text-uppercase"><?=$exam['examname'];?></h1>
-                            <h3 class="text-capitalize mb-3">Subject: <?= $exam['subjectname']; ?></h3>
+                <div id="exportContent">
+                    <div class="quetion" style="max-width: 900px; margin:0px auto;">
+                        <div class="main bg-white mb-2 py-2">
+                            <div class="examheader text-center mt-2">
+                                <h3 class="text-uppercase"><?=$exam['examname'];?></h1>
+                                <h3 class="text-capitalize mb-3">Subject: <?= $exam['subjectname']; ?></h3>
+                            </div>
+                            <div class="row mx-1">
+                                <div class="col-4">
+                                    <h3 class="text-muted">Time: <?=$exam['duration'];?> minutes</h3>
+                                </div>
+                                <div class="col-4">
+                                    <h3 class="text-muted">Quetion: <?=$exam['tquetion'];?></h3>
+                                </div>
+                                <div class="col-4">
+                                    <h3 class="text-muted">Date: <?=$exam['exmdate'];?></h3>
+                                </div>
+                            </div>  
+                            
                         </div>
-                        <div class="row mx-1">
-                            <div class="col-4">
-                                <h3 class="text-muted">Time: <?=$exam['duration'];?> minutes</h3>
-                            </div>
-                            <div class="col-4">
-                                <h3 class="text-muted">Quetion: <?=$exam['tquetion'];?></h3>
-                            </div>
-                            <div class="col-4">
-                                <h3 class="text-muted">Date: <?=$exam['exmdate'];?></h3>
-                            </div>
-                        </div>  
                         
-                    </div>
-                    
-                   <?php
-                   $select = $common->select("`questions`","`exam_id` = '$id' ORDER BY `serial`");
-                   if($select){
-                      
-                       while($viewquetion = mysqli_fetch_assoc($select)){
-                       
-                   ?>
-                    <div class="quetion mb-2 bg-white pt-3">
-                        <div class="row mx-2">
-                            <div class="col-12 d-flex">
-                                <span><b><?=$viewquetion['serial'];?>. &nbsp;</b></span>
-                                <div><?=$viewquetion['question'];?></div>
-                            </div>
+                    <?php
+                    $select = $common->select("`questions`","`exam_id` = '$id' ORDER BY `serial`");
+                    if($select){
+                        
+                        while($viewquetion = mysqli_fetch_assoc($select)){
+                        
+                    ?>
+                        <div class="quetion mb-2 bg-white pt-3">
+                            <div class="row mx-2">
+                                <div class="col-12 d-flex">
+                                    <span><b><?=$viewquetion['serial'];?>. &nbsp;</b></span>
+                                    <div><?=$viewquetion['question'];?></div>
+                                </div>
 
-                            <div class="col-sm-6 col-lg-3 d-flex">
+                                <div class="col-sm-6 col-lg-3 d-flex">
+                                    <?php
+                                    if($viewquetion['answer'] == 'option_one') {
+                                    ?>
+                                    <img width="25px" height="25px" src="assets/images/img/iconfinder_check.svg">
+                                    <?php
+                                    }
+                                    ?>
+                                    <div class="px-1">a)</div>
+                                    <div><?=$viewquetion['option_one'];?></div>
+                                </div>
+
+                                <div class="col-sm-6 col-lg-3 d-flex">
+                                    <?php
+                                    if($viewquetion['answer'] == 'option_two') {
+                                    ?>
+                                    <img width="25px" height="25px" src="assets/images/img/iconfinder_check.svg">
+                                    <?php
+                                    }
+                                    ?>
+                                    <div class="px-1">b)</div>
+                                    <div><?=$viewquetion['option_two'];?></div>
+                                </div>
+
+                                <div class="col-sm-6 col-lg-3 d-flex">
+                                    <?php
+                                    if($viewquetion['answer'] == 'option_three') {
+                                    ?>
+                                    <img width="25px" height="25px" src="assets/images/img/iconfinder_check.svg">
+                                    <?php
+                                    }
+                                    ?>
+                                    <div class="px-1">c)</div>
+                                    <div><?=$viewquetion['option_three'];?></div>
+                                </div>
+
+                                <div class="col-sm-6 col-lg-3 d-flex">
+                                    <?php
+                                    if($viewquetion['answer'] == 'option_four') {
+                                    ?>
+                                    <img width="25px" height="25px" src="assets/images/img/iconfinder_check.svg">
+                                    <?php
+                                    }
+                                    ?>
+                                    <div class="px-1">d)</div>
+                                    <div><?=$viewquetion['option_four'];?></div>
+                                </div>
                                 <?php
-                                if($viewquetion['answer'] == 'option_one') {
+                                if($viewquetion['description'] != '') {
                                 ?>
-                                <img width="25px" height="25px" src="assets/images/img/iconfinder_check.svg">
+                                <div class="col-12 border border-info mb-3 p-1">
+                                <?= $viewquetion['description']; ?>
+                                </div>
                                 <?php
                                 }
                                 ?>
-                                <div class="px-1">a)</div>
-                                <div><?=$viewquetion['option_one'];?></div>
                             </div>
-
-                            <div class="col-sm-6 col-lg-3 d-flex">
-                                <?php
-                                if($viewquetion['answer'] == 'option_two') {
-                                ?>
-                                <img width="25px" height="25px" src="assets/images/img/iconfinder_check.svg">
-                                <?php
-                                }
-                                ?>
-                                <div class="px-1">b)</div>
-                                <div><?=$viewquetion['option_two'];?></div>
-                            </div>
-
-                            <div class="col-sm-6 col-lg-3 d-flex">
-                                <?php
-                                if($viewquetion['answer'] == 'option_three') {
-                                ?>
-                                <img width="25px" height="25px" src="assets/images/img/iconfinder_check.svg">
-                                <?php
-                                }
-                                ?>
-                                <div class="px-1">c)</div>
-                                <div><?=$viewquetion['option_three'];?></div>
-                            </div>
-
-                            <div class="col-sm-6 col-lg-3 d-flex">
-                                <?php
-                                if($viewquetion['answer'] == 'option_four') {
-                                ?>
-                                <img width="25px" height="25px" src="assets/images/img/iconfinder_check.svg">
-                                <?php
-                                }
-                                ?>
-                                <div class="px-1">d)</div>
-                                <div><?=$viewquetion['option_four'];?></div>
-                            </div>
-                            <?php
-                            if($viewquetion['description'] != '') {
-                            ?>
-                            <div class="col-12 border border-info mb-3 p-1">
-                            <?= $viewquetion['description']; ?>
-                            </div>
-                            <?php
-                            }
-                            ?>
                         </div>
-                    </div>
-                    <?php }}?>
+                        <?php }}?>
 
-                </div>'
+                    </div>
+                </div>
                 
            
                 <div class="text-center">
-                    <form action="doc.php" method="post">
-                        <input type="hidden" name="doc" value="<?=$doc?>">
-                        <button type="submit" name="export" class="btn btn-info sm">Export Doc</button>
+                   
+                       
+                        <button onclick="Export2Doc('exportContent', 'test');" class="btn btn-info sm">Export Doc</button>
 
-                    </form>
+                   
                 </div>
             </div>
             <!-- Share Modal -->
@@ -572,6 +574,40 @@
     <script src="dist/js/custom.min.js"></script>
     <!--This page plugins -->
     <script src="dist/js/pages/contact/contact.js"></script>
+    <script>
+        function Export2Doc(element, filename = ''){
+        var preHtml = "<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><title>Export HTML To Doc</title></head><body>";
+        var postHtml = "</body></html>";
+        var html = preHtml+document.getElementById(element).innerHTML+postHtml;
+
+        var blob = new Blob(['\ufeff', html],{
+            type: 'application/msword'
+        });
+
+        var url = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURIComponent(html)
+
+        filename = filename?filename+'.doc': 'document.doc';
+
+        var downloadLink = document.createElement("a");
+
+        document.body.appendChild(downloadLink);
+
+        if(navigator.msSaveOrOpenBlob){
+            navigator.msSaveOrOpenBlob(blob, filename);
+        }else{
+            downloadLink.href = url;
+
+            downloadLink.download = filename;
+
+            downloadLink.click();
+        }
+
+        document.body.removeChild(downloadLink);
+
+
+     }
+
+    </script>
 </body>
 
 </html>

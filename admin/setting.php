@@ -14,9 +14,7 @@
   ?>
 
 <body>
-    <!-- -------------------------------------------------------------- -->
-    <!-- Preloader - style you can find in spinners.css -->
-    <!-- -------------------------------------------------------------- -->
+  
     <div class="preloader">
         <svg class="tea lds-ripple" width="37" height="48" viewbox="0 0 37 48" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M27.0819 17H3.02508C1.91076 17 1.01376 17.9059 1.0485 19.0197C1.15761 22.5177 1.49703 29.7374 2.5 34C4.07125 40.6778 7.18553 44.8868 8.44856 46.3845C8.79051 46.79 9.29799 47 9.82843 47H20.0218C20.639 47 21.2193 46.7159 21.5659 46.2052C22.6765 44.5687 25.2312 40.4282 27.5 34C28.9757 29.8188 29.084 22.4043 29.0441 18.9156C29.0319 17.8436 28.1539 17 27.0819 17Z" stroke="#1e88e5" stroke-width="2"></path>
@@ -26,38 +24,15 @@
           <path id="steamR" d="M21 6C21 6 21 8.22727 19 9.5C17 10.7727 17 13 17 13" stroke="#1e88e5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
         </svg>
     </div>
-    <!-- -------------------------------------------------------------- -->
-    <!-- Main wrapper - style you can find in pages.scss -->
-    <!-- -------------------------------------------------------------- -->
+   
     <div id="main-wrapper">
-        <!-- -------------------------------------------------------------- -->
-        <!-- Topbar header - style you can find in pages.scss -->
-        <!-- -------------------------------------------------------------- -->
+       
         <?php include('inc/topbar.php'); ?>
-        <!-- -------------------------------------------------------------- -->
-        <!-- End Topbar header -->
-        <!-- -------------------------------------------------------------- -->
-        <!-- -------------------------------------------------------------- -->
-        <!-- Left Sidebar - style you can find in sidebar.scss  -->
-        <!-- -------------------------------------------------------------- -->
+        
         <?php include('inc/left-sidebar.php'); ?>
-        <!-- -------------------------------------------------------------- -->
-        <!-- End Left Sidebar - style you can find in sidebar.scss  -->
-        <!-- -------------------------------------------------------------- -->
-        <!-- -------------------------------------------------------------- -->
-        <!-- Page wrapper  -->
-        <!-- -------------------------------------------------------------- -->
+        
         <div class="page-wrapper">
-            <!-- ============================================================== -->
-            <!-- Bread crumb and right sidebar toggle -->
-            <!-- ============================================================== -->
-            
-            <!-- ============================================================== -->
-            <!-- End Bread crumb and right sidebar toggle -->
-            <!-- ============================================================== -->
-            <!-- -------------------------------------------------------------- -->
-            <!-- Container fluid  -->
-            <!-- -------------------------------------------------------------- -->
+           
             <div class="container-fluid">
                 <form action="" method="post">
                     <div class="card w-100">
@@ -321,45 +296,6 @@
                         
                         </div>
 
-                    </div>
-
-                    <div class="card w-100">
-                        <div class="card-body border-top">
-                            <h2><strong>Browser functionality</strong></h2>
-                            <div class="row">
-                                <div class="col-12">
-                                    <div class="mb-1">
-                                        <input type="checkbox"id="inputcom" name="browser[]" value="disable right content">
-                                        Disable Right content Menu
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="mb-1">
-                                        <input type="checkbox"id="inputcom" name="browser[]"value="disable copy paste">
-                                        Disable Copy/paste
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="mb-1">
-                                        <input type="checkbox"id="inputcom" name="browser[]" value="disable translate">
-                                        Disable Translate
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="mb-1">
-                                        <input type="checkbox"id="inputcom" name="browser[]" value="disable autocompeleted" >
-                                        Disable autocompeleted
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="mb-1">
-                                        <input type="checkbox"id="inputcom" name="browser[]" value="disable spellcheck" >
-                                        Disable Spellcheck
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
                     </div>
 
                     <div class="card w-100">
