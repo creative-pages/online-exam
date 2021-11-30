@@ -23,33 +23,25 @@ $html = '<!DOCTYPE html>
     <title>Document</title>
     <style>
         * {
-            padding: 0;
-            margin: 0;
+          padding: 0;
+          margin: 0;
         }
-        body {
-            background: #eef5f9;
+        @page {
+          margin: 0px;
+          margin: 10px;
+          box-sizing: border-box;
         }
-        .d-block {
-            display: block;
+        .w-25 {
+            width: 24.5%;
         }
-        .d-inline-block {
-            display: inline-block;
+        .w-50 {
+            width: 50%;
         }
-        .d-flex {
-            display: flex;
+        .w-100 {
+            width: 100%;
         }
-        .flex-column {
-            flex-direction: column;
-        }
-        .justify-content-center {
-            justify-self: center;
-        }
-        .align-items-center {
-            align-items: center;
-        }
-        .equal-width {
-            flex-grow: 1;
-            flex-basis: 0;
+        .float-left {
+            float: left;
         }
 
         .qustiion_title {
@@ -64,28 +56,16 @@ $html = '<!DOCTYPE html>
             padding: 8px;
             margin: 8px 0;
         }
-        .pb-3 {
-            padding-bottom: 16px;
+        .question_serial {
+            width: 4%;
+            font-weight: bold;
+            float: left;
         }
-        .option {
-            width: 16px;
-            height: 16px;
-            line-height: 16px;
-            border: 2px solid black;
-            border-radius: 50%;
-            text-align: center;
-        }
-        .right_answer {
-            background: green;
-            color: white;
-            border-color: green;
-        }
-        table {
-            width: 100%;
-        }
-        table, th, td {
-            border: 1px solid black;
-            border-collapse: collapse;
+        .question_name {
+            width: 96%;
+            float: left;
+            padding: 0;
+            margin: 0;
         }
     </style>
 </head>
@@ -131,52 +111,43 @@ $html = '<!DOCTYPE html>
                     $answer_checked3 = '';
                     $answer_checked4 = ' right_answer';
                 }
-        $html .= '<div class="question_row">
-            <div class="d-flex pb-3">
-                <span style="font-weight: bold;">'.$viewquetion['serial'].'. &nbsp;</span>'.$viewquetion["question"].'
+        $html .= '
+        <div class="question_row">
+            <div class="w-100">
+                <span>te</span>
+                    <span>test in thsme ty siom fjioetne fdofjderntoerj dkjeonfd  jrteoit</span>
+                <span style="float: left;">'.$viewquetion['serial'].'.</span>
+                <span style="float: left;">'.$viewquetion["question"].'</span>
             </div>
-            <div class="d-flex">
-                <div class="d-flex equal-width">
+            <div class="w-100">
+                <div class="w-25 float-left">
                     <span class="option'.$answer_checked1.'">a</span> &nbsp;
                     '.$viewquetion["option_one"].'
                 </div>
-                <div class="d-flex equal-width">
-                    <span class="option'.$answer_checked2.'">b</span> &nbsp;
-                    '.$viewquetion["option_two"].'
+                <div class="w-25 float-left">
+                    <span>te</span>
+                    <span>test in thsme ty siom fjioetne fdofjderntoerj dkjeonfd  jrteoit</span>
                 </div>
-                <div class="d-flex equal-width">
+                <div class="w-25 float-left">
                     <span class="option'.$answer_checked3.'">c</span> &nbsp;
                     '.$viewquetion["option_three"].'
                 </div>
-                <div class="d-flex equal-width">
+                <div class="w-25 float-left">
                     <span class="option'.$answer_checked4.'">d</span> &nbsp;
                     '.$viewquetion["option_four"].'
                 </div>
             </div>
         </div>';
-        $html .= '<table border>
-                    <tbody>
-                        <tr>
-                            <td colspan="4">Quetion name</td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <span class="option'.$answer_checked1.'">a</span> &nbsp;
-                                '.$viewquetion["option_one"].'
-                            </td>
-                            <td>data</td>
-                            <td>data</td>
-                            <td>data</td>
-                        </tr>
-                    </tbody>
-                </table>';
             }
         }
     $html .= '</div>
 </body>
 </html>';
 
-$mpdf = new \Mpdf\Mpdf();
+$mpdf = new \Mpdf\Mpdf([
+            'default_font' => 'nikosh',
+            'mode' => 'utf-8'
+        ]);
 $mpdf->WriteHTML($html);
 $mpdf->Output();
 
