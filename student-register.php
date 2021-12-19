@@ -28,7 +28,7 @@
         } elseif($email_check != false){
             $msg = "<span style='color:red'>Email Already Exists</span>";
         } else{
-            $success =$common->insert("`student_table`(`sname`,`sfname`,`smname`,`email`,`contack`,`sid`,`password`,`batch`,`ssc`,`hsc`,`ms`,`st`,`batchfee`,`advancefee`,`duefee`)","('$sname', '$sfname', '$smname', '$email','$contact','$sid','$password','$batchs','$ssc','$hsc','$ms','$st','','','')");
+            $success =$common->insert("`student_table`(`sname`,`sfname`,`smname`,`email`,`contack`,`sid`,`password`,`ssc`,`hsc`,`ms`,`st`)","('$sname', '$sfname', '$smname', '$email','$contact','$sid','$password','$ssc','$hsc','$ms','$st')");
             if($success){
                 $get_id = $common->select("`student_table`", "`email` = '$email'");
                 $get_student_id = mysqli_fetch_assoc($get_id);
