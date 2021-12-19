@@ -49,12 +49,10 @@
             if($value){
                 $result = $value->fetch_assoc();
                 $studentid = $result['sid'];
-                if($studentid==false){
+                if($studentid == false){
                     $msg ="<span style='color:red;'>Incorrect Id Number</span>";
                     return $msg;
-                }
-                
-                else{
+                } else{
                     $query = "SELECT * FROM publish_exam WHERE exam_id='$exmid'";
                     $result = $this->db->select($query)->fetch_assoc();
                     if($result){
@@ -63,7 +61,7 @@
                       
                         Session::set("exmid",$exam_id);
                         Session::set("student_id",$studentid);
-                        header("Location:start-exam.php?xmid=$exam_id");
+                        header("Location: start-exam.php?xmid=$exam_id");
                     }
                    
                     
