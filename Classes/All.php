@@ -5,7 +5,7 @@
     class All
     {
         private $db;
-	    private $fm;
+        private $fm;
         public function __construct()
         {
             $this->db= new Database;
@@ -78,14 +78,14 @@
             $can_take_test = $this->fm->validation($data['can_take_test']);
             $take_time = $this->fm->validation($data['take_time']);
             if (isset($data['after_answer'])) { $after= $data['after_answer']; } else { $after = ''; }
-		        if ($after) {
+                if ($after) {
                 $afters = "";
                 foreach($after as $soft_type) {  
                     $afters .= $soft_type . ",";  
                 }
             }
             if (isset($data['other'])) { $other= $data['other']; } else { $other = ''; }
-		        if ($other) {
+                if ($other) {
                 $others = "";
                 foreach($other as $value) {  
                     $others .= $value . ",";  
@@ -121,14 +121,14 @@
             $take_time = $this->fm->validation($data['take_time']);
 
             if (isset($data['after_answer'])) { $after= $data['after_answer']; } else { $after = ''; }
-		        if ($after) {
+                if ($after) {
                 $afters = "";
                 foreach($after as $soft_type) {  
                     $afters .= $soft_type . ",";  
                 }
             }
             if (isset($data['other'])) { $other= $data['other']; } else { $other = ''; }
-		        if ($other) {
+                if ($other) {
                 $others = "";
                 foreach($other as $value) {  
                     $others .= $value . ",";  
@@ -171,7 +171,7 @@
             
             $query="SELECT * FROM student_table  WHERE sid= '$id' AND password= '$password'";
             
-            $result =$this->db->select($query);	
+            $result =$this->db->select($query); 
          
                
                 if ($result != false) {

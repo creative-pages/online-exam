@@ -176,7 +176,7 @@
                                             ?>
                                         <option value = <?= $raw['id'];?>><?= $raw['branch_name'];?></option>
                                         <?php }}?>
-                                    </select>
+                                        </select>
                                         
                                     </div>
                                 </div>
