@@ -1,13 +1,22 @@
+
 <?php
+require_once(str_replace(array('/', '\\'), '/', realpath(__DIR__)).'/ExportToWord.inc.php');
 
-if(isset($_POST['export'])){
-    header("Content-Type:application/msword");
-    header("Expires: 0");
-    header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
-    header("content-disposition: attachment;filename=test.docx");
-   $doc= $_POST['doc'];
-}
-echo $doc;
+$html = '<html>
+<body>
+<div class = "test">
+ <h3>Text</h3>
+ <h4>final Exam</h4>
+</div>
+
+</body>
+</html>';
+$css = '<style type = "text/css">
+.test {
+    text:center;
+    font-weight: 600;   
+    }
+</style>';
+$fileName = str_replace(array('/', '\\'), '/', realpath(__DIR__)).'/test.doc';
+ExportToWord::htmlToDoc($html, $css, $fileName);
 ?>
-
-

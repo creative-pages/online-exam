@@ -48,27 +48,19 @@
             $value = $this->db->select($query);
             if($value){
                 $result = $value->fetch_assoc();
-                $studentid = $result['sid'];
-                if($studentid==false){
-                    $msg ="<span style='color:red;'>Incorrect Id Number</span>";
-                    return $msg;
-                }
+                $studentid = $result['id'];
+                Session::set("exmid",$exmid);
+                Session::set("student_id",$studentid);
+                header("Location:start-exam.php?xmid=$exmid");
+            }
                 
                 else{
-                    $query = "SELECT * FROM publish_exam WHERE exam_id='$exmid'";
-                    $result = $this->db->select($query)->fetch_assoc();
-                    if($result){
-                        
-                        $exam_id = $result['exam_id'];
-                      
-                        Session::set("exmid",$exam_id);
-                        Session::set("student_id",$studentid);
-                        header("Location:start-exam.php?xmid=$exam_id");
-                    }
+                    $msg ="<span style='color:red;'>Incorrect Id Number</span>";
+                    return $msg;
                    
                     
                 }
-            }
+            
         }
 
         public function PublishExam($data){
@@ -167,6 +159,47 @@
             }
             else{
                 echo "Something went wrong";
+            }
+
+        }
+
+        public function StudentSignIn($data){
+            $id= $this->fm->validation($data['id']);
+            $password= $this->fm->validation($data['password']);
+            $id= mysqli_real_escape_string($this->db->link,$id);
+            //$password    = mysqli_real_escape_string($this->db->link,MD5($password));
+            
+            $query="SELECT * FROM student_table  WHERE sid= '$id' AND password= '$password'";
+            
+            $result =$this->db->select($query);	
+         
+               
+                if ($result != false) {
+                $value =  $result->fetch_assoc();
+              
+                Session::set("SignIn",true);
+               
+                Session::set("profileid",$value['id']);
+                echo "<script> window.location.assign('student-profile.php'); </script>";
+              
+                }else{
+                $msg="<span style='color:red'>Email And Password Does Not Match</span>";
+                   return $msg;
+                }      
+        }
+
+        public function PaymentRequest($data,$userid){
+            $pnumber= $this->fm->validation($data['pnumber']);
+            $tid= $this->fm->validation($data['tid']);
+            $method= $this->fm->validation($data['method']);
+            $pnumber= mysqli_real_escape_string($this->db->link,$pnumber);
+            $tid= mysqli_real_escape_string($this->db->link,$tid);
+            $method= mysqli_real_escape_string($this->db->link,$method);
+
+            $query = "INSERT INTO pay_requests(user_id,pnumber,tid,method) VALUES('$userid','$pnumber','$tid','$method')";
+            $result = $this->db->insert($query);
+            if($result){
+                header("Location:student-profile.php");
             }
 
         }

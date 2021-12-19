@@ -1,4 +1,67 @@
-<?php include('inc/header.php'); ?>
+<?php
+    require_once 'init.php';
+    Session::StudentSignIn();
+    $exam = new Exam();
+    $common = new Common();
+    $all = new All();
+?>
+<?php
+    $pid = Session::get('profileid');
+    $query = $common->select("`student_table`","`id`= '$pid'");
+    $result = mysqli_fetch_assoc($query);
+
+?>
+<?php
+  
+    if (isset($_GET['action']) && $_GET['action'] =='logout') {
+        Session::destroy();
+      
+       echo "<script> window.location.assign('index.php'); </script>";
+        exit();
+    }  
+
+?>
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="wrappixel, admin dashboard, html css dashboard, web dashboard, bootstrap 5 admin, bootstrap 5, css3 dashboard, bootstrap 5 dashboard, material admin bootstrap 5 dashboard, frontend, responsive bootstrap 5 admin template, material design, material dashboard bootstrap 5 dashboard template">
+    <meta name="description" content="MaterialPro is powerful and clean admin dashboard template, inpired from Google's Material Design">
+    <meta name="robots" content="noindex,nofollow">
+    <title>BatBio</title>
+    <link rel="canonical" href="https://www.wrappixel.com/templates/materialpro/" />
+    <!-- Favicon icon -->
+    <link href="admin/assets/extra-libs/toastr/dist/build/toastr.min.css" rel="stylesheet">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon.png">
+    <link rel="stylesheet" href="admin/assets/libs/apexcharts/dist/apexcharts.css">
+    <!-- Custom CSS -->
+    <link href="admin/dist/css/style.min.css" rel="stylesheet">
+     <!-- Data table plugin CSS -->
+     <link href="admin/assets/extra-libs/datatables.net-bs4/css/dataTables.bootstrap4.css" rel="stylesheet">
+      <!-- Card Page CSS -->
+    <link rel="stylesheet" type="text/css" href="admin/assets/extra-libs/prism/prism.css">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <link href="admin/dist/css/style.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="highlights/highlight.min.css">
+    <!-- search option in select option start -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" integrity="sha512-nMNlpuaDPrqlEls3IX/Q56H36qvBASwb3ipuo3MxeWbsQB1881ox0cRv7UPTgBlriqoynt35KjEwgGUeUXIPnw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- search option in select option end -->
+
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+    <style>
+        .select2-container {
+            z-index: 99999;
+        }
+    </style>
+</head>
+
 
 <body>
     <!-- -------------------------------------------------------------- -->
@@ -16,213 +79,209 @@
     <!-- -------------------------------------------------------------- -->
     <!-- Main wrapper - style you can find in pages.scss -->
     <!-- -------------------------------------------------------------- -->
-    <div id="main-wrapper">
-        <!-- -------------------------------------------------------------- -->
-        <!-- Topbar header - style you can find in pages.scss -->
-        <!-- -------------------------------------------------------------- -->
-        <?php include('inc/topbar.php'); ?>
-        <!-- -------------------------------------------------------------- -->
-        <!-- End Topbar header -->
-        <!-- -------------------------------------------------------------- -->
-        <!-- -------------------------------------------------------------- -->
-        <!-- Left Sidebar - style you can find in sidebar.scss  -->
-        <!-- -------------------------------------------------------------- -->
-        <?php include('inc/left-sidebar.php'); ?>
-        <!-- -------------------------------------------------------------- -->
-        <!-- End Left Sidebar - style you can find in sidebar.scss  -->
-        <!-- -------------------------------------------------------------- -->
-        <!-- -------------------------------------------------------------- -->
-        <!-- Page wrapper  -->
-        <!-- -------------------------------------------------------------- -->
+    
+       
         <div class="page-wrapper">
-            <!-- ============================================================== -->
-            <!-- Bread crumb and right sidebar toggle -->
-            <!-- ============================================================== -->
             
-            <!-- ============================================================== -->
-            <!-- End Bread crumb and right sidebar toggle -->
-            <!-- ============================================================== -->
-            <!-- -------------------------------------------------------------- -->
-            <!-- Container fluid  -->
-            <!-- -------------------------------------------------------------- -->
-            <div class="container-fluid">
-                <!-- -------------------------------------------------------------- -->
-                <!-- Start Page Content -->
-                <!-- -------------------------------------------------------------- -->
-                <div class="widget-content searchable-container list">
-                    <div class="card card-body">
-                        <div class="row">
-                                <div class="col-md-4 col-xl-2">
-                                    <form>
-                                        <input type="text" class="form-control product-search" id="input-search" placeholder="Search Contacts...">
-                                    </form>
-                                </div>
-                                <div class="col-md-8 col-xl-10 text-end d-flex justify-content-md-end justify-content-center mt-3 mt-md-0">
-                                     <div class="action-btn show-btn" style="display: none">
-                                            <a href="javascript:void(0)" class="delete-multiple btn-light-danger btn me-2 text-danger d-flex align-items-center font-weight-medium" >
-                                                <i data-feather="trash-2" class="feather-sm fill-white me-1"></i>
-                                             Delete All Row</a>
-                                        </div>
-                                        <a href="class.php" id="" class="btn btn-info">
-                                            <i data-feather="users" class="feather-sm fill-white me-1"> </i>
-                                         Add New Class</a>
-                                </div>
-                        </div>
-                    </div>
-                    <!-- Modal -->
-                   
-                    <div class="card card-body">
-                        <div class="table-responsive">
-                            <table class="table search-table v-middle">
-                                <thead class="header-item">
-                                    <th>
-                                        <div class="n-chk align-self-center text-center">
-                                            <div class="form-check">
-                                                <input type="checkbox" class="form-check-input secondary" id="contact-check-all">
-                                                <label class="form-check-label" for="contact-check-all"></label>
-                                                <span class="new-control-indicator"></span>
-                                            </div>
-                                        </div>
-                                    </th>
-                                    <th>Batch Name</th>
-                                    <th>Subject Name</th>
-                                    <th>Chapter No</th>
-                                    <th>Class Topic</th>
-                                    <th>Exam Link</th>
-                                    <th>Note Link</th>
-                                    <th>Class Link</th>
-                                    <th>Action</th>
-                                </thead>
-                                <tbody>
+            <div class="container-fluid ">
+            <div class="row">
+                <div class="col-8">
+                    <div class="card">
+                       
+                        <form class="form-horizontal" action="" >
+                            <div class="card-body">
+                                <h4 class="card-title">Personal Info</h4>
                                
-                                    
-                                    <?php
-                                        
-                                        $allclass = $all->AllClass();
-                                        if($allclass){
-                                           while($value =mysqli_fetch_assoc($allclass)){
-                                            $batchid = $value['batch_id'];
-                                            $subjectid = $value['subject_id'];
-                                            $allbatch = $common->select("`add_branch`", "`id` = '$batchid' ");
-                                            $batch = mysqli_fetch_assoc($allbatch);
-                                            $allsub = $common->select("`subject_add`", "`id` = '$subjectid' ");
-                                            
-                                            $subject = mysqli_fetch_assoc($allsub);
-                                          
-                                    ?>
+                                <div class="mb-3 row">
+                                    <label for="fname" class="col-sm-3 text-end control-label col-form-label">Student Name</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="fname" value="<?=$result['sname']?>" name="sname" readonly>
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <label for="lname" class="col-sm-3 text-end control-label col-form-label">Student Father Name</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="lname" value="<?=$result['sfname']?>" readonly>
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <label for="lname" class="col-sm-3 text-end control-label col-form-label">Student Mother Name</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="lname" value="<?=$result['smname']?>" readonly>
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <label for="email1" class="col-sm-3 text-end control-label col-form-label">Email</label>
+                                    <div class="col-sm-9">
+                                        <input type="email" class="form-control" value="<?=$result['email']?>" readonly>
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <label for="cono1" class="col-sm-3 text-end control-label col-form-label">Contact No</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control"   value="<?=$result['contack']?>"readonly>
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <label for="cono1" class="col-sm-3 text-end control-label col-form-label">Student ID</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="sid" value="<?=$result['sid']?>"readonly>
+                                    </div>
+                                </div>
 
-                                    <tr class="search-items">
-                                        <td>
-                                            <div class="n-chk align-self-center text-center">
-                                                <div class="form-check">
-                                                    <input type="checkbox" class="form-check-input contact-chkbox primary" id="checkbox1">
-                                                    <label class="form-check-label" for="checkbox1"></label>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <span class="usr-email-addr" data-email="adams@mail.com"><?=$batch['branch_name'];?></span>
-                                        </td>
-                                        <td>
-                                            <span class="usr-email-addr" data-email="adams@mail.com"><?=$subject['subject_name'];?></span>
-                                        </td>
-                                        <td>
-                                            <span class="usr-location" data-location="Boston, USA"><?=$value['chapter'];?></span>
-                                        </td>
-                                        <td>
-                                            <span class="usr-ph-no" data-phone="+1 (070) 123-4567"><?=$value['topic'];?>/span>
-                                        </td>
-                                        <td>
-                                            <span class="usr-ph-no" data-phone="+1 (070) 123-4567"><?=$value['exm_link'];?></span>
-                                        </td>
-                                        <td>
-                                            <span class="usr-ph-no" data-phone="+1 (070) 123-4567"><?=$value['note_link'];?></span>
-                                        </td>
-                                        <td>
-                                            <span class="usr-ph-no" data-phone="+1 (070) 123-4567"><?=$value['c_link'];?></span>
-                                        </td>
-                                        <td>
-                                            <div class="action-btn">
-                                                <a href="edit-class.php?editc=<?=$value['id'];?>" class="text-info edit"><i data-feather="eye" class="feather-sm fill-white"></i></a>
-                                                <a onclick="return confirm('Are You Sure To delete?')" href="?dltc=<?=$value['id'];?>" class="text-dark delete ms-2"><i data-feather="trash-2" class="feather-sm fill-white"></i></a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <?php }}?>
-                                    <!-- /.row -->
-                                    <!-- row -->
-                                    
-                                    <!-- /.row -->
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                <!-- -------------------------------------------------------------- -->
-                <!-- End PAge Content -->
-                <!-- -------------------------------------------------------------- -->
-            </div>
-            <!-- Share Modal -->
-            <div class="modal fade" id="Sharemodel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-                aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <form>
-                            <div class="modal-header d-flex align-items-center">
-                                <h5 class="modal-title" id="exampleModalLabel"><i class="mdi mdi-auto-fix me-2"></i>
-                                    Share With</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
-                            <div class="modal-body">
-                                <div class="input-group mb-3">
-                                    <button type="button" class="btn btn-info"><i
-                                            class="ti-user text-white"></i></button>
-                                    <input type="text" class="form-control" placeholder="Enter Name Here"
-                                        aria-label="Username">
-                                </div>
-                                <div class="row">
-                                    <div class="col-3 text-center">
-                                        <a href="#Whatsapp" class="text-success">
-                                            <i class="display-6 mdi mdi-whatsapp"></i><br><span
-                                                class="text-muted">Whatsapp</span>
-                                        </a>
-                                    </div>
-                                    <div class="col-3 text-center">
-                                        <a href="#Facebook" class="text-info">
-                                            <i class="display-6 mdi mdi-facebook"></i><br><span
-                                                class="text-muted">Facebook</span>
-                                        </a>
-                                    </div>
-                                    <div class="col-3 text-center">
-                                        <a href="#Instagram" class="text-danger">
-                                            <i class="display-6 mdi mdi-instagram"></i><br><span
-                                                class="text-muted">Instagram</span>
-                                        </a>
-                                    </div>
-                                    <div class="col-3 text-center">
-                                        <a href="#Skype" class="text-cyan">
-                                            <i class="display-6 mdi mdi-skype"></i><br><span
-                                                class="text-muted">Skype</span>
-                                        </a>
+                            <hr>
+                            <div class="card-body">
+                                <h4 class="card-title">Requirements</h4>
+                                
+                                <div class="mb-3 row">
+                                    <label class="col-sm-3 text-end control-label col-form-label">Your Batch</label>
+                                    <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="lname" value="<?=$result['batch']?>" readonly>
                                     </div>
                                 </div>
+                                <div class="mb-3 row">
+                                    <label for="lname" class="col-sm-3 text-end control-label col-form-label">SSC RESULT</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="lname" value="<?=$result['ssc']?>" readonly>
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <label for="lname" class="col-sm-3 text-end control-label col-form-label">HSC RESULT</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="lname" value="<?=$result['hsc']?>" readonly>
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <label for="com1" class="col-sm-3 text-end control-label col-form-label">Medical Student?</label>
+                                    <div class="col-sm-9">
+                                        <div class="form-check form-check-inline">
+                                            <div class="custom-control custom-radio">
+                                                <input type="radio" class="custom-control-input" id="customControlValidation2" name="ms" value="yes">
+                                                <label class="custom-control-label" for="customControlValidation2">yes</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-check form-check-inline">
+                                            <div class="custom-control custom-radio">
+                                                <input type="radio" class="custom-control-input" id="customControlValidation3" name="ms" value="no">
+                                                <label class="custom-control-label" for="customControlValidation3">No</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3 row">
+                                    <label for="com1" class="col-sm-3 text-end control-label col-form-label">Second Timer?</label>
+                                    <div class="col-sm-9">
+                                        <div class="form-check form-check-inline">
+                                            <div class="custom-control custom-radio">
+                                                <input type="radio" class="custom-control-input" id="customControlValidation2" name="st" value="yes">
+                                                <label class="custom-control-label" for="customControlValidation2">yes</label>
+                                            </div>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <div class="custom-control custom-radio">
+                                                <input type="radio" class="custom-control-input" id="customControlValidation3" name="st" value="no">
+                                                <label class="custom-control-label" for="customControlValidation3">No</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-success"><i class="fas fa-paper-plane"></i>
-                                    Send</button>
+                            <div class="p-3 border-top">
+                                <div class="text-end">
+                                    <button type="submit" class="btn btn-info rounded-pill px-4 waves-effect waves-light" name="save">Edit</button>
+                                   
+                                </div>
                             </div>
                         </form>
                     </div>
                 </div>
+
+                <div class="col-4">
+                    <div class="card w-100 rounded mb-2" style="">
+                        <div class="row">
+                            <div class="col-12 mx-2 " style="text-align:center; padding: 5px;">
+                                <img style="height:100px; width:100px;" class="" src="image/sprofile.jpg">
+                                <p class="mt-2" style="color:green">status:Active</p>
+                            </div>
+                            
+                        </div>
+                        <div class="d-flex justify-content-between mt-0">
+                            <div class="p-2">
+                            <a href="index.php" class="btn btn-primary btn-sm">Home</a>
+                            </div>
+                            
+                            <div class="p-2">
+                            <a href="add-payment.php" class="btn btn-primary btn-sm">Add Payment</a>
+                            </div>
+
+                            <div class="p-2">
+                            <a href="?action=logout" class="btn btn-primary btn-sm">Logout</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card w-100 mb-2 rounded" style="">
+                        <div class="d-flex justify-content-between">
+                            <div class="p-2">
+                                <h4>Total Payment</h4>
+                                <h4>4000</h4>
+                            </div>
+                            
+                            <div class="ml-auto p-2">
+                                <h4>Total Due</h4>
+                                <h4>4000</h4>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card w-100 rounded mb-1" style="">
+                    <h3 class="text-center text-warning mt-2">Payment Status</h3>
+                    
+                        <table class="table table-striped mx-2">
+                            
+                            <thead>
+                                <tr>
+                                <th scope="col">Date</th>
+                                <th scope="col">Amount</th>
+                                <th scope="col">Method</th>
+                                
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                <th scope="row">1</th>
+                                <td>Mark</td>
+                                <td>Otto</td>
+                                
+                                </tr>
+                                <tr>
+                                <th scope="row">2</th>
+                                <td>Jacob</td>
+                                <td>Thornton</td>
+                                
+                                </tr>
+                                <tr>
+                                <th scope="row">3</th>
+                                <td>Larry</td>
+                                <td>the Bird</td>
+                                
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
             </div>
-            <!-- -------------------------------------------------------------- -->
-            <!-- End Container fluid  -->
-            <!-- -------------------------------------------------------------- -->
-            <!-- -------------------------------------------------------------- -->
+                
+            </div>
+            
             <!-- footer -->
             <!-- -------------------------------------------------------------- -->
-            <?php include('inc/footer.php'); ?>
+           
             <!-- -------------------------------------------------------------- -->
             <!-- End footer -->
             <!-- -------------------------------------------------------------- -->
@@ -230,7 +289,7 @@
         <!-- -------------------------------------------------------------- -->
         <!-- End Page wrapper  -->
         <!-- -------------------------------------------------------------- -->
-    </div>
+    
     <!-- -------------------------------------------------------------- -->
     <!-- End Wrapper -->
     <!-- -------------------------------------------------------------- -->
@@ -352,7 +411,7 @@
                                     class="message-item d-flex align-items-center border-bottom px-3 py-2"
                                     id='chat_user_1' data-user-id='1'>
                                     <span class="user-img position-relative d-inline-block"> <img
-                                            src="../assets/images/users/1.jpg" alt="user" class="rounded-circle w-100">
+                                            src="admin/assets/images/users/1.jpg" alt="user" class="rounded-circle w-100">
                                         <span class="profile-status rounded-circle online"></span> </span>
                                     <div class="w-75 d-inline-block v-middle ps-3">
                                         <h5 class="message-title mb-0 mt-1">Pavan kumar</h5> <span
@@ -366,7 +425,7 @@
                                     class="message-item d-flex align-items-center border-bottom px-3 py-2"
                                     id='chat_user_2' data-user-id='2'>
                                     <span class="user-img position-relative d-inline-block"> <img
-                                            src="../assets/images/users/2.jpg" alt="user" class="rounded-circle w-100">
+                                            src="admin/assets/images/users/2.jpg" alt="user" class="rounded-circle w-100">
                                         <span class="profile-status rounded-circle busy"></span> </span>
                                     <div class="w-75 d-inline-block v-middle ps-3">
                                         <h5 class="message-title mb-0 mt-1">Sonu Nigam</h5> <span
@@ -380,7 +439,7 @@
                                     class="message-item d-flex align-items-center border-bottom px-3 py-2"
                                     id='chat_user_3' data-user-id='3'>
                                     <span class="user-img position-relative d-inline-block"> <img
-                                            src="../assets/images/users/3.jpg" alt="user" class="rounded-circle w-100">
+                                            src="admin/assets/images/users/3.jpg" alt="user" class="rounded-circle w-100">
                                         <span class="profile-status rounded-circle away"></span> </span>
                                     <div class="w-75 d-inline-block v-middle ps-3">
                                         <h5 class="message-title mb-0 mt-1">Arijit Sinh</h5> <span
@@ -394,7 +453,7 @@
                                     class="message-item d-flex align-items-center border-bottom px-3 py-2"
                                     id='chat_user_4' data-user-id='4'>
                                     <span class="user-img position-relative d-inline-block"> <img
-                                            src="../assets/images/users/4.jpg" alt="user" class="rounded-circle w-100">
+                                            src="admin/assets/images/users/4.jpg" alt="user" class="rounded-circle w-100">
                                         <span class="profile-status rounded-circle offline"></span> </span>
                                     <div class="w-75 d-inline-block v-middle ps-3">
                                         <h5 class="message-title mb-0 mt-1">Nirav Joshi</h5> <span
@@ -409,7 +468,7 @@
                                     class="message-item d-flex align-items-center border-bottom px-3 py-2"
                                     id='chat_user_5' data-user-id='5'>
                                     <span class="user-img position-relative d-inline-block"> <img
-                                            src="../assets/images/users/5.jpg" alt="user" class="rounded-circle w-100">
+                                            src="admin/assets/images/users/5.jpg" alt="user" class="rounded-circle w-100">
                                         <span class="profile-status rounded-circle offline"></span> </span>
                                     <div class="w-75 d-inline-block v-middle ps-3">
                                         <h5 class="message-title mb-0 mt-1">Sunil Joshi</h5> <span
@@ -424,7 +483,7 @@
                                     class="message-item d-flex align-items-center border-bottom px-3 py-2"
                                     id='chat_user_6' data-user-id='6'>
                                     <span class="user-img position-relative d-inline-block"> <img
-                                            src="../assets/images/users/6.jpg" alt="user" class="rounded-circle w-100">
+                                            src="admin/assets/images/users/6.jpg" alt="user" class="rounded-circle w-100">
                                         <span class="profile-status rounded-circle offline"></span> </span>
                                     <div class="w-75 d-inline-block v-middle ps-3">
                                         <h5 class="message-title mb-0 mt-1">Akshay Kumar</h5> <span
@@ -439,7 +498,7 @@
                                     class="message-item d-flex align-items-center border-bottom px-3 py-2"
                                     id='chat_user_7' data-user-id='7'>
                                     <span class="user-img position-relative d-inline-block"> <img
-                                            src="../assets/images/users/7.jpg" alt="user" class="rounded-circle w-100">
+                                            src="admin/assets/images/users/7.jpg" alt="user" class="rounded-circle w-100">
                                         <span class="profile-status rounded-circle offline"></span> </span>
                                     <div class="w-75 d-inline-block v-middle ps-3">
                                         <h5 class="message-title mb-0 mt-1">Pavan kumar</h5> <span
@@ -454,7 +513,7 @@
                                     class="message-item d-flex align-items-center border-bottom px-3 py-2"
                                     id='chat_user_8' data-user-id='8'>
                                     <span class="user-img position-relative d-inline-block"> <img
-                                            src="../assets/images/users/8.jpg" alt="user" class="rounded-circle w-100">
+                                            src="admin/assets/images/users/8.jpg" alt="user" class="rounded-circle w-100">
                                         <span class="profile-status rounded-circle offline"></span> </span>
                                     <div class="w-75 d-inline-block v-middle ps-3">
                                         <h5 class="message-title mb-0 mt-1">Varun Dhavan</h5> <span
@@ -493,7 +552,7 @@
                         </div>
                         <div class="sl-item">
                             <div class="sl-left"> <img class="rounded-circle" alt="user"
-                                    src="../assets/images/users/2.jpg"> </div>
+                                    src="admin/assets/images/users/2.jpg"> </div>
                             <div class="sl-right">
                                 <div class="font-weight-medium">Go to the Doctor <span class="sl-date">5 minutes
                                         ago</span>
@@ -503,7 +562,7 @@
                         </div>
                         <div class="sl-item">
                             <div class="sl-left"> <img class="rounded-circle" alt="user"
-                                    src="../assets/images/users/1.jpg"> </div>
+                                    src="admin/assets/images/users/1.jpg"> </div>
                             <div class="sl-right">
                                 <div><a href="javascript:void(0)">Stephen</a> <span class="sl-date">5 minutes ago</span>
                                 </div>
@@ -530,7 +589,7 @@
                         </div>
                         <div class="sl-item">
                             <div class="sl-left"> <img class="rounded-circle" alt="user"
-                                    src="../assets/images/users/4.jpg"> </div>
+                                    src="admin/assets/images/users/4.jpg"> </div>
                             <div class="sl-right">
                                 <div class="font-weight-medium">Go to the Doctor <span class="sl-date">5 minutes
                                         ago</span>
@@ -540,7 +599,7 @@
                         </div>
                         <div class="sl-item">
                             <div class="sl-left"> <img class="rounded-circle" alt="user"
-                                    src="../assets/images/users/6.jpg"> </div>
+                                    src="admin/assets/images/users/6.jpg"> </div>
                             <div class="sl-right">
                                 <div><a href="javascript:void(0)">Stephen</a> <span class="sl-date">5 minutes ago</span>
                                 </div>
@@ -557,25 +616,46 @@
     <!-- -------------------------------------------------------------- -->
     <!-- All Jquery -->
     <!-- -------------------------------------------------------------- -->
-    <script src="assets/libs/jquery/dist/jquery.min.js"></script>
+    <script src="admin/assets/libs/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap tether Core JavaScript -->
-    <script src="assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="admin/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <!-- apps -->
-    <script src="dist/js/app.min.js"></script>
-    <script src="dist/js/app.init.js"></script>
-    <script src="dist/js/app-style-switcher.js"></script>
+    <script src="admin/dist/js/app.min.js"></script>
+    <script src="admin/dist/js/app.init.js"></script>
+    <script src="admin/dist/js/app-style-switcher.js"></script>
     <!-- slimscrollbar scrollbar JavaScript -->
-    <script src="assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js"></script>
-    <script src="assets/extra-libs/sparkline/sparkline.js"></script>
+    <script src="admin/assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js"></script>
+    <script src="admin/assets/extra-libs/sparkline/sparkline.js"></script>
     <!--Wave Effects -->
-    <script src="dist/js/waves.js"></script>
+    <script src="admin/dist/js/waves.js"></script>
     <!--Menu sidebar -->
-    <script src="dist/js/sidebarmenu.js"></script>
+    <script src="admin/dist/js/sidebarmenu.js"></script>
     <!--Custom JavaScript -->
-   <script src="dist/js/feather.min.js"></script>
-    <script src="dist/js/custom.min.js"></script>
+   <script src="admin/dist/js/feather.min.js"></script>
+    <script src="admin/dist/js/custom.min.js"></script>
+    <!-- This Page JS -->
+    <script src="admin/assets/extra-libs/prism/prism.js"></script>
+
     <!--This page plugins -->
-    <script src="dist/js/pages/contact/contact.js"></script>
+    <script src="admin/assets/extra-libs/datatables.net/js/jquery.dataTables.min.js"></script>
+    <!-- start - This is for export functionality only -->
+    <!-- <script src="https://cdn.datatables.net/buttons/1.5.1/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.flash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.print.min.js"></script>
+    <script src="dist/js/pages/datatable/datatable-advanced.init.js"></script> -->
+    <script>
+        $(document).ready(function(){
+            $(".description_button_toggle").click(function(){
+                var id = $(this).data('value');
+                $("#description_" + id).toggle();
+            });
+        });
+    </script>
+
 </body>
 
 </html>

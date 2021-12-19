@@ -71,5 +71,13 @@
 	<span class="ml-3 text-xl">MediEXAM Doctor</span></a>
 <nav class="md:mr-auto md:ml-4 md:py-1 md:pl-4 md:border-l md:border-gray-400	flex flex-wrap items-center text-base justify-center space-x-5"><a class="hover:text-gray-900" href="/blog">Blog</a>
 	<a class="hover:text-gray-900" href="batch.php">Exams</a>
-	<a class="hover:text-gray-900" href="/about">About</a></nav></div></header>
+	<a class="hover:text-gray-900" href="/about">About</a>
+	</nav>
+	<div class="d-flex justify-content-end">
+	<a class="hover:text-gray-900 mx-2" href="signin.php">Login</a>
+	<a class="hover:text-gray-900 mx-2" href="batch.php">||</a>
+	<a class="hover:text-gray-900" href="student-register.php">Register</a>	
+	</div>
+	</div>
+	</header>
 	<div class="flex-1 flex flex-col items-center justify-center md:container md:mx-auto">

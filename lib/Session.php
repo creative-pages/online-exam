@@ -44,6 +44,22 @@ class Session{
 	 	}
 	 }
 
+	 public static function StudentSignIn(){
+	 	
+		if (self::get("SignIn") == false) {
+			self::destroy();
+			header("Location:signin.php");
+		}
+	}
+
+	public static function CheckStudentSignIn(){
+	 	
+		if (self::get("SignIn") == true) {
+			self::destroy();
+			header("Location:student-profile.php");
+		}
+	}
+
 	 public static function destroy(){
 		// self::init();
 	 	session_destroy();
