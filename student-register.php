@@ -166,22 +166,17 @@
                                 <div class="mb-3 row">
                                     <label class="col-sm-3 text-end control-label col-form-label">Select Batch</label>
                                     <div class="col-sm-9">
-                                        <div class="=row">
-                                        <?php
-                                                $query = $common->select("`add_branch` ORDER BY `id` DESC");
-                                                if($query){
-                                                    while($raw = mysqli_fetch_assoc($query)){
-                                                 
-                                             ?>
-                                            <div class="col-3">
-                                                <div class="mx-1">
-                                                    <input type="checkbox"id="inputcom" name="batch[]" value="<?=$raw['branch_name'];?>">
-                                                    <?=$raw['branch_name'];?>
-                                                </div>
-                                            </div>
-                                            <?php }}?>
-                                          
-                                        </div>
+                                    <select class="form-select" name="batch" id="batch">
+                                        <option>Choose Your Option</option>
+                                            <?php
+                                            $query = $common->select("`add_branch` ORDER BY `id` DESC");
+                                            if($query){
+                                                while($raw = mysqli_fetch_assoc($query)){
+                                                
+                                            ?>
+                                        <option value = <?= $raw['id'];?>><?= $raw['branch_name'];?></option>
+                                        <?php }}?>
+                                    </select>
                                         
                                     </div>
                                 </div>
