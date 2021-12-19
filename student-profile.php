@@ -85,9 +85,9 @@
             
             <div class="container-fluid ">
             <div class="row">
-                <div class="col-8">
+                <?php include_once('inc/profile_info.php'); ?>
+                <div class="col-lg-8 order-lg-1">
                     <div class="card">
-                       
                         <form class="form-horizontal" action="" >
                             <div class="card-body">
                                 <h4 class="card-title">Personal Info</h4>
@@ -135,12 +135,6 @@
                                 <h4 class="card-title">Requirements</h4>
                                 
                                 <div class="mb-3 row">
-                                    <label class="col-sm-3 text-end control-label col-form-label">Your Batch</label>
-                                    <div class="col-sm-9">
-                                    <input type="text" class="form-control" id="lname" value="<?=$result['batch']?>" readonly>
-                                    </div>
-                                </div>
-                                <div class="mb-3 row">
                                     <label for="lname" class="col-sm-3 text-end control-label col-form-label">SSC RESULT</label>
                                     <div class="col-sm-9">
                                         <input type="text" class="form-control" id="lname" value="<?=$result['ssc']?>" readonly>
@@ -155,37 +149,14 @@
                                 <div class="mb-3 row">
                                     <label for="com1" class="col-sm-3 text-end control-label col-form-label">Medical Student?</label>
                                     <div class="col-sm-9">
-                                        <div class="form-check form-check-inline">
-                                            <div class="custom-control custom-radio">
-                                                <input type="radio" class="custom-control-input" id="customControlValidation2" name="ms" value="yes">
-                                                <label class="custom-control-label" for="customControlValidation2">yes</label>
-                                            </div>
-                                        </div>
-
-                                        <div class="form-check form-check-inline">
-                                            <div class="custom-control custom-radio">
-                                                <input type="radio" class="custom-control-input" id="customControlValidation3" name="ms" value="no">
-                                                <label class="custom-control-label" for="customControlValidation3">No</label>
-                                            </div>
-                                        </div>
+                                        <?= ucfirst($result['ms']); ?>
                                     </div>
                                 </div>
 
                                 <div class="mb-3 row">
                                     <label for="com1" class="col-sm-3 text-end control-label col-form-label">Second Timer?</label>
                                     <div class="col-sm-9">
-                                        <div class="form-check form-check-inline">
-                                            <div class="custom-control custom-radio">
-                                                <input type="radio" class="custom-control-input" id="customControlValidation2" name="st" value="yes">
-                                                <label class="custom-control-label" for="customControlValidation2">yes</label>
-                                            </div>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <div class="custom-control custom-radio">
-                                                <input type="radio" class="custom-control-input" id="customControlValidation3" name="st" value="no">
-                                                <label class="custom-control-label" for="customControlValidation3">No</label>
-                                            </div>
-                                        </div>
+                                        <?= ucfirst($result['st']); ?>
                                     </div>
                                 </div>
 
@@ -199,82 +170,6 @@
                         </form>
                     </div>
                 </div>
-
-                <div class="col-4">
-                    <div class="card w-100 rounded mb-2" style="">
-                        <div class="row">
-                            <div class="col-12 mx-2 " style="text-align:center; padding: 5px;">
-                                <img style="height:100px; width:100px;" class="" src="image/sprofile.jpg">
-                                <p class="mt-2" style="color:green">status:Active</p>
-                            </div>
-                            
-                        </div>
-                        <div class="d-flex justify-content-between mt-0">
-                            <div class="p-2">
-                            <a href="index.php" class="btn btn-primary btn-sm">Home</a>
-                            </div>
-                            
-                            <div class="p-2">
-                            <a href="add-payment.php" class="btn btn-primary btn-sm">Add Payment</a>
-                            </div>
-
-                            <div class="p-2">
-                            <a href="?action=logout" class="btn btn-primary btn-sm">Logout</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card w-100 mb-2 rounded" style="">
-                        <div class="d-flex justify-content-between">
-                            <div class="p-2">
-                                <h4>Total Payment</h4>
-                                <h4>4000</h4>
-                            </div>
-                            
-                            <div class="ml-auto p-2">
-                                <h4>Total Due</h4>
-                                <h4>4000</h4>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card w-100 rounded mb-1" style="">
-                    <h3 class="text-center text-warning mt-2">Payment Status</h3>
-                    
-                        <table class="table table-striped mx-2">
-                            
-                            <thead>
-                                <tr>
-                                <th scope="col">Date</th>
-                                <th scope="col">Amount</th>
-                                <th scope="col">Method</th>
-                                
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                <th scope="row">1</th>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                
-                                </tr>
-                                <tr>
-                                <th scope="row">2</th>
-                                <td>Jacob</td>
-                                <td>Thornton</td>
-                                
-                                </tr>
-                                <tr>
-                                <th scope="row">3</th>
-                                <td>Larry</td>
-                                <td>the Bird</td>
-                                
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                
             </div>
                 
             </div>

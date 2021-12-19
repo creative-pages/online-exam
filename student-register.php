@@ -6,7 +6,6 @@
     $all = new All();
 ?>
 <?php
-    $rand = rand(1000,1100);
      if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['save'])) {
         $sname = $_POST['sname'];
         $sfname = $_POST['sfname'];
@@ -20,29 +19,33 @@
         $hsc = $_POST['hsc'];
         $ms = $_POST['ms'];
         $st = $_POST['st'];
-        if (isset($_POST['batch'])) { $batch= $_POST['batch']; } else { $batch = ''; }
-		        if ($batch) {
-                $batchs = "";
-                foreach($batch as $value) {  
-                    $batchs .= $value . ",";  
-                }
-            }
         
         $query = $common->select("`student_table`","`contack`='$contact'");
-        if($query != false){
-            $msg = "<span style='color:red'>Contack Already Exists</span>";
-        
-        }
-        else{
-        $success =$common->insert("`student_table`(`sname`,`sfname`,`smname`,`email`,`contack`,`sid`,`password`,`batch`,`ssc`,`hsc`,`ms`,`st`,`batchfee`,`advancefee`,`duefee`)","('$sname', '$sfname', '$smname', '$email','$contact','$sid','$password','$batchs','$ssc','$hsc','$ms','$st','','','')");
-        if($success){
-            header("Location:signin.php");
-        }
-        }
-        
-        
-     }
+        $email_check = $common->select("`student_table`","`email`='$email'");
 
+        if($query != false){
+            $msg = "<span style='color:red'>Contact Already Exists</span>";
+        } elseif($email_check != false){
+            $msg = "<span style='color:red'>Email Already Exists</span>";
+        } else{
+            $success =$common->insert("`student_table`(`sname`,`sfname`,`smname`,`email`,`contack`,`sid`,`password`,`batch`,`ssc`,`hsc`,`ms`,`st`,`batchfee`,`advancefee`,`duefee`)","('$sname', '$sfname', '$smname', '$email','$contact','$sid','$password','$batchs','$ssc','$hsc','$ms','$st','','','')");
+            if($success){
+                $get_id = $common->select("`student_table`", "`email` = '$email'");
+                $get_student_id = mysqli_fetch_assoc($get_id);
+                $student_id = $get_student_id['id'];
+
+                $batch_id = $_POST['batch'];
+
+                $batch_info = $common->select("`add_branch`", "`id` = '$batch_id'");
+                $batch_infos = mysqli_fetch_assoc($batch_info);
+                $batch_fee = $batch_infos['total_fee'];
+
+                $add_to_batch = $common->insert("`batch_students`(`student_id`, `batch_id`, `fee`)", "('$student_id', '$batch_id', '$batch_fee')");
+
+                header("Location: signin.php");
+            }
+        }
+     }
 ?>
 <!DOCTYPE html>
 <html dir="ltr" lang="en">
@@ -118,44 +121,44 @@
                                 <div class="mb-3 row">
                                     <label for="fname" class="col-sm-3 text-end control-label col-form-label">Student Name</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="fname" placeholder="Student Name Here" name="sname">
+                                        <input type="text" class="form-control" id="fname" placeholder="Student Name Here" name="sname" required="">
                                     </div>
                                 </div>
                                 <div class="mb-3 row">
                                     <label for="lname" class="col-sm-3 text-end control-label col-form-label">Student Father Name</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="lname" placeholder="Student Father Name Here" name="sfname">
+                                        <input type="text" class="form-control" id="lname" placeholder="Student Father Name Here" name="sfname" required="">
                                     </div>
                                 </div>
                                 <div class="mb-3 row">
                                     <label for="lname" class="col-sm-3 text-end control-label col-form-label">Student Mother Name</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="lname" placeholder="Student Mother Name Here" name="smname">
+                                        <input type="text" class="form-control" id="lname" placeholder="Student Mother Name Here" name="smname" required="">
                                     </div>
                                 </div>
                                 <div class="mb-3 row">
                                     <label for="email1" class="col-sm-3 text-end control-label col-form-label">Email</label>
                                     <div class="col-sm-9">
-                                        <input type="email" class="form-control" id="email1" placeholder="Email Here" name="email">
+                                        <input type="email" class="form-control" id="email1" placeholder="Email Here" name="email" required="">
                                     </div>
                                 </div>
                                 <div class="mb-3 row">
                                     <label for="cono1" class="col-sm-3 text-end control-label col-form-label">Contact No</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="contact" onkeyup="ran()" placeholder="Contact No Here" name="contact" pattern=".{11,11}"required title="Please Input Only 11 digit">
+                                        <input type="text" class="form-control" id="contact" onkeyup="ran()" placeholder="Contact No Here" name="contact" pattern=".{11,11}"required title="Please Input Only 11 digit" required="">
                                     </div>
                                 </div>
                                 <div class="mb-3 row">
                                     <label for="cono1" class="col-sm-3 text-end control-label col-form-label">Student ID</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="sid"  name="sid"readonly>
+                                        <input type="text" class="form-control" id="sid"  name="sid" readonly required="">
                                     </div>
                                 </div>
 
                                 <div class="mb-3 row">
                                     <label for="cono1" class="col-sm-3 text-end control-label col-form-label">Enter Your Password</label>
                                     <div class="col-sm-9">
-                                        <input type="password" class="form-control" id="pwd"  name="password">
+                                        <input type="password" class="form-control" id="pwd"  name="password" required="">
                                     </div>
                                 </div>
                             </div>
@@ -166,35 +169,29 @@
                                 <div class="mb-3 row">
                                     <label class="col-sm-3 text-end control-label col-form-label">Select Batch</label>
                                     <div class="col-sm-9">
-                                        <div class="=row">
-                                        <?php
-                                                $query = $common->select("`add_branch` ORDER BY `id` DESC");
+                                        <select class="form-select" name="batch" id="batch" required="">
+                                            <option>Choose Your Option</option>
+                                                <?php
+                                                $query = $common->select("add_branch ORDER BY id DESC");
                                                 if($query){
                                                     while($raw = mysqli_fetch_assoc($query)){
-                                                 
-                                             ?>
-                                            <div class="col-3">
-                                                <div class="mx-1">
-                                                    <input type="checkbox"id="inputcom" name="batch[]" value="<?=$raw['branch_name'];?>">
-                                                    <?=$raw['branch_name'];?>
-                                                </div>
-                                            </div>
+                                                    
+                                                ?>
+                                            <option value = <?= $raw['id'];?>><?= $raw['branch_name'];?></option>
                                             <?php }}?>
-                                          
-                                        </div>
-                                        
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="mb-3 row">
                                     <label for="lname" class="col-sm-3 text-end control-label col-form-label">SSC RESULT</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="lname" placeholder="Enter SSC Result" name="ssc">
+                                        <input type="text" class="form-control" id="lname" placeholder="Enter SSC Result" name="ssc" required="">
                                     </div>
                                 </div>
                                 <div class="mb-3 row">
                                     <label for="lname" class="col-sm-3 text-end control-label col-form-label">HSC RESULT</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="lname" placeholder="Enter HSC Result" name="hsc">
+                                        <input type="text" class="form-control" id="lname" placeholder="Enter HSC Result" name="hsc" required="">
                                     </div>
                                 </div>
                                 <div class="mb-3 row">
@@ -202,14 +199,14 @@
                                     <div class="col-sm-9">
                                         <div class="form-check form-check-inline">
                                             <div class="custom-control custom-radio">
-                                                <input type="radio" class="custom-control-input" id="customControlValidation2" name="ms" value="yes">
+                                                <input type="radio" class="custom-control-input" id="customControlValidation2" name="ms" value="yes" required="">
                                                 <label class="custom-control-label" for="customControlValidation2">yes</label>
                                             </div>
                                         </div>
 
                                         <div class="form-check form-check-inline">
                                             <div class="custom-control custom-radio">
-                                                <input type="radio" class="custom-control-input" id="customControlValidation3" name="ms" value="no">
+                                                <input type="radio" class="custom-control-input" id="customControlValidation3" name="ms" value="no" required="">
                                                 <label class="custom-control-label" for="customControlValidation3">No</label>
                                             </div>
                                         </div>
@@ -221,13 +218,13 @@
                                     <div class="col-sm-9">
                                         <div class="form-check form-check-inline">
                                             <div class="custom-control custom-radio">
-                                                <input type="radio" class="custom-control-input" id="customControlValidation2" name="st" value="yes">
+                                                <input type="radio" class="custom-control-input" id="customControlValidation2" name="st" value="yes" required="">
                                                 <label class="custom-control-label" for="customControlValidation2">yes</label>
                                             </div>
                                         </div>
                                         <div class="form-check form-check-inline">
                                             <div class="custom-control custom-radio">
-                                                <input type="radio" class="custom-control-input" id="customControlValidation3" name="st" value="no">
+                                                <input type="radio" class="custom-control-input" id="customControlValidation3" name="st" value="no" required="">
                                                 <label class="custom-control-label" for="customControlValidation3">No</label>
                                             </div>
                                         </div>

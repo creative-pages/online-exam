@@ -5,7 +5,7 @@
     class All
     {
         private $db;
-	    private $fm;
+        private $fm;
         public function __construct()
         {
             $this->db= new Database;
@@ -48,7 +48,6 @@
             $value = $this->db->select($query);
             if($value){
                 $result = $value->fetch_assoc();
-
                 $studentid = $result['id'];
                 Session::set("exmid",$exmid);
                 Session::set("student_id",$studentid);
@@ -58,21 +57,7 @@
                 else{
                     $msg ="<span style='color:red;'>Incorrect Id Number</span>";
                     return $msg;
-                $studentid = $result['sid'];
-                if($studentid == false){
-                    $msg ="<span style='color:red;'>Incorrect Id Number</span>";
-                    return $msg;
-                } else{
-                    $query = "SELECT * FROM publish_exam WHERE exam_id='$exmid'";
-                    $result = $this->db->select($query)->fetch_assoc();
-                    if($result){
-                        
-                        $exam_id = $result['exam_id'];
-                      
-                        Session::set("exmid",$exam_id);
-                        Session::set("student_id",$studentid);
-                        header("Location: start-exam.php?xmid=$exam_id");
-                    }        
+                   
                     
                 }
             
@@ -93,14 +78,14 @@
             $can_take_test = $this->fm->validation($data['can_take_test']);
             $take_time = $this->fm->validation($data['take_time']);
             if (isset($data['after_answer'])) { $after= $data['after_answer']; } else { $after = ''; }
-		        if ($after) {
+                if ($after) {
                 $afters = "";
                 foreach($after as $soft_type) {  
                     $afters .= $soft_type . ",";  
                 }
             }
             if (isset($data['other'])) { $other= $data['other']; } else { $other = ''; }
-		        if ($other) {
+                if ($other) {
                 $others = "";
                 foreach($other as $value) {  
                     $others .= $value . ",";  
@@ -136,14 +121,14 @@
             $take_time = $this->fm->validation($data['take_time']);
 
             if (isset($data['after_answer'])) { $after= $data['after_answer']; } else { $after = ''; }
-		        if ($after) {
+                if ($after) {
                 $afters = "";
                 foreach($after as $soft_type) {  
                     $afters .= $soft_type . ",";  
                 }
             }
             if (isset($data['other'])) { $other= $data['other']; } else { $other = ''; }
-		        if ($other) {
+                if ($other) {
                 $others = "";
                 foreach($other as $value) {  
                     $others .= $value . ",";  
@@ -186,7 +171,7 @@
             
             $query="SELECT * FROM student_table  WHERE sid= '$id' AND password= '$password'";
             
-            $result =$this->db->select($query);	
+            $result =$this->db->select($query); 
          
                
                 if ($result != false) {
