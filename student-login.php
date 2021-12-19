@@ -12,7 +12,7 @@
 ?>
 <?php
     if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['login'])){
-        $stdlogin=$all->StudentLogin($_POST,$exmid);
+        $stdlogin = $all->StudentLogin($_POST,$exmid);
 
     }
 
