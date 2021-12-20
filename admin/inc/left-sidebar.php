@@ -101,8 +101,8 @@
                         </li> 
 
                         <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
-                                href="app-chats.html" aria-expanded="false"><i class="mdi mdi-comment-processing-outline"></i><span
-                                    class="hide-menu">Chat Apps</span></a></li>
+                                href="pay-request.php" aria-expanded="false"><i class="mdi mdi-comment-processing-outline"></i><span
+                                    class="hide-menu">Payment</span></a></li>
                                    
                         
                         

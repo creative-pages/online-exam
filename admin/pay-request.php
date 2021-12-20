@@ -1,92 +1,12 @@
+
+<?php include('inc/header.php'); ?>
 <?php
-    require_once 'init.php';
-   // Session::checkAdminSession();
-    $exam = new Exam();
-    $common = new Common();
-    $all = new All();
+  if(isset($_GET['confirm'])){
+      $id=$_GET['confirm'];
+      $confirm_query = $common->update("`pay_requests`","`status`='1'","`id`='$id'");
+  }
+  
 ?>
-<?php
-     if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['save'])) {
-        $sname = $_POST['sname'];
-        $sfname = $_POST['sfname'];
-        $smname = $_POST['smname'];
-        $email = $_POST['email'];
-        $contact = $_POST['contact'];
-        $sid = $_POST['sid'];
-        $password = $_POST['password'];
-        
-        $ssc = $_POST['ssc'];
-        $hsc = $_POST['hsc'];
-        $ms = $_POST['ms'];
-        $st = $_POST['st'];
-        
-        $query = $common->select("`student_table`","`contack`='$contact'");
-        $email_check = $common->select("`student_table`","`email`='$email'");
-
-        if($query != false){
-            $msg = "<span style='color:red'>Contact Already Exists</span>";
-        } elseif($email_check != false){
-            $msg = "<span style='color:red'>Email Already Exists</span>";
-        } else{
-            $success =$common->insert("`student_table`(`sname`,`sfname`,`smname`,`email`,`contack`,`sid`,`password`,`ssc`,`hsc`,`ms`,`st`)","('$sname', '$sfname', '$smname', '$email','$contact','$sid','$password','$ssc','$hsc','$ms','$st')");
-            if($success){
-                $get_id = $common->select("`student_table`", "`email` = '$email'");
-                $get_student_id = mysqli_fetch_assoc($get_id);
-                $student_id = $get_student_id['id'];
-
-                $batch_id = $_POST['batch'];
-
-                $batch_info = $common->select("`add_branch`", "`id` = '$batch_id'");
-                $batch_infos = mysqli_fetch_assoc($batch_info);
-                $batch_fee = $batch_infos['total_fee'];
-
-                $add_to_batch = $common->insert("`batch_students`(`student_id`, `batch_id`, `fee`)", "('$student_id', '$batch_id', '$batch_fee')");
-
-                header("Location: signin.php");
-            }
-        }
-     }
-?>
-<!DOCTYPE html>
-<html dir="ltr" lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <!-- Tell the browser to be responsive to screen width -->
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="keywords" content="wrappixel, admin dashboard, html css dashboard, web dashboard, bootstrap 5 admin, bootstrap 5, css3 dashboard, bootstrap 5 dashboard, material admin bootstrap 5 dashboard, frontend, responsive bootstrap 5 admin template, material design, material dashboard bootstrap 5 dashboard template">
-    <meta name="description" content="MaterialPro is powerful and clean admin dashboard template, inpired from Google's Material Design">
-    <meta name="robots" content="noindex,nofollow">
-    <title>BatBio</title>
-    <link rel="canonical" href="https://www.wrappixel.com/templates/materialpro/" />
-    <!-- Favicon icon -->
-    <link href="admin/assets/extra-libs/toastr/dist/build/toastr.min.css" rel="stylesheet">
-    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon.png">
-    <link rel="stylesheet" href="admin/assets/libs/apexcharts/dist/apexcharts.css">
-    <!-- Custom CSS -->
-    <link href="admin/dist/css/style.min.css" rel="stylesheet">
-     <!-- Data table plugin CSS -->
-     <link href="admin/assets/extra-libs/datatables.net-bs4/css/dataTables.bootstrap4.css" rel="stylesheet">
-      <!-- Card Page CSS -->
-    <link rel="stylesheet" type="text/css" href="admin/assets/extra-libs/prism/prism.css">
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <link href="admin/dist/css/style.min.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="highlights/highlight.min.css">
-    <!-- search option in select option start -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" integrity="sha512-nMNlpuaDPrqlEls3IX/Q56H36qvBASwb3ipuo3MxeWbsQB1881ox0cRv7UPTgBlriqoynt35KjEwgGUeUXIPnw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <!-- search option in select option end -->
-
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-<![endif]-->
-    <style>
-        .select2-container {
-            z-index: 99999;
-        }
-    </style>
-</head>
 
 
 <body>
@@ -102,167 +22,142 @@
           <path id="steamR" d="M21 6C21 6 21 8.22727 19 9.5C17 10.7727 17 13 17 13" stroke="#1e88e5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
         </svg>
     </div>
-    <!-- -------------------------------------------------------------- -->
-    <!-- Main wrapper - style you can find in pages.scss -->
-    <!-- -------------------------------------------------------------- -->
-    
+   
+    <div id="main-wrapper">
        
+        <?php include('inc/topbar.php'); ?>
+      
+        <?php include('inc/left-sidebar.php'); ?>
+        
         <div class="page-wrapper">
             
-            <div class="container-fluid ">
-            <div class="row">
-                <div class="col-12">
-                    <div class="card">
-                       
-                        <form class="form-horizontal" action="" method="post">
-                            <div class="card-body">
-                                <h4 class="card-title">Personal Info</h4>
-                               
-                                <div class="mb-3 row">
-                                    <label for="fname" class="col-sm-3 text-end control-label col-form-label">Student Name</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="fname" placeholder="Student Name Here" name="sname" required="">
-                                    </div>
+            <div class="container-fluid">
+               
+                <div class="widget-content searchable-container list">
+                    <div class="card card-body">
+                        <div class="row">
+                                <div class="col-md-4 col-xl-2">
+                                    <form>
+                                        <input type="text" class="form-control product-search" id="input-search" placeholder="Search Contacts...">
+                                    </form>
                                 </div>
-                                <div class="mb-3 row">
-                                    <label for="lname" class="col-sm-3 text-end control-label col-form-label">Student Father Name</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="lname" placeholder="Student Father Name Here" name="sfname" required="">
-                                    </div>
-                                </div>
-                                <div class="mb-3 row">
-                                    <label for="lname" class="col-sm-3 text-end control-label col-form-label">Student Mother Name</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="lname" placeholder="Student Mother Name Here" name="smname" required="">
-                                    </div>
-                                </div>
-                                <div class="mb-3 row">
-                                    <label for="email1" class="col-sm-3 text-end control-label col-form-label">Email</label>
-                                    <div class="col-sm-9">
-                                        <input type="email" class="form-control" id="email1" placeholder="Email Here" name="email" required="">
-                                    </div>
-                                </div>
-                                <div class="mb-3 row">
-                                    <label for="cono1" class="col-sm-3 text-end control-label col-form-label">Contact No</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="contact" onkeyup="ran()" placeholder="Contact No Here" name="contact" pattern=".{11,11}"required title="Please Input Only 11 digit" required="">
-                                    </div>
-                                </div>
-                                <div class="mb-3 row">
-                                    <label for="cono1" class="col-sm-3 text-end control-label col-form-label">Student ID</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="sid"  name="sid" readonly required="">
-                                    </div>
-                                </div>
-
-                                <div class="mb-3 row">
-                                    <label for="cono1" class="col-sm-3 text-end control-label col-form-label">Enter Your Password</label>
-                                    <div class="col-sm-9">
-                                        <input type="password" class="form-control" id="pwd"  name="password" required="">
-                                    </div>
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="card-body">
-                                <h4 class="card-title">Requirements</h4>
-                                
-                                <div class="mb-3 row">
-                                    <label class="col-sm-3 text-end control-label col-form-label">Select Batch</label>
-                                    <div class="col-sm-9">
-                                        <select class="form-select" name="batch" id="batch" required="">
-                                            <option>Choose Your Option</option>
-                                                <?php
-                                                $query = $common->select("add_branch ORDER BY id DESC");
-                                                if($query){
-                                                    while($raw = mysqli_fetch_assoc($query)){
-                                                    
-                                                ?>
-                                            <option value = <?= $raw['id'];?>><?= $raw['branch_name'];?></option>
-                                            <?php }}?>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="mb-3 row">
-                                    <label for="lname" class="col-sm-3 text-end control-label col-form-label">SSC RESULT</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="lname" placeholder="Enter SSC Result" name="ssc" required="">
-                                    </div>
-                                </div>
-                                <div class="mb-3 row">
-                                    <label for="lname" class="col-sm-3 text-end control-label col-form-label">HSC RESULT</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="lname" placeholder="Enter HSC Result" name="hsc" required="">
-                                    </div>
-                                </div>
-                                <div class="mb-3 row">
-                                    <label for="com1" class="col-sm-3 text-end control-label col-form-label">Medical Student?</label>
-                                    <div class="col-sm-9">
-                                        <div class="form-check form-check-inline">
-                                            <div class="custom-control custom-radio">
-                                                <input type="radio" class="custom-control-input" id="customControlValidation2" name="ms" value="yes" required="">
-                                                <label class="custom-control-label" for="customControlValidation2">yes</label>
-                                            </div>
+                                <div class="col-md-8 col-xl-10 text-end d-flex justify-content-md-end justify-content-center mt-3 mt-md-0">
+                                     <div class="action-btn show-btn" style="display: none">
+                                            <a href="javascript:void(0)" class="delete-multiple btn-light-danger btn me-2 text-danger d-flex align-items-center font-weight-medium" >
+                                                <i data-feather="trash-2" class="feather-sm fill-white me-1"></i>
+                                             Delete All Row</a>
                                         </div>
-
-                                        <div class="form-check form-check-inline">
-                                            <div class="custom-control custom-radio">
-                                                <input type="radio" class="custom-control-input" id="customControlValidation3" name="ms" value="no" required="">
-                                                <label class="custom-control-label" for="customControlValidation3">No</label>
-                                            </div>
-                                        </div>
-                                    </div>
+                                        <a href="javascript:void(0)" id="btn-add-contact" class="btn btn-info">
+                                            <i data-feather="users" class="feather-sm fill-white me-1"> </i>
+                                         </a>
                                 </div>
-
-                                <div class="mb-3 row">
-                                    <label for="com1" class="col-sm-3 text-end control-label col-form-label">Second Timer?</label>
-                                    <div class="col-sm-9">
-                                        <div class="form-check form-check-inline">
-                                            <div class="custom-control custom-radio">
-                                                <input type="radio" class="custom-control-input" id="customControlValidation2" name="st" value="yes" required="">
-                                                <label class="custom-control-label" for="customControlValidation2">yes</label>
-                                            </div>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                            <div class="custom-control custom-radio">
-                                                <input type="radio" class="custom-control-input" id="customControlValidation3" name="st" value="no" required="">
-                                                <label class="custom-control-label" for="customControlValidation3">No</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                            <div class="p-3 border-top">
-                                <div class="text-end">
-                                    <button type="submit" class="btn btn-info rounded-pill px-4 waves-effect waves-light" name="save">Sign Up</button>
+                        </div>
+                    </div>
+                    
+                    <div class="card card-body">
+                        <div class="table-responsive">
+                            <table class="table search-table v-middle">
+                                <thead class="header-item">
                                    
-                                </div>
-                            </div>
-                        </form>
+                                    <th>
+                                        <div class="n-chk align-self-center text-center">
+                                            <div class="form-check">
+                                                <input type="checkbox" class="form-check-input secondary" id="contact-check-all">
+                                                <label class="form-check-label" for="contact-check-all"></label>
+                                                <span class="new-control-indicator"></span>
+                                            </div>
+                                        </div>
+                                    </th>
+                                    <th>Sl No</th>
+                                    <th>Student Id</th>
+                                    <th>Name</th>
+                                    <th>Payment Number</th>
+                                    <th>Transection Id</th>
+                                    <th>Payment Batch</th>
+                                    <th>Payment method</th>
+                                    <th>Date</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                </thead>
+                                <tbody>
+                                    <!-- row -->
+                                    <?php
+                                        $r_payment = $common->select("`pay_requests` ORDER BY id DESC");
+                                            if($r_payment){
+                                                $i = 1;
+                                                while($value = $r_payment->fetch_assoc()){
+                                                  $profile_id = $value['user_id'];
+                                                  $user = $common->select("`student_table`","`id` = '$profile_id'");
+                                                  $userid = $user->fetch_assoc();  
+
+                                    ?>
+                                   
+                                    <tr class="search-items">
+                                        <td>
+                                            <div class="n-chk align-self-center text-center">
+                                                <div class="form-check">
+                                                    <input type="checkbox" class="form-check-input contact-chkbox primary" id="checkbox1">
+                                                    <label class="form-check-label" for="checkbox1"></label>
+                                                </div>
+                                            </div>
+                                        </td>
+                                       
+                                        <td>
+                                            <span class=""><?= $i;?></span>
+                                        </td>
+                                       
+                                        <td>
+                                            <span class="usr-ph-no"><?=$userid['sid'];?></span>
+                                        </td>
+
+                                        <td>
+                                            <span class="usr-ph-no"><?=$userid['sname'];?></span>
+                                        </td>
+                                        <td>
+                                            <span class="usr-ph-no"><?=$value['pnumber'];?></span>
+                                        </td>
+                                        <td>
+                                            <span class="usr-ph-no"><?=$value['tid'];?></span>
+                                        </td>
+                                        <td>
+                                            <span class="usr-ph-no"><?=$value['method'];?></span>
+                                        </td>
+                                        <td>
+                                            <span class="usr-ph-no"><?=$value['batch_id'];?></span>
+                                        </td>
+                                        <td>
+                                            <span class="usr-ph-no"><?= $fm->formatDate($value['created_at']);?></span>
+                                        </td>
+                                        <td>
+                                            <span class="usr-ph-no"><?=$value['amount'];?></span>
+                                        </td>
+                                        
+                                        <td>
+                                            <?php
+                                             if($value['status']==0){
+                                                
+                                            ?>
+                                            <a onclick ="return confirm('Everything is ok');" href="?confirm=<?=$value['id'];?>" class="btn btn-warning btn-sm">Proccesing <?=$value['id'];?></a>
+                                            <?php } else {?>
+                                                <a href="" class="btn btn-success btn-sm">Confirm</a>
+                                                <?php } ?>
+                                        </td>
+                                    </tr>
+                                    <?php }} ?>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
                 
-                </div>
-                
             </div>
-            
-            <!-- footer -->
-            <!-- -------------------------------------------------------------- -->
            
-            <!-- -------------------------------------------------------------- -->
-            <!-- End footer -->
-            <!-- -------------------------------------------------------------- -->
+            <?php include('inc/footer.php'); ?>
+           
         </div>
-        <!-- -------------------------------------------------------------- -->
-        <!-- End Page wrapper  -->
-        <!-- -------------------------------------------------------------- -->
+       
+    </div>
     
-    <!-- -------------------------------------------------------------- -->
-    <!-- End Wrapper -->
-    <!-- -------------------------------------------------------------- -->
-    <!-- -------------------------------------------------------------- -->
-    <!-- customizer Panel -->
-    <!-- -------------------------------------------------------------- -->
     <aside class="customizer">
         <a href="javascript:void(0)" class="service-panel-toggle"><i class="fa fa-spin fa-cog"></i></a>
         <div class="customizer-body">
@@ -378,7 +273,7 @@
                                     class="message-item d-flex align-items-center border-bottom px-3 py-2"
                                     id='chat_user_1' data-user-id='1'>
                                     <span class="user-img position-relative d-inline-block"> <img
-                                            src="admin/assets/images/users/1.jpg" alt="user" class="rounded-circle w-100">
+                                            src="../assets/images/users/1.jpg" alt="user" class="rounded-circle w-100">
                                         <span class="profile-status rounded-circle online"></span> </span>
                                     <div class="w-75 d-inline-block v-middle ps-3">
                                         <h5 class="message-title mb-0 mt-1">Pavan kumar</h5> <span
@@ -392,7 +287,7 @@
                                     class="message-item d-flex align-items-center border-bottom px-3 py-2"
                                     id='chat_user_2' data-user-id='2'>
                                     <span class="user-img position-relative d-inline-block"> <img
-                                            src="admin/assets/images/users/2.jpg" alt="user" class="rounded-circle w-100">
+                                            src="../assets/images/users/2.jpg" alt="user" class="rounded-circle w-100">
                                         <span class="profile-status rounded-circle busy"></span> </span>
                                     <div class="w-75 d-inline-block v-middle ps-3">
                                         <h5 class="message-title mb-0 mt-1">Sonu Nigam</h5> <span
@@ -406,7 +301,7 @@
                                     class="message-item d-flex align-items-center border-bottom px-3 py-2"
                                     id='chat_user_3' data-user-id='3'>
                                     <span class="user-img position-relative d-inline-block"> <img
-                                            src="admin/assets/images/users/3.jpg" alt="user" class="rounded-circle w-100">
+                                            src="../assets/images/users/3.jpg" alt="user" class="rounded-circle w-100">
                                         <span class="profile-status rounded-circle away"></span> </span>
                                     <div class="w-75 d-inline-block v-middle ps-3">
                                         <h5 class="message-title mb-0 mt-1">Arijit Sinh</h5> <span
@@ -420,7 +315,7 @@
                                     class="message-item d-flex align-items-center border-bottom px-3 py-2"
                                     id='chat_user_4' data-user-id='4'>
                                     <span class="user-img position-relative d-inline-block"> <img
-                                            src="admin/assets/images/users/4.jpg" alt="user" class="rounded-circle w-100">
+                                            src="../assets/images/users/4.jpg" alt="user" class="rounded-circle w-100">
                                         <span class="profile-status rounded-circle offline"></span> </span>
                                     <div class="w-75 d-inline-block v-middle ps-3">
                                         <h5 class="message-title mb-0 mt-1">Nirav Joshi</h5> <span
@@ -435,7 +330,7 @@
                                     class="message-item d-flex align-items-center border-bottom px-3 py-2"
                                     id='chat_user_5' data-user-id='5'>
                                     <span class="user-img position-relative d-inline-block"> <img
-                                            src="admin/assets/images/users/5.jpg" alt="user" class="rounded-circle w-100">
+                                            src="../assets/images/users/5.jpg" alt="user" class="rounded-circle w-100">
                                         <span class="profile-status rounded-circle offline"></span> </span>
                                     <div class="w-75 d-inline-block v-middle ps-3">
                                         <h5 class="message-title mb-0 mt-1">Sunil Joshi</h5> <span
@@ -450,7 +345,7 @@
                                     class="message-item d-flex align-items-center border-bottom px-3 py-2"
                                     id='chat_user_6' data-user-id='6'>
                                     <span class="user-img position-relative d-inline-block"> <img
-                                            src="admin/assets/images/users/6.jpg" alt="user" class="rounded-circle w-100">
+                                            src="../assets/images/users/6.jpg" alt="user" class="rounded-circle w-100">
                                         <span class="profile-status rounded-circle offline"></span> </span>
                                     <div class="w-75 d-inline-block v-middle ps-3">
                                         <h5 class="message-title mb-0 mt-1">Akshay Kumar</h5> <span
@@ -465,7 +360,7 @@
                                     class="message-item d-flex align-items-center border-bottom px-3 py-2"
                                     id='chat_user_7' data-user-id='7'>
                                     <span class="user-img position-relative d-inline-block"> <img
-                                            src="admin/assets/images/users/7.jpg" alt="user" class="rounded-circle w-100">
+                                            src="../assets/images/users/7.jpg" alt="user" class="rounded-circle w-100">
                                         <span class="profile-status rounded-circle offline"></span> </span>
                                     <div class="w-75 d-inline-block v-middle ps-3">
                                         <h5 class="message-title mb-0 mt-1">Pavan kumar</h5> <span
@@ -480,7 +375,7 @@
                                     class="message-item d-flex align-items-center border-bottom px-3 py-2"
                                     id='chat_user_8' data-user-id='8'>
                                     <span class="user-img position-relative d-inline-block"> <img
-                                            src="admin/assets/images/users/8.jpg" alt="user" class="rounded-circle w-100">
+                                            src="../assets/images/users/8.jpg" alt="user" class="rounded-circle w-100">
                                         <span class="profile-status rounded-circle offline"></span> </span>
                                     <div class="w-75 d-inline-block v-middle ps-3">
                                         <h5 class="message-title mb-0 mt-1">Varun Dhavan</h5> <span
@@ -519,7 +414,7 @@
                         </div>
                         <div class="sl-item">
                             <div class="sl-left"> <img class="rounded-circle" alt="user"
-                                    src="admin/assets/images/users/2.jpg"> </div>
+                                    src="../assets/images/users/2.jpg"> </div>
                             <div class="sl-right">
                                 <div class="font-weight-medium">Go to the Doctor <span class="sl-date">5 minutes
                                         ago</span>
@@ -529,7 +424,7 @@
                         </div>
                         <div class="sl-item">
                             <div class="sl-left"> <img class="rounded-circle" alt="user"
-                                    src="admin/assets/images/users/1.jpg"> </div>
+                                    src="../assets/images/users/1.jpg"> </div>
                             <div class="sl-right">
                                 <div><a href="javascript:void(0)">Stephen</a> <span class="sl-date">5 minutes ago</span>
                                 </div>
@@ -556,7 +451,7 @@
                         </div>
                         <div class="sl-item">
                             <div class="sl-left"> <img class="rounded-circle" alt="user"
-                                    src="admin/assets/images/users/4.jpg"> </div>
+                                    src="../assets/images/users/4.jpg"> </div>
                             <div class="sl-right">
                                 <div class="font-weight-medium">Go to the Doctor <span class="sl-date">5 minutes
                                         ago</span>
@@ -566,7 +461,7 @@
                         </div>
                         <div class="sl-item">
                             <div class="sl-left"> <img class="rounded-circle" alt="user"
-                                    src="admin/assets/images/users/6.jpg"> </div>
+                                    src="../assets/images/users/6.jpg"> </div>
                             <div class="sl-right">
                                 <div><a href="javascript:void(0)">Stephen</a> <span class="sl-date">5 minutes ago</span>
                                 </div>
@@ -583,66 +478,25 @@
     <!-- -------------------------------------------------------------- -->
     <!-- All Jquery -->
     <!-- -------------------------------------------------------------- -->
-    <script src="admin/assets/libs/jquery/dist/jquery.min.js"></script>
+    <script src="assets/libs/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap tether Core JavaScript -->
-    <script src="admin/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <!-- apps -->
-    <script src="admin/dist/js/app.min.js"></script>
-    <script src="admin/dist/js/app.init.js"></script>
-    <script src="admin/dist/js/app-style-switcher.js"></script>
+    <script src="dist/js/app.min.js"></script>
+    <script src="dist/js/app.init.js"></script>
+    <script src="dist/js/app-style-switcher.js"></script>
     <!-- slimscrollbar scrollbar JavaScript -->
-    <script src="admin/assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js"></script>
-    <script src="admin/assets/extra-libs/sparkline/sparkline.js"></script>
+    <script src="assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js"></script>
+    <script src="assets/extra-libs/sparkline/sparkline.js"></script>
     <!--Wave Effects -->
-    <script src="admin/dist/js/waves.js"></script>
+    <script src="dist/js/waves.js"></script>
     <!--Menu sidebar -->
-    <script src="admin/dist/js/sidebarmenu.js"></script>
+    <script src="dist/js/sidebarmenu.js"></script>
     <!--Custom JavaScript -->
-   <script src="admin/dist/js/feather.min.js"></script>
-    <script src="admin/dist/js/custom.min.js"></script>
-    <!-- This Page JS -->
-    <script src="admin/assets/extra-libs/prism/prism.js"></script>
-
+   <script src="dist/js/feather.min.js"></script>
+    <script src="dist/js/custom.min.js"></script>
     <!--This page plugins -->
-    <script src="admin/assets/extra-libs/datatables.net/js/jquery.dataTables.min.js"></script>
-    <!-- start - This is for export functionality only -->
-    <!-- <script src="https://cdn.datatables.net/buttons/1.5.1/js/dataTables.buttons.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.flash.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/pdfmake.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/vfs_fonts.js"></script>
-    <script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.html5.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.print.min.js"></script>
-    <script src="dist/js/pages/datatable/datatable-advanced.init.js"></script> -->
-    <script>
-        $(document).ready(function(){
-            $(".description_button_toggle").click(function(){
-                var id = $(this).data('value');
-                $("#description_" + id).toggle();
-            });
-        });
-    </script>
-
-    <script> 
-        function feedue() {
-            
-            var batchfee = document.getElementById('batchfee').value;
-            var advancefee = document.getElementById('advancefee').value;
-            var due = batchfee-advancefee;
-           
-                document.getElementById('duef').value=due;
-           
-
-
-        }
-        function ran() {
-             
-            var contact = document.getElementById('contact').value;
-            var sid = contact.substring(Math.floor(3, 6),Math.floor(9, 11));
-            
-            document.getElementById('sid').value=sid;
-        }
-    </script>
+    <script src="dist/js/pages/contact/contact.js"></script>
 </body>
 
 </html>
