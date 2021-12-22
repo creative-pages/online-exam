@@ -4,6 +4,7 @@
     $exam = new Exam();
     $common = new Common();
     $all = new All();
+    $fm = new Format();
 ?>
 <!DOCTYPE html>
 <html dir="ltr" lang="en">

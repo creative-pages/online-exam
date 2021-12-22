@@ -74,9 +74,16 @@
 	<a class="hover:text-gray-900" href="/about">About</a>
 	</nav>
 	<div class="d-flex justify-content-end">
+		<?php
+			$sign = Session::get('SignIn');
+			if($sign == true){
+		?>
+	<a class="hover:text-gray-900 mx-2" href="student-profile.php">Profile</a>
+	<?php } else { ?>
 	<a class="hover:text-gray-900 mx-2" href="signin.php">Login</a>
 	<a class="hover:text-gray-900 mx-2" href="batch.php">||</a>
 	<a class="hover:text-gray-900" href="student-register.php">Register</a>	
+	 <?php } ?>
 	</div>
 	</div>
 	</header>
