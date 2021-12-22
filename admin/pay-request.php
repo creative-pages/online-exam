@@ -128,7 +128,9 @@
                                                 <?php } ?>
                                         </td>
                                     </tr>
-                                    <?php }} else {?>
+                                    <?php
+                                     $i++;
+                                 }}  else {?>
                                         <tr>
                                         <td colspan="6"> 
                                             <h4 class="text-center text-warning">No results found!</h4>
@@ -190,7 +192,7 @@
                                                 <?php } ?>
                                         </td>
                                     </tr>
-                                        <?php }} else { ?>
+                                        <?php $i++; }} else { ?>
                                             <tr>
                                         <td colspan="6"> 
                                             <h4 class="text-center text-warning">No results found!</h4>
