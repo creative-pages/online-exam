@@ -8,7 +8,6 @@
   
 ?>
 
-
 <body>
     <!-- -------------------------------------------------------------- -->
     <!-- Preloader - style you can find in spinners.css -->
@@ -42,32 +41,23 @@
                                     </form>
                                 </div>
                                 <div class="col-md-8 col-xl-10 text-end d-flex justify-content-md-end justify-content-center mt-3 mt-md-0">
-                                     <div class="action-btn show-btn" style="display: none">
-                                            <a href="javascript:void(0)" class="delete-multiple btn-light-danger btn me-2 text-danger d-flex align-items-center font-weight-medium" >
-                                                <i data-feather="trash-2" class="feather-sm fill-white me-1"></i>
-                                             Delete All Row</a>
-                                        </div>
-                                        <a href="javascript:void(0)" id="btn-add-contact" class="btn btn-info">
-                                            <i data-feather="users" class="feather-sm fill-white me-1"> </i>
+                                    
+                                        <a href="?pending" id="btn-add-contact" class="btn btn-warning mx-2">
+                                            pending
+                                         </a>
+                                         <a href="?active" id="btn-add-contact" class="btn btn-success">
+                                            active
                                          </a>
                                 </div>
                         </div>
                     </div>
                     
                     <div class="card card-body">
+                    
                         <div class="table-responsive">
                             <table class="table search-table v-middle">
                                 <thead class="header-item">
-                                   
-                                    <th>
-                                        <div class="n-chk align-self-center text-center">
-                                            <div class="form-check">
-                                                <input type="checkbox" class="form-check-input secondary" id="contact-check-all">
-                                                <label class="form-check-label" for="contact-check-all"></label>
-                                                <span class="new-control-indicator"></span>
-                                            </div>
-                                        </div>
-                                    </th>
+                                  
                                     <th>Sl No</th>
                                     <th>Student Id</th>
                                     <th>Name</th>
@@ -82,7 +72,9 @@
                                 <tbody>
                                     <!-- row -->
                                     <?php
-                                        $r_payment = $common->select("`pay_requests` ORDER BY id DESC");
+                                        if(isset($_GET['active'])){
+
+                                        $r_payment = $common->select("`pay_requests`","`status`='1'ORDER BY `id` DESC");
                                             if($r_payment){
                                                 $i = 1;
                                                 while($value = $r_payment->fetch_assoc()){
@@ -93,14 +85,7 @@
                                     ?>
                                    
                                     <tr class="search-items">
-                                        <td>
-                                            <div class="n-chk align-self-center text-center">
-                                                <div class="form-check">
-                                                    <input type="checkbox" class="form-check-input contact-chkbox primary" id="checkbox1">
-                                                    <label class="form-check-label" for="checkbox1"></label>
-                                                </div>
-                                            </div>
-                                        </td>
+                                        
                                        
                                         <td>
                                             <span class=""><?= $i;?></span>
@@ -143,7 +128,75 @@
                                                 <?php } ?>
                                         </td>
                                     </tr>
-                                    <?php }} ?>
+                                    <?php }} else {?>
+                                        <tr>
+                                        <td colspan="6"> 
+                                            <h4 class="text-center text-warning">No results found!</h4>
+                                        </td>
+                                    </tr>
+                                    <?php }} else {?>
+                                        <?php
+                                        $r_payment = $common->select("`pay_requests`","`status`='0'ORDER BY `id` DESC");
+                                            if($r_payment){
+                                                $i = 1;
+                                                while($value = $r_payment->fetch_assoc()){
+                                                  $profile_id = $value['user_id'];
+                                                  $user = $common->select("`student_table`","`id` = '$profile_id'");
+                                                  $userid = $user->fetch_assoc();  
+
+                                    ?>
+                                   
+                                    <tr class="search-items">
+                                        
+                                       
+                                        <td>
+                                            <span class=""><?= $i;?></span>
+                                        </td>
+                                       
+                                        <td>
+                                            <span class="usr-ph-no"><?=$userid['sid'];?></span>
+                                        </td>
+
+                                        <td>
+                                            <span class="usr-ph-no"><?=$userid['sname'];?></span>
+                                        </td>
+                                        <td>
+                                            <span class="usr-ph-no"><?=$value['pnumber'];?></span>
+                                        </td>
+                                        <td>
+                                            <span class="usr-ph-no"><?=$value['tid'];?></span>
+                                        </td>
+                                        <td>
+                                            <span class="usr-ph-no"><?=$value['method'];?></span>
+                                        </td>
+                                        <td>
+                                            <span class="usr-ph-no"><?=$value['batch_id'];?></span>
+                                        </td>
+                                        <td>
+                                            <span class="usr-ph-no"><?= $fm->formatDate($value['created_at']);?></span>
+                                        </td>
+                                        <td>
+                                            <span class="usr-ph-no"><?=$value['amount'];?></span>
+                                        </td>
+                                        
+                                        <td>
+                                            <?php
+                                             if($value['status']==0){
+                                                
+                                            ?>
+                                            <a onclick ="return confirm('Everything is ok');" href="?confirm=<?=$value['id'];?>" class="btn btn-warning btn-sm">Proccesing <?=$value['id'];?></a>
+                                            <?php } else {?>
+                                                <a href="" class="btn btn-success btn-sm">Confirm</a>
+                                                <?php } ?>
+                                        </td>
+                                    </tr>
+                                        <?php }} else { ?>
+                                            <tr>
+                                        <td colspan="6"> 
+                                            <h4 class="text-center text-warning">No results found!</h4>
+                                        </td>
+                                    </tr>
+                                    <?php }}?>
                                 </tbody>
                             </table>
                         </div>
