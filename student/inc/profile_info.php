@@ -1,4 +1,5 @@
 <div class="col-lg-4 order-lg-2">
+    <h2>User</h2>
     <div class="card w-100 rounded mb-2" style="">
         <div class="row">
             <div class="col-12 mx-2 " style="text-align:center; padding: 5px;">

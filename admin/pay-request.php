@@ -1,10 +1,28 @@
-
 <?php include('inc/header.php'); ?>
 <?php
   if(isset($_GET['confirm'])){
-      $id=$_GET['confirm'];
-      $confirm_query = $common->update("`pay_requests`","`status`='1'","`id`='$id'");
+      $id = $_GET['confirm'];
+      $confirm_query = $common->update("`pay_requests`", "`status`='1'", "`id` = '$id'");
       if ($confirm_query) {
+          $payment_detail = $common->select("`pay_requests`", "`id` = '$id'");
+          $payment_details = mysqli_fetch_assoc($payment_detail);
+          $user_id = $payment_details['user_id'];
+          $batch_id = $payment_details['batch_id'];
+
+          $batch_info = $common->select("`batch_students`", "`student_id` = '$user_id' && `batch_id` = '$batch_id'");
+          $batch_infos = mysqli_fetch_assoc($batch_info);
+          if ($batch_infos['paid'] == NULL) {
+              $paid = $payment_details['amount'];
+          } else {
+              $paid = $batch_infos['paid'] + $payment_details['amount'];
+          }
+          if ($batch_infos['stallment'] == NULL) {
+              $stallment = 1;
+          } else {
+              $stallment = $batch_infos['stallment'] + 1;
+          }
+
+          $common->update("`batch_students`", "`paid` = '$paid', `stallment` = '$stallment', `status` = '1'", "`student_id` = '$user_id' && `batch_id` = '$batch_id'");
           header("Location: pay-request.php");
       }
   }

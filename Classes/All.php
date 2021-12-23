@@ -1,7 +1,6 @@
 <?php
     $filepath = realpath(dirname(__FILE__));
     include_once ($filepath . '/../init.php');
-
     class All
     {
         private $db;
@@ -188,20 +187,37 @@
                 }      
         }
 
-        public function PaymentRequest($data,$userid){
-            $pnumber= $this->fm->validation($data['pnumber']);
-            $tid= $this->fm->validation($data['tid']);
-            $method= $this->fm->validation($data['method']);
-            $pnumber= mysqli_real_escape_string($this->db->link,$pnumber);
-            $tid= mysqli_real_escape_string($this->db->link,$tid);
-            $method= mysqli_real_escape_string($this->db->link,$method);
+        public function PaymentRequest($data){
+            $user_id = $this->fm->validation($data['user_id']);
+            $batch_id = $this->fm->validation($data['batch_id']);
+            $pnumber = $this->fm->validation($data['pnumber']);
+            $tid = $this->fm->validation($data['tid']);
+            $method = $this->fm->validation($data['method']);
+            $amount = $this->fm->validation($data['amount']);
+            $pnumber = mysqli_real_escape_string($this->db->link,$pnumber);
+            $tid = mysqli_real_escape_string($this->db->link,$tid);
+            $method = mysqli_real_escape_string($this->db->link,$method);
 
-            $query = "INSERT INTO pay_requests(user_id,pnumber,tid,method) VALUES('$userid','$pnumber','$tid','$method')";
-            $result = $this->db->insert($query);
-            if($result){
-                header("Location:student-profile.php");
+            if ($user_id && $batch_id && $pnumber && $tid && $method) {
+                $check_query = "SELECT * FROM `batch_students`  WHERE `student_id` = '$user_id' AND `batch_id` = '$batch_id'";
+                $last_stallment_check = $this->db->select($check_query);
+                $last_stallment_checks = mysqli_fetch_assoc($last_stallment_check);
+                $stallment = $last_stallment_checks['stallment'];
+                $unpaid = $last_stallment_checks['fee'] - $last_stallment_checks['paid'];
+                if ($stallment == 2 && $unpaid > $amount) {
+                    return 'This is your last stallment! And enter valid amount.';
+                } else {
+                    $query = "INSERT INTO `pay_requests`(`user_id`, `batch_id`, `pnumber`, `tid`, `method`, `amount`) VALUES('$user_id', '$batch_id', '$pnumber', '$tid', '$method', '$amount')";
+                    $result = $this->db->insert($query);
+                    if($result){
+                        header("Location: batch.php");
+                    } else {
+                        return 'Something is wrong! Please try again.';
+                    }
+                }
+            } else {
+                return 'Something is wrong! Please try again.';
             }
-
         }
     }
 ?>
