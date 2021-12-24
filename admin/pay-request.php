@@ -34,6 +34,18 @@
       }
   }
 ?>
+<?php
+    $p_query = $common->select("`pay_requests`","`status`='0'");
+   if($p_query != false){
+        $total_pending = mysqli_num_rows($p_query);
+    }
+?>
+<?php
+    $a_query = $common->select("`pay_requests`","`status`='1'");
+    if($a_query != false){
+        $total_active = mysqli_num_rows($a_query);
+    }
+?>
 
 <body>
     <!-- -------------------------------------------------------------- -->
@@ -70,10 +82,10 @@
                                 <div class="col-md-8 col-xl-10 text-end d-flex justify-content-md-end justify-content-center mt-3 mt-md-0">
                                     
                                         <a href="pay-request.php" id="btn-add-contact" class="btn btn-warning mx-2">
-                                            pending
+                                        <?= isset($total_pending) ? $total_pending : '0'; ?>  pending
                                          </a>
                                          <a href="?active" id="btn-add-contact" class="btn btn-success">
-                                            active
+                                         <?= isset($total_active) ? $total_active : '0'; ?> active
                                          </a>
                                 </div>
                         </div>
@@ -194,7 +206,7 @@
                                         </td>
                                         
                                         <td>
-                                            <a onclick="return confirm('Are you sure to confirm?');" href="?confirm=<?=$value['id'];?>" class="btn btn-primary btn-sm">Active</a>
+                                            <a onclick="return confirm('Are you sure to confirm?');" href="?confirm=<?=$value['id'];?>" class="btn btn-primary btn-sm my-1">Active</a>
                                             <a onclick="return confirm('Are you sure to delete?');" href="?delete=<?=$value['id'];?>" class="btn btn-danger btn-sm">Danger</a>
                                         </td>
                                     </tr>

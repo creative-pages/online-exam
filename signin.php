@@ -25,10 +25,10 @@
     <meta name="description"
         content="Material Pro is powerful and clean admin dashboard template">
     <meta name="robots" content="noindex,nofollow">
-    <title>Material Pro Template by WrapPixel</title>
+    <title>MediExam</title>
     <link rel="canonical" href="https://www.wrappixel.com/templates/materialpro/" />
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="admin/assets/images/favicon.png">
+    
     <!-- Custom CSS -->
     <link href="admin/dist/css/style.min.css" rel="stylesheet">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -69,7 +69,7 @@
                                 echo $signdata;
                             }
                         ?>
-                        <h2 class="box-title mb-3 text-center">Sign In</h2>
+                        <h2 class="box-title mb-3 text-center">Student Sign In</h2>
                     </div>
                     <!-- Form -->
                     <div class="row">

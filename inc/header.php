@@ -78,7 +78,7 @@
 			$sign = Session::get('SignIn');
 			if($sign == true){
 		?>
-	<a class="hover:text-gray-900 mx-2" href="student-profile.php">Profile</a>
+	<a class="hover:text-gray-900 mx-2" href="student/profile.php">Profile</a>
 	<?php } else { ?>
 	<a class="hover:text-gray-900 mx-2" href="signin.php">Login</a>
 	<a class="hover:text-gray-900 mx-2" href="batch.php">||</a>

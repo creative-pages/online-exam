@@ -80,12 +80,9 @@
                                     </form>
                                 </div>
                                 <div class="col-md-8 col-xl-10 text-end d-flex justify-content-md-end justify-content-center mt-3 mt-md-0">
-<<<<<<< HEAD
-=======
                                         <a href="add-contack.php" id="" class="btn btn-info">
                                             <i data-feather="users" class="feather-sm fill-white me-1"> </i>
                                          Add Contact</a>
->>>>>>> arif
                                 </div>
                         </div>
                         <?php
@@ -166,10 +163,7 @@
                         <div class="table-responsive">
                             <table class="table search-table v-middle">
                                 <thead class="header-item">
-<<<<<<< HEAD
                                    
-=======
->>>>>>> arif
                                     <th>ID</th>
                                     <th>Name</th>
                                     <th>Batch</th>
@@ -189,10 +183,7 @@
                                          
                                     ?>
                                     <tr class="search-items">
-<<<<<<< HEAD
                                         
-=======
->>>>>>> arif
                                         <td>
                                              <span class="usr-email-addr"><?=$raw['sid'];?></span>
                                         </td>
