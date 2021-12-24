@@ -80,14 +80,6 @@
                                     </form>
                                 </div>
                                 <div class="col-md-8 col-xl-10 text-end d-flex justify-content-md-end justify-content-center mt-3 mt-md-0">
-                                     <div class="action-btn show-btn" style="display: none">
-                                            <a href="javascript:void(0)" class="delete-multiple btn-light-danger btn me-2 text-danger d-flex align-items-center font-weight-medium" >
-                                                <i data-feather="trash-2" class="feather-sm fill-white me-1"></i>
-                                             Delete All Row</a>
-                                        </div>
-                                        <a href="add-contack.php" id="" class="btn btn-info">
-                                            <i data-feather="users" class="feather-sm fill-white me-1"> </i>
-                                         Add Contact</a>
                                 </div>
                         </div>
                         <?php
@@ -168,15 +160,7 @@
                         <div class="table-responsive">
                             <table class="table search-table v-middle">
                                 <thead class="header-item">
-                                    <th>
-                                        <div class="n-chk align-self-center text-center">
-                                            <div class="form-check">
-                                                <input type="checkbox" class="form-check-input secondary" id="contact-check-all">
-                                                <label class="form-check-label" for="contact-check-all"></label>
-                                                <span class="new-control-indicator"></span>
-                                            </div>
-                                        </div>
-                                    </th>
+                                   
                                     <th>ID</th>
                                     <th>Name</th>
                                     <th>Batch</th>
@@ -192,20 +176,11 @@
                                     <?php
                                         if($std){
                                             while($raw = mysqli_fetch_assoc($std)){
-                                                $batch = $raw['batch'];
-                                                $batchname = $common->select("`add_branch`","`id`='$batch'");
-                                                $batchnames = mysqli_fetch_assoc($batchname);
+                                                
                                          
                                     ?>
                                     <tr class="search-items">
-                                        <td>
-                                            <div class="n-chk align-self-center text-center">
-                                                <div class="form-check">
-                                                    <input type="checkbox" class="form-check-input contact-chkbox primary" id="checkbox2">
-                                                    <label class="form-check-label" for="checkbox2"></label>
-                                                </div>
-                                            </div>
-                                        </td>
+                                        
                                         <td>
                                              <span class="usr-email-addr"><?=$raw['sid'];?></span>
                                         </td>
@@ -213,20 +188,13 @@
                                             <span class="usr-email-addr" data-email="allen@mail.com"><?=$raw['sname'];?></span>
                                         </td>
                                         <td>
-                                            <span class="usr-location" data-location="Sydney, Australia"><?=$batchnames['branch_name'];?></span>
+                                            <span class="usr-location" data-location="Sydney, Australia">null</span>
                                         </td>
                                         <td>
                                             <span class="usr-ph-no" data-phone="+91 (125) 450-1500"><?=$raw['contack'];?></span>
                                         </td>
                                         <td>
-                                            <?php
-                                                if($raw['status']==0){ ?>
-                                               <span class="btn-btn-sm-success" data-phone="+91 (125) 450-1500">
-                                               <a onclick ="return confirm('Are you sure you want to Disable Acaunt')"; href="?dsbl=<?=$raw['id'];?>" type="button"  class="btn btn-success btn-sm">Active</a></span>
-                                           <?php }else{ ?>
-                                            <span class="btn-btn-sm-danger" data-phone="+91 (125) 450-1500">
-                                                <a onclick ="return confirm('Are you sure you want to Active')"; href="?active=<?=$raw['id'];?>" type="button"  class="btn btn-danger btn-sm">Disable</a></span>
-                                           <?php } ?> 
+                                           NULL
                                         </td>
                                         <td>
                                             <div class="action-btn">
