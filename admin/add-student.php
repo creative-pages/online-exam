@@ -80,12 +80,9 @@
                                     </form>
                                 </div>
                                 <div class="col-md-8 col-xl-10 text-end d-flex justify-content-md-end justify-content-center mt-3 mt-md-0">
-<<<<<<< HEAD
-=======
                                         <a href="add-contack.php" id="" class="btn btn-info">
                                             <i data-feather="users" class="feather-sm fill-white me-1"> </i>
                                          Add Contact</a>
->>>>>>> arif
                                 </div>
                         </div>
                         <?php
@@ -166,10 +163,6 @@
                         <div class="table-responsive">
                             <table class="table search-table v-middle">
                                 <thead class="header-item">
-<<<<<<< HEAD
-                                   
-=======
->>>>>>> arif
                                     <th>ID</th>
                                     <th>Name</th>
                                     <th>Batch</th>
@@ -189,10 +182,6 @@
                                          
                                     ?>
                                     <tr class="search-items">
-<<<<<<< HEAD
-                                        
-=======
->>>>>>> arif
                                         <td>
                                              <span class="usr-email-addr"><?=$raw['sid'];?></span>
                                         </td>
@@ -232,60 +221,6 @@
                 <!-- -------------------------------------------------------------- -->
                 <!-- End PAge Content -->
                 <!-- -------------------------------------------------------------- -->
-            </div>
-            <!-- Share Modal -->
-            <div class="modal fade" id="Sharemodel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-                aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <form>
-                            <div class="modal-header d-flex align-items-center">
-                                <h5 class="modal-title" id="exampleModalLabel"><i class="mdi mdi-auto-fix me-2"></i>
-                                    Share With</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="input-group mb-3">
-                                    <button type="button" class="btn btn-info"><i
-                                            class="ti-user text-white"></i></button>
-                                    <input type="text" class="form-control" placeholder="Enter Name Here"
-                                        aria-label="Username">
-                                </div>
-                                <div class="row">
-                                    <div class="col-3 text-center">
-                                        <a href="#Whatsapp" class="text-success">
-                                            <i class="display-6 mdi mdi-whatsapp"></i><br><span
-                                                class="text-muted">Whatsapp</span>
-                                        </a>
-                                    </div>
-                                    <div class="col-3 text-center">
-                                        <a href="#Facebook" class="text-info">
-                                            <i class="display-6 mdi mdi-facebook"></i><br><span
-                                                class="text-muted">Facebook</span>
-                                        </a>
-                                    </div>
-                                    <div class="col-3 text-center">
-                                        <a href="#Instagram" class="text-danger">
-                                            <i class="display-6 mdi mdi-instagram"></i><br><span
-                                                class="text-muted">Instagram</span>
-                                        </a>
-                                    </div>
-                                    <div class="col-3 text-center">
-                                        <a href="#Skype" class="text-cyan">
-                                            <i class="display-6 mdi mdi-skype"></i><br><span
-                                                class="text-muted">Skype</span>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-success"><i class="fas fa-paper-plane"></i>
-                                    Send</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
             </div>
             <!-- -------------------------------------------------------------- -->
             <!-- End Container fluid  -->

@@ -93,41 +93,6 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Column -->
-                    <!-- Column -->
-                    <div class="col-lg-4 d-flex align-items-stretch">
-                        <div class="card w-100">
-                            <img class="rounded-top" src="assets/images/background/weatherbg.jpg"
-                                alt="Card image cap" style="max-height: 105px;">
-                            <div class="card-img-overlay" style="height:110px;">
-                                <div class="d-flex align-items-center">
-                                    <h3 class="card-title text-white mb-0 d-inline-block">New Delhi</h3>
-                                    <div class="ms-auto">
-                                        <small class="card-text text-white fw-light">Sunday 15
-                                            march</small>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="p-3 weather-small">
-                                <div class="row">
-                                    <div class="col-8 border-end align-self-center">
-                                        <div class="d-flex">
-                                            <div class="display-6 text-info"><i class="wi wi-day-rain-wind"></i></div>
-                                            <div class="ms-3">
-                                                <h1 class="fw-light text-info mb-0">32<sup>0</sup></h1>
-                                                <small>Sunny Rainy day</small>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-4 text-center">
-                                        <h1 class="fw-light mb-0">25<sup>0</sup></h1>
-                                        <small>Tonight</small>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Column -->
                 </div>
                 <!-- Row -->
                 <!-- Row -->

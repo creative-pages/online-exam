@@ -1,17 +1,25 @@
 <?php include('inc/header.php'); ?>
 <?php
-    if($_SERVER['REQUEST_METHOD'] == 'POST'&& isset($_POST['add'])){
-        $branchname = $_POST['branchname'];
-        $type       = $_POST['type'];
-        $common->insert("`add_branch`(`branch_name`,`type`)", "('$branchname','$type')");
+    if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['set_payment_time'])) {
+        $batch_student_id = $fm->validation($_POST['batch_student_id']);
+        $payment_time = $fm->validation($_POST['payment_time']);
+        $time_update = $common->update("`batch_students`", "`payment_time` = '$payment_time'", "`id` = '$batch_student_id'");
+        if ($time_update) {
+            header("Location: " . $_SERVER['REQUEST_URI']);
+        }
     }
-    if(isset($_GET['dltbranch'])){
-        $bid = $_GET['dltbranch'];
-        $dltbranch = $exam->DeleteBranch($bid);
+    if(isset($_GET['batch_id']) && !empty($_GET['batch_id']) && is_numeric($_GET['batch_id'])) {
+        $batch_id = $_GET['batch_id'];
+        $batch_info = $common->select("`add_branch`", "`id` = '$batch_id'");
+        if ($batch_info) {
+            $batch_infos = mysqli_fetch_assoc($batch_info);
+        } else {
+            header("Location: add-branch.php");
+        }
+    } else {
+        header("Location: add-branch.php");
     }
 ?>
-
-
 <body>
     <!-- -------------------------------------------------------------- -->
     <!-- Preloader - style you can find in spinners.css -->
@@ -64,115 +72,126 @@
                 <div class="widget-content searchable-container list">
                     <div class="card card-body">
                         <div class="row">
-                                <div class="col-md-4 col-xl-2">
-                                    <form>
-                                        <input type="text" class="form-control product-search" id="input-search" placeholder="Search Contacts...">
-                                    </form>
-                                </div>
-                                <div class="col-md-8 col-xl-10 text-end d-flex justify-content-md-end justify-content-center mt-3 mt-md-0">
-                                        <a href="javascript:void(0)" id="btn-add-contact" class="btn btn-info">
-                                            <i data-feather="users" class="feather-sm fill-white me-1"> </i>
-                                         Add Branch</a>
-                                </div>
-                        </div>
-                    </div>
-                    <!-- Modal -->
-                    <div class="modal fade" id="addContactModal" tabindex="-1" role="dialog" aria-labelledby="addContactModalTitle" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header d-flex align-items-center">
-                                    <h5 class="modal-title">Branch</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <form action=""method="post">
-                                    <div class="modal-body">
-                                        <div class="add-contact-box">
-                                            <div class="add-contact-content">
-                                                
-                                                <div class="row">
-                                                    <div class="col-md-12">
-                                                        <div class="mb-3 contact-location">
-                                                            <input type="text" id="c-location" class="form-control" placeholder="Enter Branch Name"name="branchname" required="">
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="row">
-                                                    <div class="col-md-12">
-                                                        <div class="mb-3 contact-location">
-                                                            <select class="form-control"name= "type" required="">
-                                                                <option value="paid">Paid Course</option>
-                                                                <option value="free">Free Course</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button id="btn-add" class="btn btn-success rounded-pill px-4" name="add">Add</button>
-                                        <button id="btn-edit" class="btn btn-success rounded-pill px-4">Save</button>
-                                    </div>
-                               </form> 
+                            <div class="col-md-4 col-xl-2">
+                                <form>
+                                    <input type="text" class="form-control product-search" id="input-search" placeholder="Search Contacts...">
+                                </form>
                             </div>
                         </div>
                     </div>
                     <div class="card card-body">
+                        <table class="table table-bordered mb-0">
+                            <tr>
+                                <td><b>Batch Name</b></td>
+                                <td><b><?= $batch_infos['branch_name']; ?></b></td>
+                                <td><b>Batch Fee</b></td>
+                                <td><b><?= $batch_infos['total_fee']; ?>Tk</b></td>
+                            </tr>
+                        </table>
+                        <hr>
                         <div class="table-responsive">
-                            <table class="table search-table v-middle">
+                            <table class="table table-bordered search-table v-middle">
                                 <thead class="header-item">
                                     <th>Sl No</th>
-                                    <th>Branch Name</th>
-                                    <th>Fee</th>
-                                    <th>Date</th>
+                                    <th>Student Name</th>
+                                    <th>Paid</th>
+                                    <th>Unpaid</th>
+                                    <th>Stallment</th>
+                                    <th>Stallment Date</th>
+                                    <th>Status</th>
                                     <th>Action</th>
                                 </thead>
                                 <tbody>
-                                    <!-- row -->
-                                    <?php
-                                        $allbranch = $exam->AllBranchList();
-                                            if($allbranch){
-                                                $i = 0;
-                                                while($value = $allbranch->fetch_assoc()){
-                                                    $i++;
-
+                                <!-- row -->
+                                <?php
+                                $batch_student = $common->select("`batch_students`", "`batch_id` = '$batch_id'");
+                                    if($batch_student){
+                                        $i = 1;
+                                        while($batch_students = $batch_student->fetch_assoc()) {
+                                        $student_id = $batch_students['student_id'];
+                                        $student_info = $common->select("`student_table`", "`id` = '$student_id'");
+                                        $student_infos = mysqli_fetch_assoc($student_info);
                                     ?>
-                                   
                                     <tr class="search-items">
                                         <td>
                                             <span class="usr-email-addr"><?= $i;?></span>
                                         </td>
                                         <td>
+                                            <a href="edit-student.php?edts=<?= $student_infos['id']; ?>" target="_blank">
+                                                <span class="usr-ph-no">
+                                                    <?= $student_infos['sname']; ?>
+                                                </span>
+                                            </a>
+                                        </td>
+                                        <td>
                                             <span class="usr-ph-no">
-                                                <?= $value['branch_name']; ?>
+                                                <?= $batch_students['paid'] == NULL ? 0 : $batch_students['paid']; ?>TK
                                             </span>
                                         </td>
                                         <td>
                                             <span class="usr-ph-no">
-                                                <?= $value['total_fee']; ?>Tk
+                                                <?= $batch_students['fee'] - $batch_students['paid']; ?>Tk
                                             </span>
                                         </td>
                                         <td>
                                             <span class="usr-ph-no">
-                                                <?= date('d M Y', strtotime($value['created_at'])); ?>
+                                                <?php
+                                                if ($batch_students['stallment'] == NULL) {
+                                                    echo 'First';
+                                                } elseif($batch_students['stallment'] == '1') {
+                                                    echo 'Second';
+                                                } elseif($batch_students['stallment'] == '2') {
+                                                    echo 'Third';
+                                                } elseif($batch_students['stallment'] == '3') {
+                                                    echo 'End';
+                                                }
+                                                ?>
                                             </span>
                                         </td>
                                         <td>
-                                            <div class="action-btn">
-                                                <a href="batch-student.php?batch_id=<?= $value['id']; ?>" class="btn btn-info btn-sm">
-                                                    <i data-feather="eye" class="feather-sm fill-white"></i>
-                                                    View
-                                                </a>
-                                                <a onclick="return confirm('Are you want to sure to delete?')" href="?dltbranch=<?=$value['id'];?>" class="btn btn-danger btn-sm ms-2">
-                                                    <i data-feather="trash-2" class="feather-sm fill-white"></i>
-                                                    Delete
-                                                </a>
-                                            </div>
+                                            <span class="usr-ph-no">
+                                                <?php
+                                                if ($batch_students['payment_time'] != NULL) {
+                                                    echo date('d M Y', strtotime($batch_students['payment_time']));
+                                                } else {
+                                                    echo 'N/A';
+                                                }
+                                                ?>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="usr-ph-no">
+                                                <?= $batch_students['status'] == '1' ? 'Active' : 'Inactive'; ?>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-primary" onClick="setPaymentTime(<?= $batch_students['id']; ?>, '<?= $student_infos['sname']; ?>')">Set Payment Time</button>
                                         </td>
                                     </tr>
-                                    <?php }} ?>
+                                        <?php
+                                        $i++;
+                                        }
+                                    }
+                                ?>
                                 </tbody>
+                                <!-- Modal -->
+                                <div class="modal fade" id="set_payment_time" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                  <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                      <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Next Stallment Time - <span id="user_name"></span></h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                      </div>
+                                      <div class="modal-body">
+                                        <form action="<?= $_SERVER['REQUEST_URI'] ?>" method="POST">
+                                            <input type="hidden" id="batch_student_id" name="batch_student_id" value="">
+                                            <input type="date" name="payment_time" class="form-control" required="">
+                                            <button type="submit" class="btn btn-primary float-end mt-3" name="set_payment_time">Set Time</button>
+                                        </form>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
                             </table>
                         </div>
                     </div>
@@ -221,6 +240,13 @@
     <script src="dist/js/custom.min.js"></script>
     <!--This page plugins -->
     <script src="dist/js/pages/contact/contact.js"></script>
+    <script>
+        function setPaymentTime(id, user_name) {
+            $('#user_name').text(user_name);
+            $('#batch_student_id').val(id);
+            $('#set_payment_time').modal('show');
+        }
+    </script>
 </body>
 
 </html>
