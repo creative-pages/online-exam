@@ -69,7 +69,7 @@
                                 echo $signdata;
                             }
                         ?>
-                        <h3 class="box-title mb-3">Sign In</h3>
+                        <h2 class="box-title mb-3 text-center">Sign In</h2>
                     </div>
                     <!-- Form -->
                     <div class="row">
@@ -83,28 +83,9 @@
                                     <div class="">
                                         <input class="form-control" type="password" required="" placeholder="Password" name = "password"> </div>
                                 </div>
-                                <div class="form-group">
-                                    <div class="d-flex">
-                                        <div class="checkbox checkbox-info pt-0">
-                                            <input id="checkbox-signup" type="checkbox" class="material-inputs chk-col-indigo">
-                                            <label for="checkbox-signup"> Remember me </label>
-                                        </div>
-                                        <div class="ms-auto">
-                                            <a href="javascript:void(0)" id="to-recover" class="link font-weight-medium"><i class="fa fa-lock me-1"></i> Forgot pwd?</a>
-                                        </div>
-                                    </div>
-                                </div>
                                 <div class="form-group text-center mt-4 mb-3">
                                     <div class="col-xs-12">
                                         <button class="btn btn-info d-block w-100 waves-effect waves-light" type="submit" name = "login">Log In</button>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-xs-12 col-sm-12 col-md-12 mt-2 text-center">
-                                        <div class="social mb-3">
-                                            <a href="javascript:void(0)" class="btn  btn-facebook" data-bs-toggle="tooltip" title="Login with Facebook"> <i aria-hidden="true" class="fab fa-facebook-f"></i> </a>
-                                            <a href="javascript:void(0)" class="btn btn-googleplus" data-bs-toggle="tooltip" title="Login with Google"> <i aria-hidden="true" class="fab fa-google"></i> </a>
-                                        </div>
                                     </div>
                                 </div>
                                 <div class="form-group mb-0 mt-4">
