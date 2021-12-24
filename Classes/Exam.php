@@ -109,7 +109,7 @@
             $query = "DELETE FROM add_branch WHERE id = '$bid'";
             $dlt = $this->db->delete($query);
             if($dlt){
-                header("Location:addbranch.php");
+                header("Location: add-branch.php");
             }
         }
 

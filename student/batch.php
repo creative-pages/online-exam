@@ -37,7 +37,7 @@
                             </tr>
                             <tr>
                                 <td class="fw-bold">Fee</td>
-                                <td><?= $all_batches['fee']; ?>TK</td>
+                                <td><?= $all_batches['fee']; ?>Tk</td>
                                 <td class="fw-bold">Payment Status</td>
                                 <td><?= $all_batches['fee'] <= $all_batches['paid'] ? 'Paid' : 'Unpaid'; ?></td>
                             </tr>
@@ -45,7 +45,7 @@
                                 <td class="fw-bold">Paid</td>
                                 <td><?= $all_batches['paid'] == NULL ? 0 : $all_batches['paid']; ?>TK</td>
                                 <td class="fw-bold">Unpaid</td>
-                                <td><?= $all_batches['fee'] - $all_batches['paid']; ?></td>
+                                <td><?= $all_batches['fee'] - $all_batches['paid']; ?>Tk</td>
                             </tr>
                             <tr>
                                 <td class="fw-bold">Total Stallment</td>
@@ -101,9 +101,9 @@
                                                 </tr>
                                                 <tr>
                                                     <td class="fw-bold">Paid</td>
-                                                    <td><?= $all_batches['paid'] == NULL ? 0 : $all_batches['paid']; ?> TK</td>
+                                                    <td><?= $all_batches['paid'] == NULL ? 0 : $all_batches['paid']; ?> Tk</td>
                                                     <td class="fw-bold">Unpaid</td>
-                                                    <td><?= $all_batches['fee'] - $all_batches['paid']; ?> TK</td>
+                                                    <td><?= $all_batches['fee'] - $all_batches['paid']; ?> Tk</td>
                                                 </tr>
                                             </table>
                                             <hr>
