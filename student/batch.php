@@ -1,6 +1,24 @@
 <?php include_once('inc/header.php'); ?>
 
 <?php
+    if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['apply_batch'])){
+        $main_batch_id = $fm->validation($_POST['main_batch_id']);
+        $main_batch_info = $common->select("`add_branch`", "`id` = '$main_batch_id'");
+        $main_batch_infos = mysqli_fetch_assoc($main_batch_info);
+        $main_batch_fee = $main_batch_infos['total_fee'];
+
+        $batch_check = $common->select("`batch_students`", "`student_id` = '$pid' && `batch_id` = '$main_batch_id'");
+        if ($batch_check) {
+            $new_batch_result = '<div class="alert alert-danger mt-3">This batch already exist!</div>';
+        } else {
+            $add_to_batch = $common->insert("`batch_students`(`student_id`, `batch_id`, `fee`)", "('$pid', '$main_batch_id', '$main_batch_fee')");
+            if ($add_to_batch) {
+                $new_batch_result = '<div class="alert alert-success mt-3">Batch join successful.</div>';
+            } else {
+                $new_batch_result = '<div class="alert alert-danger mt-3">Something is wrong!</div>';
+            }
+        }
+    }
     if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['payment_submit'])){
         $payreq = $all->PaymentRequest($_POST);
     }
@@ -25,15 +43,37 @@
 
                     // payment request pending
                     $check_payment_request = $common->select("`pay_requests`", "`user_id` = '$pid' && `batch_id` = '$batch_id' && `status` = '0'");
+
+                    // batch inactive
+                    if ($all_batches['payment_time'] != NULL) {
+                        $date1 = date_create(date("Y-m-d"));
+                        $date2 = date_create($all_batches['payment_time']);
+                        $diff = date_diff($date1, $date2);
+                        $diff_result = $diff->format("%R%a");
+                        if (is_numeric(strpos($diff_result, "-"))) {
+                            $common->update("`batch_students`", "`status` = '0'", "`batch_id` = '$batch_id'");
+                            $batch_status = 'Inactive';
+                        } else {
+                            $batch_status = $all_batches['status'] == 1 ? 'Active' : 'Inactive';
+                        }
+                    } else {
+                        $batch_status = $all_batches['status'] == 1 ? 'Active' : 'Inactive';
+                    }
                 ?>
                 <div class="card">
                     <div class="card-body">
                         <table class="table table-bordered mb-0">
                             <tr>
                                 <td class="fw-bold">Batch Name</td>
-                                <td><?= $batch_infos['branch_name']; ?></td>
+                                <td>
+                                    <div class="d-grid gap-2">
+                                        <a class="btn btn-outline-info btn-block" href="../class.php?cls=<?= $batch_id; ?>">
+                                            <?= $batch_infos['branch_name']; ?>
+                                        </a>
+                                    </div>
+                                </td>
                                 <td class="fw-bold">Status</td>
-                                <td><?= $all_batches['status'] == 1 ? 'Active' : 'Inactive'; ?></td>
+                                <td><?= $batch_status; ?></td>
                             </tr>
                             <tr>
                                 <td class="fw-bold">Fee</td>
@@ -69,7 +109,18 @@
                             if ($all_batches['fee'] > $all_batches['paid']) {
                             ?>
                             <tr>
+                                <?php
+                                if ($all_batches['payment_time'] != NULL) {
+                                ?>
+                                <td class="fw-bold">Payment Deadline</td>
+                                <td><span class="bg-danger text-white px-2"><?= date('d M Y', strtotime($all_batches['payment_time'])); ?></span></td>
+                                <?php
+                                } else {
+                                ?>
                                 <td colspan="2"></td>
+                                <?php
+                                }
+                                ?>
                                 <td>Action <?= $check_payment_request ? '(Request Pending)' : ''; ?></td>
                                 <td>
                                     <button class="btn btn-primary btn-sm ms-2" type="button" data-bs-toggle="modal" data-bs-target="#make_payment<?= $batch_id; ?>"<?= $check_payment_request ? ' disabled=""' : ''; ?>>Pay Now</button>

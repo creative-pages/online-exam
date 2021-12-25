@@ -179,7 +179,7 @@
                 Session::set("SignIn",true);
                
                 Session::set("profileid",$value['id']);
-                echo "<script> window.location.assign('student/profile.php'); </script>";
+                echo "<script> window.location.assign('student/batch.php'); </script>";
               
                 }else{
                 $msg="<span style='color:red'>Email And Password Does Not Match</span>";

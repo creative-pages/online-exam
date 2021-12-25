@@ -111,6 +111,22 @@
                                         $student_id = $batch_students['student_id'];
                                         $student_info = $common->select("`student_table`", "`id` = '$student_id'");
                                         $student_infos = mysqli_fetch_assoc($student_info);
+
+                                        // batch inactive
+                                        if ($batch_students['payment_time'] != NULL) {
+                                            $date1 = date_create(date("Y-m-d"));
+                                            $date2 = date_create($batch_students['payment_time']);
+                                            $diff = date_diff($date1, $date2);
+                                            $diff_result = $diff->format("%R%a");
+                                            if (is_numeric(strpos($diff_result, "-"))) {
+                                                $common->update("`batch_students`", "`status` = '0'", "`student_id` = '$student_id'");
+                                                $batch_status = 'Inactive';
+                                            } else {
+                                                $batch_status = $batch_students['status'] == 1 ? 'Active' : 'Inactive';
+                                            }
+                                        } else {
+                                            $batch_status = $batch_students['status'] == 1 ? 'Active' : 'Inactive';
+                                        }
                                     ?>
                                     <tr class="search-items">
                                         <td>
@@ -152,7 +168,7 @@
                                             <span class="usr-ph-no">
                                                 <?php
                                                 if ($batch_students['payment_time'] != NULL) {
-                                                    echo date('d M Y', strtotime($batch_students['payment_time']));
+                                                    echo '<span class="bg-danger text-white px-2">' . date('d M Y', strtotime($batch_students['payment_time'])) . '</span>';
                                                 } else {
                                                     echo 'N/A';
                                                 }
@@ -161,11 +177,11 @@
                                         </td>
                                         <td>
                                             <span class="usr-ph-no">
-                                                <?= $batch_students['status'] == '1' ? 'Active' : 'Inactive'; ?>
+                                                <?= $batch_status; ?>
                                             </span>
                                         </td>
                                         <td>
-                                            <button type="button" class="btn btn-primary" onClick="setPaymentTime(<?= $batch_students['id']; ?>, '<?= $student_infos['sname']; ?>')">Set Payment Time</button>
+                                            <button type="button" class="btn btn-primary" onClick="setPaymentTime(<?= $batch_students['id']; ?>, '<?= $student_infos['sname']; ?>')" <?= $batch_students['payment_time'] != NULL ? ' disabled=""' : ''; ?>>Set Payment Time</button>
                                         </td>
                                     </tr>
                                         <?php

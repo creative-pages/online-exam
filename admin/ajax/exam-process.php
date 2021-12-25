@@ -27,4 +27,15 @@
         }
     }
 
+    // exam information
+    if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['exam_detail']) && $_POST['exam_detail'] == 'exam_detail'){
+        $id = $_POST['id'];
+
+        $exam_detail = $common->select("`add_exam`", "`id` = '$id'");
+        if ($exam_detail) {
+            $exam_details = mysqli_fetch_assoc($exam_detail);
+            echo json_encode($exam_details);
+        }
+    }
+
 ?>

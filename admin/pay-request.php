@@ -22,7 +22,7 @@
               $stallment = $batch_infos['stallment'] + 1;
           }
 
-          $common->update("`batch_students`", "`paid` = '$paid', `stallment` = '$stallment', `status` = '1'", "`student_id` = '$user_id' && `batch_id` = '$batch_id'");
+          $common->update("`batch_students`", "`paid` = '$paid', `stallment` = '$stallment', `payment_time` = NULL, `status` = '1'", "`student_id` = '$user_id' && `batch_id` = '$batch_id'");
           header("Location: pay-request.php");
       }
   }
@@ -207,7 +207,7 @@
                                         
                                         <td>
                                             <a onclick="return confirm('Are you sure to confirm?');" href="?confirm=<?=$value['id'];?>" class="btn btn-primary btn-sm my-1">Active</a>
-                                            <a onclick="return confirm('Are you sure to delete?');" href="?delete=<?=$value['id'];?>" class="btn btn-danger btn-sm">Danger</a>
+                                            <a onclick="return confirm('Are you sure to delete?');" href="?delete=<?=$value['id'];?>" class="btn btn-danger btn-sm">Delete</a>
                                         </td>
                                     </tr>
                                         <?php $i++; }} else { ?>

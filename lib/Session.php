@@ -48,15 +48,14 @@ class Session{
 	 	
 		if (self::get("SignIn") == false) {
 			self::destroy();
-			header("Location:signin.php");
+			header("Location: ../signin.php");
 		}
 	}
 
 	public static function CheckStudentSignIn(){
 	 	
 		if (self::get("SignIn") == true) {
-			self::destroy();
-			header("Location:student-profile.php");
+			header("Location: student/batch.php");
 		}
 	}
 
