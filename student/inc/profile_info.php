@@ -1,68 +1,54 @@
 <div class="col-lg-4 order-lg-2">
     <h2>User</h2>
-    <div class="card w-100 rounded mb-2" style="">
+    <div class="card rounded mb-3">
         <div class="row">
-            <div class="col-12 mx-2 " style="text-align:center; padding: 5px;">
+            <div class="col-12 mx-2 text-center p-3">
                 <img style="height:100px; width:100px;" class="" src="../image/sprofile.jpg">
-                <p class="mt-2" style="color:green">status:Active</p>
-            </div>
-            
-        </div>
-        <div class="p-2">
-            <a href="../index.php" class="btn btn-primary btn-sm">Home</a>
-            <a href="batch.php" class="btn btn-primary btn-sm">Batch</a>
-            <a href="payment.php" class="btn btn-primary btn-sm">Add Payment</a>
-            <a href="?action=logout" class="btn btn-primary btn-sm">Logout</a>
-        </div>
-    </div>
-
-    <div class="card w-100 mb-2 rounded" style="">
-        <div class="d-flex justify-content-between">
-            <div class="p-2">
-                <h4>Total Payment</h4>
-                <h4>4000</h4>
-            </div>
-            
-            <div class="ml-auto p-2">
-                <h4>Total Due</h4>
-                <h4>4000</h4>
+                <p class="mt-3" style="color:green"><?= $result['sname']; ?></p>
+                <?php
+                if ($page_url != 'profile.php') {
+                ?>
+                <a href="profile.php" class="btn btn-info">Profile</a>
+                <?php
+                }
+                ?>
             </div>
         </div>
+        <div class="p-3">
+            <a href="../index.php" class="btn btn-primary btn-sm mx-1">Home</a>
+            <a href="batch.php" class="btn btn-primary btn-sm mx-1">Batch</a>
+            <a href="?action=logout" class="btn btn-primary btn-sm mx-1">Logout</a>
+        </div>
     </div>
-
-    <div class="card w-100 rounded mb-1" style="">
-    <h3 class="text-center text-warning mt-2">Payment Status</h3>
-
-        <table class="table table-striped mx-2">
-            
-            <thead>
-                <tr>
-                <th scope="col">Date</th>
-                <th scope="col">Amount</th>
-                <th scope="col">Method</th>
-                
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                
-                </tr>
-                <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                
-                </tr>
-                <tr>
-                <th scope="row">3</th>
-                <td>Larry</td>
-                <td>the Bird</td>
-                
-                </tr>
-            </tbody>
-        </table>
+    <?php
+    if ($page_url == 'batch.php') {
+    ?>
+    <div class="card rounded mb-3 p-3">
+        <h2 class="text-center mb-3">Join another batch</h2>
+        <form action="batch.php" method="POST">
+        <?php
+        $main_batch = $common->select("`add_branch` ORDER BY `id` DESC");
+        if ($main_batch) {
+            ?>
+            <select name="main_batch_id" class="form-control" required="">
+            <?php
+            while ($main_batches = mysqli_fetch_assoc($main_batch)) {
+            ?>
+                <option value="<?= $main_batches['id']; ?>"><?= $main_batches['branch_name']; ?></option>
+            <?php
+            }
+            ?>
+            </select>
+            <button class="btn btn-primary btn-sm mt-3 float-end" type="submit" name="apply_batch">Apply this batch</button>
+            <?php
+        } else {
+            echo '<h2 class="text-center">No batch found!</h2>';
+        }
+        ?>
+        </form>
+        <?= isset($new_batch_result) ? $new_batch_result : ''; ?>
     </div>
+    <?php
+    }
+    ?>
 </div>

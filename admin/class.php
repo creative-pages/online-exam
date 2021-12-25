@@ -89,7 +89,7 @@
                                     <div class="col-sm-9">
                                         <select class="form-select" required="" name="chapter" id="chapter">
                                             <option>Choose Your Option</option>
-                                            <option value="all">ALL</option>
+                                            
                                             <option value="1">1</option>
                                             <option value="2">2</option>
                                             <option value="3">3</option>
@@ -97,7 +97,14 @@
                                             <option value="5">5</option>
                                             <option value="6">6</option>
                                             <option value="7">7</option>
-                                            <option value="8">8</option>
+                                            <option value="8">9</option>
+                                            <option value="8">10</option>
+                                            <option value="8">11</option>
+                                            <option value="8">12</option>
+                                            <option value="8">13</option>
+                                            <option value="8">14</option>
+                                            <option value="8">15</option>
+                                           
                                            
                                         </select>
                                     </div>

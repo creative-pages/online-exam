@@ -80,10 +80,7 @@
                                     <th>Action</th>
                                 </thead>
                                 <tbody>
-                               
-                                    
                                     <?php
-                                        
                                         $allclass = $all->AllClass();
                                         if($allclass){
                                            while($value =mysqli_fetch_assoc($allclass)){
@@ -91,12 +88,12 @@
                                             $subjectid = $value['subject_id'];
                                             $allbatch = $common->select("`add_branch`", "`id` = '$batchid' ");
                                             $batch = mysqli_fetch_assoc($allbatch);
-                                            $allsub = $common->select("`subject_add`", "`id` = '$subjectid' ");
+                                            $allsub = $common->select("`subject_add`", "`id` ='$subjectid'");
+                                            if($allsub != false){
+                                                $subject = mysqli_fetch_assoc($allsub);
+                                            }
                                             
-                                            $subject = mysqli_fetch_assoc($allsub);
-                                          
                                     ?>
-
                                     <tr class="search-items">
                                         <td>
                                             <span class="usr-email-addr" data-email="adams@mail.com"><?=$batch['branch_name'];?></span>

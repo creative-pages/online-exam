@@ -3,6 +3,11 @@
     if ($_SERVER["REQUEST_METHOD"]== "POST" && isset($_POST['save'])) {
         $addexam = $exam->AddExam($_POST);
     }
+
+    if ($_SERVER["REQUEST_METHOD"]== "POST" && isset($_POST['edit_main_exam'])) {
+        // $addexam = $exam->AddExam($_POST);
+        print_r($_POST);
+    }
     if(isset($_GET['editxm'])){
         $id =$_GET['editxm'];
 
@@ -55,6 +60,28 @@
                             <input class="form-control" type="text" id="examname"
                                 required="" placeholder="Enter Exam Name"name="examname">
                         </div>
+
+                        <div class="mb-3">
+                            <label for="username">Select Batch</label>
+                                <select class="form-control"name= "type" id="batch"  required="">
+                                    <?php
+                                        $query = $common->select("`add_branch` ORDER BY `id` DESC");
+                                        if($query){
+                                            while($row = mysqli_fetch_assoc($query)){
+                                         
+                                    ?>
+                                    <option value="<?=$row['id']?>"><?=$row['branch_name']?></option>
+                                    <?php }} ?>
+                                </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="username">Select Subject</label>
+                            <select class="form-select" id="subject" name="subject" required="">
+                                <option>Choose Your Option</option>
+                            </select>
+                        </div>
+
                         <div class="mb-3">
                             <label for="subjectname">Subject Name</label>
                             <input class="form-control" type="text" id="emailaddress"
@@ -116,8 +143,7 @@
                                         <h3 class="card-title text-muted py-1"style="border-bottom:1px dotted #EEF5F9;">Total Quetion:<?= $value['tquetion'];?></h3>
                                         <h3 class="card-title text-muted py-1"style="border-bottom:1px dotted #EEF5F9;">Exam Date:<?= $value['exmdate'];?></h3>
                                         
-                                        <a href="add-exam.php?editxm=<?= $value['id'];?>" class="btn btn-primary"data-bs-toggle="modal"
-                                            data-bs-target="#examedit-modal">Edit</a>
+                                        <button type="button" class="btn btn-primary" onClick="examEdit(<?= $value['id']; ?>)">Edit</button>
                                         <a  href="edit-quetion.php?editque=<?= $value['id'];?>" class="btn btn-success">Quetion Edit</a>
                                         <a onclick ="return confirm('Do you Want to sure to delete?');" href="?dltque=<?= $value['id'];?>" class="btn btn-danger">Delete</a>
                                         <?php
@@ -172,48 +198,35 @@
             <div class="modal-content">
                 <div class="modal-body">
                     <div class="text-center mt-2 mb-4">
-                        <a href="document.html" class="text-success">
-                        <span><img class="me-2" src="material/src/assets/images/logo-icon.png"
-                            alt="" height="18"><img
-                            src="material/src/assets/images/logo-text.png" alt=""
-                            height="18"></span>
-                        </a>
+                        Exam Edit
                     </div>
-                        
-                   
-                    <form class="ps-3 pe-3 text-start" action="#"method="post">
+                    <form class="ps-3 pe-3 text-start" action="" method="post">
+                        <input type="hidden" name="exam_id">
                         <div class="mb-3">
-                            <label for="username">Exam Name</label>
-                            <input class="form-control" type="text" id="examname"
-                                required="" value="<?= $value['examname'];?>"name="examname">
+                            <label for="edit_examname">Exam Name</label>
+                            <input class="form-control" type="text" id="edit_examname" placeholder="Enter exam name" 
+                                required="" name="examname">
                         </div>
                         <div class="mb-3">
-                            <label for="subjectname">Subject Name</label>
-                            <input class="form-control" type="text" id="emailaddress"
+                            <label for="edit_subjectname">Subject Name</label>
+                            <input class="form-control" type="text" id="edit_subjectname"
                                 required="" placeholder="Enter Subject Name"name="subjectname">
                         </div>
                         <div class="mb-3">
-                            <label for="totalque">Total Quetion</label>
+                            <label for="edit_duration">Duration</label>
                             <input class="form-control" type="number" required=""
-                                id="password" placeholder="Enter Number Of Total Quetion"name="tquetion">
+                                id="edit_duration" placeholder="Set Time" name="duration">
                         </div>
                         <div class="mb-3">
-                            <label for="duration">Duration</label>
-                            <input class="form-control" type="number" required=""
-                                id="password" placeholder="Set Time"name="duration">
-                        </div>
-                        <div class="mb-3">
-                            <label for="password">Exam Date</label>
+                            <label for="edit_exmdate">Exam Date</label>
                             <input class="form-control" type="date" required=""
-                                id="password"name="exmdate" >
+                                id="edit_exmdate" name="exmdate" >
                         </div>
-                       
                         <div class="mb-3 text-center">
-                            <button class="btn btn-primary"name="save" type="submit">Save
+                            <button class="btn btn-primary" name="edit_main_exam" type="submit">Save
                            </button>
                         </div>
                     </form>
-                    <?php  ?>
                 </div>
             </div>
             <!-- /.modal-content -->
@@ -248,6 +261,49 @@
     <script src="assets/extra-libs/prism/prism.js"></script>
     <script src="material/src/assets/extra-libs/toastr/dist/build/toastr.min.js"></script>
     <script src="material/src/assets/extra-libs/toastr/toastr-init.js"></script>
+
+    <script>
+        function examEdit(id) {
+            $.ajax({
+                url:'ajax/exam-process.php',
+                type:'POST',
+                data:{
+                    id: id,
+                    exam_detail: 'exam_detail'
+                },
+                cache:false,
+                success:function(result){
+                    var response = JSON.parse(result);
+                    $('#exam_id').val(response.id);
+                    $('#edit_examname').val(response.examname);
+                    $('#edit_subjectname').val(response.subjectname);
+                    $('#edit_duration').val(response.duration);
+                    $('#edit_exmdate').val(response.edit_exmdate);
+                    $('#examedit-modal').modal('show');
+                }
+            })
+        }
+    </script>
+      <script>
+        $(document).ready(function(){
+            $('#batch').on('change',function(){
+                var id = this.value;
+                $.ajax({
+                    url:'ajax/subject.php',
+                    type:'POST',
+                    data:{
+                        id:id
+                    },
+                    cache:false,
+                    success:function(result){
+                        $('#subject').html(result);
+                    }
+                })
+
+            });
+
+        });
+    </script>
 </body>
 
 </html>

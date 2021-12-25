@@ -4,12 +4,16 @@
     $exam = new Exam();
     $common = new Common();
     $all = new All();
+    $fm = new Format();
 ?>
 <?php
     $pid = Session::get('profileid');
     $query = $common->select("`student_table`","`id`= '$pid'");
     $result = mysqli_fetch_assoc($query);
 
+    // active url
+    $page_url = explode('/', $_SERVER['PHP_SELF']);
+    $page_url = end($page_url);
 ?>
 <?php
     if (isset($_GET['action']) && $_GET['action'] =='logout') {
