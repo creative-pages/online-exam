@@ -163,10 +163,6 @@
                         <div class="table-responsive">
                             <table class="table search-table v-middle">
                                 <thead class="header-item">
-<<<<<<< HEAD
-                                   
-=======
->>>>>>> arif
                                     <th>ID</th>
                                     <th>Name</th>
                                     <th>Batch</th>
@@ -186,10 +182,6 @@
                                          
                                     ?>
                                     <tr class="search-items">
-<<<<<<< HEAD
-                                        
-=======
->>>>>>> arif
                                         <td>
                                              <span class="usr-email-addr"><?=$raw['sid'];?></span>
                                         </td>

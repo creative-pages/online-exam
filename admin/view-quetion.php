@@ -153,7 +153,7 @@
                 
            
                 <div class="text-center">
-                    <button onclick="Export2Doc('exportContent', 'test');" class="btn btn-info sm">Export Doc</button>
+                    <a href="doc.php?view=<?=$id;?>" class="btn btn-info sm">Export Doc</a>
                 </div>
             </div>
             <!-- -------------------------------------------------------------- -->
