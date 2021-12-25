@@ -58,12 +58,12 @@
                         <div class="mb-3">
                             <label for="username">Exam Name</label>
                             <input class="form-control" type="text" id="examname"
-                                required="" placeholder="Enter Exam Name"name="examname">
+                                required="" placeholder="Enter Exam Name" name="examname">
                         </div>
 
                         <div class="mb-3">
                             <label for="username">Select Batch</label>
-                                <select class="form-control"name= "type" id="batch"  required="">
+                                <select class="form-control"name= "batch" id="batch"  required="">
                                     <?php
                                         $query = $common->select("`add_branch` ORDER BY `id` DESC");
                                         if($query){
@@ -82,11 +82,7 @@
                             </select>
                         </div>
 
-                        <div class="mb-3">
-                            <label for="subjectname">Subject Name</label>
-                            <input class="form-control" type="text" id="emailaddress"
-                                required="" placeholder="Enter Subject Name"name="subjectname">
-                        </div>
+                    
                         <div class="mb-3">
                             <label for="duration">Duration</label>
                             <input class="form-control" type="number" required=""
