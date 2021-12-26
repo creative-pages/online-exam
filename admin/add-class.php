@@ -74,7 +74,6 @@
                                     <th>Subject Name</th>
                                     <th>Chapter No</th>
                                     <th>Class Topic</th>
-                                    <th>Exam Link</th>
                                     <th>Note Link</th>
                                     <th>Class Link</th>
                                     <th>Action</th>
@@ -107,9 +106,7 @@
                                         <td>
                                             <span class="usr-ph-no" data-phone="+1 (070) 123-4567"><?=$value['topic'];?>/span>
                                         </td>
-                                        <td>
-                                            <span class="usr-ph-no" data-phone="+1 (070) 123-4567"><?=$value['exm_link'];?></span>
-                                        </td>
+                                        
                                         <td>
                                             <span class="usr-ph-no" data-phone="+1 (070) 123-4567"><?=$value['note_link'];?></span>
                                         </td>

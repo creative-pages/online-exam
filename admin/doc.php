@@ -1,54 +1,15 @@
 <?php
-    require_once '../init.php';
-    Session::checkAdminSession();
-    $exam = new Exam();
-    $common = new Common();
-    $all = new All();
-    $fm = new Format();
+
+date_default_timezone_set('Asia/Dhaka');  
+
+$currentdate = date("y-m-d");
+$currentTime = date("g:i:s a");
+$docname = "records_" . $currentdate . ".doc";
+header("Content-type: application/vnd.ms-word");
+header("Content-Disposition: attachment;Filename=$docname");
 ?>
-<!DOCTYPE html>
-<html dir="ltr" lang="en">
+<html>
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta http-equiv=Content-Type content="text/html; charset=windows-1252">
-    <meta name=Generator content="microsoft Word 14 (filtered)">
-
-    <!-- Tell the browser to be responsive to screen width -->
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="keywords" content="wrappixel, admin dashboard, html css dashboard, web dashboard, bootstrap 5 admin, bootstrap 5, css3 dashboard, bootstrap 5 dashboard, material admin bootstrap 5 dashboard, frontend, responsive bootstrap 5 admin template, material design, material dashboard bootstrap 5 dashboard template">
-    <meta name="description" content="MaterialPro is powerful and clean admin dashboard template, inpired from Google's Material Design">
-    <meta name="robots" content="noindex,nofollow">
-    <title>BatBio</title>
-    <link rel="canonical" href="https://www.wrappixel.com/templates/materialpro/" />
-    <!-- Favicon icon -->
-    <link href="assets/extra-libs/toastr/dist/build/toastr.min.css" rel="stylesheet">
-    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon.png">
-    <link rel="stylesheet" href="assets/libs/apexcharts/dist/apexcharts.css">
-    <!-- Custom CSS -->
-    <link href="dist/css/style.min.css" rel="stylesheet">
-     <!-- Data table plugin CSS -->
-     <link href="assets/extra-libs/datatables.net-bs4/css/dataTables.bootstrap4.css" rel="stylesheet">
-      <!-- Card Page CSS -->
-    <link rel="stylesheet" type="text/css" href="assets/extra-libs/prism/prism.css">
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <link href="dist/css/style.min.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="highlights/highlight.min.css">
-    <!-- search option in select option start -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" integrity="sha512-nMNlpuaDPrqlEls3IX/Q56H36qvBASwb3ipuo3MxeWbsQB1881ox0cRv7UPTgBlriqoynt35KjEwgGUeUXIPnw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <!-- search option in select option end -->
-
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-<![endif]-->
-    <style>
-        .select2-container {
-            z-index: 99999;
-        }
-    </style>
-
 <meta http-equiv=Content-Type content="text/html; charset=windows-1252">
 <meta name=Generator content="microsoft Word 14 (filtered)">
 <style>
@@ -91,182 +52,108 @@ div.WordSection1
 	{page:WordSection1;}
 -->
 </style>
+<?php include('inc/header.php'); ?>
+
+<?php error_reporting(0)?>
 </head>
-<?php
-    if(isset($_GET['view'])){
-        $id = $_GET['view'];
-       $query = $common->select("`add_exam`","`id`='$id'");
-       $exam = mysqli_fetch_assoc($query);
-    }
-?>
 
-<body>
-    <div class="page-wrapper">
-           <div class="container-fluid">
-                <div class="WordSection1">
-                <div id="exportContent">
-                    <div class="quetion" style="max-width: 900px; margin:0px auto;">
-                        <div class="main bg-white mb-2 py-2">
-                            <div class="examheader msoNormal align=center text-center mt-2">
-                                <h3 class="text-uppercase"><?=$exam['examname'];?></h1>
-                                <h3 class="text-capitalize mb-3">Subject: <?= $exam['subjectname']; ?></h3>
-                            </div>
-                            <div class="row mx-1">
-                                <div class="col-4">
-                                    <h3 class="text-muted">Time: <?=$exam['duration'];?> minutes</h3>
-                                </div>
-                                <div class="col-4">
-                                    <h3 class="text-muted">Quetion: <?=$exam['tquetion'];?></h3>
-                                </div>
-                                <div class="col-4">
-                                    <h3 class="text-muted">Date: <?=$exam['exmdate'];?></h3>
-                                </div>
-                            </div>  
-                            
-                        </div>
-                        
-                    <?php
-                    $select = $common->select("`questions`","`exam_id` = '$id' ORDER BY `serial`");
-                    if($select){
-                        
-                        while($viewquetion = mysqli_fetch_assoc($select)){
-                        
-                    ?>
-                        <div class="quetion mb-2 bg-white pt-3">
-                            <div class="row mx-2">
-                                <div class="col-12 d-flex">
-                                    <span><b><?=$viewquetion['serial'];?>. &nbsp;</b></span>
-                                    <div><?=$viewquetion['question'];?></div>
-                                </div>
+<body lang=EN-US>
+    <div class="container">
+        <div class=WordSection1>
+            <p class=msoNormal align=center style='margin-bottom:0in;margin-bottom:.0001pt;margin-top:0.1in;margin-bottom:.0002pt;
+            text-align:center;line-height:normal'><strong><span style='font-size:23.0pt;
+            font-family:"Times New Roman","serif"'>Text Exam</span></strong></p>
 
-                                <div class="col-sm-6 col-lg-3 d-flex">
-                                    <?php
-                                    if($viewquetion['answer'] == 'option_one') {
-                                    ?>
-                                    <img width="25px" height="25px" src="assets/images/img/iconfinder_check.svg">
-                                    <?php
-                                    }
-                                    ?>
-                                    <div class="px-1">a)</div>
-                                    <div><?=$viewquetion['option_one'];?></div>
-                                </div>
+            <p class=msoNormal align=center style='margin-bottom:0in;margin-bottom:.0001pt;margin-top:0.0in;margin-bottom:.0002pt;
+            text-align:center;line-height:normal'><strong><span style='font-size:16.0pt;
+            font-family:"Times New Roman","serif"'>Sub:Bangla</span></strong></p>
 
-                                <div class="col-sm-6 col-lg-3 d-flex">
-                                    <?php
-                                    if($viewquetion['answer'] == 'option_two') {
-                                    ?>
-                                    <img width="25px" height="25px" src="assets/images/img/iconfinder_check.svg">
-                                    <?php
-                                    }
-                                    ?>
-                                    <div class="px-1">b)</div>
-                                    <div><?=$viewquetion['option_two'];?></div>
-                                </div>
-
-                                <div class="col-sm-6 col-lg-3 d-flex">
-                                    <?php
-                                    if($viewquetion['answer'] == 'option_three') {
-                                    ?>
-                                    <img width="25px" height="25px" src="assets/images/img/iconfinder_check.svg">
-                                    <?php
-                                    }
-                                    ?>
-                                    <div class="px-1">c)</div>
-                                    <div><?=$viewquetion['option_three'];?></div>
-                                </div>
-
-                                <div class="col-sm-6 col-lg-3 d-flex">
-                                    <?php
-                                    if($viewquetion['answer'] == 'option_four') {
-                                    ?>
-                                    <img width="25px" height="25px" src="assets/images/img/iconfinder_check.svg">
-                                    <?php
-                                    }
-                                    ?>
-                                    <div class="px-1">d)</div>
-                                    <div><?=$viewquetion['option_four'];?></div>
-                                </div>
-                                <?php
-                                if($viewquetion['description'] != '') {
-                                ?>
-                                <div class="col-12 border border-info mb-3 p-1">
-                                <?= $viewquetion['description']; ?>
-                                </div>
-                                <?php
-                                }
-                                ?>
-                            </div>
-                        </div>
-                        <?php }}?>
-
-                    </div>
-                </div>
+            <hr>
+            
+        </div>
+        <?php
+            $select = $common->select("`questions`","`exam_id` = '9' ORDER BY `serial`");
+            if($select){
                 
-           
-                <div class="text-center">
-                    <a href="doc.php" class="btn btn-info sm">Export Doc</a>
-                </div>
-                </div    
-            </div>
-             <?php include('inc/footer.php'); ?>
-           
-    <div class="chat-windows"></div>
-    <!-- -------------------------------------------------------------- -->
-    <!-- All Jquery -->
-    <!-- -------------------------------------------------------------- -->
-    <script src="assets/libs/jquery/dist/jquery.min.js"></script>
-    <!-- Bootstrap tether Core JavaScript -->
-    <script src="assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- apps -->
-    <script src="dist/js/app.min.js"></script>
-    <script src="dist/js/app.init.js"></script>
-    <script src="dist/js/app-style-switcher.js"></script>
-    <!-- slimscrollbar scrollbar JavaScript -->
-    <script src="assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js"></script>
-    <script src="assets/extra-libs/sparkline/sparkline.js"></script>
-    <!--Wave Effects -->
-    <script src="dist/js/waves.js"></script>
-    <!--Menu sidebar -->
-    <script src="dist/js/sidebarmenu.js"></script>
-    <!--Custom JavaScript -->
-   <script src="dist/js/feather.min.js"></script>
-    <script src="dist/js/custom.min.js"></script>
-    <!--This page plugins -->
-    <script src="dist/js/pages/contact/contact.js"></script>
-    <script>
-        function Export2Doc(element, filename = ''){
-        var preHtml = "<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><title>Export HTML To Doc</title></head><body>";
-        var postHtml = "</body></html>";
-        var html = preHtml+document.getElementById(element).innerHTML+postHtml;
+                while($viewquetion = mysqli_fetch_assoc($select)){
+                
+            ?>
+        <table class=msoTableGrid cellspacing=0 cellpadding=0
+        style='margin-buttom:0.1pt;border-collapse:collapse;border:none;;
+        mso-yfti-tbllook:1184;mso-padding-alt:0in 5.4pt 0in 5.4pt'>
+        <tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes;height:23.25pt'>
+        <td style='mso-background-themecolor:background1;
+            mso-background-themeshade:191;padding:0in 5.4pt 0in 5.4pt;height:23.25pt'>
+            <p class=msoNormal style='margin-bottom:0in;margin-bottom:.0001pt;line-height:
+            normal'><strong ><span style='font-size:25.06pt;font-family:"Times New Roman","serif"'><?=$viewquetion['serial']?>. <o:p></o:p></span><span style='font-size:25.06pt;font-family:"Times New Roman","serif"'><?=$viewquetion['question']?> <o:p></o:p></span></strong></p>
+            </td>
+        </tr>
+        <tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes;height:23.25pt'>
+            <td width=288 style='width:240.9pt;'mso-background-themecolor:background1;
+            mso-background-themeshade:191;padding:0in 5.4pt 0in 5.4pt;height:23.25pt'>
+                <p class=msoNormal style='margin-bottom:0in;margin-bottom:.0001pt;line-height:
+                normal'><b style='mso-bidi-font-weight:normal'>
+                
+                <?php
+                if($viewquetion['answer'] == 'option_one') {
+                ?>
+                
+                <span style='margin-buttom:0.1pt;
+                font-family:"Times New Roman","serif"'><img width=25 height=25 id="Picture 1"
+                src="C:\xampp\htdocs\online-exam\admin\assets\images/img/ok_check_done-512.webp"></span>
+                <?php }?>
+                <span style='font-size:18.00pt;font-family:"Times New Roman","serif"'>a) <?=$viewquetion['option_one'];?><o:p></o:p></span></b></p>
+            </td>
+            <td width=288 style='width:240.9pt;'mso-background-themecolor:background1;
+            mso-background-themeshade:191;padding:0in 5.4pt 0in 5.4pt;height:23.25pt'>
+                <p class=msoNormal style='margin-bottom:0in;margin-bottom:.0001pt;line-height:
+                normal'><b style='mso-bidi-font-weight:normal'>
+                
+                <?php
+                if($viewquetion['answer'] == 'option_two') {
+                ?>
+                
+                <span style='margin-buttom:0.1pt;
+                font-family:"Times New Roman","serif"'><img width=25 height=25 id="Picture 1"
+                src="C:\xampp\htdocs\online-exam\admin\assets\images/img/ok_check_done-512.webp"></span>
+                <?php }?>
+                <span style='font-size:18.00pt;font-family:"Times New Roman","serif"'>b) <?=$viewquetion['option_two'];?><o:p></o:p></span></b></p>
+            </td>
+            <td width=288 style='width:240.9pt;'mso-background-themecolor:background1;
+            mso-background-themeshade:191;padding:0in 5.4pt 0in 5.4pt;height:23.25pt'>
+                <p class=msoNormal style='margin-bottom:0in;margin-bottom:.0001pt;line-height:
+                normal'><b style='mso-bidi-font-weight:normal'>
+                
+                <?php
+                if($viewquetion['answer'] == 'option_three') {
+                ?>
+                
+                <span style='margin-buttom:0.1pt;
+                font-family:"Times New Roman","serif"'><img width=25 height=25 id="Picture 1"
+                src="C:\xampp\htdocs\online-exam\admin\assets\images/img/ok_check_done-512.webp"></span>
+                <?php }?>
+                <span style='font-size:18.00pt;font-family:"Times New Roman","serif"'>c) <?=$viewquetion['option_three'];?><o:p></o:p></span></b></p>
+            </td>
+            <td width=288 style='width:240.9pt;'mso-background-themecolor:background1;
+            mso-background-themeshade:191;padding:0in 5.4pt 0in 5.4pt;height:23.25pt'>
+                <p class=msoNormal style='margin-bottom:0in;margin-bottom:.0001pt;line-height:
+                normal'><b style='mso-bidi-font-weight:normal'>
+                
+                <?php
+                if($viewquetion['answer'] == 'option_four') {
+                ?>
+                
+                <span style='margin-buttom:0.1pt;
+                font-family:"Times New Roman","serif"'><img width=25 height=25 id="Picture 1"
+                src="C:\xampp\htdocs\online-exam\admin\assets\images/img/ok_check_done-512.webp"></span>
+                <?php }?>
+                <span style='font-size:18.00pt;font-family:"Times New Roman","serif"'>d) <?=$viewquetion['option_four'];?><o:p></o:p></span></b></p>
+            </td>
+        </tr>
+        </table>
+        <?php }}?>
+        
+    </div>
 
-        var blob = new Blob(['\ufeff', html],{
-            type: 'application/msword'
-        });
-
-        var url = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURIComponent(html)
-
-        filename = filename?filename+'.doc': 'document.doc';
-
-        var downloadLink = document.createElement("a");
-
-        document.body.appendChild(downloadLink);
-
-        if(navigator.msSaveOrOpenBlob){
-            navigator.msSaveOrOpenBlob(blob, filename);
-        }else{
-            downloadLink.href = url;
-
-            downloadLink.download = filename;
-
-            downloadLink.click();
-        }
-
-        document.body.removeChild(downloadLink);
-
-
-     }
-
-    </script>
-</body>
-
+ </body>
 </html>
