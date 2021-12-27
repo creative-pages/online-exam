@@ -39,13 +39,6 @@
                                 <input type="text" class="form-control"   value="<?=$result['contack']?>"readonly>
                             </div>
                         </div>
-                        <div class="mb-3 row">
-                            <label for="cono1" class="col-sm-3 text-end control-label col-form-label">Student ID</label>
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control" id="sid" value="<?=$result['sid']?>"readonly>
-                            </div>
-                        </div>
-
                     </div>
                     <hr>
                     <div class="card-body">

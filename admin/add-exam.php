@@ -10,11 +10,8 @@
     }
     if(isset($_GET['editxm'])){
         $id =$_GET['editxm'];
-
         $exambyid = $exam->ExamById($id);
-        
-            $value = $exambyid->fetch_assoc();
-        
+        $value = $exambyid->fetch_assoc();
     }
     if(isset($_GET['dltque'])){
         $dltid = $_GET['dltque'];
@@ -127,17 +124,20 @@
                         <?php
                             $allxm = $exam->AllExamList();
                             if($allxm){
-                                while($value = $allxm->fetch_assoc()){
-                        ?>
+                                while($value = $allxm->fetch_assoc()) {
+                                    $subject_id = $value['subject_id'];
+                                    $subject_info = $common->select("`subject_add`", "`id` = '$subject_id'");
+                                    $subject_infos = mysqli_fetch_assoc($subject_info);
+                            ?>
                              <div class="col-md-4 col-xl-2 d-flex align-items-stretch">
                                 <div class="card w-100">
                                     <div class="card-header bg-primary">
                                         <h4 class="mb-0 text-white"><?= $value['examname'];?></h4></div>
                                     <div class="card-body">
-                                        <h3 class="card-title text-muted py-1"style="border-bottom:1px dotted #EEF5F9;">Subject:<?= $value['subjectname'];?></h3>
-                                        <h3 class="card-title text-muted py-1"style="border-bottom:1px dotted #EEF5F9;">Duration:<?= $value['duration'];?> Minute</h3>
-                                        <h3 class="card-title text-muted py-1"style="border-bottom:1px dotted #EEF5F9;">Total Quetion:<?= $value['tquetion'];?></h3>
-                                        <h3 class="card-title text-muted py-1"style="border-bottom:1px dotted #EEF5F9;">Exam Date:<?= $value['exmdate'];?></h3>
+                                        <h3 class="card-title text-muted py-1"style="border-bottom:1px dotted #EEF5F9;">Subject: <?= $subject_infos['subject_name'];?></h3>
+                                        <h3 class="card-title text-muted py-1"style="border-bottom:1px dotted #EEF5F9;">Duration: <?= $value['duration'];?> Minute</h3>
+                                        <h3 class="card-title text-muted py-1"style="border-bottom:1px dotted #EEF5F9;">Total Quetion: <?= $value['tquetion'];?></h3>
+                                        <h3 class="card-title text-muted py-1"style="border-bottom:1px dotted #EEF5F9;">Exam Date: <?= $value['exmdate'];?></h3>
                                         
                                         <button type="button" class="btn btn-primary" onClick="examEdit(<?= $value['id']; ?>)">Edit</button>
                                         <a  href="edit-quetion.php?editque=<?= $value['id'];?>" class="btn btn-success">Quetion Edit</a>

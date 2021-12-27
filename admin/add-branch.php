@@ -150,7 +150,7 @@
                                         </td>
                                         <td>
                                             <span class="usr-ph-no">
-                                                <?= $value['total_fee']; ?>Tk
+                                                <?= $value['total_fee'] > 0 ? $value['total_fee'] . 'Tk' : 'Free'; ?>
                                             </span>
                                         </td>
                                         <td>

@@ -93,14 +93,9 @@ if (isset($_GET['exam_id'])) {
                                 </form>
                             </div>
                             <div class="col-md-8 col-xl-10 text-end d-flex justify-content-md-end justify-content-center mt-3 mt-md-0">
-                                    <div class="action-btn show-btn" style="display: none">
-                                        <a href="javascript:void(0)" class="delete-multiple btn-light-danger btn me-2 text-danger d-flex align-items-center font-weight-medium" >
-                                            <i data-feather="trash-2" class="feather-sm fill-white me-1"></i>
-                                            Delete All Row</a>
-                                    </div>
-                                    <a href="add-contack.php" id="" class="btn btn-info">
-                                       
-                                        Export Result</a>
+                                <a href="add-contack.php" id="" class="btn btn-info">
+                                    Export Result
+                                </a>
                             </div>
                         </div>
                         
@@ -111,15 +106,6 @@ if (isset($_GET['exam_id'])) {
                         <div class="table-responsive">
                             <table class="table search-table v-middle">
                                 <thead class="header-item">
-                                    <th>
-                                        <div class="n-chk align-self-center text-center">
-                                            <div class="form-check">
-                                                <input type="checkbox" class="form-check-input secondary" id="contact-check-all">
-                                                <label class="form-check-label" for="contact-check-all"></label>
-                                                <span class="new-control-indicator"></span>
-                                            </div>
-                                        </div>
-                                    </th>
                                     <th>Serial</th>
                                     <th>ID-Name</th>
                                     <th>Started On</th>
@@ -135,20 +121,12 @@ if (isset($_GET['exam_id'])) {
                                         $ser = 1;
                                         while ($all_results = mysqli_fetch_assoc($all_result)) {
                                             $student_id = $all_results['student_id'];
-                                            $student_detail = $common->select("`student_table`", "`sid` = '$student_id'");
+                                            $student_detail = $common->select("`student_table`", "`id` = '$student_id'");
                                             $student_details = mysqli_fetch_assoc($student_detail);
                                         ?>
                                         <tr class="search-items">
                                             <td>
-                                                <div class="n-chk align-self-center text-center">
-                                                    <div class="form-check">
-                                                        <input type="checkbox" class="form-check-input contact-chkbox primary" id="checkbox2">
-                                                        <label class="form-check-label" for="checkbox2"></label>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                 <span class="usr-email-addr"><?= $ser . $all_results['id']; ?></span>
+                                                 <span class="usr-email-addr"><?= $ser; ?></span>
                                             </td>
                                             <td>
                                                 <span class="usr-email-addr" data-email="allen@mail.com"><?= $student_details['sname']; ?></span>

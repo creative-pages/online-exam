@@ -34,7 +34,7 @@
             <?php
             while ($main_batches = mysqli_fetch_assoc($main_batch)) {
             ?>
-                <option value="<?= $main_batches['id']; ?>"><?= $main_batches['branch_name']; ?></option>
+                <option value="<?= $main_batches['id']; ?>"><?= $main_batches['branch_name'] . ' (' . ucfirst($main_batches['type']) . ')'; ?></option>
             <?php
             }
             ?>

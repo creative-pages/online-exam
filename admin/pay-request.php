@@ -129,7 +129,7 @@
                                         </td>
                                        
                                         <td>
-                                            <span class="usr-ph-no"><?=$userid['sid'];?></span>
+                                            <span class="usr-ph-no"><?=$userid['id'];?></span>
                                         </td>
 
                                         <td>
@@ -183,7 +183,7 @@
                                         </td>
                                        
                                         <td>
-                                            <span class="usr-ph-no"><?=$userid['sid'];?></span>
+                                            <span class="usr-ph-no"><?=$userid['id'];?></span>
                                         </td>
 
                                         <td>

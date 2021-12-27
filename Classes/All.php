@@ -163,22 +163,22 @@
         }
 
         public function StudentSignIn($data){
-            $id= $this->fm->validation($data['id']);
-            $password= $this->fm->validation($data['password']);
-            $id= mysqli_real_escape_string($this->db->link,$id);
+            $id = $this->fm->validation($data['id']);
+            $password = $this->fm->validation($data['password']);
+            $id = mysqli_real_escape_string($this->db->link,$id);
             //$password    = mysqli_real_escape_string($this->db->link,MD5($password));
             
-            $query="SELECT * FROM student_table  WHERE sid= '$id' AND password= '$password'";
+            $query = "SELECT * FROM student_table  WHERE id = '$id' AND password = '$password'";
             
             $result =$this->db->select($query); 
          
                
                 if ($result != false) {
-                $value =  $result->fetch_assoc();
+                $value = $result->fetch_assoc();
               
-                Session::set("SignIn",true);
+                Session::set("SignIn", true);
                
-                Session::set("profileid",$value['id']);
+                Session::set("profileid", $value['id']);
                 echo "<script> window.location.assign('student/batch.php'); </script>";
               
                 }else{

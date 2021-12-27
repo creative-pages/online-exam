@@ -12,7 +12,6 @@
         $smname = $_POST['smname'];
         $email = $_POST['email'];
         $contact = $_POST['contact'];
-        $sid = $_POST['sid'];
         $password = $_POST['password'];
         
         $ssc = $_POST['ssc'];
@@ -28,7 +27,7 @@
         } elseif($email_check != false){
             $msg = "<span style='color:red'>Email Already Exists</span>";
         } else{
-            $success =$common->insert("`student_table`(`sname`,`sfname`,`smname`,`email`,`contack`,`sid`,`password`,`ssc`,`hsc`,`ms`,`st`)","('$sname', '$sfname', '$smname', '$email','$contact','$sid','$password','$ssc','$hsc','$ms','$st')");
+            $success =$common->insert("`student_table`(`sname`,`sfname`,`smname`,`email`,`contack`,`password`,`ssc`,`hsc`,`ms`,`st`)","('$sname', '$sfname', '$smname', '$email','$contact','$password','$ssc','$hsc','$ms','$st')");
             if($success){
                 $get_id = $common->select("`student_table`", "`email` = '$email'");
                 $get_student_id = mysqli_fetch_assoc($get_id);
@@ -38,9 +37,14 @@
 
                 $batch_info = $common->select("`add_branch`", "`id` = '$batch_id'");
                 $batch_infos = mysqli_fetch_assoc($batch_info);
+                if ($batch_infos['type'] == 'paid') {
+                    $status = '0';
+                } else {
+                    $status = '1';
+                }
                 $batch_fee = $batch_infos['total_fee'];
 
-                $add_to_batch = $common->insert("`batch_students`(`student_id`, `batch_id`, `fee`)", "('$student_id', '$batch_id', '$batch_fee')");
+                $add_to_batch = $common->insert("`batch_students`(`student_id`, `batch_id`, `fee`, `status`)", "('$student_id', '$batch_id', '$batch_fee', '$status')");
 
                 header("Location: signin.php");
             }
@@ -109,31 +113,32 @@
        
         <div class="page-wrapper">
             
-            <div class="container-fluid ">
+            <div class="container">
             <div class="row">
                 <div class="col-12">
                     <div class="card">
                        
                         <form class="form-horizontal" action="" method="post">
                             <div class="card-body">
+                                <h2 class="text-center border-bottom pb-3 mb-3">Registration</h2>
                                 <h4 class="card-title">Personal Info</h4>
                                
                                 <div class="mb-3 row">
                                     <label for="fname" class="col-sm-3 text-end control-label col-form-label">Student Name</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="fname" placeholder="Student Name Here" name="sname" required="">
+                                        <input type="text" class="form-control" id="fname" placeholder="Your name" name="sname" required="">
                                     </div>
                                 </div>
                                 <div class="mb-3 row">
-                                    <label for="lname" class="col-sm-3 text-end control-label col-form-label">Student Father Name</label>
+                                    <label for="lname" class="col-sm-3 text-end control-label col-form-label">Father's Name</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="lname" placeholder="Student Father Name Here" name="sfname" required="">
+                                        <input type="text" class="form-control" id="lname" placeholder="Your father's name" name="sfname" required="">
                                     </div>
                                 </div>
                                 <div class="mb-3 row">
-                                    <label for="lname" class="col-sm-3 text-end control-label col-form-label">Student Mother Name</label>
+                                    <label for="lname" class="col-sm-3 text-end control-label col-form-label">Mother's Name</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="lname" placeholder="Student Mother Name Here" name="smname" required="">
+                                        <input type="text" class="form-control" id="lname" placeholder="Your mother's name" name="smname" required="">
                                     </div>
                                 </div>
                                 <div class="mb-3 row">
@@ -145,20 +150,13 @@
                                 <div class="mb-3 row">
                                     <label for="cono1" class="col-sm-3 text-end control-label col-form-label">Contact No</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="contact" onkeyup="ran()" placeholder="Contact No Here" name="contact" pattern=".{11,11}"required title="Please Input Only 11 digit" required="">
+                                        <input type="text" class="form-control" id="contact" placeholder="Contact number" name="contact" pattern=".{11,11}" required title="Please Input Only 11 digit" required="">
                                     </div>
                                 </div>
                                 <div class="mb-3 row">
-                                    <label for="cono1" class="col-sm-3 text-end control-label col-form-label">Student ID</label>
+                                    <label for="cono1" class="col-sm-3 text-end control-label col-form-label">Password</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="sid"  name="sid" readonly required="">
-                                    </div>
-                                </div>
-
-                                <div class="mb-3 row">
-                                    <label for="cono1" class="col-sm-3 text-end control-label col-form-label">Enter Your Password</label>
-                                    <div class="col-sm-9">
-                                        <input type="password" class="form-control" id="pwd"  name="password" required="">
+                                        <input type="password" class="form-control" id="pwd"  name="password" placeholder="Enter your password" required="">
                                     </div>
                                 </div>
                             </div>
@@ -171,13 +169,12 @@
                                     <div class="col-sm-9">
                                         <select class="form-select" name="batch" id="batch" required="">
                                             <option>Choose Your Option</option>
-                                                <?php
-                                                $query = $common->select("add_branch ORDER BY id DESC");
-                                                if($query){
-                                                    while($raw = mysqli_fetch_assoc($query)){
-                                                    
-                                                ?>
-                                            <option value = <?= $raw['id'];?>><?= $raw['branch_name'];?></option>
+                                            <?php
+                                            $query = $common->select("add_branch ORDER BY id DESC");
+                                            if($query){
+                                                while($raw = mysqli_fetch_assoc($query)){
+                                            ?>
+                                            <option value = <?= $raw['id'];?>><?= $raw['branch_name'] . ' (' . ucfirst($raw['type']) . ')';?></option>
                                             <?php }}?>
                                         </select>
                                     </div>
@@ -200,7 +197,7 @@
                                         <div class="form-check form-check-inline">
                                             <div class="custom-control custom-radio">
                                                 <input type="radio" class="custom-control-input" id="customControlValidation2" name="ms" value="yes" required="">
-                                                <label class="custom-control-label" for="customControlValidation2">yes</label>
+                                                <label class="custom-control-label" for="customControlValidation2">Yes</label>
                                             </div>
                                         </div>
 
@@ -219,7 +216,7 @@
                                         <div class="form-check form-check-inline">
                                             <div class="custom-control custom-radio">
                                                 <input type="radio" class="custom-control-input" id="customControlValidation2" name="st" value="yes" required="">
-                                                <label class="custom-control-label" for="customControlValidation2">yes</label>
+                                                <label class="custom-control-label" for="customControlValidation2">Yes</label>
                                             </div>
                                         </div>
                                         <div class="form-check form-check-inline">
@@ -233,9 +230,12 @@
 
                             </div>
                             <div class="p-3 border-top">
-                                <div class="text-end">
+                                <div class="d-flex justify-content-around">
                                     <button type="submit" class="btn btn-info rounded-pill px-4 waves-effect waves-light" name="save">Sign Up</button>
-                                   
+                                    <p>
+                                        Already have an account?
+                                        <a href="signin.php">Login</a>
+                                    </p>
                                 </div>
                             </div>
                         </form>
@@ -259,327 +259,6 @@
     
     <!-- -------------------------------------------------------------- -->
     <!-- End Wrapper -->
-    <!-- -------------------------------------------------------------- -->
-    <!-- -------------------------------------------------------------- -->
-    <!-- customizer Panel -->
-    <!-- -------------------------------------------------------------- -->
-    <aside class="customizer">
-        <a href="javascript:void(0)" class="service-panel-toggle"><i class="fa fa-spin fa-cog"></i></a>
-        <div class="customizer-body">
-            <ul class="nav customizer-tab" role="tablist">
-                <li class="nav-item">
-                    <a class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" href="#pills-home" role="tab"
-                        aria-controls="pills-home" aria-selected="true"><i class="mdi mdi-wrench fs-6"></i></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" href="#chat" role="tab"
-                        aria-controls="chat" aria-selected="false"><i class="mdi mdi-message-reply fs-6"></i></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" href="#pills-contact" role="tab"
-                        aria-controls="pills-contact" aria-selected="false"><i
-                            class="mdi mdi-star-circle fs-6"></i></a>
-                </li>
-            </ul>
-            <div class="tab-content" id="pills-tabContent">
-                <!-- Tab 1 -->
-                <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
-                    <div class="p-3 border-bottom">
-                        <!-- Sidebar -->
-                        <h5 class="font-weight-medium mb-2 mt-2">Layout Settings</h5>
-                        <div class="form-check mt-3">
-                            <input type="checkbox" name="theme-view" class="form-check-input" id="theme-view">
-                            <label class="form-check-label" for="theme-view"> <span>Dark Theme</span> </label>
-                        </div>
-                        <div class="form-check mt-2">
-                            <input type="checkbox" class="sidebartoggler form-check-input" name="collapssidebar"
-                                id="collapssidebar">
-                            <label class="form-check-label" for="collapssidebar"> <span>Collapse Sidebar</span> </label>
-                        </div>
-                        <div class="form-check mt-2">
-                            <input type="checkbox" name="sidebar-position" class="form-check-input"
-                                id="sidebar-position">
-                            <label class="form-check-label" for="sidebar-position"> <span>Fixed Sidebar</span> </label>
-                        </div>
-                        <div class="form-check mt-2">
-                            <input type="checkbox" name="header-position" class="form-check-input" id="header-position">
-                            <label class="form-check-label" for="header-position"> <span>Fixed Header</span> </label>
-                        </div>
-                        <div class="form-check mt-2">
-                            <input type="checkbox" name="boxed-layout" class="form-check-input" id="boxed-layout">
-                            <label class="form-check-label" for="boxed-layout"> <span>Boxed Layout</span> </label>
-                        </div>
-                    </div>
-                    <div class="p-3 border-bottom">
-                        <!-- Logo BG -->
-                        <h5 class="font-weight-medium mb-2 mt-2">Logo Backgrounds</h5>
-                        <ul class="theme-color m-0 p-0">
-                            <li class="theme-item list-inline-item me-1"><a href="javascript:void(0)"
-                                    class="theme-link rounded-circle d-block" data-logobg="skin1"></a></li>
-                            <li class="theme-item list-inline-item me-1"><a href="javascript:void(0)"
-                                    class="theme-link rounded-circle d-block" data-logobg="skin2"></a></li>
-                            <li class="theme-item list-inline-item me-1"><a href="javascript:void(0)"
-                                    class="theme-link rounded-circle d-block" data-logobg="skin3"></a></li>
-                            <li class="theme-item list-inline-item me-1"><a href="javascript:void(0)"
-                                    class="theme-link rounded-circle d-block" data-logobg="skin4"></a></li>
-                            <li class="theme-item list-inline-item me-1"><a href="javascript:void(0)"
-                                    class="theme-link rounded-circle d-block" data-logobg="skin5"></a></li>
-                            <li class="theme-item list-inline-item me-1"><a href="javascript:void(0)"
-                                    class="theme-link rounded-circle d-block" data-logobg="skin6"></a></li>
-                        </ul>
-                        <!-- Logo BG -->
-                    </div>
-                    <div class="p-3 border-bottom">
-                        <!-- Navbar BG -->
-                        <h5 class="font-weight-medium mb-2 mt-2">Navbar Backgrounds</h5>
-                        <ul class="theme-color m-0 p-0">
-                            <li class="theme-item list-inline-item me-1"><a href="javascript:void(0)"
-                                    class="theme-link rounded-circle d-block" data-navbarbg="skin1"></a></li>
-                            <li class="theme-item list-inline-item me-1"><a href="javascript:void(0)"
-                                    class="theme-link rounded-circle d-block" data-navbarbg="skin2"></a></li>
-                            <li class="theme-item list-inline-item me-1"><a href="javascript:void(0)"
-                                    class="theme-link rounded-circle d-block" data-navbarbg="skin3"></a></li>
-                            <li class="theme-item list-inline-item me-1"><a href="javascript:void(0)"
-                                    class="theme-link rounded-circle d-block" data-navbarbg="skin4"></a></li>
-                            <li class="theme-item list-inline-item me-1"><a href="javascript:void(0)"
-                                    class="theme-link rounded-circle d-block" data-navbarbg="skin5"></a></li>
-                            <li class="theme-item list-inline-item me-1"><a href="javascript:void(0)"
-                                    class="theme-link rounded-circle d-block" data-navbarbg="skin6"></a></li>
-                        </ul>
-                        <!-- Navbar BG -->
-                    </div>
-                    <div class="p-3 border-bottom">
-                        <!-- Logo BG -->
-                        <h5 class="font-weight-medium mb-2 mt-2">Sidebar Backgrounds</h5>
-                        <ul class="theme-color m-0 p-0">
-                            <li class="theme-item list-inline-item me-1"><a href="javascript:void(0)"
-                                    class="theme-link rounded-circle d-block" data-sidebarbg="skin1"></a></li>
-                            <li class="theme-item list-inline-item me-1"><a href="javascript:void(0)"
-                                    class="theme-link rounded-circle d-block" data-sidebarbg="skin2"></a></li>
-                            <li class="theme-item list-inline-item me-1"><a href="javascript:void(0)"
-                                    class="theme-link rounded-circle d-block" data-sidebarbg="skin3"></a></li>
-                            <li class="theme-item list-inline-item me-1"><a href="javascript:void(0)"
-                                    class="theme-link rounded-circle d-block" data-sidebarbg="skin4"></a></li>
-                            <li class="theme-item list-inline-item me-1"><a href="javascript:void(0)"
-                                    class="theme-link rounded-circle d-block" data-sidebarbg="skin5"></a></li>
-                            <li class="theme-item list-inline-item me-1"><a href="javascript:void(0)"
-                                    class="theme-link rounded-circle d-block" data-sidebarbg="skin6"></a></li>
-                        </ul>
-                        <!-- Logo BG -->
-                    </div>
-                </div>
-                <!-- End Tab 1 -->
-                <!-- Tab 2 -->
-                <div class="tab-pane fade" id="chat" role="tabpanel" aria-labelledby="pills-profile-tab">
-                    <ul class="mailbox list-style-none mt-3">
-                        <li>
-                            <div class="message-center chat-scroll position-relative">
-                                <a href="javascript:void(0)"
-                                    class="message-item d-flex align-items-center border-bottom px-3 py-2"
-                                    id='chat_user_1' data-user-id='1'>
-                                    <span class="user-img position-relative d-inline-block"> <img
-                                            src="admin/assets/images/users/1.jpg" alt="user" class="rounded-circle w-100">
-                                        <span class="profile-status rounded-circle online"></span> </span>
-                                    <div class="w-75 d-inline-block v-middle ps-3">
-                                        <h5 class="message-title mb-0 mt-1">Pavan kumar</h5> <span
-                                            class="fs-2 text-nowrap d-block text-muted text-truncate">Just see the my
-                                            admin!</span> <span class="fs-2 text-nowrap d-block text-muted">9:30
-                                            AM</span>
-                                    </div>
-                                </a>
-                                <!-- Message -->
-                                <a href="javascript:void(0)"
-                                    class="message-item d-flex align-items-center border-bottom px-3 py-2"
-                                    id='chat_user_2' data-user-id='2'>
-                                    <span class="user-img position-relative d-inline-block"> <img
-                                            src="admin/assets/images/users/2.jpg" alt="user" class="rounded-circle w-100">
-                                        <span class="profile-status rounded-circle busy"></span> </span>
-                                    <div class="w-75 d-inline-block v-middle ps-3">
-                                        <h5 class="message-title mb-0 mt-1">Sonu Nigam</h5> <span
-                                            class="fs-2 text-nowrap d-block text-muted text-truncate">I've sung a
-                                            song! See you at</span> <span
-                                            class="fs-2 text-nowrap d-block text-muted">9:10 AM</span>
-                                    </div>
-                                </a>
-                                <!-- Message -->
-                                <a href="javascript:void(0)"
-                                    class="message-item d-flex align-items-center border-bottom px-3 py-2"
-                                    id='chat_user_3' data-user-id='3'>
-                                    <span class="user-img position-relative d-inline-block"> <img
-                                            src="admin/assets/images/users/3.jpg" alt="user" class="rounded-circle w-100">
-                                        <span class="profile-status rounded-circle away"></span> </span>
-                                    <div class="w-75 d-inline-block v-middle ps-3">
-                                        <h5 class="message-title mb-0 mt-1">Arijit Sinh</h5> <span
-                                            class="fs-2 text-nowrap d-block text-muted text-truncate">I am a
-                                            singer!</span> <span class="fs-2 text-nowrap d-block text-muted">9:08
-                                            AM</span>
-                                    </div>
-                                </a>
-                                <!-- Message -->
-                                <a href="javascript:void(0)"
-                                    class="message-item d-flex align-items-center border-bottom px-3 py-2"
-                                    id='chat_user_4' data-user-id='4'>
-                                    <span class="user-img position-relative d-inline-block"> <img
-                                            src="admin/assets/images/users/4.jpg" alt="user" class="rounded-circle w-100">
-                                        <span class="profile-status rounded-circle offline"></span> </span>
-                                    <div class="w-75 d-inline-block v-middle ps-3">
-                                        <h5 class="message-title mb-0 mt-1">Nirav Joshi</h5> <span
-                                            class="fs-2 text-nowrap d-block text-muted text-truncate">Just see the my
-                                            admin!</span> <span class="fs-2 text-nowrap d-block text-muted">9:02
-                                            AM</span>
-                                    </div>
-                                </a>
-                                <!-- Message -->
-                                <!-- Message -->
-                                <a href="javascript:void(0)"
-                                    class="message-item d-flex align-items-center border-bottom px-3 py-2"
-                                    id='chat_user_5' data-user-id='5'>
-                                    <span class="user-img position-relative d-inline-block"> <img
-                                            src="admin/assets/images/users/5.jpg" alt="user" class="rounded-circle w-100">
-                                        <span class="profile-status rounded-circle offline"></span> </span>
-                                    <div class="w-75 d-inline-block v-middle ps-3">
-                                        <h5 class="message-title mb-0 mt-1">Sunil Joshi</h5> <span
-                                            class="fs-2 text-nowrap d-block text-muted text-truncate">Just see the my
-                                            admin!</span> <span class="fs-2 text-nowrap d-block text-muted">9:02
-                                            AM</span>
-                                    </div>
-                                </a>
-                                <!-- Message -->
-                                <!-- Message -->
-                                <a href="javascript:void(0)"
-                                    class="message-item d-flex align-items-center border-bottom px-3 py-2"
-                                    id='chat_user_6' data-user-id='6'>
-                                    <span class="user-img position-relative d-inline-block"> <img
-                                            src="admin/assets/images/users/6.jpg" alt="user" class="rounded-circle w-100">
-                                        <span class="profile-status rounded-circle offline"></span> </span>
-                                    <div class="w-75 d-inline-block v-middle ps-3">
-                                        <h5 class="message-title mb-0 mt-1">Akshay Kumar</h5> <span
-                                            class="fs-2 text-nowrap d-block text-muted text-truncate">Just see the my
-                                            admin!</span> <span class="fs-2 text-nowrap d-block text-muted">9:02
-                                            AM</span>
-                                    </div>
-                                </a>
-                                <!-- Message -->
-                                <!-- Message -->
-                                <a href="javascript:void(0)"
-                                    class="message-item d-flex align-items-center border-bottom px-3 py-2"
-                                    id='chat_user_7' data-user-id='7'>
-                                    <span class="user-img position-relative d-inline-block"> <img
-                                            src="admin/assets/images/users/7.jpg" alt="user" class="rounded-circle w-100">
-                                        <span class="profile-status rounded-circle offline"></span> </span>
-                                    <div class="w-75 d-inline-block v-middle ps-3">
-                                        <h5 class="message-title mb-0 mt-1">Pavan kumar</h5> <span
-                                            class="fs-2 text-nowrap d-block text-muted text-truncate">Just see the my
-                                            admin!</span> <span class="fs-2 text-nowrap d-block text-muted">9:02
-                                            AM</span>
-                                    </div>
-                                </a>
-                                <!-- Message -->
-                                <!-- Message -->
-                                <a href="javascript:void(0)"
-                                    class="message-item d-flex align-items-center border-bottom px-3 py-2"
-                                    id='chat_user_8' data-user-id='8'>
-                                    <span class="user-img position-relative d-inline-block"> <img
-                                            src="admin/assets/images/users/8.jpg" alt="user" class="rounded-circle w-100">
-                                        <span class="profile-status rounded-circle offline"></span> </span>
-                                    <div class="w-75 d-inline-block v-middle ps-3">
-                                        <h5 class="message-title mb-0 mt-1">Varun Dhavan</h5> <span
-                                            class="fs-2 text-nowrap d-block text-muted text-truncate">Just see the my
-                                            admin!</span> <span class="fs-2 text-nowrap d-block text-muted">9:02
-                                            AM</span>
-                                    </div>
-                                </a>
-                                <!-- Message -->
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-                <!-- End Tab 2 -->
-                <!-- Tab 3 -->
-                <div class="tab-pane fade p-3" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
-                    <h6 class="mt-3 mb-3">Activity Timeline</h6>
-                    <div class="steamline">
-                        <div class="sl-item">
-                            <div class="sl-left bg-light-success text-success"> 
-                                <i data-feather="user" class="feather-sm fill-white"></i>
-                            </div>
-                            <div class="sl-right">
-                                <div class="font-weight-medium">Meeting today <span class="sl-date"> 5pm</span></div>
-                                <div class="desc">you can write anything </div>
-                            </div>
-                        </div>
-                        <div class="sl-item">
-                            <div class="sl-left bg-light-info text-info">
-                                <i data-feather="camera" class="feather-sm fill-white"></i>
-                            </div>
-                            <div class="sl-right">
-                                <div class="font-weight-medium">Send documents to Clark</div>
-                                <div class="desc">Lorem Ipsum is simply </div>
-                            </div>
-                        </div>
-                        <div class="sl-item">
-                            <div class="sl-left"> <img class="rounded-circle" alt="user"
-                                    src="admin/assets/images/users/2.jpg"> </div>
-                            <div class="sl-right">
-                                <div class="font-weight-medium">Go to the Doctor <span class="sl-date">5 minutes
-                                        ago</span>
-                                </div>
-                                <div class="desc">Contrary to popular belief</div>
-                            </div>
-                        </div>
-                        <div class="sl-item">
-                            <div class="sl-left"> <img class="rounded-circle" alt="user"
-                                    src="admin/assets/images/users/1.jpg"> </div>
-                            <div class="sl-right">
-                                <div><a href="javascript:void(0)">Stephen</a> <span class="sl-date">5 minutes ago</span>
-                                </div>
-                                <div class="desc">Approve meeting with tiger</div>
-                            </div>
-                        </div>
-                        <div class="sl-item">
-                            <div class="sl-left bg-light-primary text-primary">
-                                <i data-feather="user" class="feather-sm fill-white"></i>
-                            </div>
-                            <div class="sl-right">
-                                <div class="font-weight-medium">Meeting today <span class="sl-date"> 5pm</span></div>
-                                <div class="desc">you can write anything </div>
-                            </div>
-                        </div>
-                        <div class="sl-item">
-                            <div class="sl-left bg-light-info text-info">
-                                <i data-feather="send" class="feather-sm fill-white"></i>
-                            </div>
-                            <div class="sl-right">
-                                <div class="font-weight-medium">Send documents to Clark</div>
-                                <div class="desc">Lorem Ipsum is simply </div>
-                            </div>
-                        </div>
-                        <div class="sl-item">
-                            <div class="sl-left"> <img class="rounded-circle" alt="user"
-                                    src="admin/assets/images/users/4.jpg"> </div>
-                            <div class="sl-right">
-                                <div class="font-weight-medium">Go to the Doctor <span class="sl-date">5 minutes
-                                        ago</span>
-                                </div>
-                                <div class="desc">Contrary to popular belief</div>
-                            </div>
-                        </div>
-                        <div class="sl-item">
-                            <div class="sl-left"> <img class="rounded-circle" alt="user"
-                                    src="admin/assets/images/users/6.jpg"> </div>
-                            <div class="sl-right">
-                                <div><a href="javascript:void(0)">Stephen</a> <span class="sl-date">5 minutes ago</span>
-                                </div>
-                                <div class="desc">Approve meeting with tiger</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- End Tab 3 -->
-            </div>
-        </div>
-    </aside>
-    <div class="chat-windows"></div>
     <!-- -------------------------------------------------------------- -->
     <!-- All Jquery -->
     <!-- -------------------------------------------------------------- -->
@@ -614,35 +293,6 @@
     <script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.html5.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.print.min.js"></script>
     <script src="dist/js/pages/datatable/datatable-advanced.init.js"></script> -->
-    <script>
-        $(document).ready(function(){
-            $(".description_button_toggle").click(function(){
-                var id = $(this).data('value');
-                $("#description_" + id).toggle();
-            });
-        });
-    </script>
-
-    <script> 
-        function feedue() {
-            
-            var batchfee = document.getElementById('batchfee').value;
-            var advancefee = document.getElementById('advancefee').value;
-            var due = batchfee-advancefee;
-           
-                document.getElementById('duef').value=due;
-           
-
-
-        }
-        function ran() {
-             
-            var contact = document.getElementById('contact').value;
-            var sid = contact.substring(Math.floor(3, 6),Math.floor(9, 11));
-            
-            document.getElementById('sid').value=sid;
-        }
-    </script>
 </body>
 
 </html>

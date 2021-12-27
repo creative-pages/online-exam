@@ -85,7 +85,7 @@
                                 <td><b>Batch Name</b></td>
                                 <td><b><?= $batch_infos['branch_name']; ?></b></td>
                                 <td><b>Batch Fee</b></td>
-                                <td><b><?= $batch_infos['total_fee']; ?>Tk</b></td>
+                                <td><b><?= $batch_infos['total_fee'] > 0 ? $batch_infos['total_fee'] . 'Tk' : 'Free'; ?></b></td>
                             </tr>
                         </table>
                         <hr>
@@ -94,12 +94,18 @@
                                 <thead class="header-item">
                                     <th>Sl No</th>
                                     <th>Student Name</th>
+                                    <?php
+                                    if ($batch_infos['type'] == 'paid') {
+                                    ?>
                                     <th>Paid</th>
                                     <th>Unpaid</th>
                                     <th>Stallment</th>
                                     <th>Stallment Date</th>
                                     <th>Status</th>
                                     <th>Action</th>
+                                    <?php
+                                    }
+                                    ?>
                                 </thead>
                                 <tbody>
                                 <!-- row -->
@@ -112,20 +118,22 @@
                                         $student_info = $common->select("`student_table`", "`id` = '$student_id'");
                                         $student_infos = mysqli_fetch_assoc($student_info);
 
-                                        // batch inactive
-                                        if ($batch_students['payment_time'] != NULL) {
-                                            $date1 = date_create(date("Y-m-d"));
-                                            $date2 = date_create($batch_students['payment_time']);
-                                            $diff = date_diff($date1, $date2);
-                                            $diff_result = $diff->format("%R%a");
-                                            if (is_numeric(strpos($diff_result, "-"))) {
-                                                $common->update("`batch_students`", "`status` = '0'", "`student_id` = '$student_id'");
-                                                $batch_status = 'Inactive';
+                                        if ($batch_infos['type'] == 'paid') {
+                                            // batch inactive
+                                            if ($batch_students['payment_time'] != NULL) {
+                                                $date1 = date_create(date("Y-m-d"));
+                                                $date2 = date_create($batch_students['payment_time']);
+                                                $diff = date_diff($date1, $date2);
+                                                $diff_result = $diff->format("%R%a");
+                                                if (is_numeric(strpos($diff_result, "-"))) {
+                                                    $common->update("`batch_students`", "`status` = '0'", "`student_id` = '$student_id'");
+                                                    $batch_status = 'Inactive';
+                                                } else {
+                                                    $batch_status = $batch_students['status'] == 1 ? 'Active' : 'Inactive';
+                                                }
                                             } else {
                                                 $batch_status = $batch_students['status'] == 1 ? 'Active' : 'Inactive';
                                             }
-                                        } else {
-                                            $batch_status = $batch_students['status'] == 1 ? 'Active' : 'Inactive';
                                         }
                                     ?>
                                     <tr class="search-items">
@@ -139,6 +147,9 @@
                                                 </span>
                                             </a>
                                         </td>
+                                        <?php
+                                        if ($batch_infos['type'] == 'paid') {
+                                        ?>
                                         <td>
                                             <span class="usr-ph-no">
                                                 <?= $batch_students['paid'] == NULL ? 0 : $batch_students['paid']; ?>TK
@@ -183,6 +194,9 @@
                                         <td>
                                             <button type="button" class="btn btn-primary" onClick="setPaymentTime(<?= $batch_students['id']; ?>, '<?= $student_infos['sname']; ?>')" <?= $batch_students['payment_time'] != NULL ? ' disabled=""' : ''; ?>>Set Payment Time</button>
                                         </td>
+                                        <?php
+                                        }
+                                        ?>
                                     </tr>
                                         <?php
                                         $i++;
