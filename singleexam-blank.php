@@ -1,5 +1,6 @@
 <?php
     require_once 'init.php';
+    Session::StudentSignIn();
     $all = new All();
     $exam = new Exam();
     $common = new Common();

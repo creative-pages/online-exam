@@ -1,5 +1,6 @@
 <?php
     require_once 'init.php';
+    Session::StudentSignIn();
     $all = new All();
     $exam = new Exam();
     $common = new Common();
@@ -10,6 +11,11 @@
     $sub = $common->select("`add_exam`","`id`='$xmid'");
  
     $raw = mysqli_fetch_assoc($sub);
+    $batch_id = $raw['batch_id'];
+    $subject_id = $raw['subject_id'];
+    // subject information
+    $subject_detail = $common->select("`subject_add`", "`id` = '$subject_id'");
+    $subject_details = mysqli_fetch_assoc($subject_detail);
  
     $cmn = $common->select("`publish_exam`","`exam_id`='$xmid'");
     $result = mysqli_fetch_assoc($cmn);
@@ -43,39 +49,40 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="mb-1 mx-2">
-                            <h3 class="text-muted" style = "font-family: Georgia, serif;">Exam Name:<?=$raw['examname']?></h3>
+                            <h3 class="text-muted" style = "font-family: Georgia, serif;">Exam Name: <?= $raw['examname']; ?></h3>
                         </div>
                     </div>
                     <div class="col-12">
                         <div class="mb-1 mx-2">
-                        <h3 class="text-muted" style = "font-family: Georgia, serif;">Subject Name:<?=$raw['subjectname']?></h3>
+                        <h3 class="text-muted" style = "font-family: Georgia, serif;">Subject Name: <?= $subject_details['subject_name']; ?></h3>
                         </div>
                     </div>
                     <div class="col-12">
                         <div class="mb-1 mx-2">
-                        <h3 class="text-muted" style = "font-family: Georgia, serif;">Total Quetion:<?=$raw['tquetion']?></h3>
+                        <h3 class="text-muted" style = "font-family: Georgia, serif;">Total Quetion: <?= $raw['tquetion']; ?></h3>
                         </div>
                     </div>
                     <div class="col-12">
                         <div class="mb-1 mx-2">
-                        <h3 class="text-muted" style = "font-family: Georgia, serif;">Duration:<?=$raw['duration']?></h3>
+                        <h3 class="text-muted" style = "font-family: Georgia, serif;">Duration: <?= $raw['duration']; ?> Minutes</h3>
                         </div>
                     </div>
                     <div class="col-12">
-                        <div class="mb-1 mx-2">
-                            <?php if($pagination=="oneQuetion"){?>
+                        <div class="mt-2 px-2">
+                            <?php if($pagination == "oneQuetion") {?>
                             <a class="btn btn-success" href="singleexam-blank.php?q=<?=$qu['serial']?>">
-                                Start Test ...
+                                Start Test
                             </a>
                             <?php
                             } else {
                             ?>
-                            <a class="btn btn-success" href="exam.php?vi=<?= Session::get('exmid'); ?>">
-                                Start Test ...
+                            <a class="btn btn-success" href="exam.php?vi=<?= $xmid; ?>">
+                                Start Test
                             </a>
                             <?php
                             }
                             ?>
+                            <a class="btn btn-secondary float-end" href="class.php?cls=<?= $batch_id; ?>">Go Back</a>
                         </div>
                     </div>
                 </div>

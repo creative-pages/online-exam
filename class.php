@@ -5,11 +5,10 @@
     $common = new Common();
 ?>
 <?php
-   if(isset($_GET['cls'])){
-    $subid = $_GET['cls'];
-    $sub = $common->select("`subject_add`","`batch_id`='$subid'");
-}
-
+  if(isset($_GET['cls'])){
+    $batch_id = $_GET['cls'];
+    $sub = $common->select("`subject_add`", "`batch_id`='$batch_id'");
+  }
 ?>
 
 <DOCTYPE html>
@@ -40,53 +39,102 @@
 
         <div class="tab-content" id="pills-tabContent">
             <?php
-            $sub = $common->select("`subject_add`","`batch_id`='$subid'");
+            $sub = $common->select("`subject_add`", "`batch_id` = '$batch_id'");
             if($sub){
               $csl = '1';
               while($raw = mysqli_fetch_assoc($sub)){
               ?>
               <div class="tab-pane fade<?= $csl == 1 ? ' show active' : ''; ?>" id="pills-s<?= $csl; ?>" role="tabpanel" aria-labelledby="pills-s<?= $csl; ?>-tab">
-              <table class="table table-hover mt-3">
-                <tr class="table-info">
-                  <th class="">অধ্যায়</th>
-                  <th class="">টপিক</th>
-                  <th class="">ক্লাস</th>
-                  <th class="">পরীক্ষা</th>
-                  <th class="">নোট</th>
-                </tr>
-                <?php
-              
-              $tid = $raw['id'];
-              $topics = $common->select("`class_add`","`subject_id`='$tid' ORDER BY `chapter` ASC");
-                  if($topics){
-                    while($rows = mysqli_fetch_assoc($topics)){
-                  
-                ?>
-                <tr>
-                  <td>
-                    <?=$rows['chapter'];?>
-                  </td>
-                  <td>
-                  <?=$rows['topic'];?>
-                  </td>
-                  <td>
-                    <a href="">
-                      <img src="image/lecture.png" height="30px;">
-                    </a>
-                  </td>
-                  <td>
-                    <a href="<?=$rows['exm_link'];?>">
-                      <img src="image/exam.png" height="30px;">
-                    </a>
-                  </td>
-                  <td>
-                    <a href="">
-                      <img src="image/note.png" height="30px;">
-                    </a>
-                  </td>
-                </tr>
-                <?php }}?>
-              </table>
+                <div class="row">
+                  <div class="col-md-6">
+                    <table class="table table-hover mt-3">
+                      <tr class="table-info">
+                        <th class="">অধ্যায়</th>
+                        <th class="">টপিক</th>
+                        <th class="">ক্লাস</th>
+                        <th class="">নোট</th>
+                      </tr>
+                      <?php
+                      $tid = $raw['id'];
+                      $topics = $common->select("`class_add`","`subject_id`='$tid' ORDER BY `chapter` ASC");
+                          if($topics){
+                            while($rows = mysqli_fetch_assoc($topics)){
+                      ?>
+                      <tr>
+                        <td>
+                          <?=$rows['chapter'];?>
+                        </td>
+                        <td>
+                        <?=$rows['topic'];?>
+                        </td>
+                        <td>
+                          <a href="">
+                            <img src="image/lecture.png" height="30px;">
+                          </a>
+                        </td>
+                        <td>
+                          <a href="">
+                            <img src="image/note.png" height="30px;">
+                          </a>
+                        </td>
+                      </tr>
+                      <?php
+                      }
+                    } else {
+                    ?>
+                    <tr>
+                      <td class="text-center" colspan="4">
+                        No topic available.
+                      </td>
+                    </tr>
+                    <?php
+                    }
+                    ?>
+                    </table>
+                  </div>
+                  <div class="col-md-6">
+                    <table class="table table-hover mt-3">
+                      <tr class="table-info">
+                        <th class="">Serial</th>
+                        <th class="">Exam Name</th>
+                        <th class="">Exam Link</th>
+                      </tr>
+                      <?php
+                      $serial = 1;
+                      $subject_id = $raw['id'];
+                      $all_exam = $common->select("`add_exam`", "`batch_id` = '$batch_id' && `subject_id` = '$subject_id' ORDER BY `id` DESC");
+                      if($all_exam){
+                            while($all_exams = mysqli_fetch_assoc($all_exam)){
+                      ?>
+                      <tr>
+                        <td>
+                          <?= $serial; ?>
+                        </td>
+                        <td>
+                          <?= $all_exams['examname']; ?>
+                        </td>
+                        <td>
+                          <a href="start-exam.php?xmid=<?= $all_exams['id']; ?>" class="btn btn-outline-primary btn-sm">
+                            Exam Link
+                          </a>
+                        </td>
+                      </tr>
+                      <?php
+                      $serial++;
+                      }
+                    } else {
+                    ?>
+                    <tr>
+                      <td class="text-center" colspan="3">
+                        No exam available.
+                      </td>
+                    </tr>
+                    <?php
+                    }
+                    ?>
+                    </table>
+                  </div>
+                </div>
               </div>
               <?php
               $csl++;

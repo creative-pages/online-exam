@@ -1,5 +1,6 @@
 <?php
     require_once 'init.php';
+    Session::StudentSignIn();
     $all = new All();
     $exam = new Exam();
     $common = new Common();
@@ -10,8 +11,7 @@
         $query = $common->select("`add_exam`","`id`='$id'");
         $exam = mysqli_fetch_assoc($query);
 
-
-        $exam_id = Session::get('exmid');
+        $exam_id = $_GET['vi'];
         $publish_setting = $common->select("`publish_exam`","`exam_id`='$exam_id' && `other` LIKE '%blank%'");
         if ($publish_setting) {
             $publish_settings = mysqli_fetch_assoc($publish_setting);
@@ -69,13 +69,13 @@
                         </div>
                         <div class="row mx-1">
                             <div class="col-4">
-                                <h3 class="text-muted">Time:<?=$exam['duration'];?> minutes</h3>
+                                <h3 class="text-muted">Time: <?=$exam['duration'];?> minutes</h3>
                             </div>
                             <div class="col-4">
-                                <h3 class="text-muted">Quetion:<?=$exam['tquetion'];?></h3>
+                                <h3 class="text-muted">Quetion: <?=$exam['tquetion'];?></h3>
                             </div>
                             <div class="col-4">
-                                <h3 class="text-muted">Date:<?=$exam['exmdate'];?></h3>
+                                <h3 class="text-muted">Date: <?=$exam['exmdate'];?></h3>
                             </div>
                         </div>  
                         
@@ -118,7 +118,9 @@
                        
                     <?php 
                     $i++;
-                }}?>
+                      }
+                    }
+                    ?>
                     <button type="submit" class="btn btn-success my-3"name="save">Save</button>
                 </form>
                
@@ -149,7 +151,7 @@
         function showtime() {
             if (parseInt(sec) > 0) {
                 sec = parseInt(sec) - 1;
-                document.getElementById("showtime").innerHTML = "Your Left Time is :"+min+" Minutes :" + sec+" Seconds";
+                document.getElementById("showtime").innerHTML = "Your Left Time is : "+min+" Minutes " + sec+" Seconds";
                 tim = setTimeout("showtime()", 1000);
             }
             else {

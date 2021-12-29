@@ -48,7 +48,7 @@ class Session{
 	 	
 		if (self::get("SignIn") == false) {
 			self::destroy();
-			header("Location: ../signin.php");
+			header("Location: http://localhost/batbio/signin.php");
 		}
 	}
 
