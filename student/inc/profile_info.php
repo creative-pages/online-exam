@@ -5,13 +5,7 @@
             <div class="col-12 mx-2 text-center p-3">
                 <img style="height:100px; width:100px;" class="" src="../image/sprofile.jpg">
                 <p class="mt-3" style="color:green"><?= $result['sname']; ?></p>
-                <?php
-                if ($page_url != 'profile.php') {
-                ?>
                 <a href="profile.php" class="btn btn-info">Profile</a>
-                <?php
-                }
-                ?>
             </div>
         </div>
         <div class="p-3">
@@ -31,6 +25,7 @@
         if ($main_batch) {
             ?>
             <select name="main_batch_id" class="form-control" required="">
+                <option value="">Choose your batch</option>
             <?php
             while ($main_batches = mysqli_fetch_assoc($main_batch)) {
             ?>

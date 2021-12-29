@@ -173,18 +173,17 @@
             $result =$this->db->select($query); 
          
                
-                if ($result != false) {
-                $value = $result->fetch_assoc();
-              
-                Session::set("SignIn", true);
-               
-                Session::set("profileid", $value['id']);
-                echo "<script> window.location.assign('student/batch.php'); </script>";
-              
-                }else{
-                $msg="<span style='color:red'>Email And Password Does Not Match</span>";
-                   return $msg;
-                }      
+            if ($result != false) {
+            $value = $result->fetch_assoc();
+          
+            Session::set("SignIn", true);
+           
+            Session::set("profileid", $value['id']);
+            echo "<script> window.location.assign('student/batch.php'); </script>";
+          
+            } else {
+                return "<div class='alert alert-warning'>Email And Password Does Not Match</div>";
+            }
         }
 
         public function PaymentRequest($data){

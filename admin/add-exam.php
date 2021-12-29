@@ -114,11 +114,11 @@
                         </div>
                         <div class= "">
                             <select class="form-select" required="" name="chapter" id="exam_batch">
-                            <option>Choose Your Batch</option>
-                                    <?php 
-                                    $query = $common->select("`add_branch` ORDER BY id DESC");
-                                    if($query){
-                                        while($row = mysqli_fetch_assoc($query)){
+                                <option value="all">All Batch</option>
+                                <?php 
+                                $query = $common->select("`add_branch` ORDER BY id DESC");
+                                if($query){
+                                    while($row = mysqli_fetch_assoc($query)){
                                 ?>
                                 <option value = "<?=$row['id']?>"><?=$row['branch_name']?></option>
                                 <?php }} ?>

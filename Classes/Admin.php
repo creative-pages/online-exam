@@ -13,9 +13,9 @@ class Admin
 	}
     public function getadmindata($data){
 
-		$username= $this->fm->validation($data['username']);
-		$password= $this->fm->validation($data['password']);
-		$username= mysqli_real_escape_string($this->db->link,$username);
+		$username = $this->fm->validation($data['username']);
+		$password = $this->fm->validation($data['password']);
+		$username = mysqli_real_escape_string($this->db->link,$username);
 		//$password    = mysqli_real_escape_string($this->db->link,MD5($password));
 		
 		$query="SELECT * FROM tbl_admin WHERE username= '$username' AND password= '$password'";
@@ -23,27 +23,25 @@ class Admin
 		$result =$this->db->select($query);	
      
        	
-		    if ($result != false) {
+		if ($result != false) {
 			$value =  $result->fetch_assoc();
-			//Session::init();
 			Session::set("adminLogin",true);
-			Session::set("username",$value['username']);
+			Session::set("username", $value['username']);
 			
-			Session::set("id",$value['id']);
+			Session::set("id", $value['id']);
 			echo "<script> window.location.assign('dashboard.php'); </script>";
 			//header("Location:admin-dashboard.php");
-			}else{
-			$msg="<span style='color:red'>Email And Password Does Not Match</span>";
-           	return $msg;
+			} else {
+			 $msg = "<span style='color:red'>Email And Password Does Not Match</span>";
+       return $msg;
 			}
 		
 	}
 	public function privacyPolicy()
 	{
-			$query="SELECT * FROM  privacy_tbl ";
-		
-		    $result =$this->db->select($query);	
-		    return $result;
+			$query ="SELECT * FROM  privacy_tbl";
+		  $result = $this->db->select($query);	
+		  return $result;
 	}
 	public function Updateprivacy($data)
 	{

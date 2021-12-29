@@ -5,6 +5,12 @@
     $common = new Common();
     $all = new All();
     $fm = new Format();
+
+    $admin_id = Session::get('id');
+    $admin_info = $common->select("`tbl_admin`", "`id` = '$admin_id'");
+    if ($admin_info) {
+        $admin_infos = mysqli_fetch_assoc($admin_info);
+    }
 ?>
 <!DOCTYPE html>
 <html dir="ltr" lang="en">

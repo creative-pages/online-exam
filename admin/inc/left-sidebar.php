@@ -15,28 +15,16 @@
         <nav class="sidebar-nav">
             <ul id="sidebarnav">
                 <li class="sidebar-item">
-                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="dashboard.php"
-                        aria-expanded="false">
-                        <span class="hide-menu">Dashboard </span>
+                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="dashboard.php" aria-expanded="false">
+                        <i class="mdi mdi-account-box"></i>
+                        <span class="hide-menu">Dashboard</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)"
-                            aria-expanded="false">
-                            <i class="mdi mdi-gauge"></i>
-                            <span class="hide-menu">Exam</span>
+                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="add-exam.php" aria-expanded="false">
+                        <i class="mdi mdi-account-box"></i>
+                        <span class="hide-menu">Exam</span>
                     </a>
-                    <ul aria-expanded="false" class="collapse  first-level">
-                        <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
-                            href="add-exam.php" aria-expanded="false"><i class="mdi mdi-account-box"></i>
-                            <span class="hide-menu">Exam</span></a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="publish-exam.php" aria-expanded="false"><i class="mdi mdi-account-box"></i>
-                                <span class="hide-menu">Settings</span>
-                            </a>
-                        </li>
-                    </ul>
                 </li>
                 <li class="sidebar-item">
                     <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
@@ -50,9 +38,12 @@
                         <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
                         href="add-subject.php" aria-expanded="false"><i class="mdi mdi-account-box"></i><span
                             class="hide-menu">Subject</span></a></li> 
-                        <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
-                        href="add-class.php" aria-expanded="false"><i class="mdi mdi-account-box"></i><span
-                            class="hide-menu">Class</span></a></li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="add-class.php" aria-expanded="false">
+                                <i class="mdi mdi-account-box"></i>
+                                <span class="hide-menu">Class</span>
+                            </a>
+                        </li>
                     </ul>
                 </li>
                 <li class="sidebar-item">

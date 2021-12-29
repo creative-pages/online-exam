@@ -64,12 +64,12 @@
             <div class="auth-box p-4 bg-white rounded">
                 <div id="loginform">
                     <div class="logo">
+                        <h2 class="box-title mb-3 text-center">Student Sign In</h2>
                         <?php
                             if(isset($signdata)){
                                 echo $signdata;
                             }
                         ?>
-                        <h2 class="box-title mb-3 text-center">Student Sign In</h2>
                     </div>
                     <!-- Form -->
                     <div class="row">

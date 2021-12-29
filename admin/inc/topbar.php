@@ -112,13 +112,10 @@
                                 <div class="d-flex no-block align-items-center p-3 bg-info text-white mb-2">
                                     <div class=""><img src="assets/images/users/1.jpg" alt="user" class="rounded-circle" width="60"></div>
                                     <div class="ms-2">
-                                        <h4 class="mb-0 text-white">Steave Jobs</h4>
-                                        <p class=" mb-0">varun@gmail.com</p>
+                                        <h4 class="mb-0 text-white"><?= ucfirst($admin_infos['username']); ?></h4>
+                                        <p class=" mb-0"><?= $admin_infos['email']; ?></p>
                                     </div>
                                 </div>
-                                <a class="dropdown-item" href="#"><i data-feather="user" class="feather-sm text-info me-1 ms-1"></i> My
-                                    Profile</a>
-                                <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="?action=logout">
                                     <i data-feather="log-out" class="feather-sm text-danger me-1 ms-1"></i>
                                     Logout

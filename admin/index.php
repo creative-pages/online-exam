@@ -5,9 +5,8 @@
 ?>
 <?php
     if ($_SERVER["REQUEST_METHOD"]== "POST" && isset($_POST['submit'])) {
-        $admindata=$ad->getadmindata($_POST);
+        $admindata = $ad->getadmindata($_POST);
     }
-
 ?>
 <!DOCTYPE html>
 <html dir="ltr">

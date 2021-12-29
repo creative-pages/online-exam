@@ -22,11 +22,11 @@
         $query = $common->select("`student_table`","`contack`='$contact'");
         $email_check = $common->select("`student_table`","`email`='$email'");
 
-        if($query != false){
-            $msg = "<span style='color:red'>Contact Already Exists</span>";
-        } elseif($email_check != false){
-            $msg = "<span style='color:red'>Email Already Exists</span>";
-        } else{
+        if($email_check != false) {
+            $email_error = "<div class='alert alert-warning mb-0 py-2'>Email Already Exists!</div>";
+        } elseif($query != false) {
+            $contact_error = "<div class='alert alert-warning mb-0 py-2'>Contact Already Exists!</div>";
+        } else {
             $success =$common->insert("`student_table`(`sname`,`sfname`,`smname`,`email`,`contack`,`password`,`ssc`,`hsc`,`ms`,`st`)","('$sname', '$sfname', '$smname', '$email','$contact','$password','$ssc','$hsc','$ms','$st')");
             if($success){
                 $get_id = $common->select("`student_table`", "`email` = '$email'");
@@ -45,8 +45,11 @@
                 $batch_fee = $batch_infos['total_fee'];
 
                 $add_to_batch = $common->insert("`batch_students`(`student_id`, `batch_id`, `fee`, `status`)", "('$student_id', '$batch_id', '$batch_fee', '$status')");
-
-                header("Location: signin.php");
+                if ($add_to_batch) {
+                    header("Location: signin.php");
+                } else {
+                    $msg = "<div class='alert alert-warning mb-0 py-2'>Something is wrong!</div>";
+                }
             }
         }
      }
@@ -124,39 +127,41 @@
                                 <h4 class="card-title">Personal Info</h4>
                                
                                 <div class="mb-3 row">
-                                    <label for="fname" class="col-sm-3 text-end control-label col-form-label">Student Name</label>
+                                    <label for="sname" class="col-sm-3 text-end control-label col-form-label">Student Name</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="fname" placeholder="Your name" name="sname" required="">
+                                        <input type="text" class="form-control" id="sname" placeholder="Your name" value="<?= isset($_POST['sname']) ? $_POST['sname'] : ''; ?>" name="sname" required="">
                                     </div>
                                 </div>
                                 <div class="mb-3 row">
-                                    <label for="lname" class="col-sm-3 text-end control-label col-form-label">Father's Name</label>
+                                    <label for="sfname" class="col-sm-3 text-end control-label col-form-label">Father's Name</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="lname" placeholder="Your father's name" name="sfname" required="">
+                                        <input type="text" class="form-control" id="sfname" placeholder="Your father's name" value="<?= isset($_POST['sfname']) ? $_POST['sfname'] : ''; ?>" name="sfname" required="">
                                     </div>
                                 </div>
                                 <div class="mb-3 row">
-                                    <label for="lname" class="col-sm-3 text-end control-label col-form-label">Mother's Name</label>
+                                    <label for="smname" class="col-sm-3 text-end control-label col-form-label">Mother's Name</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="lname" placeholder="Your mother's name" name="smname" required="">
+                                        <input type="text" class="form-control" id="smname" placeholder="Your mother's name" value="<?= isset($_POST['smname']) ? $_POST['smname'] : ''; ?>" name="smname" required="">
                                     </div>
                                 </div>
                                 <div class="mb-3 row">
-                                    <label for="email1" class="col-sm-3 text-end control-label col-form-label">Email</label>
+                                    <label for="email" class="col-sm-3 text-end control-label col-form-label">Email</label>
                                     <div class="col-sm-9">
-                                        <input type="email" class="form-control" id="email1" placeholder="Email Here" name="email" required="">
+                                        <input type="email" class="form-control" id="email" placeholder="Email Here" value="<?= isset($_POST['email']) ? $_POST['email'] : ''; ?>" name="email" required="">
+                                        <?= isset($email_error) ? $email_error : '';?>
                                     </div>
                                 </div>
                                 <div class="mb-3 row">
-                                    <label for="cono1" class="col-sm-3 text-end control-label col-form-label">Contact No</label>
+                                    <label for="contact" class="col-sm-3 text-end control-label col-form-label">Contact No</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="contact" placeholder="Contact number" name="contact" pattern=".{11,11}" required title="Please Input Only 11 digit" required="">
+                                        <input type="text" class="form-control" id="contact" placeholder="Contact number" value="<?= isset($_POST['contact']) ? $_POST['contact'] : ''; ?>" name="contact" pattern=".{11,11}" required title="Please Input Only 11 digit" required="">
+                                        <?= isset($contact_error) ? $contact_error : '';?>
                                     </div>
                                 </div>
                                 <div class="mb-3 row">
-                                    <label for="cono1" class="col-sm-3 text-end control-label col-form-label">Password</label>
+                                    <label for="pwd" class="col-sm-3 text-end control-label col-form-label">Password</label>
                                     <div class="col-sm-9">
-                                        <input type="password" class="form-control" id="pwd"  name="password" placeholder="Enter your password" required="">
+                                        <input type="password" class="form-control" id="pwd"  name="password" placeholder="Enter your password" value="<?= isset($_POST['password']) ? $_POST['password'] : ''; ?>" required="">
                                     </div>
                                 </div>
                             </div>
@@ -165,30 +170,30 @@
                                 <h4 class="card-title">Requirements</h4>
                                 
                                 <div class="mb-3 row">
-                                    <label class="col-sm-3 text-end control-label col-form-label">Select Batch</label>
+                                    <label for="batch" class="col-sm-3 text-end control-label col-form-label">Select Batch</label>
                                     <div class="col-sm-9">
                                         <select class="form-select" name="batch" id="batch" required="">
-                                            <option>Choose Your Option</option>
+                                            <option value="">Choose Your Option</option>
                                             <?php
                                             $query = $common->select("add_branch ORDER BY id DESC");
                                             if($query){
                                                 while($raw = mysqli_fetch_assoc($query)){
                                             ?>
-                                            <option value = <?= $raw['id'];?>><?= $raw['branch_name'] . ' (' . ucfirst($raw['type']) . ')';?></option>
+                                            <option value="<?= $raw['id']; ?>"<?= isset($_POST['batch']) && $_POST['batch'] == $raw['id'] ? ' selected' : ''; ?>><?= $raw['branch_name'] . ' (' . ucfirst($raw['type']) . ')';?></option>
                                             <?php }}?>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="mb-3 row">
-                                    <label for="lname" class="col-sm-3 text-end control-label col-form-label">SSC RESULT</label>
+                                    <label for="ssc" class="col-sm-3 text-end control-label col-form-label">SSC RESULT</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="lname" placeholder="Enter SSC Result" name="ssc" required="">
+                                        <input type="text" class="form-control" id="ssc" placeholder="Enter SSC Result" value="<?= isset($_POST['ssc']) ? $_POST['ssc'] : ''; ?>" name="ssc" required="">
                                     </div>
                                 </div>
                                 <div class="mb-3 row">
-                                    <label for="lname" class="col-sm-3 text-end control-label col-form-label">HSC RESULT</label>
+                                    <label for="hsc" class="col-sm-3 text-end control-label col-form-label">HSC RESULT</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="lname" placeholder="Enter HSC Result" name="hsc" required="">
+                                        <input type="text" class="form-control" id="hsc" placeholder="Enter HSC Result" value="<?= isset($_POST['hsc']) ? $_POST['hsc'] : ''; ?>" name="hsc" required="">
                                     </div>
                                 </div>
                                 <div class="mb-3 row">
@@ -196,15 +201,15 @@
                                     <div class="col-sm-9">
                                         <div class="form-check form-check-inline">
                                             <div class="custom-control custom-radio">
-                                                <input type="radio" class="custom-control-input" id="customControlValidation2" name="ms" value="yes" required="">
-                                                <label class="custom-control-label" for="customControlValidation2">Yes</label>
+                                                <input type="radio" class="custom-control-input" id="medical_yes" name="ms" value="yes" required=""<?= isset($_POST['ms']) && $_POST['ms'] == 'yes' ? ' checked=""' : ''; ?>>
+                                                <label class="custom-control-label" for="medical_yes">Yes</label>
                                             </div>
                                         </div>
 
                                         <div class="form-check form-check-inline">
                                             <div class="custom-control custom-radio">
-                                                <input type="radio" class="custom-control-input" id="customControlValidation3" name="ms" value="no" required="">
-                                                <label class="custom-control-label" for="customControlValidation3">No</label>
+                                                <input type="radio" class="custom-control-input" id="medical_no" name="ms" value="no" required=""<?= isset($_POST['ms']) && $_POST['ms'] == 'no' ? ' checked=""' : ''; ?>>
+                                                <label class="custom-control-label" for="medical_no">No</label>
                                             </div>
                                         </div>
                                     </div>
@@ -215,14 +220,14 @@
                                     <div class="col-sm-9">
                                         <div class="form-check form-check-inline">
                                             <div class="custom-control custom-radio">
-                                                <input type="radio" class="custom-control-input" id="customControlValidation2" name="st" value="yes" required="">
-                                                <label class="custom-control-label" for="customControlValidation2">Yes</label>
+                                                <input type="radio" class="custom-control-input" id="second_yes" name="st" value="yes" required=""<?= isset($_POST['st']) && $_POST['st'] == 'yes' ? ' checked=""' : ''; ?>>
+                                                <label class="custom-control-label" for="second_yes">Yes</label>
                                             </div>
                                         </div>
                                         <div class="form-check form-check-inline">
                                             <div class="custom-control custom-radio">
-                                                <input type="radio" class="custom-control-input" id="customControlValidation3" name="st" value="no" required="">
-                                                <label class="custom-control-label" for="customControlValidation3">No</label>
+                                                <input type="radio" class="custom-control-input" id="second_no" name="st" value="no" required=""<?= isset($_POST['st']) && $_POST['st'] == 'no' ? ' checked=""' : ''; ?>>
+                                                <label class="custom-control-label" for="second_no">No</label>
                                             </div>
                                         </div>
                                     </div>
