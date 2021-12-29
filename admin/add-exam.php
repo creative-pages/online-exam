@@ -106,22 +106,33 @@
         <div class="page-wrapper">
             
             <div class="container-fluid">
-                <div class="d-flex border-bottom title-part-padding px-0 mb-3 align-items-center">
+                <div class="d-flex justify-content-between border-bottom title-part-padding px-0 mb-3 align-items-center">
                        
                         <div>
                             <a href="javascript:void(0)" class="btn btn-success"data-bs-toggle="modal"
                                 data-bs-target="#signup-modal">Add New Exam</a>
+                        </div>
+                        <div class= "">
+                            <select class="form-select" required="" name="chapter" id="exam_batch">
+                            <option>Choose Your Batch</option>
+                                    <?php 
+                                    $query = $common->select("`add_branch` ORDER BY id DESC");
+                                    if($query){
+                                        while($row = mysqli_fetch_assoc($query)){
+                                ?>
+                                <option value = "<?=$row['id']?>"><?=$row['branch_name']?></option>
+                                <?php }} ?>
+                            </select>
                         </div>
                         <?php
                             if(isset($dltque)){
                                echo $dltque;
                             }
                         ?>
-                        
-
-                    </div>
-                    <div class="row">
-                        <?php
+                      </div>
+                    
+                    <div class="row" id = "allbatch">
+                    <?php
                             $allxm = $exam->AllExamList();
                             if($allxm){
                                 while($value = $allxm->fetch_assoc()) {
@@ -297,6 +308,23 @@
                 })
 
             });
+
+            $('#exam_batch').on('change',function(){
+                var id = this.value;
+                $.ajax({
+                    url:'ajax/batch_exam.php',
+                    data:{
+                        type:'GET',
+                        bid:id
+                    },
+                    cache:false,
+                    success:function(result){
+                        $('#allbatch').html(result);
+                    }
+                })
+
+            });
+
 
         });
     </script>

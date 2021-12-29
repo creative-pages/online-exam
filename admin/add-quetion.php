@@ -4,6 +4,9 @@
     $add_question = $common->select("`add_exam`", "`status` = '0' ORDER BY `id` DESC LIMIT 1");
     if($add_question) {
         $add_questions = mysqli_fetch_assoc($add_question);
+        $sub_id = $add_questions['subject_id'];
+        $sub_query = $common->select("`subject_add`","`id`='$sub_id'");
+        $sub_name = mysqli_fetch_assoc($sub_query);
         $total_questions = $add_questions['tquetion'] + 1;
     } else {
         header("Location: add-exam.php");
@@ -215,7 +218,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['csv_file_import'])) {
                     </tr>
                     <tr>
                         <td><?= $add_questions['examname']; ?></td>
-                        <td><?= $add_questions['subjectname']; ?></td>
+                        <td><?= $sub_name['subject_name']; ?></td>
                         <td><?= $add_questions['duration']; ?></td>
                         <td id="total_questions"><?= isset($ser) ? $ser - 1 : 0; ?></td>
                     </tr>

@@ -1,8 +1,5 @@
 <?php
-    require_once '../../init.php';
-  
-    $exam = new Exam();
-    $common = new Common();
+   
 
     $id = $_POST['id'];
    
@@ -16,4 +13,9 @@
 ?>
 <option value="<?=$raw['id'];?>"><?=$raw['subject_name'];?></option>
 <?php }?>
+
+<?php
+    $id = $_GET['bid'];
+    $result = $common->select("`add_exam`","`batch_id`='i")
+?>
     

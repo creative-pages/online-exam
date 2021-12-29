@@ -53,6 +53,10 @@
     $all_xm = $exam->ExamById($id);
     if($all_xm) {
         $xmbyid = $all_xm->fetch_assoc();
+        $sub_id = $xmbyid['subject_id'];
+        
+        $sub_query = $common->select("`subject_add`","`id`='$sub_id'");
+        $sub_name = mysqli_fetch_assoc($sub_query);
         $total = $xmbyid['tquetion'];
     }
 ?>
@@ -213,7 +217,7 @@
                     </tr>
                     <tr>
                         <td><?=$xmbyid['examname'];?></td>
-                        <td><?=$xmbyid['subjectname'];?></td> 
+                        <td><?=$sub_name['subject_name'];?></td> 
                         <td><?=$xmbyid['duration'];?></td> 
                         <td><?=$xmbyid['tquetion'];?></td>   
                     </tr>
