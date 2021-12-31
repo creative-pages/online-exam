@@ -4,7 +4,6 @@
         $id = $_GET['es'];
        $query = $common->select("`publish_exam`","`id`='$id'");
        $exam = mysqli_fetch_assoc($query);
-
     }
   ?>
   <?php
@@ -46,15 +45,7 @@
                                 <div class="row">
                                     <div class="col-12">
                                         <div class="mb-3">
-                                            <label for="inputcom" class="control-label col-form-label">Exam Name</label>
-                                            <input type="text" class="form-control" name="exam_name" value="<?=$exam['exam_name'];?>">
-                                            <input type="hidden" class="form-control" id="inputcom" name="exam_id" value="<?=$exam['exam_id'];?>">
-                                            <input type="hidden" class="form-control" id="inputcom" name="link" value="student-login.php?exmid=<?=$exam['id'];?>">
-                                        </div>
-                                    </div>
-                                
-                                    <div class="col-12">
-                                        <div class="mb-3">
+                                            <input type="hidden" class="form-control" id="inputcom" name="publish_id" value="<?=$exam['id'];?>">
                                             <label class="control-label col-form-label">Introduction</label>
                                             <textarea class="form-control ck_editor" name="intro" >
                                                 <?=$exam['intro'];?>
@@ -329,7 +320,7 @@
                                     <div class="col-12">
                                         <div class="mb-3">
                                             <input type="radio"id="inputcom" name="can_take_test"value="limited" <?php echo ($exam['can_take_test']== 'limited') ?  "checked" : "" ;  ?>>
-                                            <span><input type="text" name="take_time" style="width: 64px;"></span> <span>times</span>
+                                            <span><input type="text" name="take_time" value="<?= $exam['can_take_test'] == 'limited' ? $exam['take_time'] : "" ; ?>" style="width: 64px;"></span> <span>times</span>
                                         </div>
                                     </div>
 

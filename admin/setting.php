@@ -2,9 +2,8 @@
 <?php
     if(isset($_GET['setting'])){
         $id = $_GET['setting'];
-       $query = $common->select("`add_exam`","`id`='$id'");
-       $exam = mysqli_fetch_assoc($query);
-
+        $query = $common->select("`add_exam`", "`id` = '$id'");
+        $exam = mysqli_fetch_assoc($query);
     }
   ?>
   <?php
@@ -14,7 +13,6 @@
   ?>
 
 <body>
-  
     <div class="preloader">
         <svg class="tea lds-ripple" width="37" height="48" viewbox="0 0 37 48" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M27.0819 17H3.02508C1.91076 17 1.01376 17.9059 1.0485 19.0197C1.15761 22.5177 1.49703 29.7374 2.5 34C4.07125 40.6778 7.18553 44.8868 8.44856 46.3845C8.79051 46.79 9.29799 47 9.82843 47H20.0218C20.639 47 21.2193 46.7159 21.5659 46.2052C22.6765 44.5687 25.2312 40.4282 27.5 34C28.9757 29.8188 29.084 22.4043 29.0441 18.9156C29.0319 17.8436 28.1539 17 27.0819 17Z" stroke="#1e88e5" stroke-width="2"></path>
@@ -36,23 +34,12 @@
             <div class="container-fluid">
                 <form action="" method="post">
                     <div class="card w-100">
-                        
-                        
                             <div class="card-body border-top">
                                 <h4 class="card-title">Basic Settings</h4>
-                                
                                 <div class="row">
                                     <div class="col-12">
                                         <div class="mb-3">
-                                            <label for="inputcom" class="control-label col-form-label">Exam Name</label>
-                                            <input type="text" class="form-control" name="exam_name" value="<?=$exam['examname']?>">
                                             <input type="hidden" class="form-control" id="inputcom" name="exam_id" value="<?=$exam['id'];?>">
-                                            <input type="hidden" class="form-control" id="inputcom" name="link" value="student-login.php?exmid=<?=$exam['id'];?>">
-                                        </div>
-                                    </div>
-                                
-                                    <div class="col-12">
-                                        <div class="mb-3">
                                             <label class="control-label col-form-label">Introduction</label>
                                             <textarea class="form-control ck_editor" name="intro" ></textarea>
                                         </div>
@@ -63,7 +50,6 @@
                         
                             <div class="card-body border-top">
                                 <h4 class="card-title">Color Scheema</h4>
-                                
                                 <div class="row">
                                     <div class="col-3">
                                         <div class="mb-3">

@@ -103,8 +103,10 @@
                       $serial = 1;
                       $subject_id = $raw['id'];
                       $all_exam = $common->select("`add_exam`", "`batch_id` = '$batch_id' && `subject_id` = '$subject_id' ORDER BY `id` DESC");
-                      if($all_exam){
-                            while($all_exams = mysqli_fetch_assoc($all_exam)){
+                      if($all_exam) {
+                        while($all_exams = mysqli_fetch_assoc($all_exam)) {
+                          $exam_id = $all_exams['id'];
+                          $exam_publish_info = $common->select("`publish_exam`", "`exam_id` = '$exam_id'");
                       ?>
                       <tr>
                         <td>
@@ -114,9 +116,18 @@
                           <?= $all_exams['examname']; ?>
                         </td>
                         <td>
+                          <?php
+                          if($exam_publish_info && $all_exams['status'] == '1') {
+                          ?>
                           <a href="start-exam.php?xmid=<?= $all_exams['id']; ?>" class="btn btn-outline-primary btn-sm">
                             Exam Link
                           </a>
+                          <?php
+                          } else {
+                            echo '<span class="badge badge-pill bg-info">Coming soon</span>';
+                          }
+                          ?>
+                          
                         </td>
                       </tr>
                       <?php

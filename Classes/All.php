@@ -64,8 +64,6 @@
 
         public function PublishExam($data){
             $exam_id = $this->fm->validation($data['exam_id']);
-            $exam_name = $this->fm->validation($data['exam_name']);
-            $link = $this->fm->validation($data['link']);
             $intro = $this->fm->validation($data['intro']);
             $color = $this->fm->validation($data['color']);
             $pagination = $this->fm->validation($data['pg']);
@@ -90,10 +88,7 @@
                     $others .= $value . ",";  
                 }
             }
-            
-            
-          
-            $query = "INSERT INTO  publish_exam(exam_id,exam_name,link,intro,color,pagination,navigation,after_answer,other,negative_mark,access,howtime,totaltime,can_take_test,take_time,browser) VALUES('$exam_id','$exam_name','$link','$intro','$color','$pagination','$navigation','$afters','$others','$negative_mark','$acces','$howtime','$totaltime','$can_take_test','$take_time','') ";
+            $query = "INSERT INTO  publish_exam(exam_id,intro,color,pagination,navigation,after_answer,other,negative_mark,access,howtime,totaltime,can_take_test,take_time) VALUES('$exam_id','$intro','$color','$pagination','$navigation','$afters','$others','$negative_mark','$acces','$howtime','$totaltime','$can_take_test','$take_time') ";
             $result = $this->db->insert($query);
             if($result){
                 header("Location:publish-exam.php");
@@ -105,9 +100,7 @@
         }
 
         public function EditSetting($data,$id){
-            $exam_id = $this->fm->validation($data['exam_id']);
-            $exam_name = $this->fm->validation($data['exam_name']);
-            $link = $this->fm->validation($data['link']);
+            $publish_id = $this->fm->validation($data['publish_id']);
             $intro = $this->fm->validation($data['intro']);
             $color = $this->fm->validation($data['color']);
             $pagination = $this->fm->validation($data['pg']);
@@ -135,9 +128,7 @@
             }
            
             $query = "UPDATE publish_exam 
-            set 
-            exam_name = '$exam_name',
-            intro= '$intro',
+            set
             color = '$color',
             pagination= '$pagination',
             navigation = '$navigation',
@@ -149,9 +140,8 @@
             howtime = '$howtime',
             totaltime = '$totaltime',
             can_take_test = '$can_take_test',
-            take_time = '$take_time', 
-            browser = ''             
-            ";
+            take_time = '$take_time'
+            WHERE `id` = '$publish_id'";
             $result = $this->db->update($query);
             if($result){
                 header("Location:publish-exam.php");

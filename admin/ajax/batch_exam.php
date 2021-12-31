@@ -30,7 +30,7 @@
                 
                 <button type="button" class="btn btn-primary" onClick="examEdit(<?= $value['id']; ?>)">Edit</button>
                 <a  href="edit-quetion.php?editque=<?= $value['id'];?>" class="btn btn-success">Quetion Edit</a>
-                <a onclick ="return confirm('Do you Want to sure to delete?');" href="?dltque=<?= $value['id'];?>" class="btn btn-danger">Delete</a>
+                <!-- <a onclick ="return confirm('Do you Want to sure to delete?');" href="?dltque=<?= $value['id'];?>" class="btn btn-danger">Delete</a> -->
                 <?php
                  $idexm = $value['id'];
                  $pub = $common->select("`publish_exam`","`exam_id` = '$idexm'");
