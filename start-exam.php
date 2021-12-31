@@ -4,9 +4,8 @@
     $all = new All();
     $exam = new Exam();
     $common = new Common();
-?>
-<?php
-   if(isset($_GET['xmid'])){
+
+if(isset($_GET['xmid']) && $_GET['xmid'] != '' && is_numeric($_GET['xmid'])) {
     $xmid = $_GET['xmid'];
     $sub = $common->select("`add_exam`","`id`='$xmid'");
  
@@ -18,14 +17,20 @@
     $subject_details = mysqli_fetch_assoc($subject_detail);
  
     $cmn = $common->select("`publish_exam`","`exam_id`='$xmid'");
-    $result = mysqli_fetch_assoc($cmn);
-    $pagination = $result['pagination'];
+    if($cmn) {
+        $result = mysqli_fetch_assoc($cmn);
+        $pagination = $result['pagination'];
+    }
     $cmn = $common->select("`questions`","`exam_id`='$xmid' ORDER BY `serial` ASC");
-    $qu = mysqli_fetch_assoc($cmn);
+    if($cmn) {
+        $qu = mysqli_fetch_assoc($cmn);
+    }
 
     unset($_SESSION["exam_sheet"]);
     unset($_SESSION["reload_session_result"]);
     unset($_SESSION["score"]);
+} else {
+    header("Location: batch.php");
 }
 ?>
 
@@ -49,7 +54,7 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="mb-1 mx-2">
-                            <h3 class="text-muted" style = "font-family: Georgia, serif;">Exam Name: <?= $raw['examname']; ?></h3>
+                            <h3 class="text-muted text-capitalize" style = "font-family: Georgia, serif;">Exam Name: <?= $raw['examname']; ?></h3>
                         </div>
                     </div>
                     <div class="col-12">
@@ -68,20 +73,41 @@
                         </div>
                     </div>
                     <div class="col-12">
-                        <div class="mt-2 px-2">
-                            <?php if($pagination == "oneQuetion") {?>
-                            <a class="btn btn-success" href="singleexam-blank.php?q=<?=$qu['serial']?>">
-                                Start Test
-                            </a>
+                        <div class="mt-4 px-2">
                             <?php
+                            $student_id = Session::get("profileid");
+                            $batch_info = $common->select("`batch_students`", "`student_id` = '$student_id' && `batch_id` = '$batch_id' && `status` = '1'");
+                            if($batch_info) {
+                                $exam_publish_info = $common->select("`publish_exam`", "`exam_id` = '$xmid'");
+                                $exam_publish_infos = mysqli_fetch_assoc($exam_publish_info);
+                                $exam_take = $common->select("`results`", "`exam_id` = '$xmid' && `student_id` = '$student_id'");
+                                if($exam_take) {
+                                    $exam_taken = mysqli_num_rows($exam_take);
+                                } else {
+                                    $exam_taken = '0';
+                                }
+                                if($exam_publish_infos['can_take_test'] == 'unlimited' || $exam_publish_infos['take_time'] > $exam_taken) {
+                                    if($pagination == "oneQuetion") {
+                                    ?>
+                                    <a class="btn btn-success" href="singleexam-blank.php?q=<?=$qu['serial']?>">
+                                        Start Test
+                                    </a>
+                                    <?php
+                                    } else {
+                                    ?>
+                                    <a class="btn btn-success" href="exam.php?vi=<?= $xmid; ?>">
+                                        Start Test
+                                    </a>
+                                    <?php
+                                    }
+                                } else {
+                                    echo "<div class='px-3 py-2 bg-danger text-white rounded fw-bold w-50 float-start mb-0'>You can't take anymore test in this exam!</div>";
+                                }
                             } else {
-                            ?>
-                            <a class="btn btn-success" href="exam.php?vi=<?= $xmid; ?>">
-                                Start Test
-                            </a>
-                            <?php
+                                echo "<div class='px-3 py-2 bg-danger text-white rounded fw-bold w-50 float-start mb-0'>You can't take this test!</div>";
                             }
                             ?>
+                            
                             <a class="btn btn-secondary float-end" href="class.php?cls=<?= $batch_id; ?>">Go Back</a>
                         </div>
                     </div>

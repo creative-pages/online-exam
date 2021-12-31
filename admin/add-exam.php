@@ -143,7 +143,23 @@
                              <div class="col-md-4 col-xl-2 d-flex align-items-stretch">
                                 <div class="card w-100">
                                     <div class="card-header bg-primary">
-                                        <h4 class="mb-0 text-white"><?= $value['examname'];?></h4></div>
+                                        <h4 class="mb-0 text-white">
+                                            <?= $value['examname'];?>
+                                            <?php
+                                                $idexm = $value['id'];
+                                                $pub = $common->select("`publish_exam`","`exam_id` = '$idexm'");
+                                                if($pub) {
+                                                ?>
+                                                <span class="badge bg-success float-end">Published</span>
+                                                <?php
+                                                } else {
+                                                ?>
+                                                <span class="badge bg-warning float-end">Unpublished</span>
+                                                <?php
+                                                }
+                                            ?>
+                                        </h4>
+                                    </div>
                                     <div class="card-body">
                                         <h3 class="card-title text-muted py-1"style="border-bottom:1px dotted #EEF5F9;">Subject: <?= $subject_infos['subject_name'];?></h3>
                                         <h3 class="card-title text-muted py-1"style="border-bottom:1px dotted #EEF5F9;">Duration: <?= $value['duration'];?> Minute</h3>
@@ -152,12 +168,10 @@
                                         
                                         <button type="button" class="btn btn-primary" onClick="examEdit(<?= $value['id']; ?>)">Edit</button>
                                         <a  href="edit-quetion.php?editque=<?= $value['id'];?>" class="btn btn-success">Quetion Edit</a>
-                                        <a onclick ="return confirm('Do you Want to sure to delete?');" href="?dltque=<?= $value['id'];?>" class="btn btn-danger">Delete</a>
+                                        <!-- <a onclick ="return confirm('Do you Want to sure to delete?');" href="?dltque=<?= $value['id'];?>" class="btn btn-danger">Delete</a> -->
                                         <?php
-                                         $idexm = $value['id'];
-                                         $pub = $common->select("`publish_exam`","`exam_id` = '$idexm'");
                                          
-                                         if($pub ){
+                                        if($pub ){
                                             $result = mysqli_fetch_assoc($pub);
                                         ?>
                                          <a href="edit-setting.php?es=<?=$result['id'];?>" class="btn btn-info my-1"><i class="fa fa-cog" aria-hidden="true"></i>

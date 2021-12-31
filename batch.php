@@ -5,7 +5,13 @@
         <a class="flex items-center justify-center font-semibold text-primary-500 rounded-lg border-2 text-lg h-14 w-60 border-primary transition duration-300 ease-in-out hover:bg-primary-500 hover:text-primary-50" href="/exams/practice-session">Practice Session
 	</a>
     <?php
-        $batch = $common->select("`add_branch` ORDER BY `id` DESC");
+    	if(isset($_GET['free'])) {
+    		$type = 'free';
+    	} else {
+    		$type = 'paid';
+    	}
+
+        $batch = $common->select("`add_branch`", "`type` = '$type' ORDER BY `id` DESC");
         if($batch){
             while($raw = mysqli_fetch_assoc($batch)){
            
