@@ -47,7 +47,6 @@
                                 </div>
                                 <div class="col-md-8 col-xl-10 text-end d-flex justify-content-md-end justify-content-center mt-3 mt-md-0">
                                      <a href="subject.php" id="" class="btn btn-info">
-                                            <i data-feather="users" class="feather-sm fill-white me-1"> </i>
                                          Add New Subject</a>
                                 </div>
                         </div>
