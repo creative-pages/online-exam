@@ -19,7 +19,7 @@
     </head>
     <body>
       <div class="container">
-        <img src="image/04.jpg" class="rounded mx-auto d-block"  width="75%">
+        <img src="image/santo.jpg" class="rounded mx-auto d-block my-2"  width="75%">
 
         <ul class="nav nav-pills mb-3 mt-5" id="pills-tab" role="tablist">
           <?php

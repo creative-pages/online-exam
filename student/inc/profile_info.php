@@ -2,13 +2,14 @@
     <h2>User</h2>
     <div class="card rounded mb-3">
         <div class="row">
-            <div class="col-12 mx-2 text-center p-3">
+            <div class="col-12 mx-2 text-center p-3 mb-0">
                 <img style="height:100px; width:100px;" class="" src="../image/sprofile.jpg">
-                <p class="mt-3" style="color:green"><?= $result['sname']; ?></p>
+                <p class="mt-3 mb-1" style="color:green"><?= $result['sname']; ?></p>
+                <p class="mt-0 mb-1" style="color:green">ID: <?= $result['id']; ?></p>
                 <a href="profile.php" class="btn btn-info">Profile</a>
             </div>
         </div>
-        <div class="p-3">
+        <div class="p-3 text-center">
             <a href="../index.php" class="btn btn-primary btn-sm mx-1">Home</a>
             <a href="batch.php" class="btn btn-primary btn-sm mx-1">Batch</a>
             <a href="?action=logout" class="btn btn-primary btn-sm mx-1">Logout</a>
