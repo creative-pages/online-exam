@@ -35,6 +35,9 @@
                 <form action="" method="post">
                     <div class="card w-100">
                             <div class="card-body border-top">
+                                <h3 class="mb-4">
+                                    Exam Name - <?= ucfirst($exam['examname']); ?>
+                                </h3>
                                 <h4 class="card-title">Basic Settings</h4>
                                 <div class="row">
                                     <div class="col-12">
@@ -85,6 +88,15 @@
 
                             <div class="card-body border-top">
                                 <h4 class="card-title">Quetion Setting</h4>
+                                <h5 class="card-title">How many questions should be shown?</h5>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        Total Questions - <?= $exam['tquetion']; ?>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input type="number" class="form-control" max="<?= $exam['tquetion']; ?>" name="display_question" id="display_question" placeholder="Display questions" required>
+                                    </div>
+                                </div>
                                 <h5 class="card-title">Pagination</h5>
                                 <div class="row">
                                     <div class="col-12">
@@ -291,25 +303,17 @@
                             <div class="row">
                                 <div class="col-12">
                                     <div class="mb-1">
-                                        <input type="radio"id="inputcom" name="noti" >
-                                        Use My Acaunt to Control This
+                                    <input type="radio" id="inputcom" name="notification" value="yes" required="">
+                                        Yes
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <div class="mb-1">
-                                    <input type="radio"id="inputcom" name="noti" >
-                                        yes
+                                    <input type="radio" id="inputcom" name="notification" value="No" required="">
+                                        No
                                     </div>
                                 </div>
-                                <div class="col-12">
-                                    <div class="mb-1">
-                                    <input type="radio"id="inputcom" name="noti" >
-                                        no
-                                    </div>
-                                </div>
-                            
                             </div>
-
                         </div>
                     </div>
                     <div class="text-center">

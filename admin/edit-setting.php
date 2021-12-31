@@ -2,8 +2,11 @@
 <?php
     if(isset($_GET['es'])){
         $id = $_GET['es'];
-       $query = $common->select("`publish_exam`","`id`='$id'");
-       $exam = mysqli_fetch_assoc($query);
+        $query = $common->select("`publish_exam`","`id`='$id'");
+        $exam = mysqli_fetch_assoc($query);
+        $main_exam_id = $exam['exam_id'];
+        $main_exam = $common->select("`add_exam`", "`id` = '$main_exam_id'");
+        $main_exams = mysqli_fetch_assoc($main_exam);
     }
   ?>
   <?php
@@ -40,8 +43,10 @@
                         
                         
                             <div class="card-body border-top">
+                                <h3 class="mb-4">
+                                    Exam Name - <?= ucfirst($main_exams['examname']); ?>
+                                </h3>
                                 <h4 class="card-title">Basic Settings</h4>
-                                
                                 <div class="row">
                                     <div class="col-12">
                                         <div class="mb-3">
@@ -94,6 +99,15 @@
 
                             <div class="card-body border-top">
                                 <h4 class="card-title">Quetion Setting</h4>
+                                <h5 class="card-title">How many questions should be shown?</h5>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        Total Questions - <?= $main_exams['tquetion']; ?>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input type="number" class="form-control" max="<?= $main_exams['tquetion']; ?>" value="<?= $exam['display_question']; ?>" name="display_question" id="display_question" placeholder="Display questions" required>
+                                    </div>
+                                </div>
                                 <h5 class="card-title">Pagination</h5>
                                 <div class="row">
                                     <div class="col-12">
@@ -339,25 +353,17 @@
                             <div class="row">
                                 <div class="col-12">
                                     <div class="mb-1">
-                                        <input type="radio"id="inputcom" name="noti" >
-                                        Use My Acaunt to Control This
+                                    <input type="radio" id="inputcom" name="notification" value="yes" required=""<?= $exam['notification'] == 'yes' ? ' checked=""' : "" ; ?>>
+                                        Yes
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <div class="mb-1">
-                                    <input type="radio"id="inputcom" name="noti" >
-                                        yes
+                                    <input type="radio" id="inputcom" name="notification" value="No" required=""<?= $exam['notification'] == 'no' ? ' checked=""' : "" ; ?>>
+                                        No
                                     </div>
                                 </div>
-                                <div class="col-12">
-                                    <div class="mb-1">
-                                    <input type="radio"id="inputcom" name="noti" >
-                                        no
-                                    </div>
-                                </div>
-                            
                             </div>
-
                         </div>
                     </div>
                     <div class="text-center">

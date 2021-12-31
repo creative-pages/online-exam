@@ -66,6 +66,7 @@
             $exam_id = $this->fm->validation($data['exam_id']);
             $intro = $this->fm->validation($data['intro']);
             $color = $this->fm->validation($data['color']);
+            $display_question = $this->fm->validation($data['display_question']);
             $pagination = $this->fm->validation($data['pg']);
             $navigation = $this->fm->validation($data['nav']);
             $negative_mark = $this->fm->validation($data['negative_mark']);
@@ -74,6 +75,7 @@
             $totaltime = $this->fm->validation($data['minute']);
             $can_take_test = $this->fm->validation($data['can_take_test']);
             $take_time = $this->fm->validation($data['take_time']);
+            $notification = $this->fm->validation($data['notification']);
             if (isset($data['after_answer'])) { $after= $data['after_answer']; } else { $after = ''; }
                 if ($after) {
                 $afters = "";
@@ -88,7 +90,7 @@
                     $others .= $value . ",";  
                 }
             }
-            $query = "INSERT INTO  publish_exam(exam_id,intro,color,pagination,navigation,after_answer,other,negative_mark,access,howtime,totaltime,can_take_test,take_time) VALUES('$exam_id','$intro','$color','$pagination','$navigation','$afters','$others','$negative_mark','$acces','$howtime','$totaltime','$can_take_test','$take_time') ";
+            $query = "INSERT INTO  publish_exam(exam_id,intro,color,display_question,pagination,navigation,after_answer,other,negative_mark,access,howtime,totaltime,can_take_test,take_time,notification) VALUES('$exam_id','$intro','$color','$display_question','$pagination','$navigation','$afters','$others','$negative_mark','$acces','$howtime','$totaltime','$can_take_test','$take_time', '$notification')";
             $result = $this->db->insert($query);
             if($result){
                 header("Location:publish-exam.php");
@@ -103,6 +105,7 @@
             $publish_id = $this->fm->validation($data['publish_id']);
             $intro = $this->fm->validation($data['intro']);
             $color = $this->fm->validation($data['color']);
+            $display_question = $this->fm->validation($data['display_question']);
             $pagination = $this->fm->validation($data['pg']);
             $navigation = $this->fm->validation($data['nav']);
             $negative_mark = $this->fm->validation($data['negative_mark']);
@@ -111,6 +114,7 @@
             $totaltime = $this->fm->validation($data['minute']);
             $can_take_test = $this->fm->validation($data['can_take_test']);
             $take_time = $this->fm->validation($data['take_time']);
+            $notification = $this->fm->validation($data['notification']);
 
             if (isset($data['after_answer'])) { $after= $data['after_answer']; } else { $after = ''; }
                 if ($after) {
@@ -130,6 +134,7 @@
             $query = "UPDATE publish_exam 
             set
             color = '$color',
+            display_question = '$display_question',
             pagination= '$pagination',
             navigation = '$navigation',
             after_answer = '$afters',
@@ -141,6 +146,7 @@
             totaltime = '$totaltime',
             can_take_test = '$can_take_test',
             take_time = '$take_time'
+            notification = '$notification'
             WHERE `id` = '$publish_id'";
             $result = $this->db->update($query);
             if($result){
