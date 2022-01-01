@@ -17,9 +17,17 @@
 
 
         $exam_id = $_GET['vi'];
-        $publish_setting = $common->select("`publish_exam`","`exam_id`='$exam_id' && `other` LIKE '%blank%'");
+        $publish_setting = $common->select("`publish_exam`", "`exam_id` = '$exam_id'");
         if ($publish_setting) {
             $publish_settings = mysqli_fetch_assoc($publish_setting);
+            $display_question = $publish_settings['display_question'];
+            if (strpos($publish_settings['other'], 'blank')) {
+                $other = '';
+                $other_message = "";
+            } else {
+                $other = ' required=""';
+                $other_message = "All questions are required! You can't leave any question*";
+            }
         }
 
     }
@@ -74,49 +82,48 @@
                         </div>
                         <div class="row mx-1">
                             <div class="col-4">
-                                <h3 class="text-muted">Time: <?=$exam['duration'];?> minutes</h3>
+                                <h3 class="text-muted">Time: <?= $exam['duration']; ?> minutes</h3>
                             </div>
                             <div class="col-4">
-                                <h3 class="text-muted">Quetion: <?=$exam['tquetion'];?></h3>
+                                <h3 class="text-muted">Quetion: <?= $display_question; ?></h3>
                             </div>
                             <div class="col-4">
-                                <h3 class="text-muted">Date: <?=$exam['exmdate'];?></h3>
+                                <h3 class="text-muted">Date: <?= $exam['exmdate']; ?></h3>
                             </div>
-                        </div>  
-                        
+                        </div>
+                        <p class="px-3 mb-0 text-danger"><?= $other_message; ?></p>
                     </div>
        
-                <form action="final.php" method="post">
+                <form class="bg-white" action="final.php" method="post">
                     <input type="hidden" name="totalquetion" value="<?=$exam['tquetion'];?>"/>
                     <input type="hidden" name="exam_id" value="<?= $exam_id; ?>"/>
                     <?php
-                   $select = $common->select("`questions`","`exam_id` = '$id' ORDER BY `serial`+0");
+                   $select = $common->select("`questions`","`exam_id` = '$id' ORDER BY `serial` ASC LIMIT $display_question");
                    if($select){
                       $i = 1;
                        while($viewquetion = mysqli_fetch_assoc($select)){
                    ?>
-                  
                     <div class="exam bg-white px-3 py-2 border">
                         <div class="row mx-n3">
                             <div class="col-12 d-flex mb-2" style="font-size: 18px;">
-                                <input type="hidden" name="serial<?= $i; ?>" value="<?= $viewquetion['id']; ?> "/>
+                                <input type="hidden" name="serial<?= $i; ?>" value="<?= $viewquetion['id']; ?>"/>
                                 <span><b><?= $viewquetion['serial']; ?>. &nbsp;</b></span>
                                 <div><?= $viewquetion['question']; ?></div>
                             </div>
                             <div class="col-12 d-flex mb-2">
-                                <input type="radio" name="ans<?= $i; ?>" value="option_one" <?= $publish_setting != NULL ? '' : 'required'; ?> style="margin-top: 4px; margin-right: 8px;" />
+                                <input type="radio" name="ans<?= $i; ?>" value="option_one"<?= $other; ?> style="margin-top: 4px; margin-right: 8px;" />
                                 <?= $viewquetion['option_one']; ?>
                             </div>
                             <div class="col-12 d-flex mb-2">
-                                <input type="radio" name="ans<?= $i; ?>" value="option_two" <?= $publish_setting != NULL ? '' : 'required'; ?> style="margin-top: 4px; margin-right: 8px;" />
+                                <input type="radio" name="ans<?= $i; ?>" value="option_two"<?= $other; ?> style="margin-top: 4px; margin-right: 8px;" />
                                 <?= $viewquetion['option_two']; ?>
                             </div>
                             <div class="col-12 d-flex mb-2">
-                                <input type="radio" name="ans<?= $i; ?>" value="option_two" <?= $publish_setting != NULL ? '' : 'required'; ?> style="margin-top: 4px; margin-right: 8px;" />
+                                <input type="radio" name="ans<?= $i; ?>" value="option_two"<?= $other; ?> style="margin-top: 4px; margin-right: 8px;" />
                                 <?= $viewquetion['option_two']; ?>
                             </div>
                             <div class="col-12 d-flex mb-2">
-                                <input type="radio" name="ans<?= $i; ?>" value="option_four" <?= $publish_setting != NULL ? '' : 'required'; ?> style="margin-top: 4px; margin-right: 8px;" />
+                                <input type="radio" name="ans<?= $i; ?>" value="option_four"<?= $other; ?> style="margin-top: 4px; margin-right: 8px;" />
                                 <?= $viewquetion['option_four']; ?>
                             </div>
                         </div>
@@ -127,12 +134,12 @@
                       }
                     }
                     ?>
-                    <button type="submit" class="btn btn-success my-3"name="save">Save</button>
+                    <p class="text-center">
+                        <button type="submit" class="btn btn-success my-3" name="save">Submit</button>
+                    </p>
                 </form>
-               
                 </div>
             </div>
-
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"   crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
         <?php

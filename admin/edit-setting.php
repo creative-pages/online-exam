@@ -289,18 +289,14 @@
                             <h2><strong>Access Control</strong></h2>
                             <div class="row">
                                 <div class="col-6">
-                                    <h4>Who Can take your test?</h4>
+                                    <h4>Who Can take this test?</h4>
                                     <div class="mb-2 bg-light"style="padding:10px;">
-                                        <input type="radio"id="inputcom" name="access" value="anyone" <?php echo ($exam['access']== 'anyone') ?  "checked" : "" ;  ?> >
-                                            Anyone
+                                        <input type="radio"id="inputcom" name="access" value="anyone" <?php echo ($exam['access']== 'anyone') ?  "checked" : "" ;  ?>>
+                                            Any Student
                                     </div>
                                     <div class="mb-2 bg-light"style="padding:10px;">
-                                        <input type="radio"id="inputcom" name="access" value="passcode" <?php echo ($exam['access']== 'passcode') ?  "checked" : "" ;  ?> >
-                                            Anyone who enters a passcode of my choosing
-                                    </div>
-                                    <div class="mb-2 bg-light"style="padding:10px;">
-                                        <input type="radio"id="inputcom" name="access" value="uniq identifier" <?php echo ($exam['access']== 'uniq identifier') ?  "checked" : "" ;  ?> >
-                                        Anyone who enters a uniq identifier
+                                        <input type="radio"id="inputcom" name="access" value="batch_student" <?php echo ($exam['access']== 'batch_student') ?  "checked" : "" ;  ?> >
+                                            Only Batch Student
                                     </div>
                                 </div>
                                 <div class="col-6">

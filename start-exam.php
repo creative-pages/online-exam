@@ -77,9 +77,10 @@ if(isset($_GET['xmid']) && $_GET['xmid'] != '' && is_numeric($_GET['xmid'])) {
                             <?php
                             $student_id = Session::get("profileid");
                             $batch_info = $common->select("`batch_students`", "`student_id` = '$student_id' && `batch_id` = '$batch_id' && `status` = '1'");
-                            if($batch_info) {
-                                $exam_publish_info = $common->select("`publish_exam`", "`exam_id` = '$xmid'");
-                                $exam_publish_infos = mysqli_fetch_assoc($exam_publish_info);
+
+                            $exam_publish_info = $common->select("`publish_exam`", "`exam_id` = '$xmid'");
+                            $exam_publish_infos = mysqli_fetch_assoc($exam_publish_info);
+                            if($exam_publish_infos['access'] == 'anyone' || $batch_info) {
                                 $exam_take = $common->select("`results`", "`exam_id` = '$xmid' && `student_id` = '$student_id'");
                                 if($exam_take) {
                                     $exam_taken = mysqli_num_rows($exam_take);
@@ -89,7 +90,7 @@ if(isset($_GET['xmid']) && $_GET['xmid'] != '' && is_numeric($_GET['xmid'])) {
                                 if($exam_publish_infos['can_take_test'] == 'unlimited' || $exam_publish_infos['take_time'] > $exam_taken) {
                                     if($pagination == "oneQuetion") {
                                     ?>
-                                    <a class="btn btn-success" href="singleexam-blank.php?q=<?=$qu['serial']?>">
+                                    <a class="btn btn-success" href="singleexam.php?q=<?=$qu['serial']?>">
                                         Start Test
                                     </a>
                                     <?php
