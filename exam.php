@@ -74,7 +74,8 @@
             <div class="container-fluid">
                 <div class="quetion" style="width: 700px;margin:0px auto;">
                     <div class="main bg-white py-3">
-                        <div class="examheader text-center mt-2">
+                       <div class="examheader text-center mt-1">
+                            <p class="text-success m-0"><strong>Wellocme <?=Session::get('name');?></strong></p>
                             <h3 class='text-capitalize'>Exam Name: <?= $exam['examname']; ?></h3>
                             <h3>Subject: <?= $subject_info['subject_name']; ?></h3>
                             <h5 id ="starttime"></h5>
@@ -95,10 +96,16 @@
                     </div>
        
                 <form class="bg-white" action="final.php" method="post">
-                    <input type="hidden" name="totalquetion" value="<?=$exam['tquetion'];?>"/>
+                    <input type="hidden" name="totalquetion" value="<?=$display_question;?>"/>
                     <input type="hidden" name="exam_id" value="<?= $exam_id; ?>"/>
                     <?php
-                   $select = $common->select("`questions`","`exam_id` = '$id' ORDER BY `serial` ASC LIMIT $display_question");
+                    $randomize = $publish_settings ['other'];
+                    if(is_numeric(strpos($randomize,'randomize'))){
+                        $select = $common->select("`questions`","`exam_id` = '$id' ORDER BY RAND() LIMIT $display_question");
+                    }else{
+                        $select = $common->select("`questions`","`exam_id` = '$id' ORDER BY `id` ASC LIMIT $display_question"); 
+                    }
+                   
                    if($select){
                       $i = 1;
                        while($viewquetion = mysqli_fetch_assoc($select)){
@@ -107,7 +114,7 @@
                         <div class="row mx-n3">
                             <div class="col-12 d-flex mb-2" style="font-size: 18px;">
                                 <input type="hidden" name="serial<?= $i; ?>" value="<?= $viewquetion['id']; ?>"/>
-                                <span><b><?= $viewquetion['serial']; ?>. &nbsp;</b></span>
+                                <span><b><?= $i; ?>. &nbsp;</b></span>
                                 <div><?= $viewquetion['question']; ?></div>
                             </div>
                             <div class="col-12 d-flex mb-2">

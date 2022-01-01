@@ -38,25 +38,25 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['save'])) {
         $que_info = $common->select("questions", "`id` = '$serial'");
         $que_infos = mysqli_fetch_assoc($que_info);
         if ($que_infos["answer"] == 'option_one') {
-            $correct_option1 = '<img width="25px" height="25px" src="admin/assets/images/img/iconfinder_check.svg">';
+            $correct_option1 = '<img width="25px" height="25px" src="admin/assets/images/img/ok_check_done-512.webp">';
             $correct_option2 = '';
             $correct_option3 = '';
             $correct_option4 = '';
         } elseif ($que_infos["answer"] == 'option_two') {
             $correct_option1 = '';
-            $correct_option2 = '<img width="25px" height="25px" src="admin/assets/images/img/iconfinder_check.svg">';
+            $correct_option2 = '<img width="25px" height="25px" src="admin/assets/images/img/ok_check_done-512.webp">';
             $correct_option3 = '';
             $correct_option4 = '';
         } elseif ($que_infos["answer"] == 'option_three') {
             $correct_option1 = '';
             $correct_option2 = '';
-            $correct_option3 = '<img width="25px" height="25px" src="admin/assets/images/img/iconfinder_check.svg">';
+            $correct_option3 = '<img width="25px" height="25px" src="admin/assets/images/img/ok_check_done-512.webp">';
             $correct_option4 = '';
         } elseif ($que_infos["answer"] == 'option_four') {
             $correct_option1 = '';
             $correct_option2 = '';
             $correct_option3 = '';
-            $correct_option4 = '<img width="25px" height="25px" src="admin/assets/images/img/iconfinder_check.svg">';
+            $correct_option4 = '<img width="25px" height="25px" src="admin/assets/images/img/ok_check_done-512.webp">';
         }
 
         if(isset($_POST['ans'.$i])) {
@@ -255,19 +255,19 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['save'])) {
 
     if ($publish_exam_infos['notification'] == 'yes') {
         //---------------Email sender---------------
-        $recipient = 'arifh3261@gmail.com'; //recipient 
-        $email = $student_infos['email']; //senders e-mail adress 
+        // $recipient = 'arifh3261@gmail.com'; //recipient 
+        // $email = $student_infos['email']; //senders e-mail adress 
         
-        $mail_body  = "New exam submit from: \r\n\n";
-        $mail_body  = "--------------------------------------- \r\n";
-        $mail_body  = "Name: $student_infos['sname'] \r\n";
-        $mail_body .= "Email: $email \r\n";
+        // $mail_body  = "New exam submit from: \r\n\n";
+        // $mail_body  = "--------------------------------------- \r\n";
+        // $mail_body  = "Name: $student_infos['sname'] \r\n";
+        // $mail_body .= "Email: $email \r\n";
 
-        $subject = "New exam submited."; //subject 
-        $from = $email;
-        $header = 'From: '.$from."\r\n". 'Reply-To: '.$from."\r\n" . 'X-Mailer: PHP/' . phpversion();
+        // $subject = "New exam submited."; //subject 
+        // $from = $email;
+        // $header = 'From: '.$from."\r\n". 'Reply-To: '.$from."\r\n" . 'X-Mailer: PHP/' . phpversion();
 
-        mail($recipient, $subject, $mail_body, $header); //mail command :) 
+        // mail($recipient, $subject, $mail_body, $header); //mail command :) 
         //-------------Email Sender Ends------------
     }
 
@@ -290,43 +290,58 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['save'])) {
         }
     </style>
     <body>
-            <div class="container-fluid">
-                <div class="quetion" style="max-width: 900px; margin:0px auto;">
-                    <div class="main bg-white mb-2 py-2">
-                        <div class="examheader text-center mt-2">
-                            <h3 class='text-uppercase'><?= $exam_infos['examname']; ?></h3>
-                            <h3 class="text-capitalize mb-3">Subject: <?= $subject_info['subject_name']; ?></h3>
+        <div class="container-fluid">
+            <div class="quetion" style="max-width: 900px; margin:0px auto;">
+                <div class="main bg-white mb-2 py-2">
+                    <div class="examheader text-center mt-1">
+                        <p class="text-success m-0"><strong>Wellocme <?=Session::get('name');?></strong></p>
+                        <h3 class='text-uppercase'><?= $exam_infos['examname']; ?></h3>
+                        <h3 class="text-capitalize mb-3">Subject: <?= $subject_info['subject_name']; ?></h3>
+                    </div>
+                    <div class="row mx-1">
+                        <div class="col-3">
+                            <h3 class="text-muted">Your Score: <?= $right_answer; ?>/<?= $totalquetion; ?></h3>
                         </div>
-                        <div class="row mx-1">
-                            <div class="col-3">
-                                <h3 class="text-muted">Your Score: <?= $right_answer; ?>/<?= $totalquetion; ?></h3>
-                            </div>
-                            <div class="col-3">
-                                <h3 class="text-muted">Not Answer: <?= $not_answered; ?></h3>
-                            </div>
-                            <div class="col-3">
-                                <h3 class="text-muted">Date:22-10-21</h3>
-                            </div>
-                            <div class="col-3">
-                                <h3 class="text-muted">Total Marks:  
-                                    <?php
-                                        echo $right_answer_final;
-                                    ?>
-                                </h3>
-                            </div>
-                        </div>  
-                        
-                    </div>
+                        <div class="col-3">
+                            <h3 class="text-muted">Not Answer: <?= $not_answered; ?></h3>
+                        </div>
+                        <div class="col-3">
+                            <h3 class="text-muted">Date:22-10-21</h3>
+                        </div>
+                        <div class="col-3">
+                            <h3 class="text-muted">Total Marks:  
+                                <?php
+                                    echo $right_answer_final;
+                                ?>
+                            </h3>
+                        </div>
+                    </div>  
                     
-                   
-                    <div>
-                        <?= $preview_answer; ?>
-                    </div>
-                  
-
                 </div>
+                
+                
+                <div>
+                    <?= $preview_answer; ?>
+                </div>
+                <div class="d-flex justify-content-end  my-2">
+                    <a href="start-exam.php?xmid=<?=$exam_id?>"class="btn btn-primary  btn-rounded mx-2">Try Again</a>
+                    <a href="index.php" class="btn btn-secondary btn-rounded">Home</a>
+                </div>
+
             </div>
+        </div>
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"   crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+        <script>
+    window.location.hash = "no-back-button";
+
+    // Again because Google Chrome doesn't insert
+    // the first hash into the history
+    window.location.hash = "Again-No-back-button"; 
+
+    window.onhashchange = function(){
+        window.location.hash = "no-back-button";
+    }
+</script>
     </body>
 </html>

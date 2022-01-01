@@ -149,6 +149,7 @@
             if ($result != false) {
             $value = $result->fetch_assoc();
             Session::set("SignIn", true);
+            Session::set("name", $value['sname']);
             Session::set("profileid", $value['id']);
             echo "<script> window.location.assign('student/batch.php'); </script>";
             } else {

@@ -72,6 +72,24 @@ if(isset($_GET['xmid']) && $_GET['xmid'] != '' && is_numeric($_GET['xmid'])) {
                         <h3 class="text-muted" style = "font-family: Georgia, serif;">Duration: <?= $raw['duration']; ?> Minutes</h3>
                         </div>
                     </div>
+                    <?php
+                     $profileid = Session::get('profileid');
+                     $r_query = $common->select("`results`","`student_id`='$profileid'");
+                     if($r_query != false){
+                         $sum = mysqli_num_rows($r_query);
+                     }
+                     $exmtime = $result['howtime'];
+                     $take_time = $result['take_time'];
+                     $r_sum = $take_time-$sum;
+                    if($exmtime == "limited" && $r_sum >0){
+                    ?>
+                    <div class="col-12">
+                        <div class="mb-1 mx-2">
+                        <p class="text-danger" style = "font-family: Georgia, serif;">*Your Test Remaining is: <?=$r_sum;?> Time</p>
+                        </div>
+                    </div>
+                    <?php } ?>
+                   
                     <div class="col-12">
                         <div class="mt-4 px-2">
                             <?php
@@ -121,6 +139,11 @@ if(isset($_GET['xmid']) && $_GET['xmid'] != '' && is_numeric($_GET['xmid'])) {
       
       
         <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"   crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
+            window.onbeforeunload = function() {
+            return "Dude, are you sure you want to leave? Think of the kittens!";
+            }
+        </script>
+        
     </body>
 </html>
