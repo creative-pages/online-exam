@@ -47,7 +47,8 @@
                     </ul>
                 </li>
                 <li class="sidebar-item">
-                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="pay-request.php" aria-expanded="false"><i class="mdi mdi-comment-processing-outline"></i>
+                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="pay-request.php" aria-expanded="false"><i class="fab fa-cc-mastercard" aria-hidden="true"></i>
+
                         <span class="hide-menu">Payment</span>
                     </a>
                 </li>

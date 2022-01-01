@@ -22,7 +22,8 @@
             $query = "INSERT INTO class_add(topic,batch_id,subject_id,chapter,c_link,exm_link,note_link) VALUES('$topic','$batch','$subject','$chapter','$c_link','$exm_link','$note_link')";
             $result = $this->db->insert($query);
             if($result){
-                header("Location:add-class.php");
+                echo "<script> window.location.assign('add-class.php'); </script>";
+                //header("Location:add-class.php");
             }
         }
 
@@ -145,7 +146,7 @@
             howtime = '$howtime',
             totaltime = '$totaltime',
             can_take_test = '$can_take_test',
-            take_time = '$take_time'
+            take_time = '$take_time',
             notification = '$notification'
             WHERE `id` = '$publish_id'";
             $result = $this->db->update($query);

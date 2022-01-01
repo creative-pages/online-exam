@@ -1,9 +1,11 @@
 <?php include('inc/header.php'); ?>
 <?php
-    if(isset($_GET['setting'])){
+    if(isset($_GET['setting']) && $_GET['setting'] != false){
         $id = $_GET['setting'];
         $query = $common->select("`add_exam`", "`id` = '$id'");
         $exam = mysqli_fetch_assoc($query);
+    }else{
+        header("Location:dashboard.php");
     }
   ?>
   <?php
@@ -24,318 +26,303 @@
     </div>
    
     <div id="main-wrapper">
-       
         <?php include('inc/topbar.php'); ?>
-        
         <?php include('inc/left-sidebar.php'); ?>
-        
         <div class="page-wrapper">
-           
             <div class="container-fluid">
                 <form action="" method="post">
                     <div class="card w-100">
-                            <div class="card-body border-top">
-                                <h3 class="mb-4">
-                                    Exam Name - <?= ucfirst($exam['examname']); ?>
-                                </h3>
-                                <h4 class="card-title">Basic Settings</h4>
-                                <div class="row">
-                                    <div class="col-12">
-                                        <div class="mb-3">
-                                            <input type="hidden" class="form-control" id="inputcom" name="exam_id" value="<?=$exam['id'];?>">
-                                            <label class="control-label col-form-label">Introduction</label>
-                                            <textarea class="form-control ck_editor" name="intro" ></textarea>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                        
-                            <div class="card-body border-top">
-                                <h4 class="card-title">Color Scheema</h4>
-                                <div class="row">
-                                    <div class="col-3">
-                                        <div class="mb-3">
-                                            
-                                            <input type="radio" id="inputcom" name="color" value="blue">
-                                            Blue
-                                        </div>
-                                    </div>
-                                
-                                    <div class="col-3">
-                                        <div class="mb-3">
-                                        
-                                            <input type="radio"id="inputcom" name="color" value="red">
-                                            Red
-                                        </div>
-                                    </div>
-                                    <div class="col-3">
-                                        <div class="mb-3">
-                                        
-                                            <input type="radio"id="inputcom" name="color" value="green">
-                                            Green
-                                        </div>
-                                    </div>
-                                    <div class="col-3">
-                                        <div class="mb-3">
-                                        
-                                            <input type="radio" id="inputcom" name="color" value="white">
-                                            White
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="card-body border-top">
-                                <h4 class="card-title">Quetion Setting</h4>
-                                <h5 class="card-title">How many questions should be shown?</h5>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        Total Questions - <?= $exam['tquetion']; ?>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <input type="number" class="form-control" max="<?= $exam['tquetion']; ?>" name="display_question" id="display_question" placeholder="Display questions" required>
-                                    </div>
-                                </div>
-                                <h5 class="card-title">Pagination</h5>
-                                <div class="row">
-                                    <div class="col-12">
-                                        <div class="mb-1">
-                                            
-                                            <input type="radio" id="all" name="pg" value="allQuetion">
-                                            Show <strong>All</strong> Quetion on one Page
-                                        </div>
-                                    </div>
-                                
-                                    <div class="col-12">
-                                        <div class="mb-3">
-                                        
-                                            <input type="radio"id="one" name="pg" value="oneQuetion">
-                                            Show <strong>One</strong> Quetion Per Page
-                                        </div>
-                                    </div>
-                            </div>
-                            <div class="pagi mx-2 "style="display:none;">
-                                <h4 class="card-title"><strong>Navigation Setting</strong></h4>
-                                <div class="row">
-                                        <div class="col-12">
-                                            <div class="mb-1">
-                                                
-                                                <input type="radio" id="inputcom" name="nav" value="jump around">
-                                                Allow The Student to jump around of different Quetion in the test
-                                            </div>
-                                        </div>
-                                    
-                                        <div class="col-12">
-                                            <div class="mb-3">
-                                            
-                                                <input type="radio"id="inputcom" name="nav" value="jump after answering">
-                                                Only Allow the student to move forward after answering a question.
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <h4 class="card-title">After Each Quetion is Answered:</h4>
-                                    <div class="row">
-                                        <div class="col-12">
-                                            <div class="mb-1">
-                                                
-                                                <input type="checkbox" id="inputcom" name="after_answer[]" value="Indicate the correct answer ">
-                                                Indicate the correct answer 
-                                            </div>
-                                        </div>
-                                    
-                                        <div class="col-12">
-                                            <div class="mb-1">
-                                            
-                                                <input type="checkbox"id="inputcom" name="after_answer[]" value="Dispaly the correct answer">
-                                                Dispaly the correct answer
-                                            </div>
-                                        </div>
-                                        <div class="col-12">
-                                            <div class="mb-3">
-                                            
-                                                <input type="checkbox"id="inputcom" name="after_answer[]" value="Show The Explation">
-                                                Show The Explation
-                                            </div>
-                                        </div>
-                                    </div>
-                            </div>
-
-                            <h5 class="card-title"><strong>Other Setting </strong></h5>
-                                <div class="row">
-                                    <div class="col-12">
-                                        <div class="mb-1">
-                                            
-                                            <input type="checkbox"id="inputcom"  name="other[]" value="randomize">
-                                                Randomize the other of the quetion duering the test.
-                                        </div>
-                                    </div>
-                                
-                                    <div class="col-12">
-                                        <div class="mb-1">
-                                        
-                                        <input type="checkbox"id="inputcom" name="other[]" value="blank">
-                                                Allow Student to submit blank/emty page
-                                        </div>
-                                    </div>
-
-                                    <div class="col-12">
-                                        <div class="mb-1">
-                                        
-                                        <input type="checkbox"id="mark" name="other[]" value="negative marking">
-                                                Penalize incorrect answer(Negative marking)
-                                        </div>
-                                    </div>
-                                    <div class="marking mx-2" style="display:none">
-                                        <span>Penalty</span> <span><input type="text" name="negative_mark" style="width:60px;"></span> <span>%</span>
-                                        <p class="mt-2">(As a percentage Each quetion of value)</p>
-                                    </div>
-                            </div>
-
-
-                            
-                            </div>
-                        
-                    </div>
-                    
-                    <div class="card w-100">
                         <div class="card-body border-top">
-                            <h2><strong>Review Setting</strong></h2>
-                            <p>This setting control what happen after the text</p>
+                            <h3 class="mb-4">
+                                Exam Name - <?= ucfirst($exam['examname']); ?>
+                            </h3>
+                            <h4 class="card-title">Basic Settings</h4>
                             <div class="row">
                                 <div class="col-12">
                                     <div class="mb-3">
-                                        <label class="control-label col-form-label">Concloson text</label>
-                                        <textarea class="form-control ck_editor" aria-label="With textarea"></textarea>
+                                        <input type="hidden" class="form-control" id="inputcom" name="exam_id" value="<?=$exam['id'];?>">
+                                        <label class="control-label col-form-label">Introduction</label>
+                                        <textarea class="form-control ck_editor" name="intro" ></textarea>
                                     </div>
                                 </div>
-                                <div class="col-12">
-                                    <div class="mb-2">
+                            </div>
+                        </div>
+                        <div class="card-body border-top">
+                            <h4 class="card-title">Color Scheema</h4>
+                            <div class="row">
+                                <div class="col-3">
+                                    <div class="mb-3">
                                         
-                                        <input type="checkbox"id="inputcom" name="color">
-                                            Show a custom message if the student pass or fail
+                                        <input type="radio" id="inputcom" name="color" value="blue">
+                                        Blue
                                     </div>
                                 </div>
-                                <div class="col-12">
-                                    <div class="mb-1">
-                                        <strong>At the end of text,display user:</strong>    
+                                <div class="col-3">
+                                    <div class="mb-3">
+                                    
+                                        <input type="radio"id="inputcom" name="color" value="red">
+                                        Red
                                     </div>
                                 </div>
-                                <div class="col-12">
-                                    <div class="mb-1">
-                                        <input type="checkbox"id="inputcom" name="color">
-                                            Score
+                                <div class="col-3">
+                                    <div class="mb-3">
+                                        <input type="radio"id="inputcom" name="color" value="green">
+                                        Green
                                     </div>
                                 </div>
-                                <div class="col-12">
-                                    <div class="mb-1">
-                                        <input type="checkbox"id="inputcom" name="color">
-                                            Text OutLine[?]
+                                <div class="col-3">
+                                    <div class="mb-3">
+                                        <input type="radio" id="inputcom" name="color" value="white">
+                                        White
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                    </div>
-
-                    <div class="card w-100">
                         <div class="card-body border-top">
-                            <h2><strong>Access Control</strong></h2>
+                            <h4 class="card-title">Quetion Setting</h4>
+                            <h5 class="card-title">How many questions should be shown?</h5>
                             <div class="row">
-                                <div class="col-6">
-                                    <h4>Who Can Text Your Text</h4>
-                                    <div class="mb-2 bg-light"style="padding:10px;">
-                                        <input type="radio"id="inputcom" name="access" value="anyone" >
-                                            Anyone
-                                    </div>
-                                    <div class="mb-2 bg-light"style="padding:10px;">
-                                        <input type="radio"id="inputcom" name="access" value="passcode" >
-                                            Anyone who enters a passcode of my choosing
-                                    </div>
-                                    <div class="mb-2 bg-light"style="padding:10px;">
-                                        <input type="radio"id="inputcom" name="access" value="uniq identifier" >
-                                        Anyone who enters a uniq identifier
-                                    </div>
+                                <div class="col-md-6">
+                                    Total Questions - <?= $exam['tquetion']; ?>
                                 </div>
-                                <div class="col-6">
-                                    <h4>How much time to test have to compeleted the test?</h4>
-                                    <p>The timer start the moment and continues even if they close out of test</p>
-                                    <div class="col-12">
-                                        <div class="mb-1">
-                                            <input type="radio"id="inputcom" name="time" value="unlimited" >
-                                            Unlimited
-                                        </div>
-
-                                    </div>
-                                    <div class="col-12">
-                                        <div class="mb-3">
-                                            <input type="radio"id="inputcom" name="time" value="limited" >
-                                            <span><input type="text" name="minute" style="width: 64px;"></span> <span>minutes</span>
-                                        </div>
-                                    </div>
-                                    <h4>How many time someone can take test?</h4>
-                                    <div class="col-12">
-                                        <div class="mb-1">
-                                            <input type="radio"id="inputcom" name="can_take_test" >
-                                            Unlimited
-                                        </div>
-
-                                    </div>
-                                    <div class="col-12">
-                                        <div class="mb-3">
-                                            <input type="radio"id="inputcom" name="can_take_test"value="limited">
-                                            <span><input type="text" name="take_time" style="width: 64px;"></span> <span>times</span>
-                                        </div>
-                                    </div>
-
+                                <div class="col-md-6">
+                                    <input type="number" class="form-control" max="<?= $exam['tquetion']; ?>" name="display_question" id="display_question" placeholder="Display questions" required>
                                 </div>
                             </div>
-
-                        
-                        </div>
-
-                    </div>
-
-                    <div class="card w-100">
-                        <div class="card-body border-top">
-                            <h2><strong>Notification</strong></h2>
-                            <h4>Do you want to receive an email whenever someone finishe the test</h4>
+                            <h5 class="card-title">Pagination</h5>
                             <div class="row">
                                 <div class="col-12">
                                     <div class="mb-1">
-                                    <input type="radio" id="inputcom" name="notification" value="yes" required="">
-                                        Yes
+                                        
+                                        <input type="radio" id="all" name="pg" value="allQuetion">
+                                        Show <strong>All</strong> Quetion on one Page
                                     </div>
                                 </div>
+                            
+                                <div class="col-12">
+                                    <div class="mb-3">
+                                        <input type="radio"id="one" name="pg" value="oneQuetion">
+                                        Show <strong>One</strong> Quetion Per Page
+                                    </div>
+                                </div>
+                            </div>
+                        <div class="pagi mx-2 "style="display:none;">
+                            <h4 class="card-title"><strong>Navigation Setting</strong></h4>
+                            <div class="row">
+                                    <div class="col-12">
+                                        <div class="mb-1">
+                                            
+                                            <input type="radio" id="inputcom" name="nav" value="jump around">
+                                            Allow The Student to jump around of different Quetion in the test
+                                        </div>
+                                    </div>
+                                
+                                    <div class="col-12">
+                                        <div class="mb-3">
+                                        
+                                            <input type="radio"id="inputcom" name="nav" value="jump after answering">
+                                            Only Allow the student to move forward after answering a question.
+                                        </div>
+                                    </div>
+                                </div>
+                                <h4 class="card-title">After Each Quetion is Answered:</h4>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="mb-1">
+                                            
+                                            <input type="checkbox" id="inputcom" name="after_answer[]" value="Indicate the correct answer ">
+                                            Indicate the correct answer 
+                                        </div>
+                                    </div>
+                                
+                                    <div class="col-12">
+                                        <div class="mb-1">
+                                        
+                                            <input type="checkbox"id="inputcom" name="after_answer[]" value="Dispaly the correct answer">
+                                            Dispaly the correct answer
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="mb-3">
+                                        
+                                            <input type="checkbox"id="inputcom" name="after_answer[]" value="Show The Explation">
+                                            Show The Explation
+                                        </div>
+                                    </div>
+                                </div>
+                        </div>
+
+                        <h5 class="card-title"><strong>Other Setting </strong></h5>
+                            <div class="row">
                                 <div class="col-12">
                                     <div class="mb-1">
-                                    <input type="radio" id="inputcom" name="notification" value="No" required="">
-                                        No
+                                        
+                                        <input type="checkbox"id="inputcom"  name="other[]" value="randomize">
+                                            Randomize the other of the quetion duering the test.
                                     </div>
+                                </div>
+                            
+                                <div class="col-12">
+                                    <div class="mb-1">
+                                    
+                                    <input type="checkbox"id="inputcom" name="other[]" value="blank">
+                                            Allow Student to submit blank/emty page
+                                    </div>
+                                </div>
+
+                                <div class="col-12">
+                                    <div class="mb-1">
+                                    
+                                    <input type="checkbox"id="mark" name="other[]" value="negative marking">
+                                            Penalize incorrect answer(Negative marking)
+                                    </div>
+                                </div>
+                                <div class="marking mx-2" style="display:none">
+                                    <span>Penalty</span> <span><input type="text" name="negative_mark" style="width:60px;"></span> <span>%</span>
+                                    <p class="mt-2">(As a percentage Each quetion of value)</p>
+                                </div>
+                            </div>
+                        </div>
+                    
+                    </div>
+                
+                <div class="card w-100">
+                    <div class="card-body border-top">
+                        <h2><strong>Review Setting</strong></h2>
+                        <p>This setting control what happen after the text</p>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="mb-3">
+                                    <label class="control-label col-form-label">Concloson text</label>
+                                    <textarea class="form-control ck_editor" aria-label="With textarea"></textarea>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="mb-2">
+                                    
+                                    <input type="checkbox"id="inputcom" name="color">
+                                        Show a custom message if the student pass or fail
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="mb-1">
+                                    <strong>At the end of text,display user:</strong>    
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="mb-1">
+                                    <input type="checkbox"id="inputcom" name="color">
+                                        Score
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="mb-1">
+                                    <input type="checkbox"id="inputcom" name="color">
+                                        Text OutLine[?]
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="text-center">
-                        <button type="submit" class="btn btn-success" name="publish">Save</button>
-                    </div>
-                </form>
 
-            </div>
-            <!-- -------------------------------------------------------------- -->
-            <!-- End Container fluid  -->
-            <!-- -------------------------------------------------------------- -->
-            <!-- -------------------------------------------------------------- -->
-            <!-- footer -->
-            <!-- -------------------------------------------------------------- -->
-            <?php include('inc/footer.php'); ?>
-            <!-- -------------------------------------------------------------- -->
-            <!-- End footer -->
-            <!-- -------------------------------------------------------------- -->
+                </div>
+
+                <div class="card w-100">
+                    <div class="card-body border-top">
+                        <h2><strong>Access Control</strong></h2>
+                        <div class="row">
+                            <div class="col-6">
+                                <h4>Who Can Text Your Text</h4>
+                                <div class="mb-2 bg-light"style="padding:10px;">
+                                    <input type="radio"id="inputcom" name="access" value="anyone" >
+                                        Anyone
+                                </div>
+                                <div class="mb-2 bg-light"style="padding:10px;">
+                                    <input type="radio"id="inputcom" name="access" value="passcode" >
+                                        Anyone who enters a passcode of my choosing
+                                </div>
+                                <div class="mb-2 bg-light"style="padding:10px;">
+                                    <input type="radio"id="inputcom" name="access" value="uniq identifier" >
+                                    Anyone who enters a uniq identifier
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <h4>How much time to test have to compeleted the test?</h4>
+                                <p>The timer start the moment and continues even if they close out of test</p>
+                                <div class="col-12">
+                                    <div class="mb-1">
+                                        <input type="radio"id="inputcom" name="time" value="unlimited" >
+                                        Unlimited
+                                    </div>
+
+                                </div>
+                                <div class="col-12">
+                                    <div class="mb-3">
+                                        <input type="radio"id="inputcom" name="time" value="limited" >
+                                        <span><input type="text" name="minute" style="width: 64px;"></span> <span>minutes</span>
+                                    </div>
+                                </div>
+                                <h4>How many time someone can take test?</h4>
+                                <div class="col-12">
+                                    <div class="mb-1">
+                                        <input type="radio"id="inputcom" name="can_take_test" >
+                                        Unlimited
+                                    </div>
+
+                                </div>
+                                <div class="col-12">
+                                    <div class="mb-3">
+                                        <input type="radio"id="inputcom" name="can_take_test"value="limited">
+                                        <span><input type="text" name="take_time" style="width: 64px;"></span> <span>times</span>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    
+                    </div>
+
+                </div>
+
+                <div class="card w-100">
+                    <div class="card-body border-top">
+                        <h2><strong>Notification</strong></h2>
+                        <h4>Do you want to receive an email whenever someone finishe the test</h4>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="mb-1">
+                                <input type="radio" id="inputcom" name="notification" value="yes" required="">
+                                    Yes
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="mb-1">
+                                <input type="radio" id="inputcom" name="notification" value="No" required="">
+                                    No
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-success" name="publish">Publish</button>
+                </div>
+            </form>
+
         </div>
         <!-- -------------------------------------------------------------- -->
-        <!-- End Page wrapper  -->
+        <!-- End Container fluid  -->
         <!-- -------------------------------------------------------------- -->
+        <!-- -------------------------------------------------------------- -->
+        <!-- footer -->
+        <!-- -------------------------------------------------------------- -->
+        <?php include('inc/footer.php'); ?>
+        <!-- -------------------------------------------------------------- -->
+        <!-- End footer -->
+        <!-- -------------------------------------------------------------- -->
+    </div>
+      
     </div>
     <!-- -------------------------------------------------------------- -->
     <!-- End Wrapper -->
