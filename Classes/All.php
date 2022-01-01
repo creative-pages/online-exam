@@ -101,7 +101,7 @@
 
         }
 
-        public function EditSetting($data,$id){
+        public function EditSetting($data){
             $publish_id = $this->fm->validation($data['publish_id']);
             $intro = $this->fm->validation($data['intro']);
             $color = $this->fm->validation($data['color']);
@@ -145,12 +145,12 @@
             howtime = '$howtime',
             totaltime = '$totaltime',
             can_take_test = '$can_take_test',
-            take_time = '$take_time'
+            take_time = '$take_time',
             notification = '$notification'
             WHERE `id` = '$publish_id'";
             $result = $this->db->update($query);
             if($result){
-                header("Location:publish-exam.php");
+                header("Location: publish-exam.php");
             }
             else{
                 echo "Something went wrong";

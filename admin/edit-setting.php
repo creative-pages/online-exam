@@ -11,7 +11,7 @@
   ?>
   <?php
     if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['editsetting'])) {
-        $publish = $all->EditSetting($_POST,$id);
+        $publish = $all->EditSetting($_POST);
     }
   ?>
 
@@ -40,8 +40,6 @@
             <div class="container-fluid">
                 <form action="" method="post">
                     <div class="card w-100">
-                        
-                        
                             <div class="card-body border-top">
                                 <h3 class="mb-4">
                                     Exam Name - <?= ucfirst($main_exams['examname']); ?>
@@ -50,7 +48,7 @@
                                 <div class="row">
                                     <div class="col-12">
                                         <div class="mb-3">
-                                            <input type="hidden" class="form-control" id="inputcom" name="publish_id" value="<?=$exam['id'];?>">
+                                            <input type="hidden" class="form-control" id="inputcom" name="publish_id" value="<?= $id; ?>">
                                             <label class="control-label col-form-label">Introduction</label>
                                             <textarea class="form-control ck_editor" name="intro" >
                                                 <?=$exam['intro'];?>

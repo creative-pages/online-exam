@@ -1,7 +1,5 @@
 <?php
-	session_start();	
-	
-    
+	session_start();
 	ini_set('max_execution_time', 60);
 	date_default_timezone_set('Asia/Dhaka');
 	
