@@ -38,7 +38,7 @@
         <div class="page-wrapper">
           
             <div class="container-fluid">
-                <form action="" method="post">
+                <form action="<?= $_SERVER['REQUEST_URI']; ?>" method="post">
                     <div class="card w-100">
                             <div class="card-body border-top">
                                 <h3 class="mb-4">
@@ -50,9 +50,7 @@
                                         <div class="mb-3">
                                             <input type="hidden" class="form-control" id="inputcom" name="publish_id" value="<?= $id; ?>">
                                             <label class="control-label col-form-label">Introduction</label>
-                                            <textarea class="form-control ck_editor" name="intro" >
-                                                <?=$exam['intro'];?>
-                                            </textarea>
+                                            <textarea class="form-control ck_editor" name="intro" ><?=$exam['intro'];?></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -291,7 +289,7 @@
                             <h2><strong>Access Control</strong></h2>
                             <div class="row">
                                 <div class="col-6">
-                                    <h4>Who Can Text Your Text</h4>
+                                    <h4>Who Can take your test?</h4>
                                     <div class="mb-2 bg-light"style="padding:10px;">
                                         <input type="radio"id="inputcom" name="access" value="anyone" <?php echo ($exam['access']== 'anyone') ?  "checked" : "" ;  ?> >
                                             Anyone
@@ -347,7 +345,7 @@
                     <div class="card w-100">
                         <div class="card-body border-top">
                             <h2><strong>Notification</strong></h2>
-                            <h4>Do you want to receive an email whenever someone finishe the test</h4>
+                            <h4>Do you want to receive an email whenever someone finished the test?</h4>
                             <div class="row">
                                 <div class="col-12">
                                     <div class="mb-1">
@@ -357,7 +355,7 @@
                                 </div>
                                 <div class="col-12">
                                     <div class="mb-1">
-                                    <input type="radio" id="inputcom" name="notification" value="No" required=""<?= $exam['notification'] == 'no' ? ' checked=""' : "" ; ?>>
+                                    <input type="radio" id="inputcom" name="notification" value="no" required=""<?= $exam['notification'] == 'no' ? ' checked=""' : "" ; ?>>
                                         No
                                     </div>
                                 </div>

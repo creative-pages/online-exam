@@ -5,8 +5,24 @@
     $common = new Common();
 ?>
 <?php
-  
+// student info
+$student_id = Session::get("profileid");
+$student_info = $common->select("`student_table`", "`id` = '$student_id'");
+$student_infos = mysqli_fetch_assoc($student_info);
+
 if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['save'])) {
+    // exam info
+    $exam_id = $_POST['exam_id'];
+    $exam_info = $common->select("`add_exam`", "`id` = '$exam_id'");
+    $exam_infos = mysqli_fetch_assoc($exam_info);
+    // subject info
+    $subject_id = $exam_infos['subject_id'];
+    $subject_info = $common->select("`subject_add`","`id` = '$subject_id'");
+    $subject_info = mysqli_fetch_assoc($subject_info);
+    // publish_exam info
+    $publish_exam_info = $common->select("`publish_exam`","`exam_id` = '$exam_id'");
+    $publish_exam_infos = mysqli_fetch_assoc($publish_exam_info);
+
     $question_ans = '';
     $right_answer = 0;
     $wrong_answer = 0;
@@ -207,7 +223,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['save'])) {
         $question_ans .= $serial . '=' . $ans . ',';
     }
 
-    $exam_id = Session::get('exmid');
     $nagetive_mark = $common->select("`publish_exam`","`exam_id` = '$exam_id' && `other` LIKE '%negative%'");
 
     // negative marking
@@ -218,10 +233,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['save'])) {
         $negative_percent =  $nagetive_marks['negative_mark'] * 0.01;
         $right_answer_final = $right_answer - ($wrong_ans * $negative_percent);
     } else {
-        $right_answer_final;
+        $right_answer_final = $right_answer;
     }
 
-    $student_id = Session::get('student_id');
     $how_time_count = $common->select("`results`", "`exam_id` = '$exam_id'");
     if ($how_time_count) {
         $how_time = mysqli_num_rows($how_time_count);
@@ -239,7 +253,23 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['save'])) {
     $submit_result = $common->insert("`results`(`exam_id`, `student_id`, `how_time`, `score`, `wrongans`, `rightans`, `blankans`, `question_ans`, `start_time`, `end_time`, `total_time`)", "('$exam_id', '$student_id', '$how_time', '$right_answer_final', '$wrong_answer', '$right_answer', '$not_answered', '$question_ans', '$start_time', '$end_time', '$total_time')");
     unset($_SESSION['start_exam_time']);
 
+    if ($publish_exam_infos['notification'] == 'yes') {
+        //---------------Email sender---------------
+        $recipient = 'arifh3261@gmail.com'; //recipient 
+        $email = $student_infos['email']; //senders e-mail adress 
+        
+        $mail_body  = "New exam submit from: \r\n\n";
+        $mail_body  = "--------------------------------------- \r\n";
+        $mail_body  = "Name: $student_infos['sname'] \r\n";
+        $mail_body .= "Email: $email \r\n";
 
+        $subject = "New exam submited."; //subject 
+        $from = $email;
+        $header = 'From: '.$from."\r\n". 'Reply-To: '.$from."\r\n" . 'X-Mailer: PHP/' . phpversion();
+
+        mail($recipient, $subject, $mail_body, $header); //mail command :) 
+        //-------------Email Sender Ends------------
+    }
 
 } else {
     header("Location: http://localhost/batbio/exam.php?vi=".Session::get('exmid'));
@@ -264,8 +294,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['save'])) {
                 <div class="quetion" style="max-width: 900px; margin:0px auto;">
                     <div class="main bg-white mb-2 py-2">
                         <div class="examheader text-center mt-2">
-                            <h3 class='text-uppercase'>Text</h3>
-                            <h3 class="text-capitalize mb-3">Subject:Bangla</h3>
+                            <h3 class='text-uppercase'><?= $exam_infos['examname']; ?></h3>
+                            <h3 class="text-capitalize mb-3">Subject: <?= $subject_info['subject_name']; ?></h3>
                         </div>
                         <div class="row mx-1">
                             <div class="col-3">

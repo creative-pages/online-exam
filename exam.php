@@ -11,6 +11,11 @@
         $query = $common->select("`add_exam`","`id`='$id'");
         $exam = mysqli_fetch_assoc($query);
 
+        $subject_id = $exam['subject_id'];
+        $subject_info = $common->select("`subject_add`","`id` = '$subject_id'");
+        $subject_info = mysqli_fetch_assoc($subject_info);
+
+
         $exam_id = $_GET['vi'];
         $publish_setting = $common->select("`publish_exam`","`exam_id`='$exam_id' && `other` LIKE '%blank%'");
         if ($publish_setting) {
@@ -57,15 +62,15 @@
         background:url(image/start.jpg) repeat fixed 0 0 #000;position: relative;
         }
     </style>
-    <body onload="starttime()">
+    <body>
             <div class="container-fluid">
                 <div class="quetion" style="width: 700px;margin:0px auto;">
                     <div class="main bg-white py-3">
                         <div class="examheader text-center mt-2">
-                            <h3 class=''><?=$exam['examname'];?></h3>
-                            <h3>Subject:Phy</h3>
-                            <h3 id ="starttime"></h3>
-                            <div id="showtime" ></div>
+                            <h3 class='text-capitalize'>Exam Name: <?= $exam['examname']; ?></h3>
+                            <h3>Subject: <?= $subject_info['subject_name']; ?></h3>
+                            <h5 id ="starttime"></h5>
+                            <div class="mb-3" id="showtime"></div>
                         </div>
                         <div class="row mx-1">
                             <div class="col-4">
@@ -83,6 +88,7 @@
        
                 <form action="final.php" method="post">
                     <input type="hidden" name="totalquetion" value="<?=$exam['tquetion'];?>"/>
+                    <input type="hidden" name="exam_id" value="<?= $exam_id; ?>"/>
                     <?php
                    $select = $common->select("`questions`","`exam_id` = '$id' ORDER BY `serial`+0");
                    if($select){
@@ -144,10 +150,17 @@
         var min = '<?=$result['totaltime'];?>';
         var sec = 00;
         var f = new Date();
-        function starttime() {
-            showtime();
-            document.getElementById("starttime").innerHTML = "<h4>You started your Exam at " + f.getHours() + ":" + f.getMinutes()+"</h4>"; 
+        function formatAMPM(date) {
+            var hours = date.getHours();
+            var minutes = date.getMinutes();
+            var ampm = hours >= 12 ? 'pm' : 'am';
+            hours = hours % 12;
+            hours = hours ? hours : 12; // the hour '0' should be '12'
+            minutes = minutes < 10 ? '0'+minutes : minutes;
+            var strTime = hours + ':' + minutes + ' ' + ampm;
+            return strTime;
         }
+        $('#starttime').html("You started your exam at " + formatAMPM(new Date));
         function showtime() {
             if (parseInt(sec) > 0) {
                 sec = parseInt(sec) - 1;

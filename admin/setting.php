@@ -232,7 +232,7 @@
                         <h2><strong>Access Control</strong></h2>
                         <div class="row">
                             <div class="col-6">
-                                <h4>Who Can Text Your Text</h4>
+                                <h4>Who Can take your test?</h4>
                                 <div class="mb-2 bg-light"style="padding:10px;">
                                     <input type="radio"id="inputcom" name="access" value="anyone" >
                                         Anyone

@@ -41,28 +41,6 @@
             }
            
         }
-        public function StudentLogin($data,$exmid){
-            $sid = $this->fm->validation($data['id']);
-           
-            $query = "SELECT * FROM student_table WHERE sid='$sid'";
-            $value = $this->db->select($query);
-            if($value){
-                $result = $value->fetch_assoc();
-                $studentid = $result['id'];
-                Session::set("exmid",$exmid);
-                Session::set("student_id",$studentid);
-                header("Location:start-exam.php?xmid=$exmid");
-            }
-                
-                else{
-                    $msg ="<span style='color:red;'>Incorrect Id Number</span>";
-                    return $msg;
-                   
-                    
-                }
-            
-        }
-
         public function PublishExam($data){
             $exam_id = $this->fm->validation($data['exam_id']);
             $intro = $this->fm->validation($data['intro']);
@@ -94,7 +72,7 @@
             $query = "INSERT INTO  publish_exam(exam_id,intro,color,display_question,pagination,navigation,after_answer,other,negative_mark,access,howtime,totaltime,can_take_test,take_time,notification) VALUES('$exam_id','$intro','$color','$display_question','$pagination','$navigation','$afters','$others','$negative_mark','$acces','$howtime','$totaltime','$can_take_test','$take_time', '$notification')";
             $result = $this->db->insert($query);
             if($result){
-                header("Location:publish-exam.php");
+                header("Location: setting.php?setting=" . $exam_id);
             }
             else{
                 echo "Something went wrong";
@@ -151,7 +129,7 @@
             WHERE `id` = '$publish_id'";
             $result = $this->db->update($query);
             if($result){
-                header("Location: publish-exam.php");
+                header("Location: edit-setting.php?es=" . $publish_id);
             }
             else{
                 echo "Something went wrong";
@@ -166,18 +144,13 @@
             //$password    = mysqli_real_escape_string($this->db->link,MD5($password));
             
             $query = "SELECT * FROM student_table  WHERE id = '$id' AND password = '$password'";
-            
             $result =$this->db->select($query); 
          
-               
             if ($result != false) {
             $value = $result->fetch_assoc();
-          
             Session::set("SignIn", true);
-           
             Session::set("profileid", $value['id']);
             echo "<script> window.location.assign('student/batch.php'); </script>";
-          
             } else {
                 return "<div class='alert alert-warning'>Email And Password Does Not Match</div>";
             }
