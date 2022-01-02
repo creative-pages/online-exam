@@ -105,8 +105,7 @@
                     }else{
                         $select = $common->select("`questions`","`exam_id` = '$id' ORDER BY `id` ASC LIMIT $display_question"); 
                     }
-                   
-                   if($select){
+                    if($select){
                       $i = 1;
                        while($viewquetion = mysqli_fetch_assoc($select)){
                    ?>
