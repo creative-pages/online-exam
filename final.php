@@ -286,7 +286,12 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['save'])) {
     </head>
     <style>
         body{
-        background:url(image/start.jpg) repeat fixed 0 0 #000;position: relative;
+            background:url(image/start.jpg) repeat fixed 0 0 #000;position: relative;
+        }
+        @media print {    
+            .no_print {
+                display: none!important;
+            }
         }
     </style>
     <body>
@@ -315,17 +320,20 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['save'])) {
                                 ?>
                             </h3>
                         </div>
-                    </div>  
-                    
+                    </div>
                 </div>
                 
                 
                 <div>
                     <?= $preview_answer; ?>
                 </div>
-                <div class="d-flex justify-content-end  my-2">
-                    <a href="start-exam.php?xmid=<?=$exam_id?>"class="btn btn-primary  btn-rounded mx-2">Try Again</a>
-                    <a href="index.php" class="btn btn-secondary btn-rounded">Home</a>
+
+                <div class="d-flex justify-content-between my-2 bg-white p-3 no_print">
+                    <div>
+                        <a href="start-exam.php?xmid=<?=$exam_id?>"class="btn btn-primary btn-rounded me-2">Try Again</a>
+                        <a href="index.php" class="btn btn-secondary btn-rounded">Home</a>
+                    </div>
+                    <button onclick="window.print()" class="ml-auto btn btn-primary btn-sm">Download PDF</button>
                 </div>
 
             </div>

@@ -20,9 +20,6 @@
     <body>
       <div class="container">
         <img src="image/santo.jpg" class="rounded mx-auto d-block my-2"  width="75%">
-          <div>
-          <iframe src="https://player.vimeo.com/video/661687969?h=9769aa5bfc" width="640" height="360" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
-          </div>
         <ul class="nav nav-pills mb-3 mt-5" id="pills-tab" role="tablist">
           <?php
             if($sub){
@@ -64,15 +61,15 @@
                       ?>
                       <tr>
                         <td>
-                          <?=$rows['chapter'];?>
+                          <?= $rows['chapter']; ?>
                         </td>
                         <td>
-                        <?=$rows['topic'];?>
+                        <?= $rows['topic']; ?>
                         </td>
                         <td>
-                          <a href="">
+                          <div onClick="videoPlayer('<?= $rows['c_link']; ?>')" style="cursor: pointer;">
                             <img src="image/lecture.png" height="30px;">
-                          </a>
+                          </div>
                         </td>
                         <td>
                           <a href="">
@@ -156,8 +153,33 @@
             ?>
         </div>
       </div>
+
+      <!-- Modal -->
+      <div class="modal fade" id="video_player" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+          <div class="modal-content" style="background: rebeccapurple;">
+            <div class="modal-header border-0">
+              <button type="button" class="btn-close bg-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body mb-4">
+              <iframe id="video_iframe" src="" width="100%" height="400px" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+            </div>
+          </div>
+        </div>
+      </div>
       
         <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"   crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+        <script>
+          function videoPlayer(class_link) {
+            if (class_link.length > 0) {
+              $('#video_iframe').attr('src', class_link);
+              $('#video_player').modal('show');
+            }
+          }
+          $('.btn-close').click(function() {
+            $('#video_iframe').attr('src', '');
+          });
+        </script>
     </body>
 </html>
