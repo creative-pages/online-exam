@@ -73,7 +73,7 @@ if(isset($_GET['xmid']) && $_GET['xmid'] != '' && is_numeric($_GET['xmid'])) {
                         </div>
                     </div>
                     <?php
-                    $total = 0;
+                     $total = 0;
                      $profileid = Session::get('profileid');
                      $r_query = $common->select("`results`","`student_id`='$profileid'");
                      if($r_query != false){
