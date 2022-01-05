@@ -10,6 +10,21 @@
    $sub = $common->select("`add_exam`","`id`='$exam_id'");
    
    $raw = mysqli_fetch_assoc($sub);
+   $subject_id = $raw['subject_id'];
+   // subject info
+   $subject_info = $common->select("`subject_add`", "`id` = '$subject_id'");
+   $subject_infos = mysqli_fetch_assoc($subject_info);
+   $publish_setting = $common->select("`publish_exam`", "`exam_id` = '$exam_id'");
+    if ($publish_setting) {
+        $publish_settings = mysqli_fetch_assoc($publish_setting);
+        $display_question = $publish_settings['display_question'];
+        if (strpos($publish_settings['other'], 'blank')) {
+            $other = '';
+        } else {
+            $other = ' required=""';
+        }
+    }
+
 
     if(isset($_GET['q'])){
         $sid = $_GET['q'];
@@ -28,7 +43,7 @@
     }
 
     if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])){
-        $process=$exam->ExamProcess($_POST,$exam_id);
+        $process = $exam->ExamProcess($_POST,$exam_id);
     }
 
     // exam start time storing in session
@@ -54,16 +69,32 @@
           <div class="main mx-auto shadow-sm p-3 my-3 bg-light rounded" style= "width:800px; margin-top: 35;">
                 <div class="exam_head my-1">
                     <div class="text-center">
-                        <h4 class="text-muted"><strong><?=$raw['examname']?></strong></h4>
-                        <h4 class="text-muted"><strong>Sub:<?=$raw['subjectname']?></strong></h4>
+                        <h4 class="text-muted text-capitalize"><strong><?=$raw['examname']?></strong></h4>
+                        <h4 class="text-muted"><strong>Sub: <?= $subject_infos['subject_name']; ?></strong></h4>
+                        <?php
+                        if($publish_settings['howtime'] == "limited") {
+                            if (!isset($_SESSION['exam_start_time'])) {
+                                $_SESSION['exam_start_time'] = date("h:i a");
+                            }
+                        ?>
+                        <h5 class="mb-1 mt-3">You started your exam at <?= $_SESSION['exam_start_time']; ?></h5>
+                        <h5 class="mb-3" id="timer">
+                            Your Left Time is : <strong id="minutes"><?= isset($_POST['input_min']) ? $_POST['input_min'] : '-'; ?></strong> minutes and <strong id="seconds"><?= isset($_POST['input_sec']) ? $_POST['input_sec'] : '-'; ?></strong> seconds.
+
+                            <input class="input_min" form="single_exam_form" name="input_min" type="text" value='<strong id="minutes"><?= isset($_POST['input_min']) ? $_POST['input_min'] : ''; ?>'>
+                            <input class="input_sec" form="single_exam_form" name="input_sec" type="text" value='<?= isset($_POST['input_sec']) ? $_POST['input_sec'] : ''; ?>'>
+                        </h5>
+                        <?php
+                        }
+                        ?>
                     </div>
                     
                     <div class="row mx-1">
                         <div class="col-4">
-                            <h4 class="text-muted">Time:<?=$raw['duration']?> minute</h4>
+                            <h4 class="text-muted">Time: <?=$raw['duration']?> Minutes</h4>
                         </div>
                         <div class="col-4">
-                            <h4 class="text-muted">Quetion:<?=$raw['tquetion']?></h4>
+                            <h4 class="text-muted">Quetion: <?= $display_question; ?></h4>
                         </div>
                         <div class="col-4">
                             <h4 class="text-muted"><?=$raw['exmdate']?></h4>
@@ -74,7 +105,7 @@
                 <hr>
                 <div class="exam_body">
                     <div class="row">
-                        <form action = "" method = "post">
+                        <form action="" id="single_exam_form" method = "post">
                             <div class="col-12">
                                 <div class="d-flex mb-2">
                                     <div><?= $result['serial']; ?>. &nbsp;</div>
@@ -83,7 +114,7 @@
                             </div>
                             <div class="col-12">
                                 <div class="d-flex mb-2">
-                                    <input type="radio" id="ans1" name="ans" value="option_one" <?php 
+                                    <input type="radio" id="ans1" name="ans" value="option_one"<?= $other; ?> <?php 
                                     if (isset($already_answered)) {
                                         if ($_SESSION['reload_session_result'][$result['id']] != 'option_one') {
                                             echo 'disabled';
@@ -97,7 +128,7 @@
                             </div>
                             <div class="col-12">
                                 <div class="d-flex mb-2">
-                                <input type="radio" id="ans2" name="ans" value="option_two" <?php 
+                                <input type="radio" id="ans2" name="ans" value="option_two"<?= $other; ?> <?php 
                                 if (isset($already_answered)) {
                                     if ($_SESSION['reload_session_result'][$result['id']] != 'option_two') {
                                         echo 'disabled';
@@ -111,7 +142,7 @@
                             </div>
                             <div class="col-12">
                                 <div class="d-flex mb-2">
-                                <input type="radio" id="ans3" name="ans" value="option_three" <?php 
+                                <input type="radio" id="ans3" name="ans" value="option_three"<?= $other; ?> <?php 
                                 if (isset($already_answered)) {
                                     if ($_SESSION['reload_session_result'][$result['id']] != 'option_three') {
                                         echo 'disabled';
@@ -125,7 +156,7 @@
                             </div>
                             <div class="col-12">
                                 <div class="d-flex mb-2">
-                                <input type="radio" id="ans4" name="ans"  value="option_four" <?php 
+                                <input type="radio" id="ans4" name="ans"  value="option_four"<?= $other; ?> <?php 
                                 if (isset($already_answered)) {
                                     if ($_SESSION['reload_session_result'][$result['id']] != 'option_four') {
                                         echo 'disabled';
@@ -177,7 +208,6 @@
     <!-- Bootstrap tether Core JavaScript -->
     <script src="admin/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
         <script>
-            
             $(document).ready(function (){
                 $('[name="ans"]').click(function() {
                     var q_id = '<?= $result['id']; ?>';
@@ -207,5 +237,32 @@
 
             });
         </script>
+
+    <?php
+        if($publish_settings['howtime'] == "limited") {
+    ?>
+    <script>
+        var time = <?= $raw['duration']; ?> * 60,
+            start = Date.now(),
+            mins = document.getElementById('minutes'),
+            secs = document.getElementById('seconds'),
+            timer;
+        function countdown() {
+          var timeleft = Math.max(0, time - (Date.now() - start) / 1000),
+              m = Math.floor(timeleft / 60),
+              s = Math.floor(timeleft % 60);
+          
+          mins.firstChild.nodeValue = m;
+          secs.firstChild.nodeValue = s;
+          $('.input_min').val(m);
+          $('.input_sec').val(s);
+          
+          if( timeleft == 0) clearInterval(timer);
+        }
+        timer = setInterval(countdown, 200);
+    </script>
+    <?php
+    }
+    ?>
     </body>
 </html>

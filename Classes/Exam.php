@@ -115,9 +115,9 @@
         }
 
        public function ExamProcess($data,$exam_id){
-           $query = "SELECT * FROM add_exam WHERE id = '$exam_id'";
+            $query = "SELECT * FROM publish_exam WHERE exam_id = '$exam_id'";
             $result = $this->db->select($query)->fetch_assoc();
-            $total = $result['tquetion'];
+            $total = $result['display_question'];
             $serial = $this->fm->validation($data['serial']);
             $q_id = $this->fm->validation($data['q_id']);
             $ans = $this->fm->validation($data['ans']);
@@ -140,11 +140,11 @@
             }
             if($serial == $total){
                 $xm = Session::get('exmid');
-                header("Location:final-result.php?xmid=$xm");
+                header("Location: final-result.php?xmid=$xm");
                 exit();
             } else{
                 $next = $serial+1;
-                header("Location:singleexam-blank.php?q=".$next);
+                header("Location: singleexam.php?q=".$next);
             }
        }
 

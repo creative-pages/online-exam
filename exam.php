@@ -78,8 +78,16 @@
                             <p class="text-success m-0"><strong>Wellocme <?=Session::get('name');?></strong></p>
                             <h3 class='text-capitalize'>Exam Name: <?= $exam['examname']; ?></h3>
                             <h3>Subject: <?= $subject_info['subject_name']; ?></h3>
-                            <h5 id ="starttime"></h5>
-                            <div class="mb-3" id="showtime"></div>
+                            <?php
+                            if($publish_settings['howtime'] == "limited") {
+                            ?>
+                            <h5 class="mb-1 mt-3">You started your exam at <?= date("h:i a"); ?></h5>
+                            <h5 class="mb-3" id="timer">
+                                Your Left Time is : <strong id="minutes">-</strong> minutes and <strong id="seconds">-</strong> seconds.
+                            </h5>
+                            <?php
+                            }
+                            ?>
                         </div>
                         <div class="row mx-1">
                             <div class="col-4">
@@ -148,61 +156,29 @@
             </div>
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"   crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-        <?php
-            $query = $common->select("`publish_exam`","`exam_id`='$exam_id'");
-           
-            $result = mysqli_fetch_assoc($query);
-            $duration = $result['howtime'];
-
-            if($duration == "limited"){
-        ?>
-        <script>
-
-        var tim;
-        
-        var min = '<?=$result['totaltime'];?>';
-        var sec = 00;
-        var f = new Date();
-        function formatAMPM(date) {
-            var hours = date.getHours();
-            var minutes = date.getMinutes();
-            var ampm = hours >= 12 ? 'pm' : 'am';
-            hours = hours % 12;
-            hours = hours ? hours : 12; // the hour '0' should be '12'
-            minutes = minutes < 10 ? '0'+minutes : minutes;
-            var strTime = hours + ':' + minutes + ' ' + ampm;
-            return strTime;
+    <?php
+        if($publish_settings['howtime'] == "limited") {
+    ?>
+    <script>
+        var time = <?= $exam['duration']; ?> * 60,
+            start = Date.now(),
+            mins = document.getElementById('minutes'),
+            secs = document.getElementById('seconds'),
+            timer;
+        function countdown() {
+          var timeleft = Math.max(0, time - (Date.now() - start) / 1000),
+              m = Math.floor(timeleft / 60),
+              s = Math.floor(timeleft % 60);
+          
+          mins.firstChild.nodeValue = m;
+          secs.firstChild.nodeValue = s;
+          
+          if( timeleft == 0) clearInterval(timer);
         }
-        $('#starttime').html("You started your exam at " + formatAMPM(new Date));
-        function showtime() {
-            if (parseInt(sec) > 0) {
-                sec = parseInt(sec) - 1;
-                document.getElementById("showtime").innerHTML = "Your Left Time is : "+min+" Minutes " + sec+" Seconds";
-                tim = setTimeout("showtime()", 1000);
-            }
-            else {
-                if (parseInt(sec) == 0) {
-                    min = parseInt(min) - 1;
-            document.getElementById("showtime").innerHTML = "Your Left Time is :"+min+" Minutes :" + sec+" Seconds";
-                    if (parseInt(min) == 0) {
-                        clearTimeout(tim);
-            alert("Time Up");
-
-                      
-                    }
-                    else {
-                        sec = 60;
-                        document.getElementById("showtime").innerHTML = "Your Left Time is :" + min + " Minutes :" + sec + " Seconds";
-                        tim = setTimeout("showtime()", 1000);
-                    }
-                }
-
-            }
-        }
-        
-  </script>
- <?php } ?>
-           
-        
+        timer = setInterval(countdown, 200);
+    </script>
+    <?php
+    }
+    ?>
     </body>
 </html>

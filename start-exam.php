@@ -6,6 +6,7 @@
     $common = new Common();
 
 if(isset($_GET['xmid']) && $_GET['xmid'] != '' && is_numeric($_GET['xmid'])) {
+    Session::set('exmid', $_GET['xmid']);
     $xmid = $_GET['xmid'];
     $sub = $common->select("`add_exam`","`id`='$xmid'");
  

@@ -5,10 +5,22 @@
     $common = new Common();
 ?>
 <?php
+    // student info
+    $student_id = Session::get("profileid");
+    $student_info = $common->select("`student_table`", "`id` = '$student_id'");
+    $student_infos = mysqli_fetch_assoc($student_info);
+
     if(isset($_GET['xmid'])){
         $id = $_GET['xmid'];
         $query = $common->select("`add_exam`","`id`='$id'");
         $exam = mysqli_fetch_assoc($query);
+        $subject_id = $exam['subject_id'];
+        // subject info
+        $subject_info = $common->select("`subject_add`", "`id` = '$subject_id'");
+        $subject_infos = mysqli_fetch_assoc($subject_info);
+        // publish_exam info
+        $publish_exam_info = $common->select("`publish_exam`","`exam_id` = '$id'");
+        $publish_exam_infos = mysqli_fetch_assoc($publish_exam_info);
     }
 
 
@@ -22,10 +34,9 @@
         $negative_percent =  $nagetive_marks['negative_mark'] * 0.01;
         $right_answer_final = $_SESSION['score'] - ($_SESSION['wrong'] * $negative_percent);
     } else {
-        $right_answer_final;
+        $right_answer_final = $_SESSION['score'];
     }
 
-    $student_id = Session::get('student_id');
     $how_time_count = $common->select("`results`", "`exam_id` = '$exam_id'");
     if ($how_time_count) {
         $how_time = mysqli_num_rows($how_time_count);
@@ -51,13 +62,12 @@
                 <div class="quetion" style="width: 700px;margin:0px auto;">
                     <div class="main bg-white" style="margin-top: 30px;">
                         <div class="examheader text-center mt-2">
-                            <h3 class= ''style="margin-top:-23px;"><?=$exam['examname'];?></h3>
-                            <h3>Subject:Phy</h3>
+                            <h3 class='text-capitalize pt-2' style="margin-top:-23px;"><?=$exam['examname'];?></h3>
+                            <h3>Subject: <?= $subject_infos['subject_name']; ?></h3>
                         </div>
                         <div class="row mx-1">
                             <div class="col-4">
-                                <h3 class="text-muted">Your Score:<?=$exam['tquetion'];?>/
-                                <?php
+                                <h3 class="text-muted">Your Score: <?= $publish_exam_infos['display_question']; ?>/<?php
                                     echo $right_answer_final;
                                 ?>
                                 </h3>
@@ -71,7 +81,7 @@
                                 </h3>
                             </div>
                             <div class="col-4">
-                                <h3 class="text-muted">Date:<?=$exam['exmdate'];?></h3>
+                                <h3 class="text-muted">Date: <?=$exam['exmdate'];?></h3>
                             </div>
                         </div>  
                         
@@ -81,8 +91,9 @@
                     <?php
                     $question_ans = '';
                     $not_answered = 0;
+                    $limit = $publish_exam_infos['display_question'];
 
-                    $all_question = $common->select("`questions`", "`exam_id` = '$id' ORDER BY `serial` ASC");
+                    $all_question = $common->select("`questions`", "`exam_id` = '$id' ORDER BY `serial` ASC LIMIT $limit");
 
                     while ($all_questions = mysqli_fetch_assoc($all_question)) {
                         if ($_SESSION['exam_sheet'][$all_questions['id']] != '') {
@@ -293,6 +304,24 @@
 
                     $submit_result = $common->insert("`results`(`exam_id`, `student_id`, `how_time`, `score`, `wrongans`, `rightans`, `blankans`, `question_ans`, `start_time`, `end_time`, `total_time`)", "('$exam_id', '$student_id', '$how_time', '$right_answer_final', '$wrong_answer', '$right_answer', '$not_answered', '$question_ans', '$start_time', '$end_time', '$total_time')");
                     unset($_SESSION['start_exam_time']);
+
+                    if ($publish_exam_infos['notification'] == 'yes') {
+                        //---------------Email sender---------------
+                        // $recipient = 'arifh3261@gmail.com'; //recipient 
+                        // $email = $student_infos['email']; //senders e-mail adress 
+                        
+                        // $mail_body  = "New exam submit from: \r\n\n";
+                        // $mail_body  = "--------------------------------------- \r\n";
+                        // $mail_body  = "Name: $student_infos['sname'] \r\n";
+                        // $mail_body .= "Email: $email \r\n";
+
+                        // $subject = "New exam submited."; //subject 
+                        // $from = $email;
+                        // $header = 'From: '.$from."\r\n". 'Reply-To: '.$from."\r\n" . 'X-Mailer: PHP/' . phpversion();
+
+                        // mail($recipient, $subject, $mail_body, $header); //mail command :) 
+                        //-------------Email Sender Ends------------
+                    }
                     ?>
                     </div>
                 
