@@ -96,7 +96,7 @@
                     $all_question = $common->select("`questions`", "`exam_id` = '$id' ORDER BY `serial` ASC LIMIT $limit");
 
                     while ($all_questions = mysqli_fetch_assoc($all_question)) {
-                        if ($_SESSION['exam_sheet'][$all_questions['id']] != '') {
+                        if (isset($_SESSION['exam_sheet'][$all_questions['id']]) && $_SESSION['exam_sheet'][$all_questions['id']] != '') {
                             if ($all_questions['answer'] == $_SESSION['exam_sheet'][$all_questions['id']]) {
                                 ?>
                                 <div class="quetion mb-2 bg-white py-2 border border-success" style="border-width: 3px!important;">
@@ -228,6 +228,7 @@
                                 </div>
                                 <?php
                             }
+                            $question_ans .= $all_questions['id'] . '=' . $_SESSION['exam_sheet'][$all_questions['id']] . ',';
                         } else {
                             $not_answered++;
                         ?>
@@ -288,8 +289,8 @@
                             </div>
                         </div>
                         <?php
+                            $question_ans .= $all_questions['id'] . '=' . ',';
                         }
-                        $question_ans .= $all_questions['id'] . '=' . $_SESSION['exam_sheet'][$all_questions['id']] . ',';
                     }
 
                     $question_ans = rtrim($question_ans,",");

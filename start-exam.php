@@ -30,6 +30,8 @@ if(isset($_GET['xmid']) && $_GET['xmid'] != '' && is_numeric($_GET['xmid'])) {
     unset($_SESSION["exam_sheet"]);
     unset($_SESSION["reload_session_result"]);
     unset($_SESSION["score"]);
+    unset($_SESSION['exam_start_time']);
+    unset($_SESSION['remain_time']);
 } else {
     header("Location: batch.php");
 }

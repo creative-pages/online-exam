@@ -38,24 +38,23 @@
     }
 ?>
 <?php
-    if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['save'])) {
-        $totalquetion = $_POST['totalquetion'];
-        for($i=1;$i<=$totalquetion;$i++){
-            $serial    = $_POST['serial'.$i];
-            $ans = $_POST['ans'.$i];
+    // if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['save'])) {
+    //     $totalquetion = $_POST['totalquetion'];
+    //     for($i=1;$i<=$totalquetion;$i++){
+    //         $serial    = $_POST['serial'.$i];
+    //         $ans = $_POST['ans'.$i];
 
-            if(!isset($_SESSION['score'])){
-                $_SESSION['score'] = '0';   
-            }
-            $right = $exam->rightAns($serial,$id);
-            if($right == $ans){
-                $_SESSION['score']++;
-            }
-        }
-       // print_r($_SESSION);
-          header("Location: final.php");
-       
-    }
+    //         if(!isset($_SESSION['score'])){
+    //             $_SESSION['score'] = '0';   
+    //         }
+    //         $right = $exam->rightAns($serial,$id);
+    //         if($right == $ans){
+    //             $_SESSION['score']++;
+    //         }
+    //     }
+    //    // print_r($_SESSION);
+    //       header("Location: final.php");
+    // }
 ?>
 
 <DOCTYPE html>
@@ -103,7 +102,7 @@
                         <p class="px-3 mb-0 text-danger"><?= $other_message; ?></p>
                     </div>
        
-                <form class="bg-white" action="final.php" method="post">
+                <form id="autoSubmit" class="bg-white" action="final.php" method="post">
                     <input type="hidden" name="totalquetion" value="<?=$display_question;?>"/>
                     <input type="hidden" name="exam_id" value="<?= $exam_id; ?>"/>
                     <?php
@@ -176,6 +175,12 @@
           if( timeleft == 0) clearInterval(timer);
         }
         timer = setInterval(countdown, 200);
+        window.onload = function() { 
+            window.setTimeout("autoFormSubmit()", <?= $exam['duration']; ?> * 1000 * 60);
+        };
+        function autoFormSubmit() {
+            document.getElementById("autoSubmit").submit();
+        }
     </script>
     <?php
     }

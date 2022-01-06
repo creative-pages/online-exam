@@ -10,7 +10,7 @@ $student_id = Session::get("profileid");
 $student_info = $common->select("`student_table`", "`id` = '$student_id'");
 $student_infos = mysqli_fetch_assoc($student_info);
 
-if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['save'])) {
+if($_SERVER['REQUEST_METHOD'] == 'POST') {
     // exam info
     $exam_id = $_POST['exam_id'];
     $exam_info = $common->select("`add_exam`", "`id` = '$exam_id'");

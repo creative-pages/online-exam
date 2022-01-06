@@ -43,6 +43,7 @@
     }
 
     if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])){
+        $_SESSION['remain_time'] = ($_POST['input_min'] * 60) + $_POST['input_sec'];
         $process = $exam->ExamProcess($_POST,$exam_id);
     }
 
@@ -79,10 +80,10 @@
                         ?>
                         <h5 class="mb-1 mt-3">You started your exam at <?= $_SESSION['exam_start_time']; ?></h5>
                         <h5 class="mb-3" id="timer">
-                            Your Left Time is : <strong id="minutes"><?= isset($_POST['input_min']) ? $_POST['input_min'] : '-'; ?></strong> minutes and <strong id="seconds"><?= isset($_POST['input_sec']) ? $_POST['input_sec'] : '-'; ?></strong> seconds.
+                            Your Left Time is : <strong id="minutes">-</strong> minutes and <strong id="seconds">-</strong> seconds.
 
-                            <input class="input_min" form="single_exam_form" name="input_min" type="text" value='<strong id="minutes"><?= isset($_POST['input_min']) ? $_POST['input_min'] : ''; ?>'>
-                            <input class="input_sec" form="single_exam_form" name="input_sec" type="text" value='<?= isset($_POST['input_sec']) ? $_POST['input_sec'] : ''; ?>'>
+                            <input class="input_min" form="single_exam_form" name="input_min" type="hidden">
+                            <input class="input_sec" form="single_exam_form" name="input_sec" type="hidden">
                         </h5>
                         <?php
                         }
@@ -183,16 +184,10 @@
                             <div class="mt-1">
                                 <input type = "submit" class="btn btn-success" name = "submit" value = "Next Quetion" />
                                 <input type = "hidden" value = "<?php echo $sid ;?>" name = "serial" id = "serial"/>
-
                                 <input type="hidden" value="<?= $result['id']; ?>" name="q_id"/>
-                                
                                 <input type = "hidden" value = "<?php echo $exam_id  ;?>" name = "" id = "xmid"/>
-
                             </div>
                         </form>
-                        
-                            
-                        
                     </div>
                 </div>
             </div>
@@ -240,9 +235,14 @@
 
     <?php
         if($publish_settings['howtime'] == "limited") {
+            if (isset($_SESSION['remain_time'])) {
+                $main_time = $_SESSION['remain_time'];
+            } else {
+                $main_time = $raw['duration'] * 60;
+            }
     ?>
     <script>
-        var time = <?= $raw['duration']; ?> * 60,
+        var time = <?= $main_time; ?>,
             start = Date.now(),
             mins = document.getElementById('minutes'),
             secs = document.getElementById('seconds'),
@@ -260,6 +260,12 @@
           if( timeleft == 0) clearInterval(timer);
         }
         timer = setInterval(countdown, 200);
+        window.onload = function() { 
+            window.setTimeout("autoFormSubmit()", <?= $main_time; ?> * 1000);
+        };
+        function autoFormSubmit() {
+            window.location.href = 'final-result.php?xmid=' + <?= $exam_id; ?>;
+        }
     </script>
     <?php
     }
