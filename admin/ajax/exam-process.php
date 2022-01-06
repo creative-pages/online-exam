@@ -38,4 +38,15 @@
         }
     }
 
+    //delete quetion
+    if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_row'])){
+        $id = $_POST['id'];
+
+        $exam_detail = $common->delete("`questions`", "`id` = '$id'");
+        if ($exam_detail) {
+            echo "ok";
+        }
+    }
+
+
 ?>

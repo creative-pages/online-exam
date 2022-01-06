@@ -107,103 +107,7 @@
                                 <button type="reset" class="btn btn-dark rounded-pill px-4 waves-effect waves-light">Cancel</button>
                             </div>
                         </div>
-                        
-                        <div class="ms-auto">
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-info dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i data-feather="download" class="feather-sm fill-white me-1"></i>
-                                    Import
-                                </button>
-                                <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="javascript:void(0)">Import from doc</a>
-                                    <a class="dropdown-item" href="javascript:void(0)">Import from csv</a>
-                                 
-                                </div>
-                            </div>
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i data-feather="log-in" class="feather-sm fill-white me-1"></i>
-                                    Export
-                                </button>
-                                <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="javascript:void(0)">Export to pdf(Only Question)</a>
-                                    <a class="dropdown-item" href="javascript:void(0)">Export to pdf(Question With Answer)</a>
-                                    <a class="dropdown-item" href="javascript:void(0)">Export to doc(Only Question)</a>
-                                    <a class="dropdown-item" href="javascript:void(0)">Export to pdf(Question With Answer)</a>
-                                   
-                                </div>
-                            </div>
-                            <div class="btn-group">
-                                <select class="form-select" id="pluginslist" onchange="showPluginDetails();">
-                                    <option value="bootstrap">Copy From Other Exam</option>
-                                    <option value="blockui">blockUI</option>
-                                    <option value="bt-colorpicker">bootstrap-colorpicker</option>
-                                    <option value="bt-datepaginator">bootstrap-datepaginator</option>
-                                    <option value="bt-datepicker">bootstrap-datepicker</option>
-                                    <option value="bt-duallistbox">bootstrap-duallistbox</option>
-                                    <option value="bt-material-datetimepicker">bootstrap-material-datetimepicker
-                                    </option>
-                                    <option value="bt-switch">bootstrap-switch</option>
-                                    <option value="bt-touchspin">bootstrap-touchspin</option>
-                                    <option value="chart-js">chart.js</option>
-                                    <option value="chartist">chartist</option>
-                                    <option value="chartist-plugin-tooltips">chartist-plugin-tooltips</option>
-                                    <option value="ckeditor">ckeditor</option>
-                                    <option value="clockpicker">clockpicker</option>
-                                    <option value="cropper">cropper</option>
-                                    <option value="datatables">datatables</option>
-                                    <option value="daterangepicker">daterangepicker</option>
-                                    <option value="dragula">dragula</option>
-                                    <option value="dropzone">dropzone</option>
-                                    <option value="echarts">echarts</option>
-                                    <option value="flot">flot</option>
-                                    <option value="footable">footable</option>
-                                    <option value="fullcalendar">fullcalendar</option>
-                                    <option value="gaugeJS">gaugeJS</option>
-                                    <option value="gmaps">gmaps</option>
-                                    <option value="inputmask">inputmask</option>
-                                    <option value="jquery">jquery</option>
-                                    <option value="jquery.flot.tooltip">jquery.flot.tooltip</option>
-                                    <option value="jquery.repeater">jquery.repeater</option>
-                                    <option value="jquery-asColor">jquery-asColor</option>
-                                    <option value="jquery-asColorPicker">jquery-asColorPicker</option>
-                                    <option value="jquery-asGradient">jquery-asGradient</option>
-                                    <option value="jquery-sessiontimeout">jquery-sessiontimeout</option>
-                                    <option value="jquery-steps">jquery-steps</option>
-                                    <option value="jquery-validation">jquery-validation</option>
-                                    <option value="jsgrid">jsgrid</option>
-                                    <option value="jvectormap">jvectormap</option>
-                                    <option value="magnific-popup">magnific-popup</option>
-                                    <option value="masonry-layout">masonry-layout</option>
-                                    <option value="moment">moment</option>
-                                    <option value="morris.js">morris.js</option>
-                                    <option value="nestable">nestable</option>
-                                    <option value="pickadate">pickadate</option>
-                                    <option value="popper.js">popper.js</option>
-                                    <option value="prism">prism</option>
-                                    <option value="taskboard">taskboard</option>
-                                    <option value="treeview">treeview</option>
-                                    <option value="quill">quill</option>
-                                    <option value="raphael">raphael</option>
-                                    <option value="select2">select2</option>
-                                    <option value="summernote">summernote</option>
-                                    <option value="sweetalert2">sweetalert2</option>
-                                    <option value="tablesaw">tablesaw</option>
-                                    <option value="tinymce">tinymce</option>
-                                    <option value="typeahead.js">typeahead.js</option>
-                                </select>
-
-                            </div>
-                            <script>
-                                    function showPluginDetails() {
-                                        var id = $('#pluginslist').val();
-                                        $('.plugin-details').hide();
-                                        $('#' + id).show();
-                                        return;
-                                    }
-                                </script>
-                        </div>
-                    </div>
+                     </div>
                 </div>
                 <div class="d-flex border-bottom title-part-padding px-0 mb-3 align-items-center">
                   
@@ -232,7 +136,7 @@
                         while($values = $all_question->fetch_assoc()) {
                     ?>      
                     <input type="hidden" name="question_id<?= $i; ?>" value="<?=$values['id'];?>">
-                    <div class="row border-top border-primary pt-4">
+                    <div class="row border-top border-primary pt-4 delete_row<?= $values['id']; ?>">
                         <input type="hidden" name="serial<?= $i; ?>" class="set_serial" value="<?= $i; ?>">
                         <div class="col-12">
                             <div class="input-group mb-2">
@@ -318,8 +222,11 @@
                         </div>
 
                     </div>
-                    <button type="button" class="btn btn-info btn-sm mb-4 addMoreQuestion">
+                    <button type="button" class="btn btn-info btn-sm mb-4 addMoreQuestion delete_row<?= $values['id']; ?>">
                         <i class="fa fa-plus-square"></i>
+                    </button>
+                    <button type="button" onclick="deleteRow(<?=$values['id']?>)"  class="btn btn-danger btn-sm mb-4 float-end delete_row<?= $values['id']; ?>">
+                    <i data-feather="trash-2" class="feather-sm fill-white"></i>
                     </button>
                     <?php
                     $i++;
@@ -425,8 +332,24 @@
                 filebrowserUploadMethod:"form"
             });
         });
+        
     });
+    function deleteRow(id){
+            $.ajax({
+                url:'ajax/exam-process.php',
+                type:'POST',
+                data:{
+                    id:id,
+                    delete_row: "delete_row"
+                },
+                cache:false,
+                success:function(result){
+                      $(".delete_row" + id).remove(); 
+                }
+            })
+        }
 </script>
+
 </body>
 
 </html>
