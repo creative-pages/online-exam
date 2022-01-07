@@ -6,21 +6,29 @@
         $total_new_questions = $_POST['total_new_questions'];
         $exam_id = $_POST['exam_id'];
 
+        $minus_question = 0;
+
         for ($i=1; $i <= $total_update_questions; $i++) {
-            $serial = $_POST['serial'.$i];
+            $type = $_POST['type'.$i];
             $question_id = $_POST['question_id'.$i];
-            $question = $_POST['question'.$i];
+            if($type == 'update') {
+                $serial = $_POST['serial'.$i];
+                $question = $_POST['question'.$i];
 
-            $option_one = $_POST['option_one'.$i];
-            $option_two = $_POST['option_two'.$i];
-            $option_three = $_POST['option_three'.$i];
-            $option_four = $_POST['option_four'.$i];
+                $option_one = $_POST['option_one'.$i];
+                $option_two = $_POST['option_two'.$i];
+                $option_three = $_POST['option_three'.$i];
+                $option_four = $_POST['option_four'.$i];
 
-            $answer = $_POST['answer'.$i];
-            $description = $_POST['description'.$i];
+                $answer = $_POST['answer'.$i];
+                $description = $_POST['description'.$i];
 
-            
-            $common->update("`questions`", "`serial` = '$serial', `question` = '$question', `option_one` = '$option_one', `option_two` = '$option_two', `option_three` = '$option_three', `option_four` = '$option_four', `answer` = '$answer', `description` = '$description'", "`id` = '$question_id'");
+                
+                $common->update("`questions`", "`serial` = '$serial', `question` = '$question', `option_one` = '$option_one', `option_two` = '$option_two', `option_three` = '$option_three', `option_four` = '$option_four', `answer` = '$answer', `description` = '$description'", "`id` = '$question_id'");
+            } elseif($type == 'delete') {
+                $common->delete("`questions`", "`id` = '$question_id'");
+                $minus_question++;
+            }
         }
 
         for ($i=1; $i <= $total_new_questions; $i++) {
@@ -39,7 +47,7 @@
             $common->insert("`questions`(`serial`, `exam_id`, `question`, `option_one`, `option_two`, `option_three`, `option_four`, `answer`, `description`)", "('$new_serial', '$exam_id', '$new_question', '$new_option_one', '$new_option_two', '$new_option_three', '$new_option_four', '$new_answer', '$new_description')");
         }
 
-        $final_total_question = $total_update_questions + $total_new_questions;
+        $final_total_question = $total_update_questions + $total_new_questions - $minus_question;
         $common->update("`add_exam`", "`tquetion` = '$final_total_question'", "`id` = '$exam_id'");
     }
 
@@ -127,7 +135,7 @@
                     </tr>
                 </table>
                 <input type="hidden" name="exam_id" value="<?=$xmbyid['id'];?>">
-                <input type="hidden" name="total_questions" value="<?=$xmbyid['tquetion'];?>">
+                <input type="hidden" id="total_questions" name="total_questions" value="<?=$xmbyid['tquetion'];?>">
                 <input type="hidden" id="total_new_questions" name="total_new_questions" value="0">
                 <div id="all_update_questions">
                 <?php
@@ -136,8 +144,9 @@
                         while($values = $all_question->fetch_assoc()) {
                     ?>      
                     <input type="hidden" name="question_id<?= $i; ?>" value="<?=$values['id'];?>">
+                    <input type="hidden" id="type<?= $values['id']; ?>" name="type<?= $i; ?>" value="update">
                     <div class="row border-top border-primary pt-4 delete_row<?= $values['id']; ?>">
-                        <input type="hidden" name="serial<?= $i; ?>" class="set_serial" value="<?= $i; ?>">
+                        <input type="hidden" id="delete_serial<?= $values['id']; ?>" name="serial<?= $i; ?>" class="set_serial" value="<?= $i; ?>">
                         <div class="col-12">
                             <div class="input-group mb-2">
                                 <div class="form-control bg-white">
@@ -220,14 +229,14 @@
                                 <textarea name="description<?= $i; ?>" class="form-control ck_editor" placeholder="Description (optional):"></textarea>
                             </div>
                         </div>
-
                     </div>
-                    <button type="button" class="btn btn-info btn-sm mb-4 addMoreQuestion delete_row<?= $values['id']; ?>">
+                    <button type="button" onclick="deleteRow(<?=$values['id']?>)"  class="btn btn-danger btn-sm mb-4 float-end delete_row<?= $values['id']; ?>">
+                        <i data-feather="trash-2" class="feather-sm fill-white"></i>
+                    </button>
+                    <button type="button" class="btn btn-info btn-sm mb-4 float-start addMoreQuestion delete_row<?= $values['id']; ?>">
                         <i class="fa fa-plus-square"></i>
                     </button>
-                    <button type="button" onclick="deleteRow(<?=$values['id']?>)"  class="btn btn-danger btn-sm mb-4 float-end delete_row<?= $values['id']; ?>">
-                    <i data-feather="trash-2" class="feather-sm fill-white"></i>
-                    </button>
+                    <div class="clearfix"></div>
                     <?php
                     $i++;
                      }
@@ -319,7 +328,7 @@
         var new_item = '<div class="row border-top border-primary pt-4 mb-4"> <input type="hidden" name="new_serial'+ i +'" class="set_serial"> <div class="col-12"> <div class="input-group mb-2"> <div class="form-control bg-white"> <textarea name="new_question'+ i +'" class="new_ck_editor'+ i +'"></textarea> </div> </div> </div> <div class="col-lg-3"> <div class="input-group"> <div class="form-control bg-white"> <textarea name="new_option_one'+ i +'" class="new_ck_editor'+ i +'"></textarea> </div> <div class="input-group-text"> <div class="form-check"> <input type="radio" class="form-check-input" id="checkbox4" name="new_answer'+ i +'" value="option_one" required=""> <label class="form-check-label" for="checkbox4"></label> </div> </div> </div> </div> <div class="col-lg-3"> <div class="input-group"> <div class="form-control bg-white"> <textarea name="new_option_two'+ i +'" class="new_ck_editor'+ i +'"></textarea> </div> <div class="input-group-text">  <div class="form-check"> <input type="radio" class="form-check-input" id="checkbox4" name="new_answer'+ i +'" value="option_two" required=""> <label class="form-check-label" for="checkbox4"></label> </div> </div> </div> </div> <div class="col-lg-3"> <div class="input-group"> <div class="form-control bg-white"> <textarea name="new_option_three'+ i +'" class="new_ck_editor'+ i +'"></textarea> </div> <div class="input-group-text"> <div class="form-check"> <input type="radio" class="form-check-input" id="checkbox4" name="new_answer'+ i +'" value="option_three" required=""> <label class="form-check-label" for="checkbox4"></label> </div> </div> </div> </div> <div class="col-lg-3"> <div class="input-group"> <div class="form-control bg-white"> <textarea name="new_option_four'+ i +'" class="new_ck_editor'+ i +'"></textarea> </div> <div class="input-group-text"> <div class="form-check"> <input type="radio" class="form-check-input" id="checkbox4" name="new_answer'+ i +'" value="option_four" required=""> <label class="form-check-label" for="checkbox4"></label> </div> </div> </div> </div> <div class="col-12"> <button  data-values="'+ i +'" type="button" class="btn btn-info btn-sm my-1 new_description_button_toggle">Add Description</button> </div> <div id="new_description_'+ i +'" class="col-12" style="display: none;"> <div class="form-control mb-2 bg-white"> <textarea name="new_description'+ i +'" class="form-control new_ck_editor'+ i +'" placeholder="Description (optional):"></textarea> </div> </div> </div>';
 
 
-        $(this).after(new_item);
+        $(this).next("div").after(new_item);
 
         $(".set_serial").each(function(index, el) {
             $(this).val(index+1);
@@ -335,6 +344,7 @@
         
     });
     function deleteRow(id){
+<<<<<<< HEAD
         $.ajax({
             url:'ajax/exam-process.php',
             type:'POST',
@@ -347,6 +357,14 @@
                     $(".delete_row" + id).remove(); 
             }
         })
+=======
+        $(".delete_row" + id).hide();
+        $("#type" + id).val('delete');
+        $('#delete_serial' + id).remove();
+        $(".set_serial").each(function(index, el) {
+            $(this).val(index+1);
+        });
+>>>>>>> 7c2f6014cb44d0be96e4e14184fcf07c94e6f2bd
     }
 </script>
 

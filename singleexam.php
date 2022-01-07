@@ -29,7 +29,11 @@
     if(isset($_GET['q'])){
         $sid = $_GET['q'];
         $serial = $common->select("`questions`","`exam_id` = '$exam_id' && `serial` = '$sid'");
-        $result = mysqli_fetch_assoc($serial);
+        if($serial) {
+            $result = mysqli_fetch_assoc($serial);
+        } else {
+            header("Location: start-exam.php?xmid=" . $exam_id);
+        }
 
         // for reloading problem solve
         if (isset($_SESSION['reload_session_result'])) {
@@ -172,20 +176,52 @@
                             <div id="result_check" class="mb-3">
                                 <?php
                                 if (isset($already_answered)) {
-                                    if ($_SESSION['reload_session_result'][$result['id']] == $result['answer']) {
-                                        echo '<img width="25px" height="25px" src="admin/assets/images/img/iconfinder_check.svg"> Right';
-                                    } else {
-                                        echo '<img width="25px" height="25px" src="admin/assets/images/iconfinder_wrong.jpg"> Wrong <br> <div class="d-flex mt-2"><img width="25px" height="25px" src="admin/assets/images/img/iconfinder_check.svg">&nbsp; ' . $result[$result['answer']] . '</div>';
+                                    if (is_numeric(strpos($publish_settings['after_answer'], 'Dispaly the correct answer'))) {
+                                        if ($_SESSION['reload_session_result'][$result['id']] == $result['answer']) {
+                                            echo '<img width="25px" height="25px" src="admin/assets/images/img/iconfinder_check.svg"> Right';
+                                        } else {
+                                            echo '<img width="25px" height="25px" src="admin/assets/images/iconfinder_wrong.jpg"> Wrong <br> <div class="d-flex mt-2"><img width="25px" height="25px" src="admin/assets/images/img/iconfinder_check.svg">&nbsp; ' . $result[$result['answer']] . '</div>';
+                                        }
+                                    }
+                                    if (is_numeric(strpos($publish_settings['after_answer'], 'Show the explanation'))) {
+                                        if ($result['description'] != '') {
+                                            echo '<div class="mt-3 bg-dark text-white px-3 py-2">' . $result['description'] . '</div>';
+                                        }
                                     }
                                 }
                                 ?>
                             </div>
 
                             <div class="mt-1">
-                                <input type = "submit" class="btn btn-success" name = "submit" value = "Next Quetion" />
-                                <input type = "hidden" value = "<?php echo $sid ;?>" name = "serial" id = "serial"/>
+                                <input type = "submit" class="btn btn-success" name = "submit" value="Submit" />
+
+                                <?php
+                                if (is_numeric(strpos($publish_settings['navigation'], 'jump around'))) {
+                                    $previous_id = $_GET['q'] - 1;
+                                    $next_id = $_GET['q'] + 1;
+                                    $previous_check = $common->select("`questions`", "`exam_id` = '$exam_id' && `serial` = '$previous_id'");
+                                    $next_check = $common->select("`questions`", "`exam_id` = '$exam_id' && `serial` = '$next_id'");
+                                ?>
+                                <div class="float-end">
+                                    <?php
+                                    if($previous_check) {
+                                    ?>
+                                    <a class="btn btn-warning" href="singleexam.php?q=<?= $previous_id; ?>">Previous Question</a>
+                                    <?php
+                                    }
+                                    if($next_check && $next_id <= $display_question) {
+                                    ?>
+                                    <a class="btn btn-danger" href="singleexam.php?q=<?= $next_id; ?>">Next Question</a>
+                                    <?php
+                                    }
+                                    ?>
+                                </div>
+                                <?php
+                                }
+                                ?>
+                                <input type = "hidden" value = "<?= $sid; ?>" name = "serial" id = "serial"/>
                                 <input type="hidden" value="<?= $result['id']; ?>" name="q_id"/>
-                                <input type = "hidden" value = "<?php echo $exam_id  ;?>" name = "" id = "xmid"/>
+                                <input type = "hidden" value = "<?= $exam_id; ?>" name="" id="xmid"/>
                             </div>
                         </form>
                     </div>
@@ -205,12 +241,13 @@
         <script>
             $(document).ready(function (){
                 $('[name="ans"]').click(function() {
+                    var xmid = '<?= $exam_id; ?>';
                     var q_id = '<?= $result['id']; ?>';
                     var ans = $(this).val();
                      $.ajax({
                         type:"POST",
                         url:"admin/ajax/exam-process.php",
-                        data:{q_id:q_id, ans:ans, single_page_result_check:'single_page_result_check'},
+                        data:{xmid:xmid, q_id:q_id, ans:ans, single_page_result_check:'single_page_result_check'},
                         success:function(data){
                             $('#result_check').html(data);
 

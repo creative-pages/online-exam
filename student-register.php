@@ -14,11 +14,17 @@
         $contact = $_POST['contact'];
         $password = $_POST['password'];
         
-        $ssc = $_POST['ssc'];
-        $hsc = $_POST['hsc'];
-        $ms = $_POST['ms'];
-        $st = $_POST['st'];
         
+        if($ms == 'yes') {
+            $ssc = $_POST['ssc'];
+            $hsc = $_POST['hsc'];
+            $st = $_POST['st'];
+        } else {
+            $ssc = '0';
+            $hsc = '0';
+            $st = '0';
+        }
+
         $query = $common->select("`student_table`","`contack`='$contact'");
         $email_check = $common->select("`student_table`","`email`='$email'");
 
@@ -184,22 +190,10 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="mb-3 row">
-                                    <label for="ssc" class="col-sm-3 text-end control-label col-form-label">SSC RESULT</label>
+                                <div class="mb-3 row mt-4">
+                                    <label for="com1" class="col-sm-3 text-end control-label col-form-label pt-0">Medical Student?</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="ssc" placeholder="Enter SSC Result" value="<?= isset($_POST['ssc']) ? $_POST['ssc'] : ''; ?>" name="ssc" required="">
-                                    </div>
-                                </div>
-                                <div class="mb-3 row">
-                                    <label for="hsc" class="col-sm-3 text-end control-label col-form-label">HSC RESULT</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="hsc" placeholder="Enter HSC Result" value="<?= isset($_POST['hsc']) ? $_POST['hsc'] : ''; ?>" name="hsc" required="">
-                                    </div>
-                                </div>
-                                <div class="mb-3 row">
-                                    <label for="com1" class="col-sm-3 text-end control-label col-form-label">Medical Student?</label>
-                                    <div class="col-sm-9">
-                                        <div class="form-check form-check-inline">
+                                        <div class="form-check form-check-inline ps-0">
                                             <div class="custom-control custom-radio">
                                                 <input type="radio" class="custom-control-input" id="medical_yes" name="ms" value="yes" required=""<?= isset($_POST['ms']) && $_POST['ms'] == 'yes' ? ' checked=""' : ''; ?>>
                                                 <label class="custom-control-label" for="medical_yes">Yes</label>
@@ -214,25 +208,37 @@
                                         </div>
                                     </div>
                                 </div>
-
-                                <div class="mb-3 row">
-                                    <label for="com1" class="col-sm-3 text-end control-label col-form-label">Second Timer?</label>
+                                <div id="medical_part" style="display: none;">
+                                    <div class="mb-3 row">
+                                    <label for="ssc" class="col-sm-3 text-end control-label col-form-label">SSC RESULT</label>
                                     <div class="col-sm-9">
-                                        <div class="form-check form-check-inline">
+                                        <input type="text" class="form-control" id="ssc" placeholder="Enter SSC Result" value="<?= isset($_POST['ssc']) ? $_POST['ssc'] : ''; ?>" name="ssc">
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <label for="hsc" class="col-sm-3 text-end control-label col-form-label">HSC RESULT</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="hsc" placeholder="Enter HSC Result" value="<?= isset($_POST['hsc']) ? $_POST['hsc'] : ''; ?>" name="hsc">
+                                    </div>
+                                </div>
+                                <div class="mb-3 row mt-4">
+                                    <label for="com1" class="col-sm-3 text-end control-label col-form-label pt-0">Second Timer?</label>
+                                    <div class="col-sm-9">
+                                        <div class="form-check form-check-inline ps-0">
                                             <div class="custom-control custom-radio">
-                                                <input type="radio" class="custom-control-input" id="second_yes" name="st" value="yes" required=""<?= isset($_POST['st']) && $_POST['st'] == 'yes' ? ' checked=""' : ''; ?>>
+                                                <input type="radio" class="custom-control-input" id="second_yes" name="st" value="yes"<?= isset($_POST['st']) && $_POST['st'] == 'yes' ? ' checked=""' : ''; ?>>
                                                 <label class="custom-control-label" for="second_yes">Yes</label>
                                             </div>
                                         </div>
                                         <div class="form-check form-check-inline">
                                             <div class="custom-control custom-radio">
-                                                <input type="radio" class="custom-control-input" id="second_no" name="st" value="no" required=""<?= isset($_POST['st']) && $_POST['st'] == 'no' ? ' checked=""' : ''; ?>>
+                                                <input type="radio" class="custom-control-input" id="second_no" name="st" value="no"<?= isset($_POST['st']) && $_POST['st'] == 'no' ? ' checked=""' : ''; ?>>
                                                 <label class="custom-control-label" for="second_no">No</label>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-
+                                </div>
                             </div>
                             <div class="p-3 border-top">
                                 <div class="d-flex justify-content-around">
@@ -289,15 +295,24 @@
 
     <!--This page plugins -->
     <script src="admin/assets/extra-libs/datatables.net/js/jquery.dataTables.min.js"></script>
-    <!-- start - This is for export functionality only -->
-    <!-- <script src="https://cdn.datatables.net/buttons/1.5.1/js/dataTables.buttons.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.flash.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/pdfmake.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/vfs_fonts.js"></script>
-    <script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.html5.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.print.min.js"></script>
-    <script src="dist/js/pages/datatable/datatable-advanced.init.js"></script> -->
+    <script>
+        $(document).ready(function(){
+            $("#medical_yes").click(function(){
+               $("#medical_part").slideDown();
+
+               $('#ssc').attr('required', '');
+               $('#hsc').attr('required', '');
+               $('#st').attr('required', '');
+            });
+            $("#medical_no").click(function(){
+               $("#medical_part").slideUp();
+
+               $('#ssc').removeAttr('required', '');
+               $('#hsc').removeAttr('required', '');
+               $('#st').removeAttr('required', '');
+            });
+        });
+    </script>
 </body>
 
 </html>
