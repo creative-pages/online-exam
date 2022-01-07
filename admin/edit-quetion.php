@@ -335,19 +335,19 @@
         
     });
     function deleteRow(id){
-            $.ajax({
-                url:'ajax/exam-process.php',
-                type:'POST',
-                data:{
-                    id:id,
-                    delete_row: "delete_row"
-                },
-                cache:false,
-                success:function(result){
-                      $(".delete_row" + id).remove(); 
-                }
-            })
-        }
+        $.ajax({
+            url:'ajax/exam-process.php',
+            type:'POST',
+            data:{
+                id:id,
+                delete_row: "delete_row"
+            },
+            cache:false,
+            success:function(result){
+                    $(".delete_row" + id).remove(); 
+            }
+        })
+    }
 </script>
 
 </body>
