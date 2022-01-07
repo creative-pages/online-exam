@@ -5,6 +5,9 @@
     $common = new Common();
 ?>
 <?php
+    if(!isset($_SESSION['start_exam_time'])) {
+        header("Location: start-exam.php?xmid=" . $_GET['xmid']);
+    }
     // student info
     $student_id = Session::get("profileid");
     $student_info = $common->select("`student_table`", "`id` = '$student_id'");
@@ -30,11 +33,10 @@
     // negative marking
     if ($nagetive_mark) {
         $nagetive_marks = mysqli_fetch_assoc($nagetive_mark);
-
         $negative_percent =  $nagetive_marks['negative_mark'] * 0.01;
         $right_answer_final = $_SESSION['score'] - ($_SESSION['wrong'] * $negative_percent);
     } else {
-        $right_answer_final = $_SESSION['score'];
+        $right_answer_final = isset($_SESSION['score']) ? $_SESSION['score'] : '0';
     }
 
     $how_time_count = $common->select("`results`", "`exam_id` = '$exam_id'");
@@ -55,6 +57,11 @@
     <style>
         body{
         background:url(image/start.jpg) repeat fixed 0 0 #000;position: relative;
+        }
+        @media print {    
+            .no_print {
+                display: none!important;
+            }
         }
     </style>
     <body>
@@ -295,7 +302,7 @@
 
                     $question_ans = rtrim($question_ans,",");
                     $wrong_answer = $_SESSION['wrong'];
-                    $right_answer = $_SESSION['score'];
+                    $right_answer = isset($_SESSION['score']) ? $_SESSION['score'] : '0';
 
                     $start_time = $_SESSION['start_exam_time'];
                     $end_time = date("Y-m-d h:i:s");
@@ -324,6 +331,13 @@
                         //-------------Email Sender Ends------------
                     }
                     ?>
+                    </div>
+                    <div class="d-flex justify-content-between my-2 bg-white p-3 no_print">
+                        <div>
+                            <a href="start-exam.php?xmid=<?=$exam_id?>"class="btn btn-primary btn-rounded me-2">Try Again</a>
+                            <a href="index.php" class="btn btn-secondary btn-rounded">Home</a>
+                        </div>
+                        <button onclick="window.print()" class="ml-auto btn btn-primary btn-sm">Download PDF</button>
                     </div>
                 
                 </div>

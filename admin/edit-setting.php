@@ -145,19 +145,6 @@
                                     <div class="row">
                                         <div class="col-12">
                                             <div class="mb-1">
-                                                
-                                                <input type="checkbox" id="inputcom" name="after_answer[]" value="Indicate the correct answer"<?php
-                                                $after = $exam['after_answer'];
-                                                if(is_numeric(strpos($after,'Indicate the correct answer'))) {
-                                                echo " checked";
-                                                }
-                                                ?>>
-                                                Indicate the correct answer 
-                                            </div>
-                                        </div>
-                                    
-                                        <div class="col-12">
-                                            <div class="mb-1">
                                             
                                                 <input type="checkbox"id="inputcom" name="after_answer[]" value="Dispaly the correct answer"<?php
                                                 $after = $exam['after_answer'];
@@ -170,14 +157,13 @@
                                         </div>
                                         <div class="col-12">
                                             <div class="mb-3">
-                                            
-                                                <input type="checkbox"id="inputcom" name="after_answer[]" value="Show The Explation"<?php
+                                                <input type="checkbox"id="inputcom" name="after_answer[]" value="Show the explanation"<?php
                                                 $after = $exam['after_answer'];
-                                                if(is_numeric(strpos($after,'Show The Explation'))) {
+                                                if(is_numeric(strpos($after,'Show the explanation'))) {
                                                 echo " checked";
                                                 }
                                                 ?>>
-                                                Show The Explation
+                                                Show the explanation
                                             </div>
                                         </div>
                                     </div>
