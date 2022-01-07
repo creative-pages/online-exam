@@ -1,9 +1,15 @@
 <?php include('inc/header.php'); ?>
 <?php
     if(isset($_GET['view'])){
-        $id = $_GET['view'];
+       $id = $_GET['view'];
        $query = $common->select("`add_exam`","`id`='$id'");
        $exam = mysqli_fetch_assoc($query);
+       // subject info
+       $subject_id = $exam['subject_id'];
+       $subject_info = $common->select("`subject_add`", "`id` = '$subject_id'");
+       if($subject_info) {
+            $subject_infos = mysqli_fetch_assoc($subject_info);
+       }
     }
 ?>
 
@@ -58,7 +64,7 @@
                         <div class="main bg-white mb-2 py-2">
                             <div class="examheader text-center mt-2">
                                 <h3 class="text-uppercase"><?=$exam['examname'];?></h1>
-                                <h3 class="text-capitalize mb-3">Subject: <?= $exam['subjectname']; ?></h3>
+                                <h3 class="text-capitalize mb-3">Subject: <?= $subject_infos['subject_name']; ?></h3>
                             </div>
                             <div class="row mx-1">
                                 <div class="col-4">
