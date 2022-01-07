@@ -344,27 +344,12 @@
         
     });
     function deleteRow(id){
-<<<<<<< HEAD
-        $.ajax({
-            url:'ajax/exam-process.php',
-            type:'POST',
-            data:{
-                id:id,
-                delete_row: "delete_row"
-            },
-            cache:false,
-            success:function(result){
-                    $(".delete_row" + id).remove(); 
-            }
-        })
-=======
         $(".delete_row" + id).hide();
         $("#type" + id).val('delete');
         $('#delete_serial' + id).remove();
         $(".set_serial").each(function(index, el) {
             $(this).val(index+1);
         });
->>>>>>> 7c2f6014cb44d0be96e4e14184fcf07c94e6f2bd
     }
 </script>
 
