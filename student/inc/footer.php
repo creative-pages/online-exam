@@ -55,7 +55,12 @@
                 $("#description_" + id).toggle();
             });
         });
+
+        $("#allresult").click(function(){
+               $(".showresult").slideToggle();
+            });
     </script>
+    
 
 </body>
 
