@@ -112,7 +112,7 @@
                         <div class="action-form">
                             <div class="text-center">
                                 <button type="submit" name="update_all_questions" class="btn btn-info rounded-pill px-4 waves-effect waves-light">Save</button>
-                                <button type="reset" class="btn btn-dark rounded-pill px-4 waves-effect waves-light">Cancel</button>
+                                <a href="add-exam.php" class="btn btn-dark rounded-pill px-4 waves-effect waves-light">Cancel</a>
                             </div>
                         </div>
                      </div>
@@ -134,7 +134,7 @@
                         <td><?=$xmbyid['tquetion'];?></td>   
                     </tr>
                 </table>
-                <input type="hidden" name="exam_id" value="<?=$xmbyid['id'];?>">
+                <input type="hidden" name="exam_id" value="<?= $xmbyid['id']; ?>">
                 <input type="hidden" id="total_questions" name="total_questions" value="<?=$xmbyid['tquetion'];?>">
                 <input type="hidden" id="total_new_questions" name="total_new_questions" value="0">
                 <div id="all_update_questions">
@@ -142,6 +142,9 @@
                     if($all_question){
                         $i = 1;
                         while($values = $all_question->fetch_assoc()) {
+                            // exam_in_result check
+                            $exam_id = $xmbyid['id'];
+                            $exam_in_result = $common->select("`results`", "`exam_id` = '$exam_id'");
                     ?>      
                     <input type="hidden" name="question_id<?= $i; ?>" value="<?=$values['id'];?>">
                     <input type="hidden" id="type<?= $values['id']; ?>" name="type<?= $i; ?>" value="update">
@@ -230,6 +233,9 @@
                             </div>
                         </div>
                     </div>
+                    <?php
+                    if(!$exam_in_result) {
+                    ?>
                     <button type="button" onclick="deleteRow(<?=$values['id']?>)"  class="btn btn-danger btn-sm mb-4 float-end delete_row<?= $values['id']; ?>">
                         <i data-feather="trash-2" class="feather-sm fill-white"></i>
                     </button>
@@ -237,6 +243,13 @@
                         <i class="fa fa-plus-square"></i>
                     </button>
                     <div class="clearfix"></div>
+                    <?php
+                    } else {
+                    ?>
+                    <div class="mb-4"></div>
+                    <?php
+                    }
+                    ?>
                     <?php
                     $i++;
                      }

@@ -178,7 +178,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['csv_file_import'])) {
                         <div class="action-form">
                             <div class="text-center">
                                 <button type="submit" name="add_all_questions" class="btn btn-info rounded-pill px-4 waves-effect waves-light">Save</button>
-                                <button type="reset" class="btn btn-dark rounded-pill px-4 waves-effect waves-light">Cancel</button>
+                                <a href="add-exam.php" class="btn btn-dark rounded-pill px-4 waves-effect waves-light">Cancel</a>
                             </div>
                         </div>
                         <div class="ms-auto">
@@ -290,18 +290,21 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['csv_file_import'])) {
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <br>
-            <select id="exams_select" style="width: 100%;">
+            <select id="batch_select" class="form-control mb-3">
                 <option selected="">Choose...</option>
                 <?php
-                $all_exam = $common->select("`add_exam`", "`status` = '1'");
-                if ($all_exam) {
-                    while ($all_exams = mysqli_fetch_assoc($all_exam)) {
+                $all_batch = $common->select("`add_branch`");
+                if ($all_batch) {
+                    while ($all_batches = mysqli_fetch_assoc($all_batch)) {
                     ?>
-                    <option value="<?= $all_exams['id']; ?>"><?= $all_exams['examname'] . ' - ' . $all_exams['subjectname']; ?></option>
+                    <option value="<?= $all_batches['id']; ?>"><?= $all_batches['branch_name']; ?></option>
                     <?php
                     }
                 }
                 ?>
+            </select>
+            <select id="exams_select" style="width: 100%;">
+                
             </select>
           </div>
           <div class="modal-body border-top border-bottom">
@@ -515,6 +518,26 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['csv_file_import'])) {
                 i++;
             }
         }
+    </script>
+    <script>
+        $(document).ready(function(){
+            $('#batch_select').on('change',function(){
+                var id = this.value;
+                $.ajax({
+                    url:'ajax/ajax.php',
+                    type:'POST',
+                    data:{
+                        id:id,
+                        type: 'exam_in_batch'
+                    },
+                    cache:false,
+                    success:function(result){
+                        $('#exams_select').html(result);
+                    }
+                })
+
+            });
+        });
     </script>
 </body>
 

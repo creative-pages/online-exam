@@ -107,7 +107,7 @@ if (isset($_GET['exam_id'])) {
                             <table class="table search-table v-middle">
                                 <thead class="header-item">
                                     <th>Serial</th>
-                                    <th>ID-Name</th>
+                                    <th>Student Name</th>
                                     <th>Started On</th>
                                     <th>Finished On</th>
                                     <th>Time</th>
@@ -122,14 +122,16 @@ if (isset($_GET['exam_id'])) {
                                         while ($all_results = mysqli_fetch_assoc($all_result)) {
                                             $student_id = $all_results['student_id'];
                                             $student_detail = $common->select("`student_table`", "`id` = '$student_id'");
-                                            $student_details = mysqli_fetch_assoc($student_detail);
+                                            if($student_detail) {
+                                                $student_details = mysqli_fetch_assoc($student_detail);
+                                            }
                                         ?>
                                         <tr class="search-items">
                                             <td>
                                                  <span class="usr-email-addr"><?= $ser; ?></span>
                                             </td>
                                             <td>
-                                                <span class="usr-email-addr" data-email="allen@mail.com"><?= $student_details['sname']; ?></span>
+                                                <span class="usr-email-addr" data-email="allen@mail.com"><?= isset($student_details['sname']) ? $student_details['sname'] : 'Unknown'; ?></span>
                                             </td>
                                             <td>
                                                 <span class="usr-location" data-location="Sydney, Australia"><?= $all_results['start_time']; ?></span>
@@ -147,7 +149,7 @@ if (isset($_GET['exam_id'])) {
                                                     $all_qestion = $common->select("`questions`", "`exam_id` = '$exam_id' ORDER BY `serial` ASC");
                                                     while ($all_qestions = mysqli_fetch_assoc($all_qestion)) {
                                                     ?>
-                                                        <th class="text-center"><?= $all_qestions['serial']; ?></th>
+                                                    <th class="text-center"><?= $all_qestions['serial']; ?></th>
                                                     <?php
                                                     }
                                                     ?>
@@ -159,9 +161,14 @@ if (isset($_GET['exam_id'])) {
                                                     ?>
                                                         <th class="px-1">
                                                         <?php
-                                                        $question_id = $all_qestions['id'];
+                                                        if($all_results['end_time'] == 'offline') {
+                                                            $serial_id = $all_qestions['serial'];
+                                                        } else {
+                                                            $serial_id = $all_qestions['id'];
+                                                        }
+                                                        
                                                         $question_ans = $all_qestions['answer'];
-                                                        if (is_numeric(strpos($all_results['question_ans'],$question_id.'='.$question_ans))) {
+                                                        if (is_numeric(strpos($all_results['question_ans'],$serial_id.'='.$question_ans))) {
                                                             echo '<img width="25px" height="25px" src="assets/images/img/iconfinder_check.svg">';
                                                         } else {
                                                             echo '<img width="25px" height="25px" src="assets/images/img/cross1.png">';

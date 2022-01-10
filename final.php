@@ -236,12 +236,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         $right_answer_final = $right_answer;
     }
 
-    $how_time_count = $common->select("`results`", "`exam_id` = '$exam_id'");
-    if ($how_time_count) {
-        $how_time = mysqli_num_rows($how_time_count);
-    } else {
-        $how_time = '1';
-    }
     $question_ans = rtrim($question_ans,",");
 
     $start_time = $_SESSION['start_exam_time'];
@@ -250,7 +244,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         $from_time = strtotime($start_time);
     $total_time = round(abs($to_time - $from_time) / 60,2). " Minutes";
 
-    $submit_result = $common->insert("`results`(`exam_id`, `student_id`, `how_time`, `score`, `wrongans`, `rightans`, `blankans`, `question_ans`, `start_time`, `end_time`, `total_time`)", "('$exam_id', '$student_id', '$how_time', '$right_answer_final', '$wrong_answer', '$right_answer', '$not_answered', '$question_ans', '$start_time', '$end_time', '$total_time')");
+    $submit_result = $common->insert("`results`(`exam_id`, `student_id`, `score`, `wrongans`, `rightans`, `blankans`, `question_ans`, `start_time`, `end_time`, `total_time`)", "('$exam_id', '$student_id', '$right_answer_final', '$wrong_answer', '$right_answer', '$not_answered', '$question_ans', '$start_time', '$end_time', '$total_time')");
     unset($_SESSION['start_exam_time']);
 
     if ($publish_exam_infos['notification'] == 'yes') {
