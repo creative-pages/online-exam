@@ -1,5 +1,27 @@
 <?php include('inc/header.php'); ?>
 
+<?php
+function send_sms() {
+  $url = "http://sms.ddcom.com.bd/smsapi";
+  $data = [
+    "api_key" => "C200096661dc3a69e0c371.95312351",
+    "type" => "SMS/unicode",
+    "contacts" => "8801782763384+8801314295709",
+    "senderid" => "8809601001879",
+    "msg" => "অফিসের ঠিকানা, ছুটির তথ্য ইত্যাদি।",
+  ];
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, $url);
+  curl_setopt($ch, CURLOPT_POST, 1);
+  curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+  $response = curl_exec($ch);
+  curl_close($ch);
+  return $response;
+}
+?>
+
 <section class="text-gray-600"><div class="container mx-auto flex px-5 md:flex-row flex-col items-center"><div class="lg:max-w-lg lg:w-full md:w-1/2 w-5/6 mb-10 md:mb-0"><img class="object-cover object-center rounded" alt="hero" src="image/heroIllustration.ca500cac.svg"></div>
 <div class="lg:flex-grow md:w-1/2 lg:pl-24 md:pl-16 flex flex-col md:items-start md:text-left items-center text-center"><h1 class="sm:text-4xl text-3xl mb-4 font-medium text-gray-900">When Medical is the dream</h1>
 	<p class="mb-8 leading-relaxed">Try Hard to Achive Your Goal</p>

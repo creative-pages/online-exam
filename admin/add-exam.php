@@ -167,11 +167,22 @@
                                         <h3 class="card-title text-muted py-1"style="border-bottom:1px dotted #EEF5F9;">Exam Date: <?= $value['exmdate'];?></h3>
                                         
                                         <button type="button" class="btn btn-primary" onClick="examEdit(<?= $value['id']; ?>)">Edit</button>
+                                        <?php
+                                        if($value['status'] == '0') {
+                                        ?>
+                                        <a  href="add-quetion.php" class="btn btn-success">Add Question</a>
+                                        <?php
+                                        } else {
+                                        ?>
                                         <a  href="edit-quetion.php?editque=<?= $value['id'];?>" class="btn btn-success">Quetion Edit</a>
+                                        <?php
+                                        }
+                                        ?>
+
                                         <!-- <a onclick ="return confirm('Do you Want to sure to delete?');" href="?dltque=<?= $value['id'];?>" class="btn btn-danger">Delete</a> -->
                                         <?php
                                          
-                                        if($pub ){
+                                        if($pub){
                                             $result = mysqli_fetch_assoc($pub);
                                         ?>
                                          <a href="edit-setting.php?es=<?=$result['id'];?>" class="btn btn-info my-1"><i class="fa fa-cog" aria-hidden="true"></i>

@@ -46,6 +46,13 @@
                     $batch_info = $common->select("`add_branch`", "`id` = '$batch_id'");
                     $batch_infos = mysqli_fetch_assoc($batch_info);
 
+                    // exam info
+                    $exam_info = $common->select("`add_exam`", "`batch_id` = '$batch_id'");
+                    $exam_infos = mysqli_fetch_assoc($exam_info);
+                    // result info
+                    $exam_id = $exam_infos['id'];
+                    $result_info = $common->select("`results`", "`exam_id` = '$exam_id' && `student_id` = '$pid'");
+
                     if ($batch_infos['type'] == 'paid') {
                         // payment request pending
                         $check_payment_request = $common->select("`pay_requests`", "`user_id` = '$pid' && `batch_id` = '$batch_id' && `status` = '0'");
@@ -209,6 +216,30 @@
                                         <div class="card card-body">
                                             Some placeholder content for the collapse component. This panel is hidden by default but revealed when the user activates the relevant trigger.
                                         </div>
+                                }
+                                ?>
+                                <?php
+                                if($result_info) {
+                                ?>
+                                <tr>
+                                    <td colspan="4">
+                                        <p class="mb-0">
+                                          <button class="btn btn-primary w-100" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                                            Exam Results
+                                          </button>
+                                        </p>
+                                        <div class="collapse" id="collapseExample">
+                                          <div class="card card-body p-0 mb-0">
+                                          <?php
+                                          $i = 1;
+                                          while ($result_row = mysqli_fetch_assoc($result_info)) {
+                                          ?>
+                                          <a class="btn btn-outline-info w-100 mt-1" href="result.php?result_id=<?= $result_row['id']; ?>">Exam <?= $i . ' &nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp; ' . date("d-M-Y", strtotime($result_row['add_time'])); ?></a>
+                                          <?php
+                                          $i++;
+                                          }
+                                          ?>
+                                          </div>
                                         </div>
                                     </td>
                                 </tr>
@@ -244,7 +275,7 @@
                     }
                 }
             } else {
-
+                echo '<h4 class="text-center mt-4 text-danger">You have no batch!</h4>';
             }
             ?>
         </div>
