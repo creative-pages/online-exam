@@ -1,10 +1,100 @@
 <?php include('inc/header.php'); ?>
 <?php
+// sending result start
+if (isset($_GET['exam_id']) && isset($_GET['send_result'])) {
+    // exam information
+    $exam_id = $_GET['exam_id'];
+    $exam_info = $common->select("`add_exam`", "`id` = '$exam_id'");
+    $exam_infos = mysqli_fetch_assoc($exam_info);
+
+    $result_tbl = $common->select("`results`", "`exam_id` = '$exam_id' ORDER BY `final_score` DESC");
+    if($result_tbl) {
+        $rank = 1;
+        while ($result_tbls = mysqli_fetch_assoc($result_tbl)) {
+            // student info
+            $student_id = $result_tbls['student_id'];
+            $student_detail = $common->select("`student_table`", "`id` = '$student_id'");
+            if ($student_detail) {
+                $student_details = mysqli_fetch_assoc($student_detail);
+                $s_name = $student_details['sname'];
+
+                $final_score = $result_tbls['final_score'];
+                $right_ans = $result_tbls['rightans'];
+                $wrong_ans = $result_tbls['wrongans'];
+                $exam_date = date("d-M-Y", strtotime($result_tbls['add_time']));
+
+                // sms sending start
+                $url = "http://sms.ddcom.com.bd/smsapi";
+                  $data = [
+                    "api_key" => "C200096661dc3a69e0c371.95312351",
+                    "type" => "text",
+                    "contacts" => '88' . $student_details['contack'],
+                    "senderid" => "8809601001879",
+                    "msg" => "Name: " . $s_name . '. Exam Name: ' . ucfirst($exam_infos['examname']) . '. Marks: ' . $final_score . '. Rank: ' . $rank . '. Date: ' . $exam_date,
+                  ];
+                  $ch = curl_init();
+                  curl_setopt($ch, CURLOPT_URL, $url);
+                  curl_setopt($ch, CURLOPT_POST, 1);
+                  curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+                  curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+                  $response = curl_exec($ch);
+                  curl_close($ch);
+                // sms sending end
+            }
+            $rank++;
+        }
+        header("Location: result.php?exam_id=" . $_GET['exam_id']);
+    } else {
+        header("Location: result.php?exam_id=" . $_GET['exam_id']);
+    }
+}
+// sending result end
+
 if (isset($_GET['exam_id'])) {
     $exam_id = $_GET['exam_id'];
     $exam_detail = $common->select("`add_exam`", "`id` = '$exam_id'");
     $exam_details = mysqli_fetch_assoc($exam_detail);
 
+    // publish exam info
+    $publish_exam_info = $common->select("`publish_exam`", "`exam_id` = '$exam_id'");
+    if($publish_exam_info) {
+        $publish_exam_infos = mysqli_fetch_assoc($publish_exam_info);
+        $total_marks = $publish_exam_infos['display_question'];
+    } else {
+        $total_marks = '0';
+    }
+    
+
+    // Average Score
+    $result_table = $common->select("`results`", "`exam_id` = '$exam_id'");
+    if($result_table) {
+        $result_tables = mysqli_num_rows($result_table);
+        $total_score = 0;
+        $m = 0;
+        $s = 0;
+        while ($total_scores = mysqli_fetch_assoc($result_table)) {
+            $total_score += $total_scores['rightans'];
+            // average time
+            $exam_type = $total_scores['total_time'];
+            if($exam_type != 'offline') {
+                $exam_type = explode(".", str_replace(" Minutes", "", $exam_type));
+                $m += $exam_type[0];
+                $s += $exam_type[1];
+            }
+        }
+        $average_score = floor($total_score / ($result_tables * $total_marks) * 100) . '%';
+        $average_time = (($m * 60) + $s) / $total_score;
+        if($average_time > 0) {
+            $average_time = gmdate("i:s", $average_time%3600);
+        } else {
+            $average_time = "00:00";
+        }
+    } else {
+        $result_tables = 0;
+        $average_time = '00:00';
+        $average_score = '0%';
+    }
 } else {
     header("Location: add-exam.php");
 }
@@ -65,37 +155,41 @@ if (isset($_GET['exam_id'])) {
                             <div class="col-12">
                                 <h2><?= $exam_details['examname']; ?></h2>
                             </div>
-                            <div class="col-3">
-                                <strong>Average Score</strong>
-                                <p class="mx-2" style="margin-bottom: 1px;">90%</p>
-                                <p class="mx-2">90%</p>
+                            <div class="col-4">
+                                <p class="d-inline-block text-center">
+                                    <strong>Average Score</strong><br>
+                                    <?= $average_score; ?>
+                                </p>
                             </div>
-                            <div class="col-3">
-                                <strong>Average Time</strong>
-                                <p class="mx-2" style="margin-bottom: 1px;">90%</p>
-                                <p class="mx-2">90%</p>
+                            <div class="col-4 text-center">
+                                <p class="d-inline-block">
+                                    <strong>Average Time</strong><br>
+                                    <?= $average_time == '00:00' ? 'Offline Exam' : $average_time . ' Minutes'; ?>
+                                </p>
                             </div>
-                            <div class="col-3">
-                                <strong>Response</strong>
-                                <p class="mx-2">9</p>
-                            </div>
-                            <div class="col-3">
-                                <strong>Score Histogram</strong>
-                               
+                            <div class="col-4 text-end">
+                                <p class="d-inline-block float-end text-center">
+                                    <strong>Response</strong><br>
+                                    <?= $result_tables; ?>
+                                </p>
                             </div>
                         </div>
                     </div>
                     <div class="card card-body">
                         <div class="row">
-                            <div class="col-md-4 col-xl-2">
+                            <div class="col-md-6">
                                 <form>
                                     <input type="text" class="form-control product-search" id="input-search" placeholder="Search Result...">
                                 </form>
                             </div>
-                            <div class="col-md-8 col-xl-10 text-end d-flex justify-content-md-end justify-content-center mt-3 mt-md-0">
-                                <a href="add-contack.php" id="" class="btn btn-info">
-                                    Export Result
-                                </a>
+                            <div class="col-md-6">
+                                <?php
+                                if($result_table) {
+                                ?>
+                                <a class="btn btn-success float-end" href="<?= $_SERVER['REQUEST_URI']; ?>&send_result" onclick="return confirm('Are you sure to send result?')">Send Result</a>
+                                <?php
+                                }
+                                ?>
                             </div>
                         </div>
                         

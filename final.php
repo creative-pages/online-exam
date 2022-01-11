@@ -244,7 +244,16 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         $from_time = strtotime($start_time);
     $total_time = round(abs($to_time - $from_time) / 60,2). " Minutes";
 
-    $submit_result = $common->insert("`results`(`exam_id`, `student_id`, `score`, `wrongans`, `rightans`, `blankans`, `question_ans`, `start_time`, `end_time`, `total_time`)", "('$exam_id', '$student_id', '$right_answer_final', '$wrong_answer', '$right_answer', '$not_answered', '$question_ans', '$start_time', '$end_time', '$total_time')");
+    if ($student_infos['ms'] == 'yes') {
+        if($student_infos['st'] == 'yes') {
+            $second_timer = 5;
+        } else {
+            $second_timer = 0;
+        }
+        $final_score = $right_answer_final - (200 - (($student_infos['hsc'] * 25) + ($student_infos['ssc'] * 15) + $second_timer + 2.5));
+    }
+
+    $submit_result = $common->insert("`results`(`exam_id`, `student_id`, `final_score`, `score`, `wrongans`, `rightans`, `blankans`, `question_ans`, `start_time`, `end_time`, `total_time`)", "('$exam_id', '$student_id', '$final_score', '$right_answer_final', '$wrong_answer', '$right_answer', '$not_answered', '$question_ans', '$start_time', '$end_time', '$total_time')");
     unset($_SESSION['start_exam_time']);
 
     if ($publish_exam_infos['notification'] == 'yes') {

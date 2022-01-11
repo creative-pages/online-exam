@@ -22,7 +22,7 @@
         } else {
             $ssc = '0';
             $hsc = '0';
-            $st = '0';
+            $st = 'no';
         }
 
         $query = $common->select("`student_table`","`contack`='$contact'");

@@ -72,9 +72,8 @@
             $query = "INSERT INTO  publish_exam(exam_id,intro,color,display_question,pagination,navigation,after_answer,other,negative_mark,access,howtime,totaltime,can_take_test,take_time,notification) VALUES('$exam_id','$intro','$color','$display_question','$pagination','$navigation','$afters','$others','$negative_mark','$acces','$howtime','$totaltime','$can_take_test','$take_time', '$notification')";
             $result = $this->db->insert($query);
             if($result){
-                header("Location: setting.php?setting=" . $exam_id);
-            }
-            else{
+                header("Location: add-exam.php");
+            } else {
                 echo "Something went wrong";
             }
 
