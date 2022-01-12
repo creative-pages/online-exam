@@ -14,9 +14,12 @@
  
  if($query){
      while($value = mysqli_fetch_assoc($query)){
-         $subject_id = $value['subject_id'];
-         $subject_info = $common->select("`subject_add`", "`id` = '$subject_id'");
-         $subject_infos = mysqli_fetch_assoc($subject_info);
+        $batch_id = $value['batch_id'];
+        $subject_id = $value['subject_id'];
+        $subject_info = $common->select("`subject_add`", "`id` = '$subject_id'");
+        $subject_infos = mysqli_fetch_assoc($subject_info);
+        $batch_info = $common->select("`add_branch`", "`id` = '$batch_id'");
+        $batch_infos = mysqli_fetch_assoc($batch_info);
     ?>
      <div class="col-md-4 col-xl-2 d-flex align-items-stretch">
         <div class="card w-100">
@@ -39,6 +42,7 @@
                 </h4>
             </div>
             <div class="card-body">
+                <h3 class="card-title text-success  py-1"style="border-bottom:1px dotted #EEF5F9;">Batch: <?= $batch_infos['branch_name'];?></h3>
                 <h3 class="card-title text-muted py-1"style="border-bottom:1px dotted #EEF5F9;">Subject: <?= $subject_infos['subject_name'];?></h3>
                 <h3 class="card-title text-muted py-1"style="border-bottom:1px dotted #EEF5F9;">Duration: <?= $value['duration'];?> Minute</h3>
                 <h3 class="card-title text-muted py-1"style="border-bottom:1px dotted #EEF5F9;">Total Quetion: <?= $value['tquetion'];?></h3>

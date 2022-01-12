@@ -21,6 +21,7 @@ if(isset($_GET['xmid']) && $_GET['xmid'] != '' && is_numeric($_GET['xmid'])) {
     if($cmn) {
         $result = mysqli_fetch_assoc($cmn);
         $pagination = $result['pagination'];
+        $show_quetion = $result['display_question'];
     }
     $cmn = $common->select("`questions`","`exam_id`='$xmid' ORDER BY `serial` ASC");
     if($cmn) {
@@ -67,7 +68,7 @@ if(isset($_GET['xmid']) && $_GET['xmid'] != '' && is_numeric($_GET['xmid'])) {
                     </div>
                     <div class="col-12">
                         <div class="mb-1 mx-2">
-                        <h3 class="text-muted" style = "font-family: Georgia, serif;">Total Quetion: <?= $raw['tquetion']; ?></h3>
+                        <h3 class="text-muted" style = "font-family: Georgia, serif;">Total Quetion: <?= $show_quetion ?></h3>
                         </div>
                     </div>
                     <div class="col-12">

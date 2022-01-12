@@ -113,8 +113,8 @@
                                 <?= $viewquetion['option_two']; ?>
                             </div>
                             <div class="col-12 d-flex mb-2">
-                                <input type="radio" name="ans<?= $i; ?>" value="option_two"<?= $other; ?> style="margin-top: 4px; margin-right: 8px;" />
-                                <?= $viewquetion['option_two']; ?>
+                                <input type="radio" name="ans<?= $i; ?>" value="option_three"<?= $other; ?> style="margin-top: 4px; margin-right: 8px;" />
+                                <?= $viewquetion['option_three']; ?>
                             </div>
                             <div class="col-12 d-flex mb-2">
                                 <input type="radio" name="ans<?= $i; ?>" value="option_four"<?= $other; ?> style="margin-top: 4px; margin-right: 8px;" />

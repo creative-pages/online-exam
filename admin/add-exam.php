@@ -136,9 +136,12 @@
                             $allxm = $exam->AllExamList();
                             if($allxm){
                                 while($value = $allxm->fetch_assoc()) {
+                                    $batch_id = $value['batch_id'];
                                     $subject_id = $value['subject_id'];
                                     $subject_info = $common->select("`subject_add`", "`id` = '$subject_id'");
                                     $subject_infos = mysqli_fetch_assoc($subject_info);
+                                    $batch_info = $common->select("`add_branch`", "`id` = '$batch_id'");
+                                    $batch_infos = mysqli_fetch_assoc($batch_info);
                             ?>
                              <div class="col-md-4 col-xl-2 d-flex align-items-stretch">
                                 <div class="card w-100">
@@ -161,6 +164,7 @@
                                         </h4>
                                     </div>
                                     <div class="card-body">
+                                        <h3 class="card-title text-success  py-1"style="border-bottom:1px dotted #EEF5F9;">Batch: <?= $batch_infos['branch_name'];?></h3>
                                         <h3 class="card-title text-muted py-1"style="border-bottom:1px dotted #EEF5F9;">Subject: <?= $subject_infos['subject_name'];?></h3>
                                         <h3 class="card-title text-muted py-1"style="border-bottom:1px dotted #EEF5F9;">Duration: <?= $value['duration'];?> Minute</h3>
                                         <h3 class="card-title text-muted py-1"style="border-bottom:1px dotted #EEF5F9;">Total Quetion: <?= $value['tquetion'];?></h3>
@@ -240,9 +244,25 @@
                                 required="" name="examname">
                         </div>
                         <div class="mb-3">
-                            <label for="edit_subjectname">Subject Name</label>
-                            <input class="form-control" type="text" id="edit_subjectname"
-                                required="" placeholder="Enter Subject Name"name="subjectname">
+                            <label for="edit_subjectname">Batch</label>
+                            <select class="form-select" id="batch" name="batch" required="">
+                                <option>Choose Your Option</option>
+                                    <?php
+                                        $batch = $exam->AllBranchList();
+                                        if($batch){
+                                            while($raw =mysqli_fetch_assoc($batch)){
+                                    ?>
+                                    <option <?php if($value['batch_id']==$raw['id']){?> selected="selected"<?php } ?> value="<?=$raw['id'];?>"><?=$raw['branch_name'];?>
+                                </option>
+                                <?php }}?>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit_subjectname">Subject</label>
+                            <select class="form-select" id="subject" name="subject" required="">
+                                <option>Choose Your Subject</option>
+                                </option>
+                            </select>
                         </div>
                         <div class="mb-3">
                             <label for="edit_duration">Duration</label>
