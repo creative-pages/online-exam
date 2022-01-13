@@ -49,19 +49,39 @@
     <script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.print.min.js"></script>
     <script src="dist/js/pages/datatable/datatable-advanced.init.js"></script> -->
     <script>
-        $(document).ready(function(){
-            $(".description_button_toggle").click(function(){
-                var id = $(this).data('value');
-                $("#description_" + id).toggle();
-            });
+    $(document).ready(function() {
+        $('#select_batch').on('change',function() {
+            var id = $(this).val();
+            if (id !== '') {
+                $.ajax({
+                    url: '../admin/ajax/ajax.php',
+                    type: 'POST',
+                    data: {type: 'select_exam', id: id},
+                    success:function(data) {
+                        $('#select_exam').html(data);
+                    }
+                });
+            } else {
+                $('#select_exam').html('<option value="">Choose exam</option>');
+            }
+            $('#all_exam').html('<h4 class="text-danger mb-0">Please select batch then select exam to see your result.</h4>');
         });
-
-        $("#allresult").click(function(){
-               $(".showresult").slideToggle();
-            });
+        $('#select_exam').on('change',function() {
+            var id = $(this).val();
+            if (id !== '') {
+                $.ajax({
+                    url: '../admin/ajax/ajax.php',
+                    type: 'POST',
+                    data: {type: 'select_results', exam_id: id},
+                    success:function(data) {
+                        $('#all_exam').html(data);
+                    }
+                });
+            } else {
+                $('#all_exam').html('<h4 class="text-danger mb-0">Please select batch then select exam to see your result.</h4>');
+            }
+        });
+    });
     </script>
-    
-
 </body>
-
 </html>
