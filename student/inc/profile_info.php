@@ -12,6 +12,7 @@
         <div class="p-3 text-center">
             <a href="../index.php" class="btn btn-primary btn-sm mx-1">Home</a>
             <a href="batch.php" class="btn btn-primary btn-sm mx-1">Batch</a>
+            <a href="result.php" class="btn btn-primary btn-sm mx-1">Result</a>
             <a href="?action=logout" class="btn btn-primary btn-sm mx-1">Logout</a>
         </div>
     </div>
