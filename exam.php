@@ -4,18 +4,18 @@
     $all = new All();
     $exam = new Exam();
     $common = new Common();
+    date_default_timezone_set('Asia/Dhaka');
+    $cur_date = date('d-m-y');
+?>
 ?>
 <?php
     if(isset($_GET['vi'])){
         $id = $_GET['vi'];
         $query = $common->select("`add_exam`","`id`='$id'");
         $exam = mysqli_fetch_assoc($query);
-
         $subject_id = $exam['subject_id'];
         $subject_info = $common->select("`subject_add`","`id` = '$subject_id'");
         $subject_info = mysqli_fetch_assoc($subject_info);
-
-
         $exam_id = $_GET['vi'];
         $publish_setting = $common->select("`publish_exam`", "`exam_id` = '$exam_id'");
         if ($publish_setting) {
@@ -71,13 +71,17 @@
                         </div>
                         <div class="row mx-1">
                             <div class="col-4">
-                                <h3 class="text-muted">Time: <?= $exam['duration']; ?> minutes</h3>
+                                <h3 class="text-muted">Time:<?php 
+                                if($publish_settings['howtime'] == "limited"){
+                                $publish_settings['totaltime'];
+                            ?> Minutes
+                             <?php } else {?> Unlimited <?php }?></h3>
                             </div>
                             <div class="col-4">
                                 <h3 class="text-muted">Quetion: <?= $display_question; ?></h3>
                             </div>
                             <div class="col-4">
-                                <h3 class="text-muted">Date: <?= $exam['exmdate']; ?></h3>
+                                <h3 class="text-muted">Date: <?=$cur_date?></h3>
                             </div>
                         </div>
                         <p class="px-3 mb-0 text-danger"><?= $other_message; ?></p>

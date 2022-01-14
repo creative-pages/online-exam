@@ -40,6 +40,10 @@
                             </div>
                         </div>
                     </div>
+                    <?php
+                     $ms = $result['ms'];
+                     if($ms == "yes"){
+                    ?>
                     <hr>
                     <div class="card-body">
                         <h4 class="card-title">Requirements</h4>
@@ -71,6 +75,7 @@
                         </div>
 
                     </div>
+                    <?php } ?>
                     <div class="p-3 border-top">
                         <div class="text-end">
                             <a href="edit-profile.php" class="btn btn-info rounded-pill px-4 waves-effect waves-light" name="save">Edit</a>

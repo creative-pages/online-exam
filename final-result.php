@@ -3,6 +3,8 @@
     $all = new All();
     $exam = new Exam();
     $common = new Common();
+    date_default_timezone_set('Asia/Dhaka');
+    $cur_date = date('d-m-y');
 ?>
 <?php
     if(!isset($_SESSION['start_exam_time'])) {
@@ -81,7 +83,7 @@
                                 </h3>
                             </div>
                             <div class="col-4">
-                                <h3 class="text-muted">Date: <?=$exam['exmdate'];?></h3>
+                                <h3 class="text-muted">Date: <?=$cur_date;?></h3>
                             </div>
                         </div>  
                         

@@ -73,7 +73,14 @@ if(isset($_GET['xmid']) && $_GET['xmid'] != '' && is_numeric($_GET['xmid'])) {
                     </div>
                     <div class="col-12">
                         <div class="mb-1 mx-2">
-                        <h3 class="text-muted" style = "font-family: Georgia, serif;">Duration: <?= $raw['duration']; ?> Minutes</h3>
+                            <?php
+                             $time = $result['howtime'];
+                            ?>
+                        <h3 class="text-muted" style = "font-family: Georgia, serif;">Duration: <?php 
+                        if ($time == "limited"){
+                            $result['totaltime'];
+                         ?> Minutes
+                         <?php } else {?> Unlimited <?php }?></h3>
                         </div>
                     </div>
                     <?php
@@ -85,9 +92,9 @@ if(isset($_GET['xmid']) && $_GET['xmid'] != '' && is_numeric($_GET['xmid'])) {
                          $total = $total +$sum;
                      }
                      $exmtime = $result['howtime'];
+                     if($exmtime == "limited"){
                      $take_time = $result['take_time'];
                       $r_sum = $take_time-$total;
-                     if($exmtime == "limited" && $r_sum >0){
                     ?>
                     <div class="col-12">
                         <div class="mb-1 mx-2">

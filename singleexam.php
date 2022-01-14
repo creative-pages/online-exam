@@ -4,6 +4,8 @@
     $all = new All();
     $exam = new Exam();
     $common = new Common();
+    date_default_timezone_set('Asia/Dhaka');
+    $cur_date = date('d-m-y');
 ?>
 <?php
    $exam_id = Session::get('exmid');
@@ -96,13 +98,17 @@
                     
                     <div class="row mx-1">
                         <div class="col-4">
-                            <h4 class="text-muted">Time: <?=$raw['duration']?> Minutes</h4>
+                        <h4 class="text-muted">Time:<?php 
+                                if($publish_settings['howtime'] == "limited"){
+                                $publish_settings['totaltime'];
+                            ?> Minutes
+                             <?php } else {?> Unlimited <?php }?></h4>
                         </div>
                         <div class="col-4">
                             <h4 class="text-muted">Quetion: <?= $display_question; ?></h4>
                         </div>
                         <div class="col-4">
-                            <h4 class="text-muted"><?=$raw['exmdate']?></h4>
+                            <h4 class="text-muted"><?=$cur_date;?></h4>
                         </div>
                     </div>
                 
