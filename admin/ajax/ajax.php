@@ -43,6 +43,30 @@
         $exam_info = $common->select("`add_exam`", "`id` = '$exam_id'");
         $exam_infos = mysqli_fetch_assoc($exam_info);
 
+        // omr check
+        $omr_check = $common->select("`omr_upload`", "`student_id` = '$student_id' && `exam_id` = '$exam_id'");
+
+        // omr upload start
+        $exam_publish_info = $common->select("`publish_exam`", "`exam_id` = '$exam_id'");
+        if ($exam_publish_info && !$omr_check) {
+            $exam_publish_infos = mysqli_fetch_assoc($exam_publish_info);
+            if($exam_publish_infos['omr_upload'] == 'yes') {
+                $omr_upload_form = '<form action="" method="POST" enctype="multipart/form-data">
+                            <h4 class="mt-4">Please upload your OMR file <sup class="text-danger">*</sup></h4>
+                            <input type="hidden" name="exam_id" value="' . $exam_id . '" required="">
+                            <div class="input-group mb-3">
+                              <input class="form-control" type="file" id="omr_upload" name="omr_upload" accept=".jpg, .jpeg, .png" required="">
+                              <button class="btn btn-primary" type="submit" name="omr_upload_submit">Submit</button>
+                            </div>
+                        </form>';
+            } else {
+                $omr_upload_form = '';
+            }
+        } else {
+            $omr_upload_form = '';
+        }
+        // omr upload end
+
         $student_results = '<h4>Exam Name: ' . ucfirst($exam_infos['examname']) . '<h4>';
         $all_result = $common->select("`results`", "`exam_id` = '$exam_id' && `student_id` = '$student_id' ORDER BY `id` DESC");
         if ($all_result) {
@@ -51,7 +75,7 @@
             }
             echo $student_results;
         } else {
-            echo '<h4 class="text-danger mb-0">No results found in this exam!</h4>';
+            echo '<h4 class="text-danger mb-0">No results found in this exam!</h4>' . $omr_upload_form;
         }
     }
 ?>
