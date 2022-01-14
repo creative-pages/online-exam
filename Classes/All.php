@@ -203,14 +203,14 @@
                 $email_check = "SELECT * FROM student_table WHERE email = '$email'";
                 $email_checks = $this->db->select($email_check);
                 if($email_checks != false){
-                    $msg = "<span style='color:red; text-align:center;margin:0px auto'>Email Already Exits </span>";
+                    $msg = "<div class='alert alert-warning'>Email Already Exits!</div>";
                     return $msg;
                 } 
             }elseif($contackchecks == false){
                 $contack_check = "SELECT * FROM student_table WHERE contack = '$contack'";
                 $contack_checks = $this->db->select($contack_check);
                 if($contack_checks != false){
-                    $msg = "<span style='color:red; text-align:center;margin:0px auto'>Contack Already Exits </span>";
+                    $msg = "<div class='alert alert-warning'>Contack Already Exits!</div>";
                     return $msg;
                 } 
             }
@@ -229,7 +229,7 @@
                header("Location:../student/profile.php");
             }
             else{
-                $msg = "<span style='color:red';>Something Went Wrong</span>";
+                $msg = "<div class='alert alert-warning'>Something Went Wrong</div>";
                 return $msg; 
             }
         
