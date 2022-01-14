@@ -23,6 +23,11 @@
         exit();
     }
 ?>
+<?php
+    if ($_SERVER["REQUEST_METHOD"]== "POST" && isset($_POST['editprofile'])) {
+        $studentdata = $all->StudentEditProfile($_POST);
+    }
+?>
 <!DOCTYPE html>
 <html dir="ltr" lang="en">
 <head>

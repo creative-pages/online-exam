@@ -188,5 +188,52 @@
                 return 'Something is wrong! Please try again.';
             }
         }
+        public function StudentEditProfile($data){
+            $sid = $this->fm->validation($data['sid']);
+            $sname = $this->fm->validation($data['sname']);
+            $sfname = $this->fm->validation($data['sfname']);
+            $smname = $this->fm->validation($data['smname']);
+            $email = $this->fm->validation($data['email']);
+            $contack = $this->fm->validation($data['contack']);
+            $emailcheck = "SELECT * FROM student_table WHERE email = '$email' AND id = '$sid'";
+            $emailchecks = $this->db->select($emailcheck);
+            $contackcheck = "SELECT * FROM student_table WHERE contack = '$contack' AND id = '$sid'";
+            $contackchecks = $this->db->select($contackcheck);
+            if($emailchecks == false){
+                $email_check = "SELECT * FROM student_table WHERE email = '$email'";
+                $email_checks = $this->db->select($email_check);
+                if($email_checks != false){
+                    $msg = "<span style='color:red; text-align:center;margin:0px auto'>Email Already Exits </span>";
+                    return $msg;
+                } 
+            }elseif($contackchecks == false){
+                $contack_check = "SELECT * FROM student_table WHERE contack = '$contack'";
+                $contack_checks = $this->db->select($contack_check);
+                if($contack_checks != false){
+                    $msg = "<span style='color:red; text-align:center;margin:0px auto'>Contack Already Exits </span>";
+                    return $msg;
+                } 
+            }
+           
+            $update = "UPDATE student_table
+            set 
+              sname = '$sname',
+              sfname = '$sfname',
+              smname = '$smname',
+              email = '$email',
+              contack = '$contack'
+              WHERE id = '$sid'
+            ";
+            $updates = $this->db->update($update);
+            if($updates){
+               header("Location:../student/profile.php");
+            }
+            else{
+                $msg = "<span style='color:red';>Something Went Wrong</span>";
+                return $msg; 
+            }
+        
+           
+        }
     }
 ?>
