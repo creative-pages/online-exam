@@ -44,13 +44,21 @@
                                 <h3 class="mb-4">
                                     Exam Name - <?= ucfirst($main_exams['examname']); ?>
                                 </h3>
-                                <h4 class="card-title">Basic Settings</h4>
+                                <h4 class="card-title">
+                                    Basic Settings
+                                    <div class="float-end">
+                                        <input type="checkbox" id="omr_upload" name="omr_upload" value="yes" <?= $exam['omr_upload'] == 'yes' ? 'checked=""' : ''; ?>>
+                                        <label class="form-check-label" for="omr_upload">
+                                            OMR Upload <small style="font-size: 12px;">(Optional)</small>
+                                        </label>
+                                    </div>
+                                </h4>
                                 <div class="row">
                                     <div class="col-12">
                                         <div class="mb-3">
                                             <input type="hidden" class="form-control" id="inputcom" name="publish_id" value="<?= $id; ?>">
                                             <label class="control-label col-form-label">Introduction</label>
-                                            <textarea class="form-control ck_editor" name="intro" ><?=$exam['intro'];?></textarea>
+                                            <textarea class="form-control ck_editor" name="intro" ><?= $exam['intro']; ?></textarea>
                                         </div>
                                     </div>
                                 </div>

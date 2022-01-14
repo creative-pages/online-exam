@@ -63,18 +63,12 @@
                     <div class="quetion" style="max-width: 900px; margin:0px auto;">
                         <div class="main bg-white mb-2 py-2">
                             <div class="examheader text-center mt-2">
-                                <h1 class="text-uppercase"><?=$exam['examname'];?></h1>
+                                <h2 class="text-uppercase"><?=$exam['examname'];?></h2>
                                 <h3 class="text-capitalize mb-3">Subject: <?= $subject_infos['subject_name']; ?></h3>
                             </div>
                             <div class="row mx-1">
-                                <div class="col-4">
-                                    <h3 class="text-muted">Time: <?=$exam['duration'];?> minutes</h3>
-                                </div>
-                                <div class="col-4">
-                                    <h3 class="text-muted">Quetion: <?=$exam['tquetion'];?></h3>
-                                </div>
-                                <div class="col-4">
-                                    <h3 class="text-muted">Date: <?=$exam['exmdate'];?></h3>
+                                <div class="col-12">
+                                    <h3 class="text-muted text-center">Quetion: <?=$exam['tquetion'];?></h3>
                                 </div>
                             </div>
                         </div>

@@ -1,5 +1,35 @@
 <?php include_once('inc/header.php'); ?>
 
+<?php
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['omr_upload_submit'])) {
+    $exam_id = $fm->validation($_POST['exam_id']);
+
+    $permited  = array('jpg', 'jpeg', 'png');
+    if (isset($_FILES['omr_upload'])) {
+        $file_name = $_FILES['omr_upload']['name'];
+        $file_temp = $_FILES['omr_upload']['tmp_name'];
+    } else {
+        $file_name = '';
+    }
+
+    $file_exp = explode('.', $file_name);
+    $file_ext = strtolower(end($file_exp));
+    $unique_image = time().'.'.$file_ext;
+
+    if (empty($file_name) || in_array($file_ext, $permited) === false) {
+        $error = '<div class="alert alert-danger ms-3">Something is wrong!</div>';
+    } else {
+        $upload_success = $common->insert("`omr_upload`(`student_id`, `exam_id`, `file`)", "('$pid', '$exam_id', '$unique_image')");
+        if ($upload_success) {
+            move_uploaded_file($file_temp, '../upload_file/omr_sheet/' . $unique_image);
+            $error = '<div class="alert alert-success ms-3">File upload successfull!</div>';
+        } else {
+            $error = '<div class="alert alert-danger ms-3">Something is wrong2!</div>';
+        }
+    }
+}
+?>
+
 <div class="container-fluid">
     <div class="row">
         <?php include_once('inc/profile_info.php'); ?>
@@ -38,6 +68,7 @@
                 <div id="all_exam" class="card-body">
                     <h4 class="text-danger mb-0">Please select batch then select exam to see your result.</h4>
                 </div>
+                <?= isset($error) ? $error : ''; ?>
             </div>
         </div>
     </div> 

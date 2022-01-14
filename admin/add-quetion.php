@@ -213,13 +213,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['csv_file_import'])) {
                     <tr>
                         <th>Exam Name</th>
                         <th>Subject Name</th>
-                        <th>Duration</th>
                         <th>Question</th>
                     </tr>
                     <tr>
                         <td><?= $add_questions['examname']; ?></td>
                         <td><?= $sub_name['subject_name']; ?></td>
-                        <td><?= $add_questions['duration']; ?></td>
                         <td id="total_questions"><?= isset($ser) ? $ser - 1 : 0; ?></td>
                     </tr>
                 </table>

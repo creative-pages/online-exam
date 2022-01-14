@@ -15,13 +15,22 @@
             $examname    = $this->fm->validation($data['examname']);
             $batch       = $this->fm->validation($data['batch']);
             $subject     = $this->fm->validation($data['subject']);
-            $duration    = $this->fm->validation($data['duration']);
-            $exmdate     = $this->fm->validation($data['exmdate']);
 
-            $query = "insert into add_exam(examname,batch_id,subject_id,duration,exmdate ) values('$examname','$batch','$subject','$duration','$exmdate')";
+            $query = "insert into add_exam(examname,batch_id,subject_id) values('$examname','$batch','$subject')";
             $insert_row = $this->db->insert($query);
             if($insert_row){
                 echo "<script> window.location.assign('add-quetion.php'); </script>";
+            }
+           
+        }
+        public function EditExam($data){
+            $exam_hidden_id = $this->fm->validation($data['exam_hidden_id']);
+            $examname = $this->fm->validation($data['examname']);
+
+            $query = "UPDATE `add_exam` SET `examname` = '$examname' WHERE `id` = '$exam_hidden_id'";
+            $update_row = $this->db->update($query);
+            if($update_row){
+                echo "<script> window.location.assign('add-exam.php'); </script>";
             }
            
         }

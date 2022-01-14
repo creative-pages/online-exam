@@ -1,6 +1,54 @@
 <?php include('inc/header.php'); ?>
 
+<style>
+    /* owl carousel prev next */
+    .owl-carousel .owl-nav button.owl-next,
+    .owl-carousel .owl-nav button.owl-prev {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+    .owl-carousel .owl-nav button.owl-prev {
+        left: -20px;
+    }
+    .owl-carousel .owl-nav button.owl-next {
+        right: -20px;
+    }
+
+    .owl-carousel .owl-nav button.owl-next span,
+    .owl-carousel .owl-nav button.owl-prev span {
+        width: 40px;
+        height: 40px;
+        display: block;
+        background: #7fc4e5;
+        color: white;
+        font-size: 30px;
+        text-align: center;
+        line-height: 35px;
+    }
+</style>
+
 <?php
+if (isset($_GET['exam_id']) && $_GET['exam_id'] != '' && is_numeric($_GET['exam_id'])) {
+    $main_exam_id = $_GET['exam_id'];
+
+    if (isset($_GET['delete_omr'])) {
+        $omr_delete = $common->select("`omr_upload`", "`exam_id` = '$main_exam_id'");
+        if($omr_delete) {
+            while ($omr_deletes = mysqli_fetch_assoc($omr_delete)) {
+                $delete_id = $omr_deletes['id'];
+                $delete_file_name = $omr_deletes['file'];
+                $common->delete("`omr_upload`", "`id` = '$delete_id'");
+                unlink("../upload_file/omr_sheet/" . $delete_file_name);
+            }
+            header("Location: omr.php?exam_id=" . $main_exam_id);
+        } else {
+            header("Location: omr.php?exam_id=" . $main_exam_id);
+        }
+    }
+} else {
+    header("Location: add-exam.php");
+}
 
 if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['xlsx_file_import'])) {
     require 'XLSXReader.php';
@@ -94,6 +142,35 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['xlsx_file_import'])) {
                         echo $imported_result;
                     }
                 ?>
+
+                <div class="owl-carousel owl-theme mt-5">
+                    <?php
+                    $omr_check = $common->select("`omr_upload`", "`exam_id` = '$main_exam_id'");
+                    if($omr_check) {
+                        $i = 1;
+                        $omr_check_total = mysqli_num_rows($omr_check);
+                        while ($omr_checks = mysqli_fetch_assoc($omr_check)) {
+                        ?>
+                        <div class="item">
+                            <h4 class="mt-4">
+                                User ID: <?= $omr_checks['student_id']; ?>
+                                <span class="float-end me-3">Total: <?= $i . '/' . $omr_check_total; ?></span>
+                            </h4>
+                            <img height="100%" src="../upload_file/omr_sheet/<?= $omr_checks['file']; ?>" alt="">
+                        </div>
+                        <?php
+                        $i++;
+                        }
+                    }
+                    ?>
+                </div>
+                <?php
+                if($omr_check) {
+                ?>
+                <a class="btn btn-danger float-end mt-3" href="<?= $_SERVER['REQUEST_URI']; ?>&delete_omr" onclick="return confirm('Are you sure to delete all omr?');">Delete All OMR</a>
+                <?php
+                }
+                ?>
             </div>
             
             <!-- footer -->
@@ -121,7 +198,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['xlsx_file_import'])) {
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <form action="" id="xlsx_file_import" method="POST" enctype="multipart/form-data">
+            <form action="<?= $_SERVER['REQUEST_URI']; ?>" id="xlsx_file_import" method="POST" enctype="multipart/form-data">
                 <div class="mb-3">
                   <input class="form-control" type="file" name="upxlsx" accept=".xlsx" required="">
                 </div>
@@ -157,6 +234,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['xlsx_file_import'])) {
     <script src="dist/js/custom.min.js"></script>
     <!-- This Page JS -->
     <script src="assets/extra-libs/prism/prism.js"></script>
+    <!-- owlCarousel JS -->
+    <script src="assets/extra-libs/owlCarousel/owl.carousel.min.js"></script>
 
     <!--This page plugins -->
     <script src="assets/extra-libs/datatables.net/js/jquery.dataTables.min.js"></script>
@@ -167,6 +246,24 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['xlsx_file_import'])) {
 
     <!-- search option in select option start -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js" integrity="sha512-2ImtlRlf2VVmiGZsjm9bEyhjGW4dU7B6TNwh/hx/iSByxNENtj3WVE6o/9Lj4TJeVXPi4bnOIMXFIJJAeufa0A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        $('.owl-carousel').owlCarousel({
+            loop:false,
+            margin:10,
+            nav:true,
+            responsive:{
+                0:{
+                    items:1
+                },
+                600:{
+                    items:1
+                },
+                1000:{
+                    items:1
+                }
+            }
+        })
+    </script>
 </body>
 
 </html>
