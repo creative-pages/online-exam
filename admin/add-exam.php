@@ -5,8 +5,7 @@
     }
 
     if ($_SERVER["REQUEST_METHOD"]== "POST" && isset($_POST['edit_main_exam'])) {
-        // $addexam = $exam->AddExam($_POST);
-        print_r($_POST);
+        $addexam = $exam->EditExam($_POST);
     }
     if(isset($_GET['editxm'])){
         $id =$_GET['editxm'];
@@ -43,14 +42,9 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-body">
-                    <div class="text-center mt-2 mb-4">
-                        <a href="document.html" class="text-success">
-                        <span><img class="me-2" src="material/src/assets/images/logo-icon.png"
-                            alt="" height="18"><img
-                            src="material/src/assets/images/logo-text.png" alt=""
-                            height="18"></span>
-                        </a>
-                    </div>
+                    <h4 class="text-center mt-2 mb-4">
+                        Add Exam
+                    </h4>
                     <form class="ps-3 pe-3 text-start" action="#"method="post">
                         <div class="mb-3">
                             <label for="username">Exam Name</label>
@@ -61,6 +55,7 @@
                         <div class="mb-3">
                             <label for="username">Select Batch</label>
                                 <select class="form-control"name= "batch" id="batch"  required="">
+                                    <option value="">Select a batch</option>
                                     <?php
                                         $query = $common->select("`add_branch` ORDER BY `id` DESC");
                                         if($query){
@@ -77,18 +72,6 @@
                             <select class="form-select" id="subject" name="subject" required="">
                                 <option>Choose Your Option</option>
                             </select>
-                        </div>
-
-                    
-                        <div class="mb-3">
-                            <label for="duration">Duration</label>
-                            <input class="form-control" type="number" required=""
-                                id="password" placeholder="Set Time"name="duration">
-                        </div>
-                        <div class="mb-3">
-                            <label for="password">Exam Date</label>
-                            <input class="form-control" type="date" required=""
-                                id="password"name="exmdate" >
                         </div>
                        
                         <div class="mb-3 text-center">
@@ -166,9 +149,7 @@
                                     <div class="card-body">
                                         <h3 class="card-title text-success  py-1"style="border-bottom:1px dotted #EEF5F9;">Batch: <?= $batch_infos['branch_name'];?></h3>
                                         <h3 class="card-title text-muted py-1"style="border-bottom:1px dotted #EEF5F9;">Subject: <?= $subject_infos['subject_name'];?></h3>
-                                        <h3 class="card-title text-muted py-1"style="border-bottom:1px dotted #EEF5F9;">Duration: <?= $value['duration'];?> Minute</h3>
                                         <h3 class="card-title text-muted py-1"style="border-bottom:1px dotted #EEF5F9;">Total Quetion: <?= $value['tquetion'];?></h3>
-                                        <h3 class="card-title text-muted py-1"style="border-bottom:1px dotted #EEF5F9;">Exam Date: <?= $value['exmdate'];?></h3>
                                         
                                         <button type="button" class="btn btn-primary" onClick="examEdit(<?= $value['id']; ?>)">Edit</button>
                                         <?php
@@ -233,46 +214,14 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-body">
-                    <div class="text-center mt-2 mb-4">
+                    <h4 class="text-center mt-2 mb-4">
                         Exam Edit
-                    </div>
+                    </h4>
                     <form class="ps-3 pe-3 text-start" action="" method="post">
-                        <input type="hidden" name="exam_id">
+                        <input type="hidden" name="exam_hidden_id" id="exam_hidden_id">
                         <div class="mb-3">
                             <label for="edit_examname">Exam Name</label>
-                            <input class="form-control" type="text" id="edit_examname" placeholder="Enter exam name" 
-                                required="" name="examname">
-                        </div>
-                        <div class="mb-3">
-                            <label for="edit_subjectname">Batch</label>
-                            <select class="form-select" id="batch" name="batch" required="">
-                                <option>Choose Your Option</option>
-                                    <?php
-                                        $batch = $exam->AllBranchList();
-                                        if($batch){
-                                            while($raw =mysqli_fetch_assoc($batch)){
-                                    ?>
-                                    <option <?php if($value['batch_id']==$raw['id']){?> selected="selected"<?php } ?> value="<?=$raw['id'];?>"><?=$raw['branch_name'];?>
-                                </option>
-                                <?php }}?>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="edit_subjectname">Subject</label>
-                            <select class="form-select" id="subject" name="subject" required="">
-                                <option>Choose Your Subject</option>
-                                </option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="edit_duration">Duration</label>
-                            <input class="form-control" type="number" required=""
-                                id="edit_duration" placeholder="Set Time" name="duration">
-                        </div>
-                        <div class="mb-3">
-                            <label for="edit_exmdate">Exam Date</label>
-                            <input class="form-control" type="date" required=""
-                                id="edit_exmdate" name="exmdate" >
+                            <input class="form-control" type="text" id="edit_examname" placeholder="Enter exam name" required="" name="examname">
                         </div>
                         <div class="mb-3 text-center">
                             <button class="btn btn-primary" name="edit_main_exam" type="submit">Save
@@ -326,11 +275,8 @@
                 cache:false,
                 success:function(result){
                     var response = JSON.parse(result);
-                    $('#exam_id').val(response.id);
+                    $('#exam_hidden_id').val(response.id);
                     $('#edit_examname').val(response.examname);
-                    $('#edit_subjectname').val(response.subjectname);
-                    $('#edit_duration').val(response.duration);
-                    $('#edit_exmdate').val(response.edit_exmdate);
                     $('#examedit-modal').modal('show');
                 }
             })

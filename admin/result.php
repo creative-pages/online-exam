@@ -189,6 +189,12 @@ if (isset($_GET['exam_id'])) {
                                 <a class="btn btn-success float-end" href="<?= $_SERVER['REQUEST_URI']; ?>&send_result" onclick="return confirm('Are you sure to send result?')">Send Result</a>
                                 <?php
                                 }
+                                $omr_check = $common->select("`omr_upload`", "`exam_id` = '$exam_id'");
+                                if($omr_check) {
+                                ?>
+                                <a class="btn btn-primary float-end" href="omr.php?exam_id=<?= $exam_id; ?>">Scan ORM Sheet</a>
+                                <?php
+                                }
                                 ?>
                             </div>
                         </div>

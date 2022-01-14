@@ -36,7 +36,15 @@
                             <h3 class="mb-4">
                                 Exam Name - <?= ucfirst($exam['examname']); ?>
                             </h3>
-                            <h4 class="card-title">Basic Settings</h4>
+                            <h4 class="card-title">
+                                Basic Settings
+                                <div class="float-end">
+                                    <input type="checkbox" id="omr_upload" name="omr_upload" value="yes">
+                                    <label class="form-check-label" for="omr_upload">
+                                        OMR Upload <small style="font-size: 12px;">(Optional)</small>
+                                    </label>
+                                </div>
+                            </h4>
                             <div class="row">
                                 <div class="col-12">
                                     <div class="mb-3">

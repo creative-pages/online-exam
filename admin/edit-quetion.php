@@ -124,13 +124,11 @@
                     <tr>
                         <th>Exam Name</th>
                         <th>Subject Name</th>
-                        <th>Duration</th>
                         <th>Question</th>
                     </tr>
                     <tr>
                         <td><?=$xmbyid['examname'];?></td>
-                        <td><?=$sub_name['subject_name'];?></td> 
-                        <td><?=$xmbyid['duration'];?></td> 
+                        <td><?=$sub_name['subject_name'];?></td>
                         <td><?=$xmbyid['tquetion'];?></td>   
                     </tr>
                 </table>

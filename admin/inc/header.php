@@ -32,8 +32,10 @@
     <link href="dist/css/style.min.css" rel="stylesheet">
      <!-- Data table plugin CSS -->
      <link href="assets/extra-libs/datatables.net-bs4/css/dataTables.bootstrap4.css" rel="stylesheet">
-      <!-- Card Page CSS -->
+    <!-- Card Page CSS -->
     <link rel="stylesheet" type="text/css" href="assets/extra-libs/prism/prism.css">
+    <!-- owlCarousel CSS -->
+    <link rel="stylesheet" type="text/css" href="assets/extra-libs/owlCarousel/owl.carousel.min.css">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <link href="dist/css/style.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="highlights/highlight.min.css">
