@@ -1,6 +1,15 @@
 <?php include('inc/header.php'); ?>
 
 <?php
+    // exam_in_result check
+    $id = $_GET['editque'];
+    $exam_in_result = $common->select("`results`", "`exam_id` = '$id'");
+    $exam_in_result_not_offline = $common->select("`results`", "`exam_id` = '$id' && `total_time` != 'offline'");
+    // publish exam info
+    $publish_exam_info = $common->select("`publish_exam`", "`exam_id` = '$id'");
+    $publish_exam_infos = mysqli_fetch_assoc($publish_exam_info);
+    $display_question = $publish_exam_infos['display_question'];
+
     if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_all_questions'])) {
         $total_update_questions = $_POST['total_questions'];
         $total_new_questions = $_POST['total_new_questions'];
@@ -8,6 +17,9 @@
 
         $minus_question = 0;
 
+        // regret start
+        $present_ans = '';
+        // regret end
         for ($i=1; $i <= $total_update_questions; $i++) {
             $type = $_POST['type'.$i];
             $question_id = $_POST['question_id'.$i];
@@ -28,6 +40,36 @@
             } elseif($type == 'delete') {
                 $common->delete("`questions`", "`id` = '$question_id'");
                 $minus_question++;
+            }
+            if($exam_in_result_not_offline) {
+                // regret start
+                $present_ans .= $question_id . '=' . $answer;
+                // regret end
+            }
+        }
+
+        if ($present_ans !== '') {
+            while ($exam_in_result_not_offlines = mysqli_fetch_assoc($exam_in_result_not_offline)) {
+                $previous_student_ans = explode(",", $exam_in_result_not_offlines['question_ans']);
+
+                $rightans = $exam_in_result_not_offlines['rightans'];
+                $new_rightans = 0;
+                foreach ($previous_student_ans as $values) {
+                    if(is_numeric(strpos($present_ans, $values))) {
+                        $new_rightans++;
+                    }
+                }
+                $new_rightans;
+                if ($rightans != $new_rightans) {
+                    $student_id = $exam_in_result_not_offlines['student_id'];
+                    if($rightans > $new_rightans) {
+                        $final_score = $exam_in_result_not_offlines['final_score'] - ($rightans - $new_rightans);
+                    } elseif ($rightans < $new_rightans) {
+                        $final_score = $exam_in_result_not_offlines['final_score'] + ($new_rightans - $rightans);
+                    }
+                    $wrongans = $display_question - $new_rightans - $exam_in_result_not_offlines['blankans'];
+                    $common->update("`results`", "`final_score` = '$final_score', `wrongans` = '$wrongans', `rightans` = '$new_rightans'", "`exam_id` = '$id' && `student_id` = '$student_id'");
+                }
             }
         }
 
@@ -57,15 +99,16 @@
     if(isset($_GET['editque'])){
         $id = $_GET['editque'];
         $all_question = $exam->AllQuestion($id);
-    }
-    $all_xm = $exam->ExamById($id);
-    if($all_xm) {
-        $xmbyid = $all_xm->fetch_assoc();
-        $sub_id = $xmbyid['subject_id'];
-        
-        $sub_query = $common->select("`subject_add`","`id`='$sub_id'");
-        $sub_name = mysqli_fetch_assoc($sub_query);
-        $total = $xmbyid['tquetion'];
+
+        $all_xm = $exam->ExamById($id);
+        if($all_xm) {
+            $xmbyid = $all_xm->fetch_assoc();
+            $sub_id = $xmbyid['subject_id'];
+            
+            $sub_query = $common->select("`subject_add`","`id`='$sub_id'");
+            $sub_name = mysqli_fetch_assoc($sub_query);
+            $total = $xmbyid['tquetion'];
+        }
     }
 ?>
 
@@ -108,13 +151,20 @@
             <div class="container-fluid ">
                 <form action="" method="post">
                 <div class="p-3 border-buttom">
-                    <div class="d-md-flex align-items-center">
+                    <div class="d-md-flex align-items-center justify-content-between">
                         <div class="action-form">
                             <div class="text-center">
                                 <button type="submit" name="update_all_questions" class="btn btn-info rounded-pill px-4 waves-effect waves-light">Save</button>
                                 <a href="add-exam.php" class="btn btn-dark rounded-pill px-4 waves-effect waves-light">Cancel</a>
                             </div>
                         </div>
+                        <?php
+                        if($exam_in_result) {
+                        ?>
+                        <button id="shuffle" type="button" class="btn btn-primary">Shuffle</button>
+                        <?php
+                        }
+                        ?>
                      </div>
                 </div>
                 <div class="d-flex border-bottom title-part-padding px-0 mb-3 align-items-center">
@@ -140,10 +190,8 @@
                     if($all_question){
                         $i = 1;
                         while($values = $all_question->fetch_assoc()) {
-                            // exam_in_result check
-                            $exam_id = $xmbyid['id'];
-                            $exam_in_result = $common->select("`results`", "`exam_id` = '$exam_id'");
-                    ?>      
+                    ?>
+                    <div class="question_row">
                     <input type="hidden" name="question_id<?= $i; ?>" value="<?=$values['id'];?>">
                     <input type="hidden" id="type<?= $values['id']; ?>" name="type<?= $i; ?>" value="update">
                     <div class="row border-top border-primary pt-4 delete_row<?= $values['id']; ?>">
@@ -248,9 +296,10 @@
                     <?php
                     }
                     ?>
+                    </div>
                     <?php
                     $i++;
-                     }
+                    }
                 }
                 ?>
                 </div>
@@ -362,6 +411,26 @@
             $(this).val(index+1);
         });
     }
+    $.fn.shuffleChildren = function() {
+      $.each(this.get(), function(index, el) {
+        var $el = $(el);
+        var $find = $el.children();
+
+        $find.sort(function() {
+          return 0.5 - Math.random();
+        });
+
+        $el.empty();
+        $find.appendTo($el);
+      });
+    };
+    $("#shuffle").click(function() {
+      $("#all_update_questions").shuffleChildren();
+
+        $(".set_serial").each(function(index, el) {
+            $(this).val(index+1);
+        });
+    });
 </script>
 
 </body>
