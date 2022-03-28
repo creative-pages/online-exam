@@ -1,18 +1,32 @@
 <?php include('inc/header.php'); ?>
-
 <?php
-    if($_SERVER['REQUEST_METHOD']=='POST' && isset($_POST['save'])){
-        $addclass = $all->AddClass($_POST);
-    }
-    if(isset($_GET['editc'])){
-        $cid= $_GET['editc'];
-        $classbyid =$common->select("`class_add`","`id`='$cid'");
-    }
-   
+if(isset($_GET['puser'])){
+    $puid= $_GET['puser'];
+}else{
+    header("Location:payment.php");
+}
+$result = $common->select("`users`","`id`='$puid'");
+$value= mysqli_fetch_assoc($result);
+$name = $value['name'];
+$per = $value['per'];
 ?>
+<?php
+if($_SERVER['REQUEST_METHOD'] == 'POST'&& isset($_POST['save'])){
+    $payout  = $_POST['payout'];
+    $up_amounts  = $_POST['up_amounts'];
+    $user_amount = $_POST['user_amounts'];
+    $success =$common->insert("`weekly_status`(`user_id`,`payout`,`up_amounts`,`user_amounts`)","('$puid','$payout', '$up_amounts', '$user_amount')");
+    if($success){
+        $msg = "<div class='alert alert-success mb-0 py-2'>Data Insert Successfully!</div>";
+        //header("Location:payment.php?user=$puid");
+    }
+    else{
+        $msg = "<div class='alert alert-warning mb-0 py-2'>Data Insert not Successfully!</div>";
+    }
 
+}
+?>
 <body>
-   
     <div class="preloader">
         <svg class="tea lds-ripple" width="37" height="48" viewbox="0 0 37 48" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M27.0819 17H3.02508C1.91076 17 1.01376 17.9059 1.0485 19.0197C1.15761 22.5177 1.49703 29.7374 2.5 34C4.07125 40.6778 7.18553 44.8868 8.44856 46.3845C8.79051 46.79 9.29799 47 9.82843 47H20.0218C20.639 47 21.2193 46.7159 21.5659 46.2052C22.6765 44.5687 25.2312 40.4282 27.5 34C28.9757 29.8188 29.084 22.4043 29.0441 18.9156C29.0319 17.8436 28.1539 17 27.0819 17Z" stroke="#1e88e5" stroke-width="2"></path>
@@ -22,120 +36,54 @@
           <path id="steamR" d="M21 6C21 6 21 8.22727 19 9.5C17 10.7727 17 13 17 13" stroke="#1e88e5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
         </svg>
     </div>
-   
     <div id="main-wrapper">
-       
         <?php include('inc/topbar.php'); ?>
-       
         <?php include('inc/left-sidebar.php'); ?>
-       
         <div class="page-wrapper">
-            
             <div class="container-fluid ">
             <div class="row">
                 <div class="col-12">
                     <div class="card">
-                       
+                    <?= isset($msg) ? $msg : ''; ?>
                         <form class="form-horizontal" method="post" action="">
-                           
-                          
                             <div class="card-body">
-                                <h4 class="card-title">Add New Class</h4>
-                                <?php
-                                    if($classbyid){
-                                        $value = mysqli_fetch_assoc($classbyid);
-                                        $subject = $value['subject_id'];
-                                        $select = $common->select("`subject_add`","`id`='$subject'");
-                                        $subject_select= mysqli_fetch_assoc($select);
-                                        
-                                    }
-
-                                
-                                ?>
+                                <h4 class="card-title">Entry New Payments</h4>
                                 <div class="mb-3 row">
-                                    <label for="com1" class="col-sm-3 text-end control-label col-form-label">Topic Name</label>
+                                    <label for="com1" class="col-sm-3 text-end control-label col-form-label">User Name</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="com1" value="<?=$value['topic'];?>" required="" name="topic">
+                                        <input type="text" class="form-control" id="com1" value="<?=$name;?>" required="" name="" readonly>
                                     </div>
                                 </div>
                                 <div class="mb-3 row">
-                                    <label class="col-sm-3 text-end control-label col-form-label">Select Batch</label>
+                                    <label for="com1" class="col-sm-3 text-end control-label col-form-label">Payout Date</label>
                                     <div class="col-sm-9">
-                                        <select class="form-select" id="batch" name="batch" required="">
-                                            <option>Choose Your Option</option>
-                                            <?php
-                                                $batch = $exam->AllBranchList();
-                                                if($batch){
-                                                    while($raw =mysqli_fetch_assoc($batch)){
-            
-                                            ?>
-                                            
-                                            <option <?php if($value['batch_id']==$raw['id']){?> selected="selected"<?php } ?> value="<?=$raw['id'];?>"><?=$raw['branch_name'];?></option>
-                                            <?php }}?>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="mb-3 row">
-                                    <label class="col-sm-3 text-end control-label col-form-label">Select Subject</label>
-                                    <div class="col-sm-9">
-                                        <select class="form-select" id="subject" name="subject" required="">
-                                           <option value="<?=$subject_select['subject_name'];?>"><?=$subject_select['subject_name'];?></option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="mb-3 row">
-                                    <label class="col-sm-3 text-end control-label col-form-label">Select Chapter</label>
-                                    <div class="col-sm-9">
-                                        <select class="form-select" required="" name="chapter" id="chapter">
-                                            <option><?=$value['chapter'];?></option>
-                                            <option value="all">ALL</option>
-                                            <option value="1">1</option>
-                                            <option value="2">2</option>
-                                            <option value="3">3</option>
-                                            <option value="4">4</option>
-                                            <option value="5">5</option>
-                                            <option value="6">6</option>
-                                            <option value="7">7</option>
-                                            <option value="8">8</option>
-                                           
-                                        </select>
+                                        <input type="date" class="form-control" id="com1" placeholder="" name="payout">
                                     </div>
                                 </div>
 
                                 <div class="mb-3 row">
-                                    <label for="com1" class="col-sm-3 text-end control-label col-form-label">Class Link</label>
+                                    <label for="com1" class="col-sm-3 text-end control-label col-form-label">Upwork Amount(USD)</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="com1" placeholder="Enter Class Link Here" name="c_link">
+                                        <input type="number" class="form-control" id="upamount" onkeyup="uamount();" placeholder="Upwork Amount" name="up_amounts">
                                     </div>
                                 </div>
-
                                 <div class="mb-3 row">
-                                    <label for="com1" class="col-sm-3 text-end control-label col-form-label">Exam Link</label>
+                                    <label for="com1" class="col-sm-3 text-end control-label col-form-label">User Amount(TAKA)</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="com1" placeholder="Exam link  Here" name="exm_link">
+                                        <input type="number" class="form-control" id="ua" placeholder="" name="user_amounts" readonly>
                                     </div>
                                 </div>
-
-                                <div class="mb-3 row">
-                                    <label for="com1" class="col-sm-3 text-end control-label col-form-label">Note Link Here</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="com1" placeholder="Company Name Here" name="note_link">
-                                    </div>
-                                </div>
-                                
-                                
                             </div>
                             <div class="p-3 border-top">
                                 <div class="text-end">
+                                     <a href="payment.php?user=<?=$puid;?>" class="btn btn-info rounded-pill px-4 waves-effect waves-light">BACK</a>
                                     <button type="submit" class="btn btn-info rounded-pill px-4 waves-effect waves-light" name="save">Save</button>
-                                    <button type="submit" class="btn btn-dark rounded-pill px-4 waves-effect waves-light">Cancel</button>
                                 </div>
                             </div>
                         </form>
                     </div>
                 </div>
                 </div>
-                
             </div>
             
             <!-- footer -->
@@ -189,7 +137,7 @@
    
     <script>
         $(document).ready(function(){
-            $('#batch').on('change',function(){
+            $('#uamount').on('keyup',function(){
                 var id = this.value;
                 $.ajax({
                     url:'ajax/subject.php',
@@ -204,8 +152,17 @@
                 })
 
             });
-
         });
+        function uamount(){
+            let upamount = $('#upamount').val();
+            let per = upamount - (upamount*0.05);
+            let a = 100;
+            let b = <?= $per; ?>;
+            let c = b/100;
+            let uamount = per- (per * c);
+            let uamounts =  uamount*76;
+            $('#ua').val(Math.floor(uamounts));   
+        }
     </script>
    
 </body>

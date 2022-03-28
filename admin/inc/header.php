@@ -1,13 +1,11 @@
 <?php
     require_once '../init.php';
     Session::checkAdminSession();
-    $exam = new Exam();
     $common = new Common();
-    $all = new All();
     $fm = new Format();
 
     $admin_id = Session::get('id');
-    $admin_info = $common->select("`tbl_admin`", "`id` = '$admin_id'");
+    $admin_info = $common->select("`admins`", "`id` = '$admin_id'");
     if ($admin_info) {
         $admin_infos = mysqli_fetch_assoc($admin_info);
     }
@@ -22,7 +20,7 @@
     <meta name="keywords" content="wrappixel, admin dashboard, html css dashboard, web dashboard, bootstrap 5 admin, bootstrap 5, css3 dashboard, bootstrap 5 dashboard, material admin bootstrap 5 dashboard, frontend, responsive bootstrap 5 admin template, material design, material dashboard bootstrap 5 dashboard template">
     <meta name="description" content="MaterialPro is powerful and clean admin dashboard template, inpired from Google's Material Design">
     <meta name="robots" content="noindex,nofollow">
-    <title>BatBio</title>
+    <title>SoftMRI</title>
     <link rel="canonical" href="https://www.wrappixel.com/templates/materialpro/" />
     <!-- Favicon icon -->
     <link href="assets/extra-libs/toastr/dist/build/toastr.min.css" rel="stylesheet">

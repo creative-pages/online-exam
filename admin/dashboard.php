@@ -1,12 +1,37 @@
+
+<?php include('inc/header.php'); ?>
 <?php
-    require_once '../init.php';
-    Session::checkAdminSession();
+$u_query = $common->select("`users`");
+if($u_query != false){
+ $t_user = mysqli_num_rows($u_query);   
+}else{
+    $t_user = 0;
+}
+    $weekly = $common->select("`weekly_status`");
+    $payments = $common->select("`payments`");
+    if($weekly != FALSE){
+        $total_amount=0;
+        $total_usd=0;
+        while($value = mysqli_fetch_assoc($weekly)){
+             $total_amount += $value['user_amounts'];
+             $total_usd += $value['up_amounts'];
+        }
+    }
+    else{
+        $total_amount=0;
+        $total_usd=0; 
+    }
+    if($payments != FALSE){
+        $total_pay=0;
+        while($value = mysqli_fetch_assoc($payments)){
+             $total_pay += $value['amounts'];
+        }
+    }
+    else{
+        $total_pay=0; 
+    }
+    $total_unpaid = $total_amount-$total_pay;
 ?>
-<!DOCTYPE html>
-<html dir="ltr" lang="en">
-
-    <?php include('inc/header.php'); ?>
-
 <body>
     <!-- ============================================================== -->
     <!-- Preloader - style you can find in spinners.css -->
@@ -20,104 +45,98 @@
           <path id="steamR" d="M21 6C21 6 21 8.22727 19 9.5C17 10.7727 17 13 17 13" stroke="#1e88e5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
         </svg>
     </div>
-    <!-- ============================================================== -->
-    <!-- Main wrapper - style you can find in pages.scss -->
-    <!-- ============================================================== -->
     <div id="main-wrapper">
-        <!-- ============================================================== -->
-        <!-- Topbar header - style you can find in pages.scss -->
           <?php include('inc/topbar.php'); ?>
-         <!-- End Topbar header -->
-        
-        <!-- ============================================================== -->
-        <!-- ============================================================== -->
-        <!-- Left Sidebar - style you can find in sidebar.scss  -->
         <?php include('inc/left-sidebar.php'); ?>
-        <!-- End Left Sidebar - style you can find in sidebar.scss  -->
-        <!-- ============================================================== -->
-        <!-- ============================================================== -->
-        <!-- Page wrapper  -->
-        <!-- ============================================================== -->
         <div class="page-wrapper">
-           
-            <div class="container-fluid">
-               
-               
-                <div class="row">
-                    <!-- Column -->
-                    <div class="col-lg-4 d-flex align-items-stretch">
-                        <div class="card bg-primary w-100">
-                            <div class="card-body">
-                                <div class="d-flex">
-                                    <div class="me-3 align-self-center">
-                                        <h1 class="text-white"><i class="ti-pie-chart"></i></h1>
-                                    </div>
-                                    <div>
-                                        <h3 class="card-title text-white">Total Quetion</h3>
-                                        
-                                    </div>
-                                </div>
-                                <div class="row my-2">
-                                    <div class="col-4 col-xl-7 align-self-center">
-                                        <h2 class="fw-light text-white text-nowrap">500</h2>
-                                    </div>
-                                    <div class="col-8 col-xl-5 pb-3 pt-2 align-self-center">
-                                        <div id="bandwidth-usage"></div>
+          <div class="container-fluid">
+              <div class="row">
+                    <div class="col-lg-4">
+                        <a class="d-block" href="">
+                      		<div class="card bg-info w-100">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between">
+                                        <div>
+                                          <h1 class="text-white me-2"><i class="mdi mdi-account-box"></i></h1>
+                                          <h3 class="card-title text-white mt-2">Total User</h3>
+                                        </div>
+                                        <h3 class="card-title text-white mt-2"><?=$t_user;?></h3>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                      	</a>
                     </div>
                     <!-- Column -->
-                    <!-- Column -->
-                    <div class="col-lg-4 d-flex align-items-stretch">
-                        <div class="card bg-success w-100">
-                            <div class="card-body">
-                                <div class="d-flex">
-                                    <div class="me-3 align-self-center">
-                                        <h1 class="text-white"><i class="icon-cloud-download"></i></h1>
-                                    </div>
-                                    <div>
-                                        <h3 class="card-title text-white">Total Student</h3>
-                                        
-                                    </div>
-                                </div>
-                                <div class="row my-2">
-                                    <div class="col-4 col-xl-7 align-self-center">
-                                        <h2 class="fw-light text-white text-nowrap text-truncate">35487</h2>
-                                    </div>
-                                    <div class="col-8 col-xl-5 pb-3 pt-2 text-end">
-                                        <div id="download-count" style="height:65px"></div>
+                    <div class="col-lg-4">
+                        <a class="d-block" href="">
+                      		<div class="card bg-warning w-100">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between">
+                                        <div>
+                                          <h1 class="text-white me-2"><i class="fab fa-cc-mastercard"></i></h1>
+                                          <h3 class="card-title text-white mt-2">Total Earn Doller</h3>
+                                        </div>
+                                        <h3 class="card-title text-white mt-2"><?=$total_usd;?> USD</h3>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                      	</a>
                     </div>
-                </div>
-                <!-- Row -->
-                <!-- Row -->
-                
+                    <!-- Column -->
+                     <div class="col-lg-4">
+                        <a class="d-block" href="">
+                      		<div class="card bg-success w-100">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between">
+                                        <div>
+                                          <h1 class="text-white me-2"><i class="fab fa-cc-mastercard"></i></h1>
+                                          <h3 class="card-title text-white mt-2">Total Stuff Amount</h3>
+                                        </div>
+                                        <h3 class="card-title text-white mt-2"><?=$total_amount;?> TAKA</h3>
+                                    </div>
+                                </div>
+                            </div>
+                      	</a>
+                    </div>
+                     <!-- Column -->
+                     <div class="col-lg-4">
+                        <a class="d-block" href="">
+                      		<div class="card bg-danger w-100">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between">
+                                        <div>
+                                          <h1 class="text-white me-2"><i class="fab fa-cc-mastercard"></i></h1>
+                                          <h3 class="card-title text-white mt-2">Total Pay Amount</h3>
+                                        </div>
+                                        <h3 class="card-title text-white mt-2"><?=$total_pay;?> TAKA</h3>
+                                    </div>
+                                </div>
+                            </div>
+                      	</a>
+                    </div>
+                    <!-- Column -->
+                    <div class="col-lg-4">
+                        <a class="d-block" href="">
+                      		<div class="card bg-secondary w-100">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between">
+                                        <div>
+                                          <h1 class="text-white me-2"><i class="fab fa-cc-mastercard"></i></h1>
+                                          <h3 class="card-title text-white mt-2"><?php if($total_unpaid>0){?><p class="text-danger">Total Unpaid </p><?php } else { ?> <p class="text-warning">Total Due </p> <?php }?></h3>
+                                        </div>
+                                        <h3 class="card-title text-white mt-2"><?=$total_unpaid;?> TAKA</h3>
+                                    </div>
+                                </div>
+                            </div>
+                      	</a>
+                    </div>
+                    <!-- Column -->
+                </div>      
             </div>
-            <!-- ============================================================== -->
-            <!-- End Container fluid  -->
-            <!-- ============================================================== -->
-            <!-- ============================================================== -->
-            <!-- footer -->
-            <!-- ============================================================== -->
-             <?php include('inc/footer.php'); ?>
-            <!-- ============================================================== -->
-            <!-- End footer -->
-            <!-- ============================================================== -->
+            <?php include('inc/footer.php'); ?>
+          </div>
         </div>
-        <!-- ============================================================== -->
-        <!-- End Page wrapper  -->
-        <!-- ============================================================== -->
-    </div>
-    <!-- ============================================================== -->
-    <!-- End Wrapper -->
-    <!-- ============================================================== -->
-    <!-- ============================================================== -->
-    <div class="chat-windows"></div>
+     <div class="chat-windows"></div>
     <!-- ============================================================== -->
     <!-- All Jquery -->
     <!-- ============================================================== -->

@@ -1,20 +1,37 @@
 <?php include('inc/header.php'); ?>
-
 <?php
-    if($_SERVER['REQUEST_METHOD']=='POST' && isset($_POST['save'])){
-        $subject_name = $_POST['subject_name'];
-        $batch = $_POST['batch'];
-        $success = $common->insert("`subject_add`(`batch_id`,`subject_name`)", "('$batch','$subject_name')");
-        if($success){
-            header("Location:add-subject.php");
-        }
+if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['edit'])) {
+    $userid = $_POST['user_id'];
+    $payid = $_POST['payment_id'];
+    
+    $amounts  = $_POST['amounts'];
+    $description  = $_POST['description'];
+    $update_result = $common->update("`payments`", "`amounts` = '$amounts', `description` = '$description'", "`id` = '$payid' && `user_id` = '$userid'");
+    if($update_result) {
+        $msg = "<div class='alert alert-success py-2'>Data inserted successfully.</div>";
+    } else{
+        $msg = "<div class='alert alert-warning py-2'>Data does not inserted!</div>";
     }
+}
 ?>
 
+<?php
+if(isset($_GET['user']) && isset($_GET['pid'])){
+    $uid= $_GET['user'];
+    $pid= $_GET['pid'];
+    $result = $common->select("`users`","`id`='$uid'");
+    $payment = $common->select("`payments`","`id`='$pid' && `user_id`='$uid'");
+    $value = mysqli_fetch_assoc($result);
+    $raw = mysqli_fetch_assoc($payment);
+    $pay_amount = $raw['amounts'];
+    $desc = $raw['description'];
+    $name = $value['name'];
+}else{
+    header("Location:payment.php");
+}
+
+?>
 <body>
-    <!-- -------------------------------------------------------------- -->
-    <!-- Preloader - style you can find in spinners.css -->
-    <!-- -------------------------------------------------------------- -->
     <div class="preloader">
         <svg class="tea lds-ripple" width="37" height="48" viewbox="0 0 37 48" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M27.0819 17H3.02508C1.91076 17 1.01376 17.9059 1.0485 19.0197C1.15761 22.5177 1.49703 29.7374 2.5 34C4.07125 40.6778 7.18553 44.8868 8.44856 46.3845C8.79051 46.79 9.29799 47 9.82843 47H20.0218C20.639 47 21.2193 46.7159 21.5659 46.2052C22.6765 44.5687 25.2312 40.4282 27.5 34C28.9757 29.8188 29.084 22.4043 29.0441 18.9156C29.0319 17.8436 28.1539 17 27.0819 17Z" stroke="#1e88e5" stroke-width="2"></path>
@@ -24,74 +41,51 @@
           <path id="steamR" d="M21 6C21 6 21 8.22727 19 9.5C17 10.7727 17 13 17 13" stroke="#1e88e5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
         </svg>
     </div>
-    <!-- -------------------------------------------------------------- -->
-    <!-- Main wrapper - style you can find in pages.scss -->
-    <!-- -------------------------------------------------------------- -->
     <div id="main-wrapper">
-        <!-- -------------------------------------------------------------- -->
-        <!-- Topbar header - style you can find in pages.scss -->
-        <!-- -------------------------------------------------------------- -->
         <?php include('inc/topbar.php'); ?>
-        <!-- -------------------------------------------------------------- -->
-        <!-- End Topbar header -->
-        <!-- -------------------------------------------------------------- -->
-        <!-- -------------------------------------------------------------- -->
-        <!-- Left Sidebar - style you can find in sidebar.scss  -->
-        <!-- -------------------------------------------------------------- -->
         <?php include('inc/left-sidebar.php'); ?>
-        <!-- -------------------------------------------------------------- -->
-        <!-- End Left Sidebar - style you can find in sidebar.scss  -->
-        <!-- -------------------------------------------------------------- -->
-        <!-- -------------------------------------------------------------- -->
-        <!-- Page wrapper  -->
-        
         <div class="page-wrapper">
-            
             <div class="container-fluid ">
             <div class="row">
                 <div class="col-12">
                     <div class="card">
-                       
-                        <form class="form-horizontal" action="" method="POST">
-                           
-                          
+                    <?= isset($msg) ? $msg : ''; ?>
+                        <form class="form-horizontal" method="post" action="">
                             <div class="card-body">
-                                <h4 class="card-title">Add New Subject</h4>
+                                <h4 class="card-title">Update Payments</h4>
                                 <div class="mb-3 row">
-                                    <label for="com1" class="col-sm-3 text-end control-label col-form-label">Subject Name</label>
+                                    <label for="com1" class="col-sm-3 text-end control-label col-form-label">User Name</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="com1" placeholder="Subject Name Here" name = "subject_name">
+                                        <input type="hidden" class="form-control" id="com1" value="<?=$uid;?>" required="" name="user_id" readonly>
+                                        <input type="hidden" class="form-control" id="com1" value="<?=$pid;?>" required="" name="payment_id" readonly>
+                                        <input type="text" class="form-control" id="com1" value="<?=$name;?>" required="" name="" readonly>
                                     </div>
                                 </div>
                                 <div class="mb-3 row">
-                                    <label class="col-sm-3 text-end control-label col-form-label">Choose Batch</label>
+                                    <label for="com1" class="col-sm-3 text-end control-label col-form-label">Pay Amount (TAKA)</label>
                                     <div class="col-sm-9">
-                                        <select class="form-select" name = "batch" id = "batch">
-                                            
-                                            <option>Choose Your Option</option>
-                                            <?php
-                                                $batch = $common->select("`add_branch` ORDER BY `id` DESC ");
-                                                if($batch){
-                                                    while($raw = mysqli_fetch_assoc($batch)){      
-                                            ?>
-                                            <option value = <?=$raw['id'];?>><?=$raw['branch_name']; ?></option>
-                                            <?php }}?>
-                                        </select>
+                                        <input type="number" class="form-control" id="com1" placeholder="enter amount" value="<?=$pay_amount?>" name="amounts">
                                     </div>
                                 </div>
-                                
+
+                                <div class="mb-3 row">
+                                    <label for="com1" class="col-sm-3 text-end control-label col-form-label">Description</label>
+                                    <div class="col-sm-9">
+                                        <textarea class="form-control ck_editor" name="description"><?=$desc;?></textarea>
+                                        
+                                    </div>
+                                </div>
                             </div>
                             <div class="p-3 border-top">
                                 <div class="text-end">
-                                    <button type="submit" class="btn btn-info rounded-pill px-4 waves-effect waves-light" name = "save">Save</button>
-                                    <button type="submit" class="btn btn-dark rounded-pill px-4 waves-effect waves-light">Cancel</button>
+                                    <a href="payment.php?user=<?=$uid;?>" class="btn btn-info rounded-pill px-4 waves-effect waves-light">BACK</a>
+                                    <button type="submit" class="btn btn-info rounded-pill px-4 waves-effect waves-light" name="edit">Save</button>
                                 </div>
                             </div>
                         </form>
                     </div>
                 </div>
                 </div>
-                
             </div>
             
             <!-- footer -->

@@ -18,7 +18,7 @@ class Admin
 		$username = mysqli_real_escape_string($this->db->link,$username);
 		//$password    = mysqli_real_escape_string($this->db->link,MD5($password));
 		
-		$query="SELECT * FROM tbl_admin WHERE username= '$username' AND password= '$password'";
+		$query="SELECT * FROM admins WHERE users= '$username' AND password= '$password'";
 		
 		$result =$this->db->select($query);	
      
@@ -26,7 +26,7 @@ class Admin
 		if ($result != false) {
 			$value =  $result->fetch_assoc();
 			Session::set("adminLogin",true);
-			Session::set("username", $value['username']);
+			Session::set("username", $value['users']);
 			
 			Session::set("id", $value['id']);
 			echo "<script> window.location.assign('dashboard.php'); </script>";
@@ -37,28 +37,24 @@ class Admin
 			}
 		
 	}
-	public function privacyPolicy()
-	{
-			$query ="SELECT * FROM  privacy_tbl";
-		  $result = $this->db->select($query);	
-		  return $result;
-	}
-	public function Updateprivacy($data)
-	{
-		$privacy = $this->fm->validation($data['privacy']);
-		 $query = "UPDATE privacy_tbl
-      SET
-      privacy        = '$privacy'
-    
-      WHERE id    = '1'
-                ";
-       $update_privacy = $this->db->update($query);
-       if ($update_privacy) {
-         $msg="<div class='alert alert-success alert-dismissible fade show'>
-         <strong>Success!</strong> Update Succesfully
-       <button type='button' class='close' data-dismiss='alert'>&times;</button></div>";
-        return $msg;
-        } 
+	public function StudentSignIn($data){
+		$id = $this->fm->validation($data['id']);
+		$password = $this->fm->validation($data['password']);
+		$id = mysqli_real_escape_string($this->db->link,$id);
+		//$password    = mysqli_real_escape_string($this->db->link,MD5($password));
+		
+		$query = "SELECT * FROM users  WHERE id = '$id' AND password = '$password'";
+		$result =$this->db->select($query); 
+	 
+		if ($result != false) {
+		$value = $result->fetch_assoc();
+		Session::set("SignIn", true);
+		Session::set("name", $value['nname']);
+		Session::set("profileid", $value['id']);
+		echo "<script> window.location.assign('student/batch.php'); </script>";
+		} else {
+			return "<div class='alert alert-warning'>Email And Password Does Not Match</div>";
+		}
 	}
 }
 ?>

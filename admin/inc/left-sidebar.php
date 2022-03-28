@@ -21,35 +21,9 @@
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="add-exam.php" aria-expanded="false">
+                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="user.php" aria-expanded="false">
                         <i class="mdi mdi-account-box"></i>
-                        <span class="hide-menu">Exam</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
-                        <i class="mdi mdi-gauge"></i>
-                        <span class="hide-menu">Batch</span>
-                    </a>
-                    <ul aria-expanded="false" class="collapse  first-level">
-                        <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
-                        href="add-branch.php" aria-expanded="false"><i class="mdi mdi-account-box"></i><span
-                            class="hide-menu">Batch</span></a></li>
-                        <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
-                        href="add-subject.php" aria-expanded="false"><i class="mdi mdi-account-box"></i><span
-                            class="hide-menu">Subject</span></a></li> 
-                        <li class="sidebar-item">
-                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="add-class.php" aria-expanded="false">
-                                <i class="mdi mdi-account-box"></i>
-                                <span class="hide-menu">Class</span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="sidebar-item">
-                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="pay-request.php" aria-expanded="false"><i class="fab fa-cc-mastercard" aria-hidden="true"></i>
-
-                        <span class="hide-menu">Payment</span>
+                        <span class="hide-menu">User</span>
                     </a>
                 </li>
             </ul>

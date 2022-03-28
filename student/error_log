@@ -1,0 +1,142 @@
+[18-Mar-2022 23:05:11 Asia/Dhaka] PHP Warning:  Undefined variable $total_amount in /home1/foklorit/public_html/upwork/student/inc/header.php on line 31
+[18-Mar-2022 23:05:11 Asia/Dhaka] PHP Warning:  Undefined variable $total_pay in /home1/foklorit/public_html/upwork/student/inc/header.php on line 31
+[18-Mar-2022 23:05:11 Asia/Dhaka] PHP Warning:  Undefined variable $total_amount in /home1/foklorit/public_html/upwork/student/batch.php on line 12
+[18-Mar-2022 23:05:11 Asia/Dhaka] PHP Warning:  Undefined variable $total_pay in /home1/foklorit/public_html/upwork/student/batch.php on line 14
+[18-Mar-2022 23:11:48 Asia/Dhaka] PHP Warning:  Undefined variable $total_amount in /home1/foklorit/public_html/upwork/student/inc/header.php on line 31
+[18-Mar-2022 23:11:48 Asia/Dhaka] PHP Warning:  Undefined variable $total_pay in /home1/foklorit/public_html/upwork/student/inc/header.php on line 31
+[18-Mar-2022 23:11:48 Asia/Dhaka] PHP Warning:  Undefined variable $total_amount in /home1/foklorit/public_html/upwork/student/batch.php on line 12
+[18-Mar-2022 23:11:48 Asia/Dhaka] PHP Warning:  Undefined variable $total_pay in /home1/foklorit/public_html/upwork/student/batch.php on line 14
+[19-Mar-2022 02:13:58 Asia/Dhaka] PHP Warning:  Undefined array key "sname" in /home1/foklorit/public_html/upwork/student/profile.php on line 15
+[19-Mar-2022 02:13:58 Asia/Dhaka] PHP Warning:  Undefined array key "sfname" in /home1/foklorit/public_html/upwork/student/profile.php on line 21
+[19-Mar-2022 02:13:58 Asia/Dhaka] PHP Warning:  Undefined array key "smname" in /home1/foklorit/public_html/upwork/student/profile.php on line 27
+[19-Mar-2022 02:13:58 Asia/Dhaka] PHP Warning:  Undefined array key "ms" in /home1/foklorit/public_html/upwork/student/profile.php on line 44
+[19-Mar-2022 02:14:05 Asia/Dhaka] PHP Warning:  Undefined array key "sname" in /home1/foklorit/public_html/upwork/student/edit-profile.php on line 20
+[19-Mar-2022 02:14:05 Asia/Dhaka] PHP Warning:  Undefined array key "sfname" in /home1/foklorit/public_html/upwork/student/edit-profile.php on line 26
+[19-Mar-2022 02:14:05 Asia/Dhaka] PHP Warning:  Undefined array key "smname" in /home1/foklorit/public_html/upwork/student/edit-profile.php on line 32
+[19-Mar-2022 02:14:25 Asia/Dhaka] PHP Warning:  Undefined array key "sname" in /home1/foklorit/public_html/upwork/student/edit-profile.php on line 20
+[19-Mar-2022 02:14:25 Asia/Dhaka] PHP Warning:  Undefined array key "sfname" in /home1/foklorit/public_html/upwork/student/edit-profile.php on line 26
+[19-Mar-2022 02:14:25 Asia/Dhaka] PHP Warning:  Undefined array key "smname" in /home1/foklorit/public_html/upwork/student/edit-profile.php on line 32
+[19-Mar-2022 02:14:34 Asia/Dhaka] PHP Warning:  Undefined array key "sname" in /home1/foklorit/public_html/upwork/student/profile.php on line 15
+[19-Mar-2022 02:14:34 Asia/Dhaka] PHP Warning:  Undefined array key "sfname" in /home1/foklorit/public_html/upwork/student/profile.php on line 21
+[19-Mar-2022 02:14:34 Asia/Dhaka] PHP Warning:  Undefined array key "smname" in /home1/foklorit/public_html/upwork/student/profile.php on line 27
+[19-Mar-2022 02:14:34 Asia/Dhaka] PHP Warning:  Undefined array key "ms" in /home1/foklorit/public_html/upwork/student/profile.php on line 44
+[19-Mar-2022 02:54:52 Asia/Dhaka] PHP Warning:  Undefined variable $total_pay in /home1/foklorit/public_html/upwork/student/inc/header.php on line 31
+[19-Mar-2022 02:54:52 Asia/Dhaka] PHP Warning:  Undefined variable $total_pay in /home1/foklorit/public_html/upwork/student/batch.php on line 14
+[19-Mar-2022 03:35:05 Asia/Dhaka] PHP Warning:  Undefined variable $total_pay in /home1/foklorit/public_html/upwork/student/inc/header.php on line 31
+[19-Mar-2022 03:35:05 Asia/Dhaka] PHP Warning:  Undefined variable $total_pay in /home1/foklorit/public_html/upwork/student/batch.php on line 14
+[19-Mar-2022 03:35:14 Asia/Dhaka] PHP Warning:  Undefined variable $total_pay in /home1/foklorit/public_html/upwork/student/inc/header.php on line 31
+[19-Mar-2022 03:35:14 Asia/Dhaka] PHP Warning:  Undefined variable $total_pay in /home1/foklorit/public_html/upwork/student/batch.php on line 14
+[20-Mar-2022 22:05:19 Asia/Dhaka] PHP Warning:  Undefined variable $total_pay in /home1/foklorit/public_html/upwork/student/inc/header.php on line 31
+[20-Mar-2022 22:05:19 Asia/Dhaka] PHP Warning:  Undefined variable $total_pay in /home1/foklorit/public_html/upwork/student/batch.php on line 14
+[20-Mar-2022 22:05:28 Asia/Dhaka] PHP Warning:  Undefined variable $total_pay in /home1/foklorit/public_html/upwork/student/inc/header.php on line 31
+[20-Mar-2022 22:05:28 Asia/Dhaka] PHP Warning:  Undefined variable $total_pay in /home1/foklorit/public_html/upwork/student/batch.php on line 14
+[20-Mar-2022 22:05:43 Asia/Dhaka] PHP Warning:  Undefined variable $total_pay in /home1/foklorit/public_html/upwork/student/inc/header.php on line 31
+[20-Mar-2022 22:05:43 Asia/Dhaka] PHP Warning:  Undefined variable $total_pay in /home1/foklorit/public_html/upwork/student/batch.php on line 14
+[20-Mar-2022 22:06:00 Asia/Dhaka] PHP Warning:  Undefined variable $total_pay in /home1/foklorit/public_html/upwork/student/inc/header.php on line 31
+[20-Mar-2022 22:06:00 Asia/Dhaka] PHP Warning:  Undefined variable $total_pay in /home1/foklorit/public_html/upwork/student/batch.php on line 14
+[26-Mar-2022 15:57:16 Asia/Dhaka] PHP Warning:  Undefined array key "sname" in /home1/foklorit/public_html/upwork/student/profile.php on line 15
+[26-Mar-2022 15:57:16 Asia/Dhaka] PHP Warning:  Undefined array key "sfname" in /home1/foklorit/public_html/upwork/student/profile.php on line 21
+[26-Mar-2022 15:57:16 Asia/Dhaka] PHP Warning:  Undefined array key "smname" in /home1/foklorit/public_html/upwork/student/profile.php on line 27
+[26-Mar-2022 15:57:16 Asia/Dhaka] PHP Warning:  Undefined array key "ms" in /home1/foklorit/public_html/upwork/student/profile.php on line 44
+[26-Mar-2022 23:08:03 Asia/Dhaka] PHP Warning:  Undefined variable $total_pay in /home1/foklorit/public_html/upwork/student/inc/header.php on line 31
+[26-Mar-2022 23:08:03 Asia/Dhaka] PHP Warning:  Undefined variable $total_pay in /home1/foklorit/public_html/upwork/student/batch.php on line 14
+[26-Mar-2022 23:08:37 Asia/Dhaka] PHP Warning:  Undefined variable $total_pay in /home1/foklorit/public_html/upwork/student/inc/header.php on line 31
+[26-Mar-2022 23:08:44 Asia/Dhaka] PHP Warning:  Undefined variable $total_pay in /home1/foklorit/public_html/upwork/student/inc/header.php on line 31
+[26-Mar-2022 23:08:44 Asia/Dhaka] PHP Warning:  Undefined variable $total_pay in /home1/foklorit/public_html/upwork/student/batch.php on line 14
+[26-Mar-2022 23:08:54 Asia/Dhaka] PHP Warning:  Undefined variable $total_pay in /home1/foklorit/public_html/upwork/student/inc/header.php on line 31
+[26-Mar-2022 23:09:31 Asia/Dhaka] PHP Warning:  Undefined variable $total_amount in /home1/foklorit/public_html/upwork/student/inc/header.php on line 31
+[26-Mar-2022 23:09:31 Asia/Dhaka] PHP Warning:  Undefined variable $total_pay in /home1/foklorit/public_html/upwork/student/inc/header.php on line 31
+[26-Mar-2022 23:09:31 Asia/Dhaka] PHP Warning:  Undefined variable $total_amount in /home1/foklorit/public_html/upwork/student/batch.php on line 12
+[26-Mar-2022 23:09:31 Asia/Dhaka] PHP Warning:  Undefined variable $total_pay in /home1/foklorit/public_html/upwork/student/batch.php on line 14
+[26-Mar-2022 23:09:40 Asia/Dhaka] PHP Warning:  Undefined variable $total_amount in /home1/foklorit/public_html/upwork/student/inc/header.php on line 31
+[26-Mar-2022 23:09:40 Asia/Dhaka] PHP Warning:  Undefined variable $total_pay in /home1/foklorit/public_html/upwork/student/inc/header.php on line 31
+[26-Mar-2022 23:09:40 Asia/Dhaka] PHP Warning:  Undefined variable $total_amount in /home1/foklorit/public_html/upwork/student/batch.php on line 12
+[26-Mar-2022 23:09:40 Asia/Dhaka] PHP Warning:  Undefined variable $total_pay in /home1/foklorit/public_html/upwork/student/batch.php on line 14
+[26-Mar-2022 23:09:44 Asia/Dhaka] PHP Warning:  Undefined variable $total_amount in /home1/foklorit/public_html/upwork/student/inc/header.php on line 31
+[26-Mar-2022 23:09:44 Asia/Dhaka] PHP Warning:  Undefined variable $total_pay in /home1/foklorit/public_html/upwork/student/inc/header.php on line 31
+[26-Mar-2022 23:10:16 Asia/Dhaka] PHP Warning:  Undefined variable $total_pay in /home1/foklorit/public_html/upwork/student/inc/header.php on line 31
+[26-Mar-2022 23:10:16 Asia/Dhaka] PHP Warning:  Undefined variable $total_pay in /home1/foklorit/public_html/upwork/student/batch.php on line 14
+[26-Mar-2022 23:10:25 Asia/Dhaka] PHP Warning:  Undefined variable $total_pay in /home1/foklorit/public_html/upwork/student/inc/header.php on line 31
+[27-Mar-2022 04:22:00 Asia/Dhaka] PHP Warning:  Undefined array key "sname" in /home1/foklorit/public_html/upwork/student/profile.php on line 15
+[27-Mar-2022 04:22:00 Asia/Dhaka] PHP Warning:  Undefined array key "sfname" in /home1/foklorit/public_html/upwork/student/profile.php on line 21
+[27-Mar-2022 04:22:00 Asia/Dhaka] PHP Warning:  Undefined array key "smname" in /home1/foklorit/public_html/upwork/student/profile.php on line 27
+[27-Mar-2022 04:22:00 Asia/Dhaka] PHP Warning:  Undefined array key "ms" in /home1/foklorit/public_html/upwork/student/profile.php on line 44
+[27-Mar-2022 04:23:11 Asia/Dhaka] PHP Warning:  Undefined array key "sname" in /home1/foklorit/public_html/upwork/student/profile.php on line 15
+[27-Mar-2022 04:23:11 Asia/Dhaka] PHP Warning:  Undefined array key "sfname" in /home1/foklorit/public_html/upwork/student/profile.php on line 21
+[27-Mar-2022 04:23:11 Asia/Dhaka] PHP Warning:  Undefined array key "smname" in /home1/foklorit/public_html/upwork/student/profile.php on line 27
+[27-Mar-2022 04:23:11 Asia/Dhaka] PHP Warning:  Undefined array key "ms" in /home1/foklorit/public_html/upwork/student/profile.php on line 44
+[27-Mar-2022 16:10:08 Asia/Dhaka] PHP Warning:  Undefined variable $total_lend in /home1/foklorit/public_html/upwork/student/inc/header.php on line 45
+[27-Mar-2022 16:10:08 Asia/Dhaka] PHP Warning:  Undefined variable $uid in /home1/foklorit/public_html/upwork/student/batch.php on line 152
+[27-Mar-2022 16:10:22 Asia/Dhaka] PHP Warning:  Undefined variable $total_lend in /home1/foklorit/public_html/upwork/student/inc/header.php on line 45
+[27-Mar-2022 16:10:22 Asia/Dhaka] PHP Warning:  Undefined variable $uid in /home1/foklorit/public_html/upwork/student/batch.php on line 109
+[27-Mar-2022 16:10:32 Asia/Dhaka] PHP Warning:  Undefined variable $total_lend in /home1/foklorit/public_html/upwork/student/inc/header.php on line 45
+[27-Mar-2022 16:10:32 Asia/Dhaka] PHP Warning:  Undefined variable $uid in /home1/foklorit/public_html/upwork/student/batch.php on line 72
+[27-Mar-2022 16:10:37 Asia/Dhaka] PHP Warning:  Undefined variable $total_lend in /home1/foklorit/public_html/upwork/student/inc/header.php on line 45
+[27-Mar-2022 16:10:37 Asia/Dhaka] PHP Warning:  Undefined variable $uid in /home1/foklorit/public_html/upwork/student/batch.php on line 35
+[27-Mar-2022 16:10:55 Asia/Dhaka] PHP Warning:  Undefined variable $total_lend in /home1/foklorit/public_html/upwork/student/inc/header.php on line 45
+[27-Mar-2022 16:10:55 Asia/Dhaka] PHP Warning:  Undefined variable $uid in /home1/foklorit/public_html/upwork/student/batch.php on line 109
+[27-Mar-2022 16:12:19 Asia/Dhaka] PHP Warning:  Undefined variable $total_lend in /home1/foklorit/public_html/upwork/student/inc/header.php on line 45
+[27-Mar-2022 16:12:19 Asia/Dhaka] PHP Warning:  Undefined variable $uid in /home1/foklorit/public_html/upwork/student/batch.php on line 35
+[27-Mar-2022 16:14:54 Asia/Dhaka] PHP Warning:  Undefined variable $total_lend in /home1/foklorit/public_html/upwork/student/inc/header.php on line 45
+[27-Mar-2022 16:15:23 Asia/Dhaka] PHP Warning:  Undefined variable $total_lend in /home1/foklorit/public_html/upwork/student/inc/header.php on line 45
+[27-Mar-2022 16:16:27 Asia/Dhaka] PHP Warning:  Undefined variable $total_lend in /home1/foklorit/public_html/upwork/student/inc/header.php on line 45
+[27-Mar-2022 16:18:09 Asia/Dhaka] PHP Warning:  Undefined variable $total_lend in /home1/foklorit/public_html/upwork/student/inc/header.php on line 45
+[27-Mar-2022 16:18:09 Asia/Dhaka] PHP Warning:  Undefined variable $total_lend in /home1/foklorit/public_html/upwork/student/batch.php on line 11
+[27-Mar-2022 16:19:16 Asia/Dhaka] PHP Warning:  Undefined variable $total_lend in /home1/foklorit/public_html/upwork/student/inc/header.php on line 45
+[27-Mar-2022 16:19:16 Asia/Dhaka] PHP Warning:  Undefined variable $total_lend in /home1/foklorit/public_html/upwork/student/batch.php on line 11
+[27-Mar-2022 16:19:47 Asia/Dhaka] PHP Warning:  Undefined variable $total_lend in /home1/foklorit/public_html/upwork/student/inc/header.php on line 45
+[27-Mar-2022 16:19:47 Asia/Dhaka] PHP Warning:  Undefined variable $total_lend in /home1/foklorit/public_html/upwork/student/batch.php on line 11
+[27-Mar-2022 16:20:22 Asia/Dhaka] PHP Warning:  Undefined variable $total_lend in /home1/foklorit/public_html/upwork/student/inc/header.php on line 45
+[27-Mar-2022 16:20:22 Asia/Dhaka] PHP Warning:  Undefined variable $total_lend in /home1/foklorit/public_html/upwork/student/batch.php on line 11
+[27-Mar-2022 16:22:17 Asia/Dhaka] PHP Warning:  Undefined variable $total_lend in /home1/foklorit/public_html/upwork/student/inc/header.php on line 45
+[27-Mar-2022 16:22:17 Asia/Dhaka] PHP Warning:  Undefined variable $total_lend in /home1/foklorit/public_html/upwork/student/batch.php on line 12
+[27-Mar-2022 16:29:52 Asia/Dhaka] PHP Warning:  Undefined variable $total_lend in /home1/foklorit/public_html/upwork/student/inc/header.php on line 45
+[27-Mar-2022 16:29:52 Asia/Dhaka] PHP Warning:  Undefined variable $total_lend in /home1/foklorit/public_html/upwork/student/batch.php on line 12
+[27-Mar-2022 16:30:10 Asia/Dhaka] PHP Warning:  Undefined variable $total_lend in /home1/foklorit/public_html/upwork/student/inc/header.php on line 45
+[27-Mar-2022 16:31:48 Asia/Dhaka] PHP Warning:  Undefined variable $total_lend in /home1/foklorit/public_html/upwork/student/inc/header.php on line 45
+[27-Mar-2022 16:32:27 Asia/Dhaka] PHP Warning:  Undefined variable $total_lend in /home1/foklorit/public_html/upwork/student/inc/header.php on line 45
+[27-Mar-2022 16:32:27 Asia/Dhaka] PHP Warning:  Undefined variable $total_lend in /home1/foklorit/public_html/upwork/student/batch.php on line 12
+[27-Mar-2022 16:32:48 Asia/Dhaka] PHP Warning:  Undefined variable $total_lend in /home1/foklorit/public_html/upwork/student/inc/header.php on line 45
+[27-Mar-2022 16:32:48 Asia/Dhaka] PHP Warning:  Undefined variable $total_lend in /home1/foklorit/public_html/upwork/student/batch.php on line 12
+[27-Mar-2022 16:32:49 Asia/Dhaka] PHP Warning:  Undefined variable $total_lend in /home1/foklorit/public_html/upwork/student/inc/header.php on line 45
+[27-Mar-2022 16:32:49 Asia/Dhaka] PHP Warning:  Undefined variable $total_lend in /home1/foklorit/public_html/upwork/student/batch.php on line 12
+[27-Mar-2022 16:32:56 Asia/Dhaka] PHP Warning:  Undefined variable $total_lend in /home1/foklorit/public_html/upwork/student/inc/header.php on line 45
+[27-Mar-2022 16:32:56 Asia/Dhaka] PHP Warning:  Undefined variable $total_lend in /home1/foklorit/public_html/upwork/student/batch.php on line 12
+[27-Mar-2022 16:33:01 Asia/Dhaka] PHP Warning:  Undefined variable $total_lend in /home1/foklorit/public_html/upwork/student/inc/header.php on line 45
+[27-Mar-2022 16:33:01 Asia/Dhaka] PHP Warning:  Undefined variable $total_lend in /home1/foklorit/public_html/upwork/student/batch.php on line 12
+[27-Mar-2022 16:33:04 Asia/Dhaka] PHP Warning:  Undefined variable $total_lend in /home1/foklorit/public_html/upwork/student/inc/header.php on line 45
+[27-Mar-2022 16:33:04 Asia/Dhaka] PHP Warning:  Undefined variable $total_lend in /home1/foklorit/public_html/upwork/student/batch.php on line 12
+[27-Mar-2022 16:33:09 Asia/Dhaka] PHP Warning:  Undefined variable $total_lend in /home1/foklorit/public_html/upwork/student/inc/header.php on line 45
+[27-Mar-2022 16:33:09 Asia/Dhaka] PHP Warning:  Undefined variable $total_lend in /home1/foklorit/public_html/upwork/student/batch.php on line 12
+[27-Mar-2022 16:33:17 Asia/Dhaka] PHP Warning:  Undefined variable $total_lend in /home1/foklorit/public_html/upwork/student/inc/header.php on line 45
+[27-Mar-2022 16:38:53 Asia/Dhaka] PHP Warning:  Undefined variable $total_lend in /home1/foklorit/public_html/upwork/student/inc/header.php on line 45
+[27-Mar-2022 16:39:28 Asia/Dhaka] PHP Warning:  Undefined variable $total_lend in /home1/foklorit/public_html/upwork/student/inc/header.php on line 45
+[27-Mar-2022 16:39:28 Asia/Dhaka] PHP Warning:  Undefined variable $total_lend in /home1/foklorit/public_html/upwork/student/batch.php on line 12
+[27-Mar-2022 16:40:24 Asia/Dhaka] PHP Warning:  Undefined variable $total_lend in /home1/foklorit/public_html/upwork/student/inc/header.php on line 45
+[27-Mar-2022 16:40:24 Asia/Dhaka] PHP Warning:  Undefined variable $total_lend in /home1/foklorit/public_html/upwork/student/batch.php on line 12
+[27-Mar-2022 16:41:36 Asia/Dhaka] PHP Warning:  Undefined variable $total_lend in /home1/foklorit/public_html/upwork/student/inc/header.php on line 45
+[27-Mar-2022 17:30:29 Asia/Dhaka] PHP Warning:  Undefined variable $total_lend in /home1/foklorit/public_html/upwork/student/inc/header.php on line 45
+[27-Mar-2022 17:30:29 Asia/Dhaka] PHP Warning:  Undefined variable $total_lend in /home1/foklorit/public_html/upwork/student/batch.php on line 12
+[27-Mar-2022 17:30:42 Asia/Dhaka] PHP Warning:  Undefined variable $total_lend in /home1/foklorit/public_html/upwork/student/inc/header.php on line 45
+[27-Mar-2022 17:30:42 Asia/Dhaka] PHP Warning:  Undefined variable $total_lend in /home1/foklorit/public_html/upwork/student/batch.php on line 12
+[27-Mar-2022 17:31:42 Asia/Dhaka] PHP Warning:  Undefined variable $total_lend in /home1/foklorit/public_html/upwork/student/inc/header.php on line 45
+[27-Mar-2022 17:31:48 Asia/Dhaka] PHP Warning:  Undefined variable $total_lend in /home1/foklorit/public_html/upwork/student/inc/header.php on line 45
+[27-Mar-2022 17:31:48 Asia/Dhaka] PHP Warning:  Undefined variable $total_lend in /home1/foklorit/public_html/upwork/student/batch.php on line 12
+[27-Mar-2022 17:32:07 Asia/Dhaka] PHP Warning:  Undefined variable $total_lend in /home1/foklorit/public_html/upwork/student/inc/header.php on line 45
+[27-Mar-2022 17:32:07 Asia/Dhaka] PHP Warning:  Undefined variable $total_lend in /home1/foklorit/public_html/upwork/student/batch.php on line 12
+[27-Mar-2022 17:32:13 Asia/Dhaka] PHP Warning:  Undefined variable $total_lend in /home1/foklorit/public_html/upwork/student/inc/header.php on line 45
+[27-Mar-2022 17:32:13 Asia/Dhaka] PHP Warning:  Undefined variable $total_lend in /home1/foklorit/public_html/upwork/student/batch.php on line 12
+[27-Mar-2022 17:32:45 Asia/Dhaka] PHP Warning:  Undefined variable $total_lend in /home1/foklorit/public_html/upwork/student/inc/header.php on line 45
+[27-Mar-2022 17:32:45 Asia/Dhaka] PHP Warning:  Undefined variable $total_lend in /home1/foklorit/public_html/upwork/student/batch.php on line 12
+[27-Mar-2022 17:32:54 Asia/Dhaka] PHP Warning:  Undefined variable $total_lend in /home1/foklorit/public_html/upwork/student/inc/header.php on line 45
+[27-Mar-2022 17:33:18 Asia/Dhaka] PHP Warning:  Undefined variable $total_lend in /home1/foklorit/public_html/upwork/student/inc/header.php on line 45
+[27-Mar-2022 17:33:18 Asia/Dhaka] PHP Warning:  Undefined variable $total_lend in /home1/foklorit/public_html/upwork/student/batch.php on line 12
+[27-Mar-2022 17:34:35 Asia/Dhaka] PHP Warning:  Undefined variable $total_lend in /home1/foklorit/public_html/upwork/student/inc/header.php on line 45
+[27-Mar-2022 17:34:35 Asia/Dhaka] PHP Warning:  Undefined variable $total_lend in /home1/foklorit/public_html/upwork/student/batch.php on line 12
+[27-Mar-2022 17:34:41 Asia/Dhaka] PHP Warning:  Undefined variable $total_lend in /home1/foklorit/public_html/upwork/student/inc/header.php on line 45
+[27-Mar-2022 17:34:41 Asia/Dhaka] PHP Warning:  Undefined variable $total_lend in /home1/foklorit/public_html/upwork/student/batch.php on line 12
+[27-Mar-2022 17:34:51 Asia/Dhaka] PHP Warning:  Undefined variable $total_lend in /home1/foklorit/public_html/upwork/student/inc/header.php on line 45
+[27-Mar-2022 17:38:17 Asia/Dhaka] PHP Warning:  Undefined variable $total_lend in /home1/foklorit/public_html/upwork/student/inc/header.php on line 45
+[27-Mar-2022 17:38:17 Asia/Dhaka] PHP Warning:  Undefined variable $total_lend in /home1/foklorit/public_html/upwork/student/batch.php on line 12
+[27-Mar-2022 17:40:42 Asia/Dhaka] PHP Warning:  Undefined variable $total_lend in /home1/foklorit/public_html/upwork/student/inc/header.php on line 45
+[27-Mar-2022 17:40:55 Asia/Dhaka] PHP Warning:  Undefined variable $total_lend in /home1/foklorit/public_html/upwork/student/inc/header.php on line 45

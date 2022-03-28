@@ -112,7 +112,7 @@
                                 <div class="d-flex no-block align-items-center p-3 bg-info text-white mb-2">
                                     <div class=""><img src="assets/images/users/1.jpg" alt="user" class="rounded-circle" width="60"></div>
                                     <div class="ms-2">
-                                        <h4 class="mb-0 text-white"><?= ucfirst($admin_infos['username']); ?></h4>
+                                        <h4 class="mb-0 text-white"><?= ucfirst($admin_infos['users']); ?></h4>
                                         <p class=" mb-0"><?= $admin_infos['email']; ?></p>
                                     </div>
                                 </div>

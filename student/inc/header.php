@@ -2,30 +2,53 @@
     ob_start();
     require_once '../init.php';
     Session::StudentSignIn();
-    $exam = new Exam();
     $common = new Common();
-    $all = new All();
     $fm = new Format();
 ?>
 <?php
     $pid = Session::get('profileid');
-    $query = $common->select("`student_table`","`id`= '$pid'");
+    $query = $common->select("`users`","`id`= '$pid'");
     $result = mysqli_fetch_assoc($query);
 
     // active url
     $page_url = explode('/', $_SERVER['PHP_SELF']);
     $page_url = end($page_url);
+    // total calculation
+    $weekly = $common->select("`weekly_status`","`user_id`='$pid'");
+    $payments = $common->select("`payments`","`user_id`='$pid' AND `type`='payments'");
+    $borrow = $common->select("`payments`","`user_id`='$pid' AND `type`='borrow'");
+    $lend = $common->select("`payments`","`user_id`='$pid' AND `type`='lend'");
+    if($weekly != FALSE){
+        $total_amount=0;
+        while($value = mysqli_fetch_assoc($weekly)){
+             $total_amount += $value['user_amounts'];
+        }
+    }
+    if($payments != FALSE){
+        $total_pay=0;
+        while($value = mysqli_fetch_assoc($payments)){
+             $total_pay += $value['amounts'];
+        }
+    }
+     if($borrow != FALSE){
+        $total_borrow=0;
+        while($value = mysqli_fetch_assoc($borrow)){
+             $total_borrow += $value['borrow'];
+        }
+    }
+    if($lend != FALSE){
+        $total_lend=0;
+        while($value = mysqli_fetch_assoc($lend)){
+             $total_lend += $value['lend'];
+        }
+    }
+    $total_unpaid = (($total_amount-$total_pay)+$total_borrow)-$total_lend;
 ?>
 <?php
     if (isset($_GET['action']) && $_GET['action'] =='logout') {
         Session::destroy();
         echo "<script>window.location.assign('../index.php'); </script>";
         exit();
-    }
-?>
-<?php
-    if ($_SERVER["REQUEST_METHOD"]== "POST" && isset($_POST['editprofile'])) {
-        $studentdata = $all->StudentEditProfile($_POST);
     }
 ?>
 <!DOCTYPE html>
@@ -38,7 +61,7 @@
     <meta name="keywords" content="wrappixel, admin dashboard, html css dashboard, web dashboard, bootstrap 5 admin, bootstrap 5, css3 dashboard, bootstrap 5 dashboard, material admin bootstrap 5 dashboard, frontend, responsive bootstrap 5 admin template, material design, material dashboard bootstrap 5 dashboard template">
     <meta name="description" content="MaterialPro is powerful and clean admin dashboard template, inpired from Google's Material Design">
     <meta name="robots" content="noindex,nofollow">
-    <title>BatBio</title>
+    <title>SoftMRI</title>
     <link rel="canonical" href="https://www.wrappixel.com/templates/materialpro/" />
     <!-- Favicon icon -->
     <link href="../admin/assets/extra-libs/toastr/dist/build/toastr.min.css" rel="stylesheet">

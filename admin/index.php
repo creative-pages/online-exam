@@ -21,7 +21,7 @@
     <meta name="description"
         content="Material Pro is powerful and clean admin dashboard template">
     <meta name="robots" content="noindex,nofollow">
-    <title>BatBio</title>
+    <title>Payments Software</title>
     <link rel="canonical" href="https://www.wrappixel.com/templates/materialpro/" />
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon.png">
